@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "esnext",
+        "target": "es5",
+        "jsx": "react-jsx",
+        "moduleResolution": "bundler",
+        "allowSyntheticDefaultImports": true,
+        "strictNullChecks": false,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "baseUrl": "./src",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ],
+            "@styles/*": [
+                "./src/styling/scss/*"
+            ],
+            "@model/*": [
+                "./src/model/*"
+            ],
+            "@components/*": [
+                "./src/components/*"
+            ]
+        },
+    },
+    "include": [
+        "./src/**/*",
+        "**/*.ts",
+        "**/*.tsx",
+    ],
+    "exclude": [
+        "node_modules",
+    ],
+}

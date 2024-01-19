@@ -1,0 +1,4 @@
+.progressCircle {
+    transform: rotate(-90deg); /* Start progress from the top */
+}
+  

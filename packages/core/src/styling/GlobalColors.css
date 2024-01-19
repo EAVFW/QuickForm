@@ -1,0 +1,49 @@
+:root {
+
+    --primary: #154068;
+
+    /* Blue 1 */
+    --primary-light: #225A99;
+
+    /* Blue 3 */
+    --primary-dark: #112D4D;
+
+    /* Specifying white in case a different tone is required in the future */
+    --white: #ffffff;
+    --black: #000;
+
+    /* Secondary Colors */
+    --secondary: #24517b;
+    --secondary-light: #567fa5;
+    --secondary-dark: #133a5e;
+
+    --sand: #DDCBA5;
+
+
+    /* Text and Background Colors */
+    --background: var(--primary);
+    --on-background: var(--primary-dark);
+    /* Text or icons on background */
+    --surface: transparen;
+    /* Cards, sheets, etc. */
+    --on-surface: var(--white);
+    /* Text or icons on surface */
+    --border-color: var(--white);
+
+    /* Feedback Colors (for alerts, success, error messages, etc.) */
+    --error: #DB4437;
+    --warning: #FFCA28;
+    --success: #0F9D58;
+    --info: #4285F4;
+
+    /* Other Variables */
+    --disabled-opacity: 0.38;
+    --divider-opacity: 0.12;
+    --low-emphasis-opacity: 0.38;
+    --medium-emphasis-opacity: 0.60;
+    --high-emphasis-opacity: 0.87;
+
+
+    /* Font family */
+    --font-family: 'var(--chivo), Monaco, Consolas';
+}

@@ -1,0 +1,39 @@
+.input__text {
+    background-color: transparent;
+    border: none;
+    border: 1px solid var(--on-surface);
+    border-radius: 5px;
+    color: var(--on-surface);
+    font-size: 2rem;
+    margin-top: 36px;
+    padding-bottom: 9px;
+    width: 100%;
+    max-height: 8rem; /* Set maximum height for three lines */
+    height: 8rem;
+    resize: vertical;
+    overflow: auto;
+}
+
+
+.input__text:focus-visible {
+    border-bottom: 2px solid var(--on-surface);
+    padding-bottom: 8px;
+    outline: none;
+}
+
+.input__text::placeholder {
+    color: var(--on-surface);
+    opacity: var(--medium-emphasis-opacity);
+}
+
+.input__text::-ms-input-placeholder {
+    color: var(--on-surface);
+    opacity: var(--medium-emphasis-opacity);
+}
+
+@media screen and (max-width: 599px) {
+    .input__text {
+        font-size: 2.9rem;
+        margin-top: 32px;
+    }
+}

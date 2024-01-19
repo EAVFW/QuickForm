@@ -1,0 +1,10 @@
+.ending {
+    color: var(--on-surface);
+    font-size: 2.4rem;
+    font-weight: unset;
+    
+}
+
+.endingSvg{
+    stroke:var(--on-surface);
+}

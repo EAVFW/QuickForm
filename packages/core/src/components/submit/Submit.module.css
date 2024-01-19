@@ -1,0 +1,8 @@
+.submit-box {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 72rem;
+    transition: transform 0.3s ease-out;
+  }

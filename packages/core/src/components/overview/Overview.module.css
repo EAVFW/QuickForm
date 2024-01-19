@@ -1,0 +1,77 @@
+/* Overview Container */
+.overview {
+    /* Size & alignment */
+    display: flex;
+    flex-direction: column;
+    background-color: var(--surface);
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Styles for the left side */
+.overview-left {
+    /* Adjust the width as needed */
+    flex: 1;
+}
+
+/* Styles for the right side */
+.overview-right {
+    /* Adjust the width as needed */
+    flex: 1;
+}
+
+/* Progress Section */
+.overviewProgress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.overviewProgress p {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/* Question List */
+.overviewList {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 20px;
+    overflow-y: scroll;
+    overflow: hidden;
+
+}
+
+.overviewList li {
+    display: list-item;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.overviewList li:hover {
+    /* background-color: var(--primary);  */
+    cursor: pointer;
+}
+
+.overviewList a {
+    color: var(--on-surface);
+}
+
+.overviewList a:hover {
+    text-decoration: underline;
+}
+
+.overviewList a + span {
+    color: var(--on-surface);
+    height: 24px;
+    width: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
