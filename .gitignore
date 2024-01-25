@@ -5,6 +5,11 @@
 /packages/core/node_modules
 /.pnp
 .pnp.js
+.cache
+node_modules
+yarn-error.log
+package-lock.json
+/packages/core/package-lock.json
 
 # testing
 /coverage
