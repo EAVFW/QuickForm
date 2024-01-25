@@ -1,18 +1,6 @@
 import { type } from "os";
-// import { RJSFSchema, UiSchema } from "@rjsf/utils";
 import { JSONSchema7 } from "json-schema";
 
-
-// "intro" | "submit" | "ending"| "text" ;
-// | "phone" | "email" | "dropdown" | "cpr" | "bankaccount"
-// |  "firstName" | "lastName" | "industry" | "role" | "goal" | "email";
-
-
-// export type SubmitFields = {
-//     schema: RJSFSchema,
-//     uiSchema: UiSchema
-
-// }
 
 export type BaseQuestionFields = {
     readonly logicalName?: string;

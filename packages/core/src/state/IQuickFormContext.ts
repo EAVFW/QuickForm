@@ -1,5 +1,5 @@
-import { QuestionState } from "../state-actions-reducer/QuestionState";
-import { QuestionAction } from "../state-actions-reducer";
+import { QuestionState } from "./state-actions-reducer/QuestionState";
+import { QuestionAction } from "./state-actions-reducer";
 import { QuestionModel } from "model/QuestionModel";
 
 export interface IQuickFormContext {

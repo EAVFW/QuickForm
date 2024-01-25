@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import styles from "./Heading.module.css";
 import classNames from "classnames";
-import { useQuickFormState } from "../../context/QuickFormContext";
-import { HeadingNumberDisplayProvider, registerQuickFormService, resolveQuickFormService } from "../../context/QuickFormServices";
+import { useQuickFormState } from "../../state/QuickFormContext";
+import { HeadingNumberDisplayProvider, registerQuickFormService, resolveQuickFormService } from "../../state/QuickFormServices";
 
 type HeadingProps = {
     readonly children: ReactNode;

@@ -4,7 +4,7 @@ import styles from "./Question.module.css";
 import { ReactNode, useEffect, useState } from "react";
 import { inputTypeComponentMap } from "./InputComponentMapper";
 import React from "react";
-import { useCurrentQuestion, useQuickForm } from "../../context/QuickFormContext";
+import { useCurrentQuestion, useQuickForm } from "../../state/QuickFormContext";
 import { Paragraph, Heading, ErrorMessage, Button } from "..";
 import { useDelayedClickListener, useHandleKeypress } from "../../hooks";
 import PreviewPDFButton from "../preview-pdf-button/PreviewPDFButton";

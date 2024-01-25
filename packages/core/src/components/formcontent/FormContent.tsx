@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuickForm } from "../../context/QuickFormContext";
+import { useQuickForm } from "../../state/QuickFormContext";
 import { Overview, Question } from "..";
 import { Ending } from "../ending/Ending";
 import { Submit } from "../submit/Submit";

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import "./QuickForm.css";
 
 import { QuickFormProps } from "./QuickFormProps";
-import { QuickFormProvider } from "./context/QuickFormContext";
+import { QuickFormProvider } from "./state/QuickFormContext";
 import React from "react";
 import { FormContent, Heading, Paragraph } from "./components";
 import { NavigationButton } from "./components/navigation-button/NavigationButton";
@@ -11,9 +11,9 @@ import { ToggleOverviewButton } from "./components/toggle-overview-button/Toggle
 
 export const QuickFormFull: React.FC<QuickFormProps> = (props) => {
 
-    return <QuickFormProvider id={""} quickform={props}><QuickForm /></QuickFormProvider>
+    return <QuickFormProvider id={""} quickform={props}><QuickFormTemplate /></QuickFormProvider>
 }
-export const QuickForm: React.FC = () => {
+export const QuickFormTemplate: React.FC = () => {
 
     const sandColor = "#DDCBA5";
 

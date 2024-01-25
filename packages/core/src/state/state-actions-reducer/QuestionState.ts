@@ -1,8 +1,8 @@
-import { QuickFormProps } from "../QuickFormProps";
-import { QuickFormModelTransformer, registerQuickFormService, resolveQuickFormService } from "../context/QuickFormServices";
+import { QuickFormProps } from "../../QuickFormProps";
+import { QuickFormModelTransformer, registerQuickFormService, resolveQuickFormService } from "../QuickFormServices";
 
-import { QuestionModel } from "../model/QuestionModel";
-import { QuestionsContainer } from "../model/QuestionsContainer";
+import { QuestionModel } from "../../model/QuestionModel";
+import { QuestionsContainer } from "../../model/QuestionsContainer";
 
 export type QuestionState = {
     pdfpreviewurl?: string;

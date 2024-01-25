@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import styles from "./PreviewPDFButton.module.css";
 import { Button } from '..';
 import { PdfViewerModal, usePdfViewerModal } from '../pdf-viewer-modal/PdfViewerModal';
-import { useCurrentQuestion, useQuickForm } from '../../context/QuickFormContext';
+import { useCurrentQuestion, useQuickForm } from '../../state/QuickFormContext';
 
 type Props = {
     style?: React.CSSProperties;

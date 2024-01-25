@@ -1,0 +1,47 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "esnext",
+        "target": "es5",
+        "jsx": "react-jsx",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "strictNullChecks": false,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "baseUrl": "./src",
+        // "paths": {
+        //     "@/*": [
+        //         "./src/*"
+        //     ],
+        //     "@components/*": [
+        //         "./src/components/*"
+        //     ],
+        //     "@hooks/*": [
+        //         "./src/hooks/*"
+        //     ],
+        //     "@model/*": [
+        //         "./src/model/*"
+        //     ],
+        //     "@state/*": [
+        //         "./src/state/*"
+        //     ],
+        //     "@style/*": [
+        //         "./src/style/*"
+        //     ],
+        //     "@validation/*": [
+        //         "./src/validation/*"
+        //     ]
+        // },
+    },
+    "include": [
+        "./src/**/*",
+        "**/*.ts",
+        "**/*.tsx",
+    ],
+    "exclude": [
+        "node_modules",
+    ],
+}

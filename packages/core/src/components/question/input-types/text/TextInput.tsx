@@ -12,7 +12,7 @@ import {
 } from "react";
 import styles from "./TextInput.module.css";
 import classNames from "classnames";
-import { useQuickForm } from "context/QuickFormContext";
+import { useQuickForm } from "state/QuickFormContext";
 
 
 export type InputTextProps = {

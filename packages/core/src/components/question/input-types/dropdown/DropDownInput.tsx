@@ -5,7 +5,7 @@ import { InputProps } from '../InputProps';
 import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
 import { assertDropDownModel } from '../../../../model/QuestionModel';
 import { useKeyPressHandler } from '../../../../hooks/useKeyPressHandler';
-import { useQuickForm } from 'context/QuickFormContext';
+import { useQuickForm } from 'state/QuickFormContext';
 
 export function DropDownInput(props: InputProps) {
     const { questionState, dispatch, markQuestionAsAnswered } = useQuickForm();

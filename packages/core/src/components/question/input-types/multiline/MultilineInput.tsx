@@ -2,7 +2,7 @@ import React, { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefOb
 import { InputProps } from "../InputProps";
 import styles from "./MultilineInput.module.css";
 import classNames from "classnames";
-import { useQuickForm } from "context/QuickFormContext";
+import { useQuickForm } from "state/QuickFormContext";
 
 export type MultilineInput = {
     readonly placeholder?: string;

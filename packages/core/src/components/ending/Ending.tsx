@@ -6,7 +6,7 @@ import styles from "./Ending.module.css";
 import classNames from "classnames";
 import { ErrorIcon } from "../icons/ErrorIcon";
 import { Checkmark } from "../icons/Checkmark";
-import { useQuickForm } from "context/QuickFormContext";
+import { useQuickForm } from "state/QuickFormContext";
 
 export const Ending: React.FC = () => {
     const { questionState: { submitStatus, currentQuestion: { text, paragraph } } } = useQuickForm();

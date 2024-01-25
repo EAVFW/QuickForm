@@ -1,9 +1,9 @@
 "use client"
-import React, { PropsWithChildren, ReactNode, useContext, useReducer, useState } from "react";
+import React, { PropsWithChildren, useContext, useReducer } from "react";
 import { IQuickFormContext } from "./IQuickFormContext";
 import { QuickFormProps } from "../QuickFormProps";
-import { questionReducer } from "../state-actions-reducer/QuestionReducer";
-import { QuestionState, formResponsPayload, questionInitialState } from "../state-actions-reducer/QuestionState";
+import { questionReducer } from "./state-actions-reducer/QuestionReducer";
+import { questionInitialState } from "./state-actions-reducer/QuestionState";
 import { QuestionModel } from "model/QuestionModel";
 
 export type QuickFormContextType = IQuickFormContext | undefined;
@@ -21,9 +21,9 @@ export const QuickFormProvider: React.FC<PropsWithChildren<QuickFormProviderProp
     quickform, id, payload = {}
 }): JSX.Element => {
 
-   
+
     const [questionState, dispatch] = useReducer(questionReducer, questionInitialState(quickform, id, payload));
-  //  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>({ isSubmitting: false, isSubmitError: false, isSubmitOK: false });
+    //  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>({ isSubmitting: false, isSubmitError: false, isSubmitOK: false });
 
     const goToQuestion = (q: QuestionModel, index?: number) => {
         const idx = index !== undefined ? index : q.questionNumber;
@@ -52,7 +52,7 @@ export const QuickFormProvider: React.FC<PropsWithChildren<QuickFormProviderProp
 
 
 
-   
+
 
     const onQuestionBtnClicked = async () => {
         const { currentQuestion, currentQuestionIndex } = questionState;
@@ -68,7 +68,7 @@ export const QuickFormProvider: React.FC<PropsWithChildren<QuickFormProviderProp
             case "submit":
                 markQuestionAsAnswered(currentQuestionIndex);
                 dispatch({ type: "SUBMIT", dispatch, id });
-                
+
                 return;
             case "intro":
                 goToNextQuestion();
@@ -83,24 +83,24 @@ export const QuickFormProvider: React.FC<PropsWithChildren<QuickFormProviderProp
         }
 
         console.log("Dispatching response with key:", key, "and value:", currentQuestion.output);
-      //  addResponse(key!, currentQuestion.output);
+        //  addResponse(key!, currentQuestion.output);
         markQuestionAsAnswered(currentQuestionIndex);
         goToNextQuestion();
     }
 
-   
+
 
     return (
         <QuickFormContext.Provider value={{
             markQuestionAsAnswered,
             dispatch,
             questionState,
-           // submitStatus,
+            // submitStatus,
             goToQuestion,
             goToNextQuestion,
             goToPreviousQuestion,
             onQuestionBtnClicked,
-          //  onSubmitBtnClicked,
+            //  onSubmitBtnClicked,
             toggleOverview
         }}>
             {children}
