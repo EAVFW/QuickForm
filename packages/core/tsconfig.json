@@ -12,36 +12,22 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "baseUrl": "./src",
-        // "paths": {
-        //     "@/*": [
-        //         "./src/*"
-        //     ],
-        //     "@components/*": [
-        //         "./src/components/*"
-        //     ],
-        //     "@hooks/*": [
-        //         "./src/hooks/*"
-        //     ],
-        //     "@model/*": [
-        //         "./src/model/*"
-        //     ],
-        //     "@state/*": [
-        //         "./src/state/*"
-        //     ],
-        //     "@style/*": [
-        //         "./src/style/*"
-        //     ],
-        //     "@validation/*": [
-        //         "./src/validation/*"
-        //     ]
-        // },
+        "paths": {
+            "@/*": ["./src/*"],
+            "@components/*": ["./src/components/*"],
+            "@hooks/*": ["./src/hooks/*"],
+            "@model/*": ["./src/model/*"],
+            "@state/*": ["./src/state/*"],
+            "@style/*": ["./src/style/*"],
+            "@validation/*": ["./src/validation/*"]
+        }
     },
     "include": [
         "./src/**/*",
         "**/*.ts",
-        "**/*.tsx",
+        "**/*.tsx"
     ],
     "exclude": [
-        "node_modules",
-    ],
+        "node_modules"
+    ]
 }

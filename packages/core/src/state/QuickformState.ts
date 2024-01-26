@@ -1,4 +1,4 @@
-import { Slide } from "model/new";
+import { Slide } from "../model/new/Slide";
 
 type SubmitType = { isSubmitting: boolean, isSubmitError: boolean, isSubmitOK: boolean };
 

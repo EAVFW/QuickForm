@@ -1,4 +1,4 @@
-import { QuickformAction, QuickformState } from "state";
+import { QuickformAction, QuickformState } from "../state/index";
 import { formResponsPayload } from "./PayloadService";
 
 export const onSubmitBtnClicked = async (id: string, questionState: QuickformState, dispatch: React.Dispatch<QuickformAction>) => {

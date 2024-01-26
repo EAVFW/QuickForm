@@ -1,4 +1,4 @@
-import { Slide } from "model/new";
+import { Slide } from "../../model/new";
 
 
 type SlideProps = {
@@ -17,7 +17,7 @@ export const SlideComponent: React.FC<SlideProps> = ({ model }: SlideProps) => {
                         {q.text}
                     </p>
                     <p>
-                        {q.inputType.type}
+                        {q.inputType}
                     </p>
                     <p>
                         {q.paragraph}

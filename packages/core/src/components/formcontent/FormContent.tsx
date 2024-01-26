@@ -1,37 +1,37 @@
 import React from "react";
 import { useQuickForm } from "../../state/QuickFormContext";
-import { Overview, Question } from "..";
-import { Ending } from "../ending/Ending";
-import { Submit } from "../submit/Submit";
+import { Overview } from "..";
 import classNames from "classnames";
 import styles from "./FormContent.module.css";
+import { SlideComponent } from "../../components/slide/Slide";
 
 export const FormContent: React.FC = () => {
-    const { state: questionState } = useQuickForm();
-    const currentQuestion = questionState?.currentQuestion;
+    const { state } = useQuickForm();
+    const currentSlide = state.slides[state.currIdx];
 
-    if (!currentQuestion) {
+    if (!currentSlide) {
         return null;
     }
 
     let content;
-    if (questionState.showOverview) {
+    if (state.showOverview) {
         return (<Overview />)
     } else {
 
-        switch (currentQuestion.logicalName) {
-            case "submit":
-                content = <Submit  />;
-                break;
-            case "ending":
-                content = <Ending />;
-                break;
-            default:
-                content = <Question  />;
-        }
+        // switch (currentSlide.logicalName) {
+        //     case "submit":
+        //         content = <Submit />;
+        //         break;
+        //     case "ending":
+        //         content = <Ending />;
+        //         break;
+        //     default:
+        //         content = <Question />;
+        // }
 
         return (
             <div className={classNames(styles.formContent)}        >
+                <SlideComponent model={currentSlide} />
                 {content}
             </div>
         );

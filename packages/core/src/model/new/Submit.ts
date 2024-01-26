@@ -1,8 +1,8 @@
-import { InputType } from "./InputType";
+import { Question } from "./Question";
 
 export type Submit = {
     text: string;
-    paragraph: null;
+    paragraph: string;
     buttonText: string;
-    submitFields: InputType[];
+    submitFields: Question[];
 };

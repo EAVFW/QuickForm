@@ -12,9 +12,9 @@ type HeadingProps = {
 };
 
 const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
-    let { currentStep, totalSteps } = useQuickFormState();
-    console.log("defaultHeadingNumberDisplayProvider", [currentStep, totalSteps])
-    return currentStep > 1 && currentStep <= totalSteps + 1;
+    let { currStep, totalSteps } = useQuickFormState();
+    console.log("defaultHeadingNumberDisplayProvider", [currStep, totalSteps])
+    return currStep > 1 && currStep <= totalSteps + 1;
 }
 
 registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);

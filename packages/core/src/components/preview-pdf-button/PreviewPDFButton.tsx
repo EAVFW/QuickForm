@@ -1,10 +1,7 @@
-import React, { useMemo, useState } from 'react';
-import SpinnerComponent from '../spinner/Spinner';
-import classNames from 'classnames';
-import styles from "./PreviewPDFButton.module.css";
+import React from 'react';
 import { Button } from '..';
-import { PdfViewerModal, usePdfViewerModal } from '../pdf-viewer-modal/PdfViewerModal';
-import { useCurrentQuestion, useQuickForm } from '../../state/QuickFormContext';
+import { usePdfViewerModal } from '../pdf-viewer-modal/PdfViewerModal';
+import { useQuickForm } from '../../state/QuickFormContext';
 
 type Props = {
     style?: React.CSSProperties;
@@ -12,7 +9,7 @@ type Props = {
 };
 
 const PreviewPDFButton: React.FC<Props> = ({ style, onBtnClick }) => {
-  
+
     const { state: { pdfpreviewurl } } = useQuickForm();
     const handleOnPreviewPDFBtnClicked = () => {
         //setLoading(true);
@@ -22,21 +19,21 @@ const PreviewPDFButton: React.FC<Props> = ({ style, onBtnClick }) => {
         //    setShowPDF(true);
         //}, 2000);
 
-        
+
         pdfmodal({ url: pdfpreviewurl, title: "PDF Preview" });
 
     };
 
     const pdfmodal = usePdfViewerModal();
-   // const loading = useMemo(() => showPDF && !pdfpreviewurl, [showPDF, pdfpreviewurl]);
+    // const loading = useMemo(() => showPDF && !pdfpreviewurl, [showPDF, pdfpreviewurl]);
     //const handleClosePDFViewer = () => {
     //    setShowPDF(false);
-       
+
     //};
 
     return (
         <div>
-            
+
 
             <Button
                 style={style}

@@ -1,15 +1,15 @@
-"use client"
-import { Paragraph } from "../paragraph/Paragraph";
 import React, { useEffect } from "react";
-import { Heading } from "..";
+import { Heading, Paragraph } from "../index";
+import { ErrorIcon, Checkmark } from "../icons/index";
 import styles from "./Ending.module.css";
 import classNames from "classnames";
-import { ErrorIcon } from "../icons/ErrorIcon";
-import { Checkmark } from "../icons/Checkmark";
-import { useQuickForm } from "state/QuickFormContext";
+import { useQuickForm } from "../../state/QuickFormContext";
 
 export const Ending: React.FC = () => {
-    const { state: { submitStatus, currentQuestion: { text, paragraph } } } = useQuickForm();
+    const { state } = useQuickForm();
+    const submitStatus = state.submitStatus;
+    const text = "Very nice";
+    const paragraph = "Thank you!";
     //  const { text, paragraph,  } = questionState?.currentQuestion || {};
     useEffect(() => {
         console.log("Ending rendered..", submitStatus, classNames(styles.svgcolor), "test");

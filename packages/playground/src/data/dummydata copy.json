@@ -1,0 +1,125 @@
+// {
+//     "intro": {
+//         "text": "Playground Request Form",
+//         "paragraph": "Click to start processing the request.",
+//         "buttonText": "Start"
+//     },
+//     // "submit": {
+//     //     "inputType": "submit",
+//     //     "text": "Submit form",
+//     //     "paragraph": null,
+//     //     "buttonText": "Submit",
+//     //     "submitFields": {
+//     //         "schema": {
+//     //             "title": "Who should sign the xx?",
+//     //             "type": "object",
+//     //             "description": "To speed up the process, you may provide the signing information already now. When ready we will send the digital loi for signature to this person.",
+//     //             "additionalProperties": false,
+//     //             "required": [
+//     //                 "fullname",
+//     //                 "title",
+//     //                 "email"
+//     //             ],
+//     //             "properties": {
+//     //                 "fullname": {
+//     //                     "title": "Fullname",
+//     //                     "type": "string",
+//     //                     "minLength": 1
+//     //                 },
+//     //                 "title": {
+//     //                     "title": "Title",
+//     //                     "type": "string",
+//     //                     "minLength": 1
+//     //                 },
+//     //                 "email": {
+//     //                     "title": "Email",
+//     //                     "type": "string",
+//     //                     "minLength": 1
+//     //                 },
+//     //                 "send_before_approval": {
+//     //                     "title": "Send signature request",
+//     //                     "type": "boolean",
+//     //                     "description": "If checked, we will send the signature request to your signer right away before we have approved the values. You may use this option to speed up the process, however if we find errors in the filled data your signer will have to sign again. If not checked, we will send the request for signatur when we have approved LOI."
+//     //                 }
+//     //             }
+//     //         },
+//     //         "uiSchema": {
+//     //             "fullname": {
+//     //                 "ui:placeholder": "Full name of the signing person."
+//     //             },
+//     //             "title": {
+//     //                 "ui:placeholder": "Title of the signing person."
+//     //             },
+//     //             "email": {
+//     //                 "ui:placeholder": "Email of the signing person"
+//     //             }
+//     //         }
+//     //     }
+//     // },
+//     "ending": {
+//         "text": "Thanks for choosing Playground",
+//         "paragraph": "The form has now been submitted."
+//     },
+//     "questions": {
+//         "contact": {
+//             "inputType": "text",
+//             "text": "Contact number",
+//             "placeholder": "e.g., +1234567890",
+//             "paragraph": "Please provide a contact number for order updates."
+//         },
+//         "billingAddress": {
+//             "inputType": "text",
+//             "text": "Billing address",
+//             "placeholder": "Street, City, Zip Code",
+//             "paragraph": "Enter the address associated with your payment method."
+//         },
+//         "email": {
+//             "inputType": "email",
+//             "text": "Email address",
+//             "placeholder": "yourname@example.com",
+//             "paragraph": "Provide your email for order confirmation and receipts."
+//         },
+//         "orderInstructions": {
+//             "inputType": "text",
+//             "text": "Special instructions for order",
+//             "placeholder": "Any specific details",
+//             "paragraph": "Include any special instructions for your order here."
+//         },
+//         "pickupTime": {
+//             "inputType": "time",
+//             "text": "Preferred pickup time",
+//             "placeholder": "HH:MM",
+//             "paragraph": "Select a convenient time for pickup."
+//         },
+//         "deliveryDate": {
+//             "inputType": "date",
+//             "text": "Desired delivery date",
+//             "placeholder": "YYYY-MM-DD",
+//             "paragraph": "Choose a date for your delivery."
+//         },
+//         "recipientName": {
+//             "inputType": "text",
+//             "text": "Recipient's name",
+//             "placeholder": "Full name",
+//             "paragraph": "Enter the name of the person receiving the delivery."
+//         },
+//         "productPreference": {
+//             "inputType": "text",
+//             "text": "Product preference",
+//             "placeholder": "Specify product type",
+//             "paragraph": "Mention your preference for specific products or brands."
+//         },
+//         "paymentMethod": {
+//             "inputType": "text",
+//             "text": "Preferred payment method",
+//             "placeholder": "Credit card, PayPal, etc.",
+//             "paragraph": "Indicate your preferred method of payment."
+//         },
+//         "feedback": {
+//             "inputType": "textarea",
+//             "text": "Customer feedback",
+//             "placeholder": "Your feedback here",
+//             "paragraph": "We value your feedback, please share your experience with us."
+//         }
+//     }
+// }

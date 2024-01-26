@@ -2,7 +2,7 @@
 // | "phone" | "email" | "dropdown" | "cpr" | "bankaccount"
 // |  "firstName" | "lastName" | "industry" | "role" | "goal" | "email";
 
-type InputTypes =
+export type InputTypes =
     "text" |
     "multilinetext" |
     "dropdown" |

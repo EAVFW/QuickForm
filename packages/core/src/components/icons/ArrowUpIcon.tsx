@@ -1,11 +1,9 @@
 
-import React, { FC } from 'react';
-
 interface ArrowUpIconProps {
     className?: string;
 }
 
-export const ArrowUpIcon: FC<ArrowUpIconProps> = ({ className }) => {
+export const ArrowUpIcon: React.FC<ArrowUpIconProps> = ({ className }) => {
     return (
         <div className={className}>
             <svg

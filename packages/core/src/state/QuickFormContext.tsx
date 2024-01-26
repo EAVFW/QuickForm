@@ -5,12 +5,10 @@ import { QuickformAction } from "./index";
 interface IQuickFormContext {
     state: QuickformState;
     dispatch: React.Dispatch<QuickformAction>;
-    // hasNextSlide: boolean,
-    // hasPrevSlide: boolean,
     goToSlide: (idx: number) => void;
     goToNextSlide: () => void;
     goToPrevSlide: () => void;
-    markQuestionAsAnswered: (index: number) => void;
+    answerQuestion: (logicalName: string, output: any) => void;
     onQuestionBtnClicked: () => void;
     toggleOverview: () => void;
 }
@@ -19,12 +17,10 @@ export const QuickFormContext = React.createContext<IQuickFormContext>(
     {
         state: defaultState(),
         dispatch: () => { },
-        // hasNextSlide: false,
-        // hasPrevSlide: false,
         goToSlide: () => { },
         goToNextSlide: () => { },
         goToPrevSlide: () => { },
-        markQuestionAsAnswered: () => { },
+        answerQuestion: () => { },
         onQuestionBtnClicked: () => { },
         toggleOverview: () => { }
     }

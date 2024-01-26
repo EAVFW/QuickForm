@@ -12,7 +12,7 @@ import {
 } from "react";
 import styles from "./TextInput.module.css";
 import classNames from "classnames";
-import { useQuickForm } from "state/QuickFormContext";
+import { useQuickForm } from "../../../../state/QuickFormContext";
 
 
 export type InputTextProps = {
@@ -31,8 +31,8 @@ export type InputTextProps = {
 
 /* TODO - Refactor this */
 export function TextInput(props: InputProps) {
-    const { state: questionState } = useQuickForm();
-    const { placeholder } = props;
+    const { state } = useQuickForm();
+    const { placeholder, output } = props;
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => props.onOutputChange(event.target.value);
     const ref = useRef<HTMLInputElement>(null);
@@ -48,7 +48,7 @@ export function TextInput(props: InputProps) {
                 type="text"
                 props={props}
                 placeholder={placeholder}
-                value={questionState?.currentQuestion.output}
+                value={output}
                 onChange={handleChange}
                 className=""
             />

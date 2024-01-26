@@ -1,4 +1,4 @@
-import { QuickformState } from "state";
+import { QuickformState } from "../state/index";
 
 export const formResponsPayload = (state: QuickformState): Record<string, any> => {
     // console.log("FormResponse", [state]);

@@ -1,9 +1,11 @@
-import { QuickFormProps } from "QuickFormProps";
 import { useReducer } from "react";
 import { quickformReducer } from "./QuickformReducer";
 import { defaultState } from "./QuickformState";
 import { QuickFormContext } from "./QuickFormContext";
-import { resolveQuickFormService } from "services/QuickFormServices";
+import { resolveQuickFormService } from "../services/QuickFormServices";
+import { QuickFormProps } from "../QuickForm";
+import { ErrorMessage } from "../components";
+import { transformQuickFormPropsToQuestionModelArray } from "../services/ModelTransformer";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
@@ -21,17 +23,16 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
     }
 ) => {
     // TODO - fix transformer to model new slide -> questions modeling
-    const transform = resolveQuickFormService("modeltransformer");
-    const [state, dispatch] = useReducer(quickformReducer, defaultState(transform(quickform, payload)));
+    // const transform = resolveQuickFormService("modeltransformer");
+    const [state, dispatch] = useReducer(quickformReducer, defaultState(transformQuickFormPropsToQuestionModelArray(quickform, payload)));
 
     const goToSlide = (index?: number) => { dispatch({ type: 'SET_INDEX', index: index }); }
     const goToNextSlide = () => { dispatch({ type: 'NEXT_SLIDE' }); }
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); }
     const toggleOverview = () => { dispatch({ type: 'TOGGLE_OVERVIEW' }) };
 
-    const markQuestionAsAnswered = (index: number) => {
-        dispatch({ type: 'SET_ANSWERED', index: index });
-        dispatch({ type: 'COMPUTE_PROGRESS' });
+    const answerQuestion = (logicalName: string, output: any) => {
+        dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output })
     }
 
 
@@ -68,15 +69,16 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
 
     return (
         <QuickFormContext.Provider value={{
-            markQuestionAsAnswered,
-            dispatch,
             state,
+            dispatch,
             goToSlide,
             goToNextSlide,
             goToPrevSlide,
-            onQuestionBtnClicked: () => { },
-            toggleOverview
+            answerQuestion,
+            toggleOverview,
+            onQuestionBtnClicked: () => { }
         }}>
+            <ErrorMessage message={state.errorMsg} />
             {children}
         </QuickFormContext.Provider>
     );

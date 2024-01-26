@@ -1,8 +1,8 @@
-import React, { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef } from "react";
+import { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef } from "react";
 import { InputProps } from "../InputProps";
 import styles from "./MultilineInput.module.css";
 import classNames from "classnames";
-import { useQuickForm } from "state/QuickFormContext";
+import { useQuickForm } from "../../../../state/QuickFormContext";
 
 export type MultilineInput = {
     readonly placeholder?: string;
@@ -15,8 +15,8 @@ export type MultilineInput = {
 }
 
 export function MultilineInput(props: InputProps) {
-    const { state: questionState } = useQuickForm();
-    const { placeholder } = props;
+    const { state } = useQuickForm();
+    const { placeholder, output } = props;
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value.replace(/\r?\n/g, '\n'); // Normalize newline characters
@@ -32,7 +32,7 @@ export function MultilineInput(props: InputProps) {
     return (
         <QuestionTextArea ref={ref}
             placeholder={placeholder}
-            value={questionState?.currentQuestion.output}
+            value={output}
             onChange={handleChange}
             className=""
         />
