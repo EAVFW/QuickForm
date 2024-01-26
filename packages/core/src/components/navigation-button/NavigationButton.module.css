@@ -1,4 +1,4 @@
-.question-navigation {
+.slide-navigation {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -13,7 +13,7 @@
     color: var(--on-surface);
 }
 
-.question-navigation-button {
+.slide-navigation-button {
     color: var(--on-surface);
     flex: 1;
     border: none;

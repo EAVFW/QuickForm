@@ -13,7 +13,6 @@ export type BaseQuestionFields = {
 
 export type SubmitProps = {
     readonly inputType: "submit",
-
     // readonly submitFields?: SubmitFields
 } & BaseQuestionFields
 
@@ -54,10 +53,6 @@ export const shouldValidateInputType = (inputType: InputType2) => !(inputType ==
 export type QuestionPropsGeneric = {
     /* Represents what is expected from the JSON input to QuickForm */
     readonly inputType: "text" | "multilinetext" | "intro" | "ending";
-
-
-
-
     readonly buttonText?: string;
 } & BaseQuestionFields
 

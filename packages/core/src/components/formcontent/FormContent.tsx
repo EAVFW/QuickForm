@@ -7,7 +7,7 @@ import classNames from "classnames";
 import styles from "./FormContent.module.css";
 
 export const FormContent: React.FC = () => {
-    const { questionState } = useQuickForm();
+    const { state: questionState } = useQuickForm();
     const currentQuestion = questionState?.currentQuestion;
 
     if (!currentQuestion) {

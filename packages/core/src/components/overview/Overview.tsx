@@ -10,7 +10,7 @@ import PreviewPDFButton from '../preview-pdf-button/PreviewPDFButton';
 
 export const QuestionList: React.FC<{ hideOnIntro?: boolean }> = ({ hideOnIntro }) => {
 
-    const { questionState, goToQuestion, toggleOverview } = useQuickForm();
+    const { state: questionState, goToSlide: goToQuestion, toggleOverview } = useQuickForm();
     if (questionState?.questions === undefined) return (<></>);
     if (questionState.currentQuestionIndex === 0 && hideOnIntro) return null;
 
@@ -39,7 +39,7 @@ export const QuestionList: React.FC<{ hideOnIntro?: boolean }> = ({ hideOnIntro 
     </div>
 }
 export const Overview: React.FC = () => {
-    const { questionState, goToQuestion, toggleOverview } = useQuickForm();
+    const { state: questionState, goToSlide: goToQuestion, toggleOverview } = useQuickForm();
     if (questionState?.questions === undefined) return (<></>);
 
     const handleOnQuestionClicked = (q: QuestionModel) => {

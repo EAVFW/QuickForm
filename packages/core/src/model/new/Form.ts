@@ -1,11 +1,8 @@
-import { Ending } from "./Ending";
-import { Intro } from "./Intro";
-import { Layout } from "./Layout";
-import { Question } from "./Question"
-import { Submit } from "./Submit";
+import { Ending, Intro, Layout, Question, Slide, Submit } from "./index";
 
 export type Form = {
     intro: Intro;
+    slides: Slide[];
     questions: Question[];
     submit: Submit;
     ending: Ending;

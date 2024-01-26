@@ -15,7 +15,7 @@ export type MultilineInput = {
 }
 
 export function MultilineInput(props: InputProps) {
-    const { questionState } = useQuickForm();
+    const { state: questionState } = useQuickForm();
     const { placeholder } = props;
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {

@@ -31,7 +31,7 @@ export type InputTextProps = {
 
 /* TODO - Refactor this */
 export function TextInput(props: InputProps) {
-    const { questionState } = useQuickForm();
+    const { state: questionState } = useQuickForm();
     const { placeholder } = props;
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => props.onOutputChange(event.target.value);

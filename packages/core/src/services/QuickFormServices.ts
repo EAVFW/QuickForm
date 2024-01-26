@@ -1,20 +1,16 @@
- 
-import { QuickFormProps } from "../QuickFormProps";
-import { QuestionModel } from "../model/QuestionModel";
 
- 
- 
+import { Slide } from "model/new";
+import { QuickFormProps } from "../QuickFormProps";
 
 export type HeadingNumberDisplayProvider = () => boolean;
-export type QuickFormModelTransformer = (quickform: QuickFormProps, payload:any) => QuestionModel[];
+export type QuickFormModelTransformer = (quickform: QuickFormProps, payload: any) => Slide[];
 
 export type QuickFormFeatures = {
     modeltransformer?: QuickFormModelTransformer,
     headingNumberDisplayProvider?: HeadingNumberDisplayProvider,
-    
 }
 let _quickFormFeatures: QuickFormFeatures = {
-   
+
 };
 export function registerQuickFormService<Key extends keyof QuickFormFeatures>(name: Key, instance: (QuickFormFeatures)[Key]) {
     _quickFormFeatures[name] = instance;

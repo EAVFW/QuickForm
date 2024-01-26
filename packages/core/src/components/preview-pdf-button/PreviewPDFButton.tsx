@@ -13,7 +13,7 @@ type Props = {
 
 const PreviewPDFButton: React.FC<Props> = ({ style, onBtnClick }) => {
   
-    const { questionState: { pdfpreviewurl } } = useQuickForm();
+    const { state: { pdfpreviewurl } } = useQuickForm();
     const handleOnPreviewPDFBtnClicked = () => {
         //setLoading(true);
         ///* TODO: Implement PDF-fetching here @Poul @Thyge */

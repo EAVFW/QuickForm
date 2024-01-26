@@ -4,7 +4,7 @@ import styles from "./Question.module.css";
 import { ReactNode, useEffect, useState } from "react";
 import { inputTypeComponentMap } from "./InputComponentMapper";
 import React from "react";
-import { useCurrentQuestion, useQuickForm } from "../../state/QuickFormContext";
+import { useQuickForm } from "../../state/QuickFormContext";
 import { Paragraph, Heading, ErrorMessage, Button } from "..";
 import { useDelayedClickListener, useHandleKeypress } from "../../hooks";
 import PreviewPDFButton from "../preview-pdf-button/PreviewPDFButton";
@@ -26,7 +26,7 @@ enum ViewStatus {
 const animationTimerSetting = 300;
 const useTransitionState = () => {
     const [viewStatus, setViewStatus] = useState(ViewStatus.OutOfView);
-    const { questionNumber } = useCurrentQuestion();
+    // const { questionNumber } = useCurrentQuestion();
     const questionBoxClasses = classNames(styles['question-box'], {
         [styles['slide-out']]: viewStatus === ViewStatus.TransitioningOut,
         [styles['slide-in']]: viewStatus === ViewStatus.TransitioningIn,
@@ -41,7 +41,8 @@ const useTransitionState = () => {
 
             setViewStatus(ViewStatus.InView);
         }, animationTimerSetting);
-    }, [questionNumber]);
+    }, []);
+    // }, [questionNumber]);
 
     return {
         questionBoxClasses,
@@ -67,7 +68,7 @@ const useTransitionState = () => {
 
 export const Question: React.FC<QuestionProps> = ({ headline, className }) => {
 
-    const { questionState: { currentQuestion, progress }, onQuestionBtnClicked, dispatch } = useQuickForm();
+    const { state: { currentQuestion, progress }, onQuestionBtnClicked, dispatch } = useQuickForm();
 
     /**
      * inputType could be SlideType if we go with a change of Questin=>Slide

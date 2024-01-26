@@ -7,7 +7,7 @@ import { Button, ProgressCircle } from '../index';
 import { QuestionModel } from '../../model/QuestionModel';
 
 export const Overview_OLD: React.FC = () => {
-    const { questionState, goToQuestion, toggleOverview } = useQuickForm();
+    const { state: questionState, goToSlide: goToQuestion, toggleOverview } = useQuickForm();
     if (questionState?.questions === undefined) return (<></>);
 
     const handleOnQuestionClicked = (q: QuestionModel) => {

@@ -8,7 +8,7 @@ import { useKeyPressHandler } from '../../../../hooks/useKeyPressHandler';
 import { useQuickForm } from 'state/QuickFormContext';
 
 export function DropDownInput(props: InputProps) {
-    const { questionState, dispatch, markQuestionAsAnswered } = useQuickForm();
+    const { state: questionState, dispatch, markQuestionAsAnswered } = useQuickForm();
     const { options = {}, minItems, maxItems } = assertDropDownModel(questionState.currentQuestion);
     ;
     const { onAnswered, onOutputChange } = props;

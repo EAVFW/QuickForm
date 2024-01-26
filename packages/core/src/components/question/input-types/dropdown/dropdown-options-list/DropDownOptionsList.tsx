@@ -45,7 +45,7 @@ interface DropdownOptionsParams {
     onOutputChange: (key: string) => void;
     markQuestionAsAnswered: (index: number) => void;
     dispatch: React.Dispatch<any>;
-    onAnswered:() => void;
+    onAnswered: () => void;
     questionState?: {
         currentQuestionIndex?: number;
     };

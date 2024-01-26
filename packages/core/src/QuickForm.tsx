@@ -1,13 +1,12 @@
-"use client"
 import classNames from "classnames";
 import "./QuickForm.css";
 
 import { QuickFormProps } from "./QuickFormProps";
-import { QuickFormProvider } from "./state/QuickFormContext";
 import React from "react";
 import { FormContent, Heading, Paragraph } from "./components";
 import { NavigationButton } from "./components/navigation-button/NavigationButton";
 import { ToggleOverviewButton } from "./components/toggle-overview-button/ToggleOverviewButton";
+import { QuickFormProvider } from "state/QuickformProvider";
 
 export const QuickFormFull: React.FC<QuickFormProps> = (props) => {
 
@@ -16,7 +15,6 @@ export const QuickFormFull: React.FC<QuickFormProps> = (props) => {
 export const QuickFormTemplate: React.FC = () => {
 
     const sandColor = "#DDCBA5";
-
 
     return (
         <>

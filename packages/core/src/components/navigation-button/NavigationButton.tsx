@@ -8,31 +8,35 @@ import { ArrowDownIcon } from '../icons/ArrowDownIcon';
 interface Props {
     className?: string;
     style?: React.CSSProperties;
-    onArrowUpClick?: () => void;
-    onArrowDownClick?: () => void;
+    // onArrowUpClick?: () => void;
+    // onArrowDownClick?: () => void;
 }
 
-export const NavigationButton: React.FC<Props> = ({ className, style, onArrowUpClick, onArrowDownClick }) => {
-    const { goToNextQuestion, goToPreviousQuestion } = useQuickForm();
+export const NavigationButton: React.FC<Props> = ({ className, style }) => {
+    const { goToNextSlide, goToPrevSlide, state } = useQuickForm();
 
     return (
-        <div className={className || classNames(styles['question-navigation'])} style={style ? style : {}}>
-            {/* Left-button */}
-            <button
-                className={classNames(styles['question-navigation-button'], styles['left'])}
-                onClick={onArrowUpClick ? onArrowUpClick : goToNextQuestion}
-            >
-                <ArrowUpIcon />
-            </button>
+        <div className={className || classNames(styles['slide-navigation'])} style={style ? style : {}}>
+            {/* Left-button */
+                state.hasNextSlide &&
+                <button
+                    className={classNames(styles['slide-navigation-button'], styles['left'])}
+                    onClick={goToNextSlide}
+                >
+                    <ArrowUpIcon />
+                </button>
+            }
 
             <div id="divider"></div>
-            {/* Right-button*/}
-            <button
-                className={classNames(styles['question-navigation-button'], styles['right'])}
-                onClick={onArrowUpClick ? onArrowDownClick : goToPreviousQuestion}
-            >
-                <ArrowDownIcon />
-            </button>
+            {/* Right-button*/
+                state.hasPrevSlide &&
+                <button
+                    className={classNames(styles['slide-navigation-button'], styles['right'])}
+                    onClick={goToPrevSlide}
+                >
+                    <ArrowDownIcon />
+                </button>
+            }
         </div>
     );
 }

@@ -9,7 +9,7 @@ import { Checkmark } from "../icons/Checkmark";
 import { useQuickForm } from "state/QuickFormContext";
 
 export const Ending: React.FC = () => {
-    const { questionState: { submitStatus, currentQuestion: { text, paragraph } } } = useQuickForm();
+    const { state: { submitStatus, currentQuestion: { text, paragraph } } } = useQuickForm();
     //  const { text, paragraph,  } = questionState?.currentQuestion || {};
     useEffect(() => {
         console.log("Ending rendered..", submitStatus, classNames(styles.svgcolor), "test");
