@@ -1,5 +1,5 @@
-import { Form } from "../model/new/Form";
-import { Slide } from "../model/new/Slide";
+import { Form } from "../model/Form";
+import { Slide } from "../model/Slide";
 
 type SubmitType = { isSubmitting: boolean, isSubmitError: boolean, isSubmitOK: boolean };
 

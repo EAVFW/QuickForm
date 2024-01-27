@@ -2,17 +2,17 @@ import React from 'react';
 import { useQuickForm } from '../../state/QuickFormContext';
 import classNames from "classnames";
 import styles from "./Overview.module.css";
-
 import { Button, ProgressCircle } from '../index';
-import { QuestionModel } from '../../model/QuestionModel';
+import { Slide } from '../../model';
 
 export const Overview_OLD: React.FC = () => {
-    const { state: questionState, goToSlide: goToQuestion, toggleOverview } = useQuickForm();
-    if (questionState?.questions === undefined) return (<></>);
+    const { state, goToSlide, toggleOverview } = useQuickForm();
+    if (state?.slides === undefined) return (<></>);
 
-    const handleOnQuestionClicked = (q: QuestionModel) => {
+    const handleOnQuestionClicked = (s: Slide) => {
+        const slideIdx = state.slides.indexOf(s);
         toggleOverview();
-        goToQuestion(q);
+        goToSlide(slideIdx);
     }
 
     const handleCloseOverviewClicked = () => {
@@ -26,29 +26,30 @@ export const Overview_OLD: React.FC = () => {
 
             {/* Progress Display */}
             <ProgressCircle
-                progress={questionState?.progress}
+                progress={state?.progress}
                 backgroundColor='#154068'
             // color='#060f1a'
             />
 
             <div className={classNames(styles.overviewProgress)}>
-                <p>Progress: {questionState?.progress}%</p>
-                <p>Questions: {questionState?.progressText}</p>
+                <p>Progress: {state?.progress}%</p>
+                <p>Questions: {state?.progressText}</p>
             </div>
 
             {/* List of Questions */}
             <ol className={classNames(styles.overviewList)}>
-                {questionState.questions.filter(q => q.logicalName !== 'submit' && q.logicalName !== 'intro' && q.logicalName !== 'ending').map((q, index) => {
-                    return (
-                        <li key={index}>
-                            <a onClick={() => handleOnQuestionClicked(q)} title="Go to question">
-                                {q.text!}
-                                {q.answered === true && <span className={classNames(styles.overviewList)}> ✔</span>}
+                {state.slides.map(s => {
+                    return s.questions.map((q, idx) => (
+                        <li key={idx}>
+                            <a onClick={() => handleOnQuestionClicked(s)} title="Go to question">
+                                {q.text}
+                                {q.answered === true && <span className={classNames(styles.checkIcon)}> ✔</span>}
                             </a>
                         </li>
-                    );
+                    ));
                 })}
             </ol>
+
 
             <Button
                 className={classNames(styles.overviewButton)}

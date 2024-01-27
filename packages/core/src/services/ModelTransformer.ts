@@ -1,5 +1,5 @@
 import { QuickFormModelTransformer, registerQuickFormService } from "./QuickFormServices";
-import { Ending, Form, Intro, Question, Slide, Submit } from "../model/new/";
+import { Ending, Form, Intro, Question, Slide, Submit } from "../model";
 
 /*
 * This function is responsible for taking the JSON format of the input (TODO add link to JSON Schema), and transforming it into the "Form" model that QuickForm supports.

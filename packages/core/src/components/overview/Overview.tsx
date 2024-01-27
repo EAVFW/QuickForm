@@ -4,7 +4,7 @@ import classNames from "classnames";
 import styles from "./Overview.module.css";
 import { Button, ProgressCircle } from '../index';
 import PreviewPDFButton from '../preview-pdf-button/PreviewPDFButton';
-import { Slide } from '../../model/new';
+import { Slide } from '../../model';
 
 
 export const QuestionList: React.FC<{ hideOnIntro?: boolean }> = ({ hideOnIntro }) => {

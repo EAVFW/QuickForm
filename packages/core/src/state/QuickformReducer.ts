@@ -2,8 +2,8 @@ import { QuickformAction } from "./QuickformAction";
 import { QuickformState } from "./QuickformState";
 import { onSubmitBtnClicked } from "../services/SubmitService";
 import { NavigationActionHandler } from "./action-handlers/NavigationActionHandler";
-import { Slide } from "../model/new/Slide";
-import { Question } from "../model/new/Question";
+import { Slide } from "../model/Slide";
+import { Question } from "../model/Question";
 
 export const quickformReducer = (state: QuickformState, action: QuickformAction): QuickformState => {
 
@@ -78,7 +78,7 @@ const updateQuestionProperty = (state: QuickformState, logicalName: string, prop
     newState.slides[slideIndex] = new Slide(clonedQuestions);
 
     if (originalSlide.columns) {
-        newState.slides[slideIndex].columns = [...originalSlide.columns];
+        newState.slides[slideIndex].columns = { ...originalSlide.columns };
     }
     if (originalSlide.rows) {
         newState.slides[slideIndex].rows = [...originalSlide.rows];

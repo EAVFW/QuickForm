@@ -1,5 +1,5 @@
 
-import { Form } from "../model/new";
+import { Form } from "../model";
 import { QuickFormProps } from "../QuickForm";
 
 export type HeadingNumberDisplayProvider = () => boolean;

@@ -8,7 +8,7 @@ import { useQuickForm } from "../../state/QuickFormContext";
 import { Paragraph, Heading, ErrorMessage, Button } from "..";
 import { useDelayedClickListener, useHandleKeypress } from "../../hooks";
 import PreviewPDFButton from "../preview-pdf-button/PreviewPDFButton";
-import { shouldValidateInputType } from "../../model/QuestionModel";
+import { shouldValidateInputType } from "../../model/legacy/QuestionModel";
 
 type QuestionProps = {
     className?: string,

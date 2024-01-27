@@ -2,7 +2,7 @@ import "./style/QuickForm.css";
 import React from "react";
 import { QuickFormProvider } from "./state/QuickformProvider";
 import { QuickFormTemplateOne } from "./templates/QuickformTemplateOne";
-import { Ending, Intro, Layout, Question, Submit } from "./model/new";
+import { Ending, Intro, Layout, Question, Submit } from "./model";
 
 export type QuickFormProps = {
     intro: Intro;

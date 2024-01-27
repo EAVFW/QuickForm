@@ -1,4 +1,4 @@
-import { Slide } from "../../model/new";
+import { Slide } from "../../model";
 
 
 type SlideProps = {

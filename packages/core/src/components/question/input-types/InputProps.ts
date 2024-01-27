@@ -1,4 +1,4 @@
-import { InputType2 } from "../../../model/QuestionModel";
+import { InputType2 } from "../../../model/legacy/QuestionModel";
 
 export type InputProps = {
     inputType: InputType2
