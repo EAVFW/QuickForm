@@ -1,3 +1,4 @@
+import { Form } from "../model/new/Form";
 import { Slide } from "../model/new/Slide";
 
 type SubmitType = { isSubmitting: boolean, isSubmitError: boolean, isSubmitOK: boolean };
@@ -18,18 +19,19 @@ export type QuickformState = {
     pdfpreviewurl?: string;
 }
 
-export const defaultState = (slides: Slide[] = []): QuickformState => {
-    const slidesDefined = slides.length > 0;
+export const defaultState = (formData: Form): QuickformState => {
+    // TODO - Handle Intro, Ending, Submit and Layout
+    const slidesDefined = formData.slides.length > 0;
 
     return {
         id: "",
         errorMsg: "",
-        slides,
+        slides: formData.slides,
         hasNextSlide: slidesDefined,
         hasPrevSlide: false,
         currIdx: 0,
         currStep: slidesDefined ? 1 : 0,
-        totalSteps: slides.length,
+        totalSteps: formData.slides.length,
         progress: 0,
         progressText: "",
         submitStatus: { isSubmitting: false, isSubmitError: false, isSubmitOK: false },

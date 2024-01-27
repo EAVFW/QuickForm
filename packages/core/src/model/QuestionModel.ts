@@ -52,11 +52,12 @@ export const shouldValidateInputType = (inputType: InputType2) => !(inputType ==
 
 export type QuestionPropsGeneric = {
     /* Represents what is expected from the JSON input to QuickForm */
-    readonly inputType: "text" | "multilinetext" | "intro" | "ending";
+    readonly inputType?: "text" | "multilinetext" | "intro" | "ending";
     readonly buttonText?: string;
 } & BaseQuestionFields
 
 export type QuestionProps = QuestionPropsGeneric | SubmitProps | DropdownProps;
+export type IntroProps = QuestionPropsGeneric;
 export type InputType2 = QuestionProps["inputType"]
 
 //export type QuestionModel = QuestionProps & {

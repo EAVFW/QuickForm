@@ -1,9 +1,11 @@
+import { Column } from "./Layout";
 import { Question } from "./Question";
 
 export class Slide {
     questions: Question[];
-    columns?: any[];
     rows?: any[];
+    // A slide can contain multiple columns
+    columns?: { [key: string]: Column };
 
     constructor(questions: Question[]) {
         this.questions = questions;

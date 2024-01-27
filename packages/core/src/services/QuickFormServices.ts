@@ -1,9 +1,9 @@
 
+import { Form } from "../model/new";
 import { QuickFormProps } from "../QuickForm";
-import { Slide } from "../model/new/Slide";
 
 export type HeadingNumberDisplayProvider = () => boolean;
-export type QuickFormModelTransformer = (quickform: QuickFormProps, payload: any) => Slide[];
+export type QuickFormModelTransformer = (quickform: QuickFormProps, payload: any) => Form;
 
 export type QuickFormFeatures = {
     modeltransformer?: QuickFormModelTransformer,
