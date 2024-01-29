@@ -12,35 +12,30 @@ export class NavigationActionHandler {
         return state;
     };
 
-    static handleNextSlideAction = (state: QuickformState) => {
+    private static handleSlideChange = (state: QuickformState, direction: 'next' | 'prev') => {
         const currIdx = state.currIdx;
         const slides = state.slides;
 
-        // Check if there is a next slide
-        if (currIdx < slides.length - 1) {
-            const nextIdx = currIdx + 1;
-            return {
-                ...state,
-                currIdx: nextIdx,
-            };
-        } else {
-            return state;
+        let newIdx = currIdx;
+        if (direction === 'next' && currIdx < slides.length - 1) {
+            newIdx = currIdx + 1;
+        } else if (direction === 'prev' && currIdx > 0) {
+            newIdx = currIdx - 1;
         }
+
+        return {
+            ...state,
+            currIdx: newIdx,
+            hasNextSlide: newIdx < slides.length - 1,
+            hasPrevSlide: newIdx > 0
+        };
+    }
+
+    static handleNextSlideAction = (state: QuickformState) => {
+        return NavigationActionHandler.handleSlideChange(state, 'next');
     }
 
     static handlePrevSlideAction = (state: QuickformState) => {
-        const currIdx = state.currIdx;
-        const slides = state.slides;
-
-        // Check if there is a previous slide
-        if (currIdx > 0 && slides.length > 0) {
-            const prevIdx = currIdx - 1;
-            return {
-                ...state,
-                currIdx: prevIdx,
-            };
-        } else {
-            return state;
-        }
+        return NavigationActionHandler.handleSlideChange(state, 'prev');
     }
 }

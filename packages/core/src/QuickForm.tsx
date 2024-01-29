@@ -9,7 +9,7 @@ export type QuickFormProps = {
     questions: { [key: string]: Question; };
     submit: Submit;
     ending: Ending;
-    layout: Layout;
+    layout?: Layout;
 }
 
 export const QuickForm: React.FC<QuickFormProps> = (props: QuickFormProps) => {

@@ -18,10 +18,19 @@ export const transformJSONInput: QuickFormModelTransformer = (props, payload): F
     }
 
     // Step 2 - Handle slides and assign questions to slides.
-    const questions = props.questions;
-    const slides = layout.slides;
-    if (isDefined(slides) && isDefined(questions)) {
-        form.slides = handleSlides(slides, questions);
+    if (isDefined(props.questions)) {
+        if (isDefined(layout?.slides)) {
+            form.slides = handleSlides(layout?.slides, props.questions);
+        } else {
+            // Handle the case where slides are not defined.
+            // Create 1 slide for each question.
+            // Assuming that each question should be its own slide
+            form.slides = Object.keys(props.questions).map(logicalName => {
+                return createSlide({ [logicalName]: props.questions[logicalName] });
+            });
+        }
+    } else {
+        throw console.error("Unable to read props.questions @ModelTransformer.ts");
     }
 
     // Step 3 - Handle Intro, Submit, Ending.
@@ -42,6 +51,17 @@ function isDefined(object: object) {
 
 function handleLayout() {
 
+}
+
+function createSlide(questions: { [logicalName: string]: Question }): Slide {
+    const newQuestions = Object.entries(questions).map(([logicalName, question]) => {
+        return {
+            ...question,
+            logicalName: logicalName
+        }
+    });
+    const slide = new Slide(newQuestions);
+    return slide;
 }
 
 function handleSlides(slides: Slide[], questions: { [logicalName: string]: Question }): Slide[] {
@@ -71,6 +91,9 @@ function handleSlides(slides: Slide[], questions: { [logicalName: string]: Quest
     // });
     return [];
 }
+
+
+
 
 function handleIntro(): Intro {
     return { text: "test" }

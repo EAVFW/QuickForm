@@ -3,8 +3,7 @@ import dummydatajson from "./data/dummydata.json";
 
 export const App = () => {
     return (
-        <div style={{ backgroundColor: '#000', width: '100%', height: '100%' }}>
-            <p>Hello</p>
+        <div style={{ width: '100%', height: '100%' }}>
             <QuickForm
                 intro={dummydatajson.intro}
                 questions={dummydatajson.questions}

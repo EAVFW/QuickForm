@@ -1,4 +1,46 @@
-@import url("./GlobalColors.css");
+/* Color-scheme is inspired by Material Design (https://m2.material.io/design/color/the-color-system.html#color-theme-creation) */
+:root {
+    /* Font family */
+    --font-family: 'var(--chivo), Monaco, Consolas';
+
+    --white: #ffffff;
+    --black: #000;
+
+    --primary: #6200ee;
+    /* Example primary color */
+    --primary-variant: #3700b3;
+    /* Darker shade for hover, etc. */
+    --secondary: #03dac6;
+    /* Example secondary color */
+    --background: #ffffff;
+    /* Light background */
+    --surface: #c4c3c3;
+    /* Surface color, slightly grey */
+    --on-primary: #ffffff;
+    /* White text/icons on primary */
+    --on-secondary: #000000;
+    /* Black text/icons on secondary */
+    --on-background: #000000;
+    /* Black text/icons on background */
+    --on-surface: #000000;
+    /* Black text/icons on surface */
+
+    /* Feedback Colors (for alerts, success, error messages, etc.) */
+    --error: #DB4437;
+    --warning: #FFCA28;
+    --success: #0F9D58;
+    --info: #4285F4;
+
+    /* Interaction colors */
+    --hover: var(--secondary);
+
+    /* Other Variables */
+    --disabled-opacity: 0.38;
+    --divider-opacity: 0.12;
+    --low-emphasis-opacity: 0.38;
+    --medium-emphasis-opacity: 0.60;
+    --high-emphasis-opacity: 0.87;
+}
 
 .container {
     display: flex;
@@ -11,6 +53,7 @@
     z-index: 1;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
     border-radius: 20px;
+    background-color: var(--background);
 }
 
 /* Media query for viewports with a max-width of 600px */
@@ -18,39 +61,6 @@
     .container {
         width: 95%;
     }
-}
-
-.form-header {
-    display: flex;
-    align-items: center;
-    height: 10%;
-    min-height: 10%;
-    width: 100%;
-    -webkit-font-smoothing: antialiased;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    background: var(--primary-dark);
-}
-
-.form-content {
-    height: 100%;
-    width: 100%;
-    -webkit-font-smoothing: antialiased;
-    background-color: var(--surface);
-    color: var(--on-surface);
-}
-
-.form-footer {
-    align-items: end;
-    height: 10%;
-    min-height: 10%;
-    width: 100%;
-    margin: auto;
-    -webkit-font-smoothing: antialiased;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    color: var(--on-surface);
-    background-color: var(--surface);
 }
 
 @keyframes slide-up {
