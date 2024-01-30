@@ -40,6 +40,16 @@
     --low-emphasis-opacity: 0.38;
     --medium-emphasis-opacity: 0.60;
     --high-emphasis-opacity: 0.87;
+
+    /* Browser CSS default overwrites */
+    p {
+        margin: 0;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
 }
 
 .container {

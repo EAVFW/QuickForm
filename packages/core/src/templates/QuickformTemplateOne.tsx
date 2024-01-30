@@ -4,11 +4,11 @@ import { NavigationButton } from "../components/navigation-button/NavigationButt
 
 export const QuickFormTemplateOne: React.FC = () => {
     return (
-        <>
+        <div style={containerStyle}>
             {/* Placeholder for header / title  */}
             <section style={formHeading}>
-                <Heading style={{ fontSize: '1.5rem', marginLeft: '25px' }}>Quickform Template </Heading>
-                <Paragraph style={{ fontSize: '1rem', justifyContent: 'center', color: 'var(--primary)', marginLeft: '20px', alignSelf: 'center' }}> 123456789-example-id</Paragraph>
+                <Heading style={{ fontSize: '36px', fontWeight: '700', margin: '5px' }}>Beregn prisen for gulvslibning </Heading>
+                <Paragraph style={{ fontSize: '36px', margin: '5px' }}> Få prisen med det samme</Paragraph>
             </section>
 
             {/* The main content - Question/InputType is displayed here*/}
@@ -18,42 +18,32 @@ export const QuickFormTemplateOne: React.FC = () => {
 
             {/* Placeholder for action-buttons in the footer area of the form */}
             <section style={formFooter}>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignContent: 'space-between', marginRight: '10px', marginBottom: '10px' }}>
-                    <NavigationButton style={{ marginRight: '10px' }} />
-                </div>
+                <NavigationButton style={{  marginRight: '10px', marginBottom: '10px' }} />
             </section>
-        </>
+        </div>
     )
 }
 
-const formHeading = {
+const containerStyle: React.CSSProperties = {
+    borderRadius: '10px',
+    boxShadow: '0px 0px 5px 1px',
+}
+
+const formHeading: React.CSSProperties = {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    height: '10%',
-    minHeight: '10%',
     width: '100%',
-    WebkitFontSmoothing: 'antialiased',
-    borderTopLeftRadius: '20px',
-    borderTopRightRadius: '20px',
-    background: 'var(--surface)'
 };
 
 const formContent = {
     height: '100%',
     width: '100%',
-    WebkitFontSmoothing: 'antialiased',
-    backgroundColor: 'var(--background)'
 };
 
-const formFooter = {
-    alignItems: 'end',
-    height: '10%',
-    minHeight: '10%',
+const formFooter: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
     width: '100%',
-    margin: 'auto',
-    WebkitFontSmoothing: 'antialiased',
-    borderBottomLeftRadius: '20px',
-    borderBottomRightRadius: '20px',
-    backgroundColor: 'var(--surface)'
 };
 

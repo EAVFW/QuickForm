@@ -23,9 +23,10 @@ export function Heading({ children, className, questionNum, style = {} }: Headin
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
     console.log("shouldDisplay", shouldDisplayNumber);
 
+
     return (
         <h1
-            className={classNames(styles["heading"], className, questionNum ? ["num"] : "")}
+            className={className}
             style={style}
         >
             {shouldDisplayNumber &&

@@ -30,7 +30,7 @@ export const NavigationButton: React.FC<Props> = ({ className, style }) => {
     }
 
     return (
-        <div style={slideNavigation}>
+        <div style={{ ...slideNavigation, ...style }}>
             <label title={rightLabel} style={leftBtnStyling} >
                 <button
                     disabled={disableRightBtn}
@@ -63,11 +63,7 @@ export const NavigationButton: React.FC<Props> = ({ className, style }) => {
 /* CSS Styling */
 const slideNavigation: React.CSSProperties = {
     width: '100px',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'end',
-    marginRight: '10px',
-    borderRadius: '50px',
+    borderRadius: '10px',
     transition: 'all 0.3s ease',
     cursor: 'pointer',
     backgroundColor: 'var(--surface)',
@@ -79,12 +75,12 @@ const slideNavigationButton: React.CSSProperties = {
     cursor: 'pointer',
 };
 const left: React.CSSProperties = {
-    borderTopLeftRadius: '50px',
-    borderBottomLeftRadius: '50px',
+    borderTopLeftRadius: '10px',
+    borderBottomLeftRadius: '10px',
 };
 const right: React.CSSProperties = {
-    borderTopRightRadius: '50px',
-    borderBottomRightRadius: '50px',
+    borderTopRightRadius: '10px',
+    borderBottomRightRadius: '10px',
 };
 const hover: React.CSSProperties = {
     backgroundColor: 'var(--hover)',
