@@ -1,12 +1,9 @@
-import { InputType2 } from "../../../model/legacy/QuestionModel";
+import { DropDownProperties, InputTypes, RadioProperties, SliderProperties } from "../../../model";
 
 export type InputProps = {
-    inputType: InputType2
-    text: string,
-    paragraph: string,
-    placeholder?: string;
-    lang: string;
+    inputType: InputTypes;
+    inputProps: DropDownProperties | RadioProperties | SliderProperties;
     output: string;
     onOutputChange(output: string): void;
-    onAnswered?: () => void;
+    placeholder?: string;
 }

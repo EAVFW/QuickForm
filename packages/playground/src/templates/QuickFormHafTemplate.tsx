@@ -6,10 +6,8 @@ export const QuickFormHafTemplate: React.FC = () => {
     return (
         <div style={containerStyle}>
             <section style={formContent}>
-                {/* <Overview /> */}
                 <QuickForm />
             </section>
-
             <section style={formFooter}>
                 <NavigationButton style={{ display: 'flex', justifyContent: 'end', marginRight: '10px', marginBottom: '10px' }} />
             </section>

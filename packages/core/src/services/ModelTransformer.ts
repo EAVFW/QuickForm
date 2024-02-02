@@ -53,7 +53,6 @@ function handleLayout(layout: Layout, questions: { [logicalName: string]: Questi
         });
     }
 
-    console.log("slides", slides);
     return slides;
 }
 

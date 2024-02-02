@@ -37,6 +37,7 @@ module.exports = {
     static: path.join(__dirname, 'dist'),
     port: 3000,
     open: true,
+    hot: true
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],

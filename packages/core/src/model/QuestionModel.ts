@@ -1,3 +1,5 @@
+import { DropDownProperties, RadioProperties, SliderProperties } from "./InputType";
+
 export class QuestionModel {
     readonly logicalName?: string;
     inputType: string;
@@ -5,6 +7,7 @@ export class QuestionModel {
     placeholder: string;
     paragraph: string;
     answered?: boolean = false;
+    inputProperties?: DropDownProperties | RadioProperties | SliderProperties;
     output?: any = {};
 
     constructor(answered: boolean = false, output: any = {}) {

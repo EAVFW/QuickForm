@@ -45,7 +45,6 @@ interface DropdownOptionsParams {
     onOutputChange: (key: string) => void;
     markQuestionAsAnswered: (index: number) => void;
     dispatch: React.Dispatch<any>;
-    onAnswered: () => void;
     questionState?: {
         currentQuestionIndex?: number;
     };
@@ -60,7 +59,6 @@ export const handleDropdownOptionClick = ({
     onOutputChange,
     markQuestionAsAnswered,
     dispatch,
-    onAnswered,
     questionState,
     loggingEnabled = false
 }: DropdownOptionsParams): string[] => {
@@ -106,7 +104,6 @@ export const handleDropdownOptionClick = ({
     if (updatedOptions.length === minItemsCount) {
         log('Exact minItemsCount reached. Marking question as answered.');
         markQuestionAsAnswered(questionState?.currentQuestionIndex || -1);
-        onAnswered();
     } else if (updatedOptions.length < minItemsCount) {
         log('Below minItemsCount after de-selection. Marking question as unanswered.');
         dispatch({ type: 'SET_UNANSWERED', index: questionState?.currentQuestionIndex || -1 });
