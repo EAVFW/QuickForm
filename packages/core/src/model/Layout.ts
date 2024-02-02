@@ -3,17 +3,19 @@ export type Layout = {
     slides?: { [key: string]: SlideLayout };
 }
 
-export type Column = {
-    style?: React.CSSProperties;
-    rows: Row[];
-}
-
-export type Row = {
-    style?: React.CSSProperties;
-    columns?: Column[];
-    questionRefLogicalName: string;
-}
-
 export type SlideLayout = {
-    columns: { [key: string]: Column };
+    style?: React.CSSProperties;
+    rows: { [key: string]: RowLayout };
 }
+
+export type RowLayout = {
+    style?: React.CSSProperties;
+    columns?: { [key: string]: ColumnLayout };
+    questionRefLogicalName?: string;
+}
+
+export type ColumnLayout = {
+    style?: React.CSSProperties;
+    rows?: { [key: string]: RowLayout }
+}
+

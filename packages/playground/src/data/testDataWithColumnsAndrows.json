@@ -1,106 +1,69 @@
 {
     "layout": {
-        "style": {},
         "slides": {
             "slide1": {
-                "columns": {
-                    "col1": {
-                        "style": {},
-                        "rows": [
-                            {
-                                "style": {},
-                                "columns": [
-                                    {
-                                        "style": {},
-                                        "rows": [
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "contact"
-                                            },
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "billingAddress"
-                                            }
-                                        ]
+                "rows": {
+                    "row1": {
+                        "columns": {
+                            "col1": {
+                                "rows": {
+                                    "row1_1": {
+                                        "questionRefLogicalName": "feedback"
+                                    },
+                                    "row1_2": {
+                                        "questionRefLogicalName": "paymentMethod"
+                                    },
+                                    "row1_3": {
+                                        "questionRefLogicalName": "productPreference"
                                     }
-                                ],
-                                "questionRefLogicalName": "contactInfo"
-                            },
-                            {
-                                "style": {},
-                                "columns": [
-                                    {
-                                        "style": {},
-                                        "rows": [
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "email"
-                                            },
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "orderInstructions"
-                                            }
-                                        ]
-                                    }
-                                ],
-                                "questionRefLogicalName": "additionalInfo"
+                                }
                             }
-                        ]
+                        }
                     }
                 }
             },
             "slide2": {
-                "columns": {
-                    "col1": {
-                        "style": {},
-                        "rows": [
-                            {
-                                "style": {},
-                                "columns": [
-                                    {
-                                        "style": {},
-                                        "rows": [
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "pickupTime"
-                                            },
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "deliveryDate"
-                                            }
-                                        ]
+                "rows": {
+                    "row2": {
+                        "columns": {
+                            "col2": {
+                                "rows": {
+                                    "row2_1": {
+                                        "questionRefLogicalName": "recipientName"
+                                    },
+                                    "row2_2": {
+                                        "questionRefLogicalName": "deliveryDate"
+                                    },
+                                    "row2_3": {
+                                        "questionRefLogicalName": "pickupTime"
                                     }
-                                ],
-                                "questionRefLogicalName": "timingDetails"
-                            },
-                            {
-                                "style": {},
-                                "columns": [
-                                    {
-                                        "style": {},
-                                        "rows": [
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "recipientName"
-                                            },
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "productPreference"
-                                            },
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "paymentMethod"
-                                            },
-                                            {
-                                                "style": {},
-                                                "questionRefLogicalName": "feedback"
-                                            }
-                                        ]
-                                    }
-                                ],
-                                "questionRefLogicalName": "additionalDetails"
+                                }
                             }
-                        ]
+                        }
+                    }
+                }
+            },
+            "slide3": {
+                "rows": {
+                    "row3": {
+                        "columns": {
+                            "col3": {
+                                "rows": {
+                                    "row3_1": {
+                                        "questionRefLogicalName": "contact"
+                                    },
+                                    "row3_2": {
+                                        "questionRefLogicalName": "billingAddress"
+                                    },
+                                    "row3_3": {
+                                        "questionRefLogicalName": "email"
+                                    },
+                                    "row3_4": {
+                                        "questionRefLogicalName": "orderInstructions"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

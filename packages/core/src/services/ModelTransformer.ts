@@ -1,5 +1,5 @@
 import { QuickFormModelTransformer, registerQuickFormService } from "./QuickFormServices";
-import { Column, FormData, Layout, QuestionModel, Row, SlideModel, SubmitModel } from "../model";
+import { Column, FormData, Layout, QuestionModel, Row, RowLayout, SlideModel, SubmitModel } from "../model";
 
 /*
 * This function is responsible for taking the JSON format of the input (TODO add link to JSON Schema), and transforming it into the "Form" model that QuickForm supports.
@@ -36,84 +36,103 @@ export const transformJSONInput: QuickFormModelTransformer = (data): FormData =>
 registerQuickFormService("modeltransformer", transformJSONInput);
 
 function isDefined(object: object) {
-    if (object && typeof object !== "undefined") {
-        return true;
-    }
-    return false;
+    return object && typeof object !== "undefined"
 }
+
 function handleLayout(layout: Layout, questions: { [logicalName: string]: QuestionModel }): SlideModel[] {
     const slides: SlideModel[] = [];
+    console.log("handleLayout");
 
-    // Recursive function to process columns and their nested structures
-    function processColumns(columns: Column[], slide: SlideModel) {
-        columns.forEach(column => {
-            // Process each row in the column
-            column.rows.forEach(row => {
-                // Add question to slide if exists
-                if (row.questionRefLogicalName) {
-                    const question = questions[row.questionRefLogicalName];
-                    if (question) {
-                        slide.addQuestion(question);
-                    }
-                }
-                // Process nested columns if they exist
-                if (row.columns) {
-                    processColumns(row.columns, slide);
-                }
-            });
-        });
-    }
-
-    // Process each slide in the layout
     if (layout.slides) {
-        Object.values(layout.slides).forEach(slideLayout => {
-            // Convert slide columns to array to process them
-            const columns = Object.values(slideLayout.columns);
-            const slide = new SlideModel(columns); // Assuming Slide constructor can accept multiple columns
-            processColumns(columns, slide);
-            slides.push(slide);
+        Object.values(layout.slides).forEach(slide => {
+            const slideModel = new SlideModel();
+            if (slide.rows) {
+                slideModel.rows = processRows(slide.rows, slideModel, questions);
+            }
+            slides.push(slideModel);
         });
     }
 
+    console.log("slides", slides);
     return slides;
 }
 
-// function handleLayout(layout: Layout, questions: { [logicalName: string]: Question }): Slide[] {
-//     const slides: Slide[] = [];
+function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel, questions: { [logicalName: string]: QuestionModel }): Row[] {
+    const rows: Row[] = [];
+    Object.values(rowLayouts).forEach(rowLayout => {
+        let newRow: Row | null = null;
 
-//     // Recursive function to process columns and their nested structures
-//     function processColumns(columns: Column[], slide: Slide) {
-//         columns.forEach(column => {
-//             // Process each row in the column
-//             column.rows.forEach(row => {
-//                 // Add question to slide if exists
-//                 if (row.questionRefLogicalName) {
-//                     const question = questions[row.questionRefLogicalName];
-//                     if (question) {
-//                         slide.addQuestion(question);
-//                     }
-//                 }
-//                 // Process nested columns if they exist
-//                 if (row.columns) {
-//                     processColumns(row.columns, slide);
+        // Add question if questionRefLogicalName is present and a corresponding question exists
+        if (rowLayout.questionRefLogicalName && questions.hasOwnProperty(rowLayout.questionRefLogicalName)) {
+            const question = questions[rowLayout.questionRefLogicalName];
+            slide.addQuestion(question);
+            newRow = {
+                style: rowLayout.style,
+                questionRefLogicalName: rowLayout.questionRefLogicalName,
+                columns: []
+            };
+        }
+
+        // Process nested rows within columns if they exist
+        if (rowLayout.columns) {
+            const columns: Column[] = [];
+            Object.values(rowLayout.columns).forEach(columnLayout => {
+                const columnRows = columnLayout.rows ? processRows(columnLayout.rows, slide, questions) : [];
+                const newColumn: Column = {
+                    style: columnLayout.style,
+                    rows: columnRows
+                };
+                columns.push(newColumn);
+            });
+
+            // If newRow was not initialized because it doesn't directly contain a question,
+            // initialize it here to encapsulate nested structure
+            if (!newRow) {
+                newRow = {
+                    style: rowLayout.style,
+                    columns: columns,
+                    questionRefLogicalName: rowLayout.questionRefLogicalName // This might be undefined, which is fine
+                };
+            } else {
+                // If newRow was already initialized, just add the columns to it
+                newRow.columns = columns;
+            }
+        }
+
+        // Only add the newRow to rows if it was initialized
+        if (newRow) {
+            rows.push(newRow);
+        }
+    });
+
+    return rows; // Return the constructed rows for potential further nesting
+}
+
+// function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel, questions: { [logicalName: string]: QuestionModel }) {
+//     const rows: Row[] = [];
+//     Object.values(rowLayouts).forEach(rowLayout => {
+//         // Add question if questionRefLogicalName is present and a corresponding question exists
+//         if (rowLayout.questionRefLogicalName && questions.hasOwnProperty(rowLayout.questionRefLogicalName)) {
+//             const question = questions[rowLayout.questionRefLogicalName];
+//             slide.addQuestion(question);
+//             rows.push({
+//                 style: rowLayout.style,
+//                 questionRefLogicalName: rowLayout.questionRefLogicalName
+//             })
+//         }
+
+//         // Process nested rows within columns if they exist
+//         if (rowLayout.columns) {
+//             Object.values(rowLayout.columns).forEach(column => {
+//                 if (column.rows) {
+//                     processRows(column.rows, slide, questions); // Recursive call for nested rows within columns
 //                 }
 //             });
-//         });
-//     }
-
-//     if (layout.columns) {
-//         // Convert layout columns to array to process them
-//         const initialColumns = Object.values(layout.columns);
-//         // Each top-level column represents a new slide
-//         initialColumns.forEach(column => {
-//             const slide = new Slide([column]);
-//             processColumns([column], slide);
-//             slides.push(slide);
-//         });
-//     }
-
-//     return slides;
+//         }
+//     });
 // }
+
+
 
 function defaultLayout(questions: { [logicalName: string]: QuestionModel }): SlideModel[] {
     const slides: SlideModel[] = [];
@@ -124,90 +143,28 @@ function defaultLayout(questions: { [logicalName: string]: QuestionModel }): Sli
 }
 
 function createSlide(questions: { [logicalName: string]: QuestionModel }): SlideModel {
-    // Initialize an empty array for the rows
+    const slide = new SlideModel();
+    // Create rows from questions, assuming each question corresponds to a separate row
     const rows: Row[] = Object.entries(questions).map(([logicalName, question]) => {
-        // For each question, create a Row with the question's logicalName
+        slide.addQuestion({
+            ...question,
+            logicalName: logicalName
+        })
+
         return {
-            style: {}, // Assuming some default or empty style
-            columns: [], // This row does not contain nested columns
-            questionRefLogicalName: logicalName // Set the logicalName as the questionRefLogicalName
+            style: {},
+            questionRefLogicalName: logicalName
         };
     });
 
-    // Create a single Column that contains all these rows
-    const column: Column = {
-        style: {}, // Assuming some default or empty style
-        rows: rows // Assign the rows to this column
-    };
-
-    // Create a Slide with this single column
-    const slide = new SlideModel([column]); // The Slide constructor expects an array of Columns
-
-    // Assuming the Slide class has been adjusted to include a constructor that accepts columns
-    // If not, you might need to add columns to the slide manually or adjust the Slide class accordingly
-
+    slide.rows = rows;
     return slide;
 }
-// function createSlide(questions: { [logicalName: string]: Question }): Slide {
-//     const columns:Column[] = [
-//         {
-//             rows:[]
-//         }
-//     ];
-//     const newQuestions = Object.entries(questions).map(([logicalName, question]) => {
-//         columns[0].rows.push()
-//         return {
-//             ...question,
-//             logicalName: logicalName
-//         }
-//     });
-//     const columns:Column[] = [
-//         {
-//             rows:[{
-//                 questionRefLogicalName:lo
-//             }]
-//         }
-//     ]
-
-//     }
-//     const slide = new Slide(newQuestions, columns);
-//     return slide;
-// }
-
-function handleSlides(slides: SlideModel[], questions: { [logicalName: string]: QuestionModel }): SlideModel[] {
-    // Object.keys(questions).forEach(questionKey => {
-    //     const question = questions[questionKey];
-    //     assignQuestionToSlide(slides, question, questionKey);
-    // });
-
-    // return Object.entries(combinedQuestions).map(([key, value], index) => {
-    //     const inputType = value.inputType ?? 'none'; // Default to none if type isn't provided
-    //     return {
-    //         ...value,
-    //         inputType: inputType,
-    //         logicalName: key,
-    //         // placeholder: value.placeholder,
-    //         //text: value.text,
-    //         //paragraph: value.paragraph,
-    //         // lang: value.lang,
-    //         questionNumber: index,
-    //         answered: value.inputType === "intro" || key in payload && typeof payload[key] !== "undefined" && payload[key] !== "",
-    //         // maxItems: value.maxItems,
-    //         //  minItems: value.minItems,
-    //         //  options: value.options,
-    //         //  buttonText: value.buttonText,
-    //         output: key in payload ? payload[key] : ""
-    //     } as Slide;
-    // });
-    return [];
-}
-
-
 
 
 function handleSubmit(submit: SubmitModel): SubmitModel {
 
-    // Create payload handling, return endpoint and so on
+    // TODO:  Create payload handling, return endpoint and so on
     return {
         text: "SubmitTest",
         paragraph: "SubmitParagraphTest",
