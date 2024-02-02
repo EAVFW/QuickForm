@@ -2,13 +2,13 @@ import { useReducer } from "react";
 import { quickformReducer } from "./QuickformReducer";
 import { defaultState } from "./QuickformState";
 import { QuickFormContext } from "./QuickFormContext";
-import { QuickFormProps } from "../QuickForm";
 import { ErrorMessage } from "../components";
 import { transformJSONInput } from "../services/ModelTransformer";
+import { Form } from "../model";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
-    quickform: QuickFormProps;
+    data: Form;
     id: string;
     payload?: any;
 }
@@ -16,14 +16,14 @@ type QuickFormProviderProps = {
 export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
     {
         children,
-        quickform,
+        data,
         id,
         payload = {}
     }
 ) => {
     // TODO - make resolveX work
     // const transform = resolveQuickFormService("modeltransformer");
-    const formData = transformJSONInput(quickform, payload);
+    const formData = transformJSONInput(data, payload);
     const [state, dispatch] = useReducer(quickformReducer, defaultState(formData));
 
     const goToSlide = (index?: number) => { dispatch({ type: 'SET_INDEX', index: index }); }

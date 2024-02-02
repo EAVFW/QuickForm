@@ -13,8 +13,8 @@ export const NavigationButton: React.FC<Props> = ({ className, style }) => {
     const [leftHover, setLeftHover] = useState<boolean>(false);
     const [rightHover, setRightHover] = useState<boolean>(false);
 
-    const disableRightBtn = !state.hasPrevSlide;
-    const rightLabel = disableRightBtn ? "No previous slide" : "Go to previous";
+    const disablePrevBtn = !state.hasPrevSlide;
+    const prevLabel = disablePrevBtn ? "No previous slide" : "Go to previous";
     const rightBtnStyling = {
         ...right,
         ...slideNavigationButton,
@@ -30,10 +30,10 @@ export const NavigationButton: React.FC<Props> = ({ className, style }) => {
     }
 
     return (
-        <div style={{ ...slideNavigation, ...style }}>
-            <label title={rightLabel} style={leftBtnStyling} >
+        <div className={className} style={{ ...slideNavigation, ...style }}>
+            <label title={prevLabel} style={leftBtnStyling} >
                 <button
-                    disabled={disableRightBtn}
+                    disabled={disablePrevBtn}
                     onMouseEnter={() => setLeftHover(true)}
                     onMouseLeave={() => setLeftHover(false)}
                     style={leftBtnStyling}

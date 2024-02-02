@@ -1,7 +1,9 @@
 /* Color-scheme is inspired by Material Design (https://m2.material.io/design/color/the-color-system.html#color-theme-creation) */
 :root {
     /* Font family */
-    --font-family: 'var(--chivo), Monaco, Consolas';
+    /* --font-family: 'var(--chivo), Monaco, Consolas'; */
+    --font-family: 'Nunito', sans-serif;
+
 
     --white: #ffffff;
     --black: #000;
@@ -40,6 +42,8 @@
     --low-emphasis-opacity: 0.38;
     --medium-emphasis-opacity: 0.60;
     --high-emphasis-opacity: 0.87;
+
+    font-family: var(--font-family);
 
     /* Browser CSS default overwrites */
     p {

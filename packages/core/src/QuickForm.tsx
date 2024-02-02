@@ -2,20 +2,17 @@ import "./style/QuickForm.css";
 import React from "react";
 import { QuickFormProvider } from "./state/QuickformProvider";
 import { QuickFormTemplateOne } from "./templates/QuickformTemplateOne";
-import { Ending, Intro, Layout, Question, Submit } from "./model";
+import { Form } from "./model";
 
-export type QuickFormProps = {
-    intro: Intro;
-    questions: { [key: string]: Question; };
-    submit: Submit;
-    ending: Ending;
-    layout?: Layout;
-}
-
-export const QuickForm: React.FC<QuickFormProps> = (props: QuickFormProps) => {
+export const QuickForm: React.FC<Form> = (json: Form) => {
     return (
-        <QuickFormProvider id={""} quickform={props}>
-            <QuickFormTemplateOne />
-        </QuickFormProvider>
+        <>
+            <head>
+                <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700&amp;display=swap" rel="stylesheet" />
+            </head>
+            <QuickFormProvider id={""} data={json}>
+                <QuickFormTemplateOne />
+            </QuickFormProvider>
+        </>
     );
 }

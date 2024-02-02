@@ -7,8 +7,8 @@ export const QuickFormTemplateOne: React.FC = () => {
         <div style={containerStyle}>
             {/* Placeholder for header / title  */}
             <section style={formHeading}>
-                <Heading style={{ fontSize: '36px', fontWeight: '700', margin: '5px' }}>Beregn prisen for gulvslibning </Heading>
-                <Paragraph style={{ fontSize: '36px', margin: '5px' }}> Få prisen med det samme</Paragraph>
+                <Heading style={{ fontSize: '36px', fontWeight: '700', margin: '2px' }}>Beregn prisen for gulvslibning </Heading>
+                <Paragraph style={{ fontSize: '36px', fontWeight: '400', color:'#333', margin: '2px' }}> Få prisen med det samme</Paragraph>
             </section>
 
             {/* The main content - Question/InputType is displayed here*/}
@@ -18,7 +18,7 @@ export const QuickFormTemplateOne: React.FC = () => {
 
             {/* Placeholder for action-buttons in the footer area of the form */}
             <section style={formFooter}>
-                <NavigationButton style={{  marginRight: '10px', marginBottom: '10px' }} />
+                <NavigationButton style={{ marginRight: '10px', marginBottom: '10px' }} />
             </section>
         </div>
     )

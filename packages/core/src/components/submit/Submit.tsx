@@ -15,6 +15,8 @@
 // import type { FormProps } from "@rjsf/core";
 // import { assertSubmitModel } from "model/QuestionModel";
 
+import { Question } from "model";
+
 // export const Submit: React.FC = () => {
 
 //     const tw = useTailWind();
@@ -67,6 +69,17 @@
 
 
 
+type SubmitProps = {
+    text: string;
+    paragraph: string;
+    buttonText: string;
+    submitFields: Question[];
+}
 
-
-export const Submit: React.FC = () => { return <></> };
+export const Submit: React.FC<SubmitProps> = ({ text, paragraph, buttonText, submitFields }: SubmitProps) => {
+    return (
+        <>
+            Submit slide
+        </>
+    )
+};

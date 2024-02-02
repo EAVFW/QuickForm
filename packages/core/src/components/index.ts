@@ -1,7 +1,7 @@
 export { Button } from "./button/Button";
 export { Ending } from "./ending/Ending";
 export { ErrorMessage } from "./error-message/ErrorMessage";
-export { FormContent } from "./formcontent/FormContent";
+export { Form as FormContent } from "./form/Form";
 export { Heading } from "./heading/Heading";
 export { Overview } from "./overview/Overview";
 export { Paragraph } from "./paragraph/Paragraph";

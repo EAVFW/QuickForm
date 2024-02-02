@@ -10,6 +10,11 @@ export const transformJSONInput: QuickFormModelTransformer = (props, payload): F
 
     const form = new Form();
 
+    // Step 1 - Handle Intro, Submit, Ending.
+    form.intro = handleIntro();
+    form.submit = handleSubmit();
+    form.ending = handleEnding();
+
     // Step 1 - Transform styles from "Layout object" to styles that can be used in QuickForm.
     // Layout is nullable/optional, so QuickForm handles if no layout object is present.
     const layout = props.layout;
@@ -33,10 +38,7 @@ export const transformJSONInput: QuickFormModelTransformer = (props, payload): F
         throw console.error("Unable to read props.questions @ModelTransformer.ts");
     }
 
-    // Step 3 - Handle Intro, Submit, Ending.
-    form.intro = handleIntro();
-    form.submit = handleSubmit();
-    form.ending = handleEnding();
+
 
     return form;
 };

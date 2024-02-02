@@ -1,7 +1,6 @@
+import { SubmitStatus } from "model/SubmitStatus";
 import { Form } from "../model/Form";
 import { Slide } from "../model/Slide";
-
-type SubmitType = { isSubmitting: boolean, isSubmitError: boolean, isSubmitOK: boolean };
 
 export type QuickformState = {
     id?: string;
@@ -16,7 +15,7 @@ export type QuickformState = {
     progress: number;
     progressText: string;
     showOverview: boolean;
-    submitStatus: SubmitType;
+    submitStatus: SubmitStatus;
     pdfpreviewurl?: string;
 }
 
@@ -36,7 +35,7 @@ export const defaultState = (formData: Form = defaultForm): QuickformState => {
         totalSteps: formData.slides.length,
         progress: 0,
         progressText: "",
-        submitStatus: { isSubmitting: false, isSubmitError: false, isSubmitOK: false },
+        submitStatus: { isSubmitting: false, isSubmitError: false, isSubmitSuccess: false },
         showOverview: false,
     };
 };
