@@ -9,8 +9,7 @@ interface IQuickFormContext {
     goToNextSlide: () => void;
     goToPrevSlide: () => void;
     answerQuestion: (logicalName: string, output: any) => void;
-    onQuestionBtnClicked: () => void;
-    toggleOverview: () => void;
+    setIntroVisited: () => void;
 }
 
 export const QuickFormContext = React.createContext<IQuickFormContext>(
@@ -21,8 +20,7 @@ export const QuickFormContext = React.createContext<IQuickFormContext>(
         goToNextSlide: () => { },
         goToPrevSlide: () => { },
         answerQuestion: () => { },
-        onQuestionBtnClicked: () => { },
-        toggleOverview: () => { }
+        setIntroVisited: () => { }
     }
 );
 
@@ -33,5 +31,3 @@ export const useQuickForm = () => {
     }
     return context;
 }
-// export const useCurrentQuestion = () => useQuickForm().state.currentQuestion;
-export const useQuickFormState = () => useQuickForm().state;

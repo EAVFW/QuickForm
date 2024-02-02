@@ -1,11 +1,15 @@
 export { Button } from "./button/Button";
+export { Divider } from "./divider/Divider";
 export { Ending } from "./ending/Ending";
 export { ErrorMessage } from "./error-message/ErrorMessage";
-export { Form as FormContent } from "./form/Form";
 export { Heading } from "./heading/Heading";
+export { NavigationButton } from "./navigation-button/NavigationButton";
 export { Overview } from "./overview/Overview";
 export { Paragraph } from "./paragraph/Paragraph";
 export { ProgressBar } from "./progress-bar/ProgressBar";
 export { ProgressCircle } from "./progress-circle/ProgressCircle";
 export { Question } from "./question/Question";
+export { SlideComponent } from "./slide/SlideComponent";
 export { Submit } from "./submit/Submit";
+export { ToggleOverviewButton } from "./toggle-overview-button/ToggleOverviewButton";
+export {QuickForm} from "./QuickForm";

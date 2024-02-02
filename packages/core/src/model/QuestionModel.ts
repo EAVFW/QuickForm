@@ -1,4 +1,4 @@
-export class Question {
+export class QuestionModel {
     readonly logicalName?: string;
     inputType: string;
     text: string;

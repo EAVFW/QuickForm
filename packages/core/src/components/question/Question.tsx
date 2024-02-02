@@ -6,8 +6,7 @@ import { inputTypeComponentMap } from "./InputComponentMapper";
 import React from "react";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { Paragraph, Heading, ErrorMessage, Button } from "..";
-import { useDelayedClickListener, useHandleKeypress } from "../../hooks";
-import PreviewPDFButton from "../preview-pdf-button/PreviewPDFButton";
+import { useDelayedClickListener, useHandleEnterKeypress } from "../../hooks";
 import { shouldValidateInputType } from "../../model/legacy/QuestionModel";
 
 type QuestionProps = {

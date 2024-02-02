@@ -1,0 +1,205 @@
+{
+    "layout": {
+        "style": {},
+        "slides": {
+            "slide1": {
+                "columns": {
+                    "col1": {
+                        "style": {},
+                        "rows": [
+                            {
+                                "style": {},
+                                "columns": [
+                                    {
+                                        "style": {},
+                                        "rows": [
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "contact"
+                                            },
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "billingAddress"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "questionRefLogicalName": "contactInfo"
+                            },
+                            {
+                                "style": {},
+                                "columns": [
+                                    {
+                                        "style": {},
+                                        "rows": [
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "email"
+                                            },
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "orderInstructions"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "questionRefLogicalName": "additionalInfo"
+                            }
+                        ]
+                    }
+                }
+            },
+            "slide2": {
+                "columns": {
+                    "col1": {
+                        "style": {},
+                        "rows": [
+                            {
+                                "style": {},
+                                "columns": [
+                                    {
+                                        "style": {},
+                                        "rows": [
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "pickupTime"
+                                            },
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "deliveryDate"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "questionRefLogicalName": "timingDetails"
+                            },
+                            {
+                                "style": {},
+                                "columns": [
+                                    {
+                                        "style": {},
+                                        "rows": [
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "recipientName"
+                                            },
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "productPreference"
+                                            },
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "paymentMethod"
+                                            },
+                                            {
+                                                "style": {},
+                                                "questionRefLogicalName": "feedback"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "questionRefLogicalName": "additionalDetails"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "intro": {
+        "text": "Playground Request Form",
+        "paragraph": "Click to start processing the request.",
+        "buttonText": "Start"
+    },
+    "submit": {
+        "text": "Example Submit Text",
+        "paragraph": "Example paragraph describing the submit action.",
+        "buttonText": "Submit",
+        "submitFields": [
+            {
+                "logicalName": "question1",
+                "inputType": "text",
+                "text": "What is your name?",
+                "placeholder": "Enter your name",
+                "paragraph": "We need your name for identification.",
+                "answered": false,
+                "output": {}
+            },
+            {
+                "logicalName": "question2",
+                "inputType": "email",
+                "text": "What is your email?",
+                "placeholder": "Enter your email",
+                "paragraph": "We need your email for contact.",
+                "answered": false,
+                "output": {}
+            }
+        ]
+    },
+    "ending": {
+        "text": "Thanks for choosing DummyData",
+        "paragraph": "The form has now been submitted."
+    },
+    "questions": {
+        "contact": {
+            "inputType": "text",
+            "text": "Contact number",
+            "placeholder": "e.g., +1234567890",
+            "paragraph": "Please provide a contact number for order updates."
+        },
+        "billingAddress": {
+            "inputType": "text",
+            "text": "Billing address",
+            "placeholder": "Street, City, Zip Code",
+            "paragraph": "Enter the address associated with your payment method."
+        },
+        "email": {
+            "inputType": "email",
+            "text": "Email address",
+            "placeholder": "yourname@example.com",
+            "paragraph": "Provide your email for order confirmation and receipts."
+        },
+        "orderInstructions": {
+            "inputType": "text",
+            "text": "Special instructions for order",
+            "placeholder": "Any specific details",
+            "paragraph": "Include any special instructions for your order here."
+        },
+        "pickupTime": {
+            "inputType": "time",
+            "text": "Preferred pickup time",
+            "placeholder": "HH:MM",
+            "paragraph": "Select a convenient time for pickup."
+        },
+        "deliveryDate": {
+            "inputType": "date",
+            "text": "Desired delivery date",
+            "placeholder": "YYYY-MM-DD",
+            "paragraph": "Choose a date for your delivery."
+        },
+        "recipientName": {
+            "inputType": "text",
+            "text": "Recipient's name",
+            "placeholder": "Full name",
+            "paragraph": "Enter the name of the person receiving the delivery."
+        },
+        "productPreference": {
+            "inputType": "text",
+            "text": "Product preference",
+            "placeholder": "Specify product type",
+            "paragraph": "Mention your preference for specific products or brands."
+        },
+        "paymentMethod": {
+            "inputType": "text",
+            "text": "Preferred payment method",
+            "placeholder": "Credit card, PayPal, etc.",
+            "paragraph": "Indicate your preferred method of payment."
+        },
+        "feedback": {
+            "inputType": "textarea",
+            "text": "Customer feedback",
+            "placeholder": "Your feedback here",
+            "paragraph": "We value your feedback, please share your experience with us."
+        }
+    }
+}

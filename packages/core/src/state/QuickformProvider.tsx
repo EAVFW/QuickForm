@@ -4,36 +4,24 @@ import { defaultState } from "./QuickformState";
 import { QuickFormContext } from "./QuickFormContext";
 import { ErrorMessage } from "../components";
 import { transformJSONInput } from "../services/ModelTransformer";
-import { Form } from "../model";
+import { JsonDataModel } from "../model/JsonDataModel";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
-    data: Form;
-    id: string;
-    payload?: any;
+    json: JsonDataModel;
 }
 
-export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
-    {
-        children,
-        data,
-        id,
-        payload = {}
-    }
-) => {
+export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, json, }) => {
     // TODO - make resolveX work
     // const transform = resolveQuickFormService("modeltransformer");
-    const formData = transformJSONInput(data, payload);
+    const formData = transformJSONInput(json);
     const [state, dispatch] = useReducer(quickformReducer, defaultState(formData));
 
-    const goToSlide = (index?: number) => { dispatch({ type: 'SET_INDEX', index: index }); }
-    const goToNextSlide = () => { dispatch({ type: 'NEXT_SLIDE' }); }
-    const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); }
-    const toggleOverview = () => { dispatch({ type: 'TOGGLE_OVERVIEW' }) };
-
-    const answerQuestion = (logicalName: string, output: any) => {
-        dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output })
-    }
+    const goToSlide = (index?: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
+    const goToNextSlide = () => { dispatch({ type: 'NEXT_SLIDE' }); };
+    const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
+    const answerQuestion = (logicalName: string, output: any) => { dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output }) };
+    const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
 
     return (
         <QuickFormContext.Provider value={{
@@ -43,8 +31,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
             goToNextSlide,
             goToPrevSlide,
             answerQuestion,
-            toggleOverview,
-            onQuestionBtnClicked: () => { }
+            setIntroVisited
         }}>
             <ErrorMessage message={state.errorMsg} />
             {children}

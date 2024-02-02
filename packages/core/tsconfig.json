@@ -11,16 +11,7 @@
         "strictNullChecks": false,
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "baseUrl": "./src",
-        "paths": {
-            "@/*": ["./src/*"],
-            "@components/*": ["./src/components/*"],
-            "@hooks/*": ["./src/hooks/*"],
-            "@model/*": ["./src/model/*"],
-            "@state/*": ["./src/state/*"],
-            "@style/*": ["./src/style/*"],
-            "@validation/*": ["./src/validation/*"]
-        }
+        "baseUrl": "./"
     },
     "include": [
         "./src/**/*",

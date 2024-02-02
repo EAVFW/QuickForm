@@ -30,7 +30,7 @@ export const NavigationButton: React.FC<Props> = ({ className, style }) => {
     }
 
     return (
-        <div className={className} style={{ ...slideNavigation, ...style }}>
+        <div className={className} style={style}>
             <label title={prevLabel} style={leftBtnStyling} >
                 <button
                     disabled={disablePrevBtn}
@@ -61,13 +61,6 @@ export const NavigationButton: React.FC<Props> = ({ className, style }) => {
 }
 
 /* CSS Styling */
-const slideNavigation: React.CSSProperties = {
-    width: '100px',
-    borderRadius: '10px',
-    transition: 'all 0.3s ease',
-    cursor: 'pointer',
-    backgroundColor: 'var(--surface)',
-};
 const slideNavigationButton: React.CSSProperties = {
     width: '50px',
     height: '100%',

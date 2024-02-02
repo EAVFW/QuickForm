@@ -1,12 +1,12 @@
-import { SubmitStatus } from "model/SubmitStatus";
-import { Form } from "../model/Form";
-import { Slide } from "../model/Slide";
+import { SubmitStatus } from "../model/SubmitStatus";
+import { FormData } from "../model/FormData";
+import { SlideModel } from "../model/SlideModel";
 
 export type QuickformState = {
     id?: string;
     errorMsg: string;
-    form: Form;
-    slides: Slide[];
+    data: FormData;
+    slides: SlideModel[];
     hasNextSlide: boolean;
     hasPrevSlide: boolean;
     currIdx: number;
@@ -14,35 +14,37 @@ export type QuickformState = {
     totalSteps: number;
     progress: number;
     progressText: string;
-    showOverview: boolean;
     submitStatus: SubmitStatus;
-    pdfpreviewurl?: string;
+    isIntroSlide: boolean;
+    isSubmitSlide: boolean;
+    isEndingSlide: boolean;
 }
 
-export const defaultState = (formData: Form = defaultForm): QuickformState => {
-    // TODO - Handle Intro, Ending, Submit and Layout
-    const slidesDefined = formData.slides.length > 0;
+export const defaultState = (data: FormData = defaultData): QuickformState => {
+    // TODO - Handle Layout
+    const slidesDefined = data.slides.length > 0;
 
     return {
         id: "",
         errorMsg: "",
-        form: formData,
-        slides: formData.slides,
-        hasNextSlide: slidesDefined,
+        data: data,
+        slides: data.slides,
+        hasNextSlide: data.slides.length > 1,
         hasPrevSlide: false,
         currIdx: 0,
         currStep: slidesDefined ? 1 : 0,
-        totalSteps: formData.slides.length,
+        totalSteps: data.slides.length,
         progress: 0,
         progressText: "",
         submitStatus: { isSubmitting: false, isSubmitError: false, isSubmitSuccess: false },
-        showOverview: false,
+        isIntroSlide: true,
+        isEndingSlide: false,
+        isSubmitSlide: false
     };
 };
 
-export const defaultForm: Form = {
+export const defaultData: FormData = {
     intro: {
-        logicalName: "intro",
         text: "Welcome to Quickform",
         paragraph: "Click the button to get started",
         buttonText: "Start"

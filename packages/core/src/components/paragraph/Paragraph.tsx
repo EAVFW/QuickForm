@@ -6,6 +6,6 @@ type ParagraphProps = {
   style?: React.CSSProperties;
 };
 
-export function Paragraph({ style,children }: ParagraphProps) {
+export function Paragraph({ style, children }: ParagraphProps) {
   return <p className={styles["para"]} style={style ? style : {}}>{children}</p>;
 }

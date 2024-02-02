@@ -3,24 +3,18 @@ import { useQuickForm } from '../../state/QuickFormContext';
 import classNames from "classnames";
 import styles from "./Overview.module.css";
 import { Button, ProgressCircle } from '../index';
-import PreviewPDFButton from '../preview-pdf-button/PreviewPDFButton';
 import { Slide } from '../../model';
 
 
-export const QuestionList: React.FC<{ hideOnIntro?: boolean }> = ({ hideOnIntro }) => {
-
+export const QuestionList = () => {
     const { state, goToSlide, toggleOverview } = useQuickForm();
-    if (state?.slides === undefined) return (<></>);
-    if (state.currIdx === 0 && hideOnIntro) return null;
 
     const handleOnQuestionClicked = (s: Slide) => {
         const slideIdx = state.slides.indexOf(s);
-        toggleOverview();
         goToSlide(slideIdx);
     }
 
     return <div className={classNames(styles['overview-right'])}>
-        {/* List of Questions */}
         <ol className={classNames(styles.overviewList)}>
             {state.slides.map(s => {
                 return s.questions.map((q, index) => {
@@ -41,25 +35,24 @@ export const QuestionList: React.FC<{ hideOnIntro?: boolean }> = ({ hideOnIntro 
     </div>
 }
 export const Overview: React.FC = () => {
-    const { state, toggleOverview } = useQuickForm();
-    const slidesAreNotDefined = state?.slides === undefined || state.slides.length === 0;
-    if (slidesAreNotDefined) return (<></>);
-
-    const handleCloseOverviewClicked = () => {
-        toggleOverview();
+    const { state, toggleOverview, setOverviewProvided } = useQuickForm();
+    // This is used to auto-enable this component upon render
+    if (state.overviewProvided === false) {
+        setOverviewProvided();
     }
+    if (!state.showOverview) return <></>;
 
     return (
         <div className={classNames(styles.overview)} >
 
-            <Button onClick={handleCloseOverviewClicked} children={"X"} className={classNames(styles['overviewButton'])} style={{ justifyContent: 'flex-end' }} />
+            {/* <Button onClick={toggleOverview} children={"X"} style={{ justifyContent: 'flex-end' }} /> */}
 
             <div className={classNames(styles['overview-left'])}>
                 {/* Progress Display */}
-                <ProgressCircle
+                {/* <ProgressCircle
                     progress={state?.progress}
                     backgroundColor='#154068'
-                />
+                /> */}
 
                 <div className={classNames(styles.overviewProgress)}>
                     <p>Questions: {state?.progressText}</p>
@@ -67,8 +60,6 @@ export const Overview: React.FC = () => {
             </div>
 
             <QuestionList />
-
-            <PreviewPDFButton style={{ display: 'flex', justifyContent: 'center' }} />
         </div>
     );
 }

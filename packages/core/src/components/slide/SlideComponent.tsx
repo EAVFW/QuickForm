@@ -1,15 +1,15 @@
-import { Slide } from "../../model";
+import { SlideModel } from "../../model";
 
 
 type SlideProps = {
-    model: Slide;
+    model: SlideModel;
 }
 
 export const SlideComponent: React.FC<SlideProps> = ({ model }: SlideProps) => {
     return (
         <ul>
-            {model.questions.map(q => {
-                return <li>
+            {model.questions.map((q, index) => {
+                return <li key={index}>
                     <p>
                         {q.logicalName}
                     </p>

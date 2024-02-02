@@ -3,9 +3,8 @@
     /* Size & alignment */
     display: flex;
     flex-direction: column;
-    background-color: var(--surface);
-    padding-left: 20px;
-    padding-right: 20px;
+    /* background-color: var(--surface); */
+    padding: '10px'
 }
 
 /* Styles for the left side */
@@ -64,7 +63,7 @@
     text-decoration: underline;
 }
 
-.overviewList a + span {
+.overviewList a+span {
     color: var(--on-surface);
     height: 24px;
     width: 24px;
@@ -74,4 +73,3 @@
     font-size: 18px;
     margin-left: 10px;
 }
-

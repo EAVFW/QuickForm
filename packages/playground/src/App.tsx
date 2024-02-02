@@ -1,15 +1,14 @@
-import { QuickForm } from "../../core/src/QuickForm";
-import dummydatajson from "./data/dummydata.json";
+import { QuickFormTemplateOne } from "./templates/QuickformTemplateOne";
+import { QuickFormProvider } from "../../core/src/state/QuickformProvider";
+import testDataWithColumnsAndRows from "./data/testDataWithColumnsAndrows.json";
+import { QuickFormHafTemplate } from "./templates/QuickFormHafTemplate";
 
 export const App = () => {
     return (
         <div style={{ width: '100%', height: '100%' }}>
-            <QuickForm
-                intro={dummydatajson.intro}
-                questions={dummydatajson.questions}
-                submit={dummydatajson.submit}
-                ending={dummydatajson.ending}
-            />
+            <QuickFormProvider json={testDataWithColumnsAndRows} >
+                <QuickFormHafTemplate />
+            </QuickFormProvider>
         </div>
     )
 };

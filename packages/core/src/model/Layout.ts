@@ -1,22 +1,19 @@
-// TODO - Define layout model
-
-import { Slide } from "./Slide";
-
 export type Layout = {
     style?: React.CSSProperties;
-    [key: string]: {};
-    slides: Slide[];
+    slides?: { [key: string]: SlideLayout };
 }
 
 export type Column = {
     style?: React.CSSProperties;
-    // A column can contain multiple rows
-    rows?: { [key: string]: Row };
-};
+    rows: Row[];
+}
 
 export type Row = {
     style?: React.CSSProperties;
-    // A row can contain columns
-    columns?: { [key: string]: Column };
+    columns?: Column[];
     questionRefLogicalName: string;
-};
+}
+
+export type SlideLayout = {
+    columns: { [key: string]: Column };
+}

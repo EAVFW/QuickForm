@@ -1,9 +1,9 @@
 
-import { Form } from "../model";
-import { QuickFormProps } from "../QuickForm";
+import { FormData } from "../model";
+import { JsonDataModel } from "../model/JsonDataModel";
 
 export type HeadingNumberDisplayProvider = () => boolean;
-export type QuickFormModelTransformer = (quickform: QuickFormProps, payload: any) => Form;
+export type QuickFormModelTransformer = (data: JsonDataModel) => FormData;
 
 export type QuickFormFeatures = {
     modeltransformer?: QuickFormModelTransformer,

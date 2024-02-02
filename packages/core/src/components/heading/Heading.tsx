@@ -1,9 +1,7 @@
 import { ReactNode } from "react";
-import styles from "./Heading.module.css";
-import classNames from "classnames";
-import { useQuickFormState } from "../../state/QuickFormContext";
 import { HeadingNumberDisplayProvider, registerQuickFormService, resolveQuickFormService } from "../../services/QuickFormServices";
-import { ImArrowRightIcon } from "../../components/icons/ImArrowRight";
+import { ImArrowRightIcon } from "../icons/ImArrowRightIcon";
+import { useQuickForm } from "../../state/QuickFormContext";
 
 type HeadingProps = {
     readonly children: ReactNode;
@@ -13,17 +11,15 @@ type HeadingProps = {
 };
 
 const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
-    let { currStep, totalSteps } = useQuickFormState();
-    return currStep > 1 && currStep <= totalSteps + 1;
+    const { state } = useQuickForm();
+    return state.currStep > 1 && state.currStep <= state.totalSteps + 1;
 }
 
 registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);
 
 export function Heading({ children, className, questionNum, style = {} }: HeadingProps) {
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
-    console.log("shouldDisplay", shouldDisplayNumber);
-
-
+    // console.log("shouldDisplay", shouldDisplayNumber);
     return (
         <h1
             className={className}

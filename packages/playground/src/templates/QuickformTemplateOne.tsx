@@ -1,5 +1,5 @@
-import { FormContent, Heading, Paragraph } from "../components";
-import { NavigationButton } from "../components/navigation-button/NavigationButton";
+import { QuickForm, Heading, Paragraph } from "../../../core/src/components"
+import { NavigationButton } from "../../../core/src/components/navigation-button/NavigationButton";
 
 
 export const QuickFormTemplateOne: React.FC = () => {
@@ -8,12 +8,12 @@ export const QuickFormTemplateOne: React.FC = () => {
             {/* Placeholder for header / title  */}
             <section style={formHeading}>
                 <Heading style={{ fontSize: '36px', fontWeight: '700', margin: '2px' }}>Beregn prisen for gulvslibning </Heading>
-                <Paragraph style={{ fontSize: '36px', fontWeight: '400', color:'#333', margin: '2px' }}> Få prisen med det samme</Paragraph>
+                <Paragraph style={{ fontSize: '36px', fontWeight: '400', color: '#333', margin: '2px' }}> Få prisen med det samme</Paragraph>
             </section>
 
             {/* The main content - Question/InputType is displayed here*/}
             <section style={formContent}>
-                <FormContent />
+                <QuickForm />
             </section>
 
             {/* Placeholder for action-buttons in the footer area of the form */}

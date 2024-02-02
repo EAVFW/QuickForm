@@ -10,7 +10,7 @@ export function useHandleScroll() {
         function handleScroll(event: WheelEvent) {
             clearTimeout(timerIdRef.current);
 
-            if (submitStatus.isSubmitting || submitStatus.isSubmitOK) {
+            if (submitStatus.isSubmitting || submitStatus.isSubmitSuccess) {
                 return;
             }
 

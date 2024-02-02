@@ -1,7 +1,5 @@
-"use client";
 import styles from "./Button.module.css";
 import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
-import classNames from "classnames";
 
 type BtnContainerProps = {
     readonly className?: string;
@@ -13,15 +11,11 @@ type BtnContainerProps = {
     visible?: boolean;
 };
 
-export function Button({ children, showPressEnter, className, onClick, disabled, visible, style }: BtnContainerProps) {
+export const Button: React.FC<BtnContainerProps> = ({ children, showPressEnter, onClick, disabled, visible, style }: BtnContainerProps) => {
 
-    if (visible !== undefined && visible === false) {
+    if (typeof visible !== "undefined" && visible === false) {
         return (<></>);
     }
-    if (disabled) {
-        return (<div>Denne er lukket</div>);
-    }
-
 
     const [isOnMobile, setIsOnMobile] = useState(false);
     useEffect(() => {
@@ -34,22 +28,56 @@ export function Button({ children, showPressEnter, className, onClick, disabled,
         };
 
         window.addEventListener("resize", handleResizeEvent);
-
         return () => {
             window.removeEventListener("resize", handleResizeEvent);
         };
     }, []);
 
     return (
-        <div className={classNames(styles["btn-container"], className)} style={style ? style : {}}>
-            <button disabled={disabled} type="button" onClick={onClick}>
+        <div style={btnContainerStyle}>
+            <button
+                style={{ ...style, ...buttonStyle }}
+                disabled={disabled}
+                type="button"
+                onClick={onClick}
+            >
                 {children}
+
             </button>
             {!disabled && !isOnMobile && showPressEnter && (
-                <span>
-                    <>Tryk <strong>Enter ↵</strong></>
+                <span style={spanStyle}>
+                    <>Tryk <strong style={strongStyle}>Enter ↵</strong></>
                 </span>
             )}
         </div>
     );
 }
+
+const btnContainerStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12.5px',
+    marginTop: '32px',
+};
+
+const buttonStyle = {
+    color: 'var(--on-surface)',
+    backgroundColor: 'transparent',
+    border: 'thin solid var(--on-surface)',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontSize: '2rem',
+    fontWeight: 700,
+    padding: '10px 14px',
+    // Hover, active, focus-visible styles cannot be directly applied as inline styles. Fix it with useState or similar if it is preffered to keep them as React.CSSProperties
+};
+
+const spanStyle = {
+    color: 'var(--on-surface)',
+    fontSize: '1.25rem',
+};
+
+const strongStyle = {
+    fontWeight: 'bolder',
+    letterSpacing: '0.04em',
+};
