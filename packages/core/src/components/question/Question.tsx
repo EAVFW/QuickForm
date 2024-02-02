@@ -8,8 +8,10 @@ import { useQuickForm } from "../../state/QuickFormContext";
 import { Paragraph, Heading, ErrorMessage, Button } from "..";
 import { useDelayedClickListener, useHandleEnterKeypress } from "../../hooks";
 import { shouldValidateInputType } from "../../model/legacy/QuestionModel";
+import { QuestionModel } from "../../model/QuestionModel";
 
 type QuestionProps = {
+    model: QuestionModel;
     className?: string,
     icon?: ReactNode
     nextButton?: ReactNode
@@ -65,7 +67,7 @@ const useTransitionState = () => {
  * 
  * */
 
-export const Question: React.FC<QuestionProps> = ({ headline, className }) => {
+export const Question: React.FC<QuestionProps> = ({ headline, className, model }) => {
 
     // const { state: { currentQuestion, progress }, onQuestionBtnClicked, dispatch } = useQuickForm();
 
@@ -207,6 +209,12 @@ export const Question: React.FC<QuestionProps> = ({ headline, className }) => {
     //         {inputType === "ending" && <PreviewPDFButton />}
     //         {errorMsg && <ErrorMessage message={errorMsg} />}
     //     </div>
-    return (<></>
+    return (
+        <>
+            <p>{model.logicalName}</p>
+            <p>{model.text}</p>
+            <p>{model.inputType}</p>
+            <p>{model.paragraph}</p>
+        </>
     );
 }

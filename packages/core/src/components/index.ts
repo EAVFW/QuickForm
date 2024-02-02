@@ -8,6 +8,6 @@ export { Paragraph } from "./paragraph/Paragraph";
 export { ProgressBar } from "./progress-bar/ProgressBar";
 export { ProgressCircle } from "./progress-circle/ProgressCircle";
 export { Question } from "./question/Question";
-export { SlideComponent } from "./slide/SlideComponent";
+export { Slide } from "./slide/Slide";
 export { Submit } from "./submit/Submit";
 export { QuickForm } from "./QuickForm";

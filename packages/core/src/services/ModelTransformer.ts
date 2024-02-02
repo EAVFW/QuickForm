@@ -65,7 +65,9 @@ function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel
         // Add question if questionRefLogicalName is present and a corresponding question exists
         if (rowLayout.questionRefLogicalName && questions.hasOwnProperty(rowLayout.questionRefLogicalName)) {
             const question = questions[rowLayout.questionRefLogicalName];
-            slide.addQuestion(question);
+            slide.addQuestion({
+                logicalName: rowLayout.questionRefLogicalName, ...question
+            });
             newRow = {
                 style: rowLayout.style,
                 questionRefLogicalName: rowLayout.questionRefLogicalName,

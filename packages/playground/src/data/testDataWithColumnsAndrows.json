@@ -12,8 +12,12 @@
                                     },
                                     "row1_2": {
                                         "questionRefLogicalName": "paymentMethod"
-                                    },
-                                    "row1_3": {
+                                    }
+                                }
+                            },
+                            "col2": {
+                                "rows": {
+                                    "row2_1": {
                                         "questionRefLogicalName": "productPreference"
                                     }
                                 }

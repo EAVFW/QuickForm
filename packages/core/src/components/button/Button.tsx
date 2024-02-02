@@ -34,9 +34,9 @@ export const Button: React.FC<BtnContainerProps> = ({ children, showPressEnter, 
     }, []);
 
     return (
-        <div style={btnContainerStyle}>
+        <div style={{ ...btnContainerStyle, ...style }}>
             <button
-                style={{ ...style, ...buttonStyle }}
+                style={buttonStyle}
                 disabled={disabled}
                 type="button"
                 onClick={onClick}
@@ -57,7 +57,7 @@ const btnContainerStyle = {
     display: 'flex',
     alignItems: 'center',
     gap: '12.5px',
-    marginTop: '32px',
+    marginTop: '16px',
 };
 
 const buttonStyle = {
@@ -66,7 +66,7 @@ const buttonStyle = {
     border: 'thin solid var(--on-surface)',
     borderRadius: '8px',
     cursor: 'pointer',
-    fontSize: '2rem',
+    fontSize: '1rem',
     fontWeight: 700,
     padding: '10px 14px',
     // Hover, active, focus-visible styles cannot be directly applied as inline styles. Fix it with useState or similar if it is preffered to keep them as React.CSSProperties
