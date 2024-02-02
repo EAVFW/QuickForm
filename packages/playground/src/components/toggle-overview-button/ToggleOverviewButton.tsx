@@ -1,5 +1,4 @@
 import React from 'react';
-import { useQuickForm } from '../../state/QuickFormContext';
 import classNames from 'classnames';
 import styles from './ToggleOverviewButton.module.css';
 
@@ -11,7 +10,11 @@ type Props = {
 }
 
 export const ToggleOverviewButton: React.FC<Props> = ({ className, style, onBtnClick }) => {
-    const { toggleOverview } = useQuickForm();
+    // const { toggleOverview } = useQuickForm();
+
+    const toggleOverview = () => {
+        // Fix
+    }
 
     return (
         <div className={className || classNames(styles['toggle-overview'])} style={style ? style : {}}>
@@ -19,7 +22,7 @@ export const ToggleOverviewButton: React.FC<Props> = ({ className, style, onBtnC
                 className={classNames(styles['toggle-overview-button'])}
                 onClick={onBtnClick ? onBtnClick : toggleOverview}
             >
-                    <p style={{fontSize:'1.3rem'}}>Overview</p>
+                <p style={{ fontSize: '1.3rem' }}>Overview</p>
             </button>
         </div>
     );

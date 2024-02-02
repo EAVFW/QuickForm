@@ -1,4 +1,4 @@
-import { Overview, QuickForm } from "../../../core/src/components"
+import { QuickForm } from "../../../core/src/components"
 import { NavigationButton } from "../../../core/src/components/navigation-button/NavigationButton";
 
 
@@ -6,7 +6,7 @@ export const QuickFormHafTemplate: React.FC = () => {
     return (
         <div style={containerStyle}>
             <section style={formContent}>
-                <Overview />
+                {/* <Overview /> */}
                 <QuickForm />
             </section>
 

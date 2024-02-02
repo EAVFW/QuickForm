@@ -40,9 +40,9 @@ export const onSubmitBtnClicked = async (id: string, questionState: QuickformSta
         });
 
         let document = await documentRsp.json();
-        dispatch({
-            type: 'PDF_PREVIEW', url: `/api/files/${document.body.document}?content-disposition=inline`
-        });
+        // dispatch({
+        //     type: 'PDF_PREVIEW', url: `/api/files/${document.body.document}?content-disposition=inline`
+        // });
         console.log("Submit data", document);
 
     } catch (error: any) {
