@@ -4,6 +4,7 @@ export type Layout = {
 }
 
 export type SlideLayout = {
+    displayName?: string;
     style?: React.CSSProperties;
     rows: { [key: string]: RowLayout };
 }

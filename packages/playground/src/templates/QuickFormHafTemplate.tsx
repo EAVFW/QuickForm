@@ -1,11 +1,13 @@
 import { QuickForm } from "../../../core/src/components"
 import { NavigationButton } from "../../../core/src/components/navigation-button/NavigationButton";
+import { HafOverview } from "../components/haf-overview/HafOverview";
 
 
 export const QuickFormHafTemplate: React.FC = () => {
     return (
         <div style={containerStyle}>
             <section style={formContent}>
+                <HafOverview />
                 <QuickForm />
             </section>
             <section style={formFooter}>

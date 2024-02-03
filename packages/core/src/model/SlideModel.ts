@@ -1,6 +1,7 @@
 import { QuestionModel } from "./QuestionModel";
 
 export class SlideModel {
+    displayName?: string;
     questions: QuestionModel[] = [];
     rows: Row[];
 

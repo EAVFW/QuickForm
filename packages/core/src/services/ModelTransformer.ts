@@ -46,6 +46,7 @@ function handleLayout(layout: Layout, questions: { [logicalName: string]: Questi
     if (layout.slides) {
         Object.values(layout.slides).forEach(slide => {
             const slideModel = new SlideModel();
+            slideModel.displayName = slide.displayName;
             if (slide.rows) {
                 slideModel.rows = processRows(slide.rows, slideModel, questions);
             }

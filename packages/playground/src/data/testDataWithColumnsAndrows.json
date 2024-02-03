@@ -2,6 +2,7 @@
     "layout": {
         "slides": {
             "slide1": {
+                "displayName": "Slide number one",
                 "rows": {
                     "row1": {
                         "columns": {
@@ -27,6 +28,7 @@
                 }
             },
             "slide2": {
+                "displayName": "Slide number two",
                 "rows": {
                     "row2": {
                         "columns": {
@@ -48,6 +50,7 @@
                 }
             },
             "slide3": {
+                "displayName": "Slide number three",
                 "rows": {
                     "row3": {
                         "columns": {
