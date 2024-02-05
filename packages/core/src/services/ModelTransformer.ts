@@ -40,7 +40,7 @@ function isDefined(object: object) {
     return object && typeof object !== "undefined"
 }
 
-function handleLayout(layout: Layout, questions: { [logicalName: string]: QuestionModel }): SlideModel[] {
+function handleLayout(layout: Layout, questions: { [logicalName: string]: QuestionJsonModel }): SlideModel[] {
     const slides: SlideModel[] = [];
     console.log("handleLayout");
 
@@ -58,7 +58,7 @@ function handleLayout(layout: Layout, questions: { [logicalName: string]: Questi
     return slides;
 }
 
-function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel, questions: { [logicalName: string]: QuestionModel }): Row[] {
+function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel, questions: { [logicalName: string]: QuestionJsonModel }): Row[] {
     const rows: Row[] = [];
     Object.values(rowLayouts).forEach(rowLayout => {
         let newRow: Row | null = null;
@@ -67,7 +67,9 @@ function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel
         if (rowLayout.questionRefLogicalName && questions.hasOwnProperty(rowLayout.questionRefLogicalName)) {
             const question = questions[rowLayout.questionRefLogicalName];
             slide.addQuestion({
-                logicalName: rowLayout.questionRefLogicalName, ...question
+                ...question,
+                logicalName: rowLayout.questionRefLogicalName,
+                output: ""
             });
             newRow = {
                 style: rowLayout.style,
@@ -111,7 +113,7 @@ function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel
     return rows;
 }
 
-function defaultLayout(questions: { [logicalName: string]: QuestionModel }): SlideModel[] {
+function defaultLayout(questions: { [logicalName: string]: QuestionJsonModel }): SlideModel[] {
     const slides: SlideModel[] = [];
     Object.keys(questions).map(logicalName => {
         let slide: SlideModel = createSlide({ [logicalName]: questions[logicalName] });
@@ -123,7 +125,7 @@ function defaultLayout(questions: { [logicalName: string]: QuestionModel }): Sli
     return slides;
 }
 
-function createSlide(questions: { [logicalName: string]: QuestionModel }): SlideModel {
+function createSlide(questions: { [logicalName: string]: QuestionJsonModel }): SlideModel {
     const slide = new SlideModel();
     // Create rows from questions, assuming each question corresponds to a separate row
     const rows: Row[] = Object.entries(questions).map(([logicalName, question]) => {
@@ -140,6 +142,19 @@ function createSlide(questions: { [logicalName: string]: QuestionModel }): Slide
 }
 
 function mapJsonQuestionToModelQuestion(key: string, value: QuestionJsonModel): QuestionModel {
+    return {
+        logicalName: key,
+        inputType: value.inputType,
+        text: value.text,
+        placeholder: value.placeholder,
+        paragraph: value.paragraph,
+        answered: false,
+        inputProperties: parseInputProperties(value),
+        output: ""
+    };
+}
+
+function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownProperties | RadioProperties | SliderProperties {
     let inputProperties: DropDownProperties | RadioProperties | SliderProperties;
     // switch (value.inputType) {
     //     case "dropdown":
@@ -154,41 +169,31 @@ function mapJsonQuestionToModelQuestion(key: string, value: QuestionJsonModel): 
     //     default:
     //         inputProperties = {};
     // }
-    switch (value.inputType) {
+    switch (questionJsonModel.inputType) {
         case "dropdown":
             inputProperties = {
-                options: (value as (QuestionJsonModel & DropDownProperties)).options,
-                minItems: (value as (QuestionJsonModel & DropDownProperties)).minItems,
-                maxItems: (value as (QuestionJsonModel & DropDownProperties)).maxItems,
+                options: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).options,
+                minItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).minItems,
+                maxItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).maxItems,
             };
             break;
         case "radio":
             inputProperties = {
-                options: (value as (QuestionJsonModel & RadioProperties)).options,
+                options: (questionJsonModel as (QuestionJsonModel & RadioProperties)).options,
             };
             break;
         case "slider":
             inputProperties = {
-                min: (value as (QuestionJsonModel & SliderProperties)).min,
-                max: (value as (QuestionJsonModel & SliderProperties)).max,
-                step: (value as (QuestionJsonModel & SliderProperties)).step,
+                min: (questionJsonModel as (QuestionJsonModel & SliderProperties)).min,
+                max: (questionJsonModel as (QuestionJsonModel & SliderProperties)).max,
+                step: (questionJsonModel as (QuestionJsonModel & SliderProperties)).step,
             };
             break;
         default:
             inputProperties = undefined;
     }
 
-    const qmodel = {
-        logicalName: key,
-        inputType: value.inputType,
-        text: value.text,
-        placeholder: value.placeholder,
-        paragraph: value.paragraph,
-        answered: false,
-        inputProperties: inputProperties,
-        output: value.output
-    };
-    return qmodel;
+    return inputProperties
 }
 
 function handleSubmit(submit: SubmitJsonModel): SubmitModel {
@@ -200,8 +205,8 @@ function handleSubmit(submit: SubmitJsonModel): SubmitModel {
             placeholder: value.placeholder,
             paragraph: value.paragraph,
             answered: value.answered,
-            inputProperties: value.inputProperties,
-            output: value.output
+            inputProperties: parseInputProperties(value),
+            output: value.output ?? ""
         };
     });
 
@@ -214,30 +219,3 @@ function handleSubmit(submit: SubmitJsonModel): SubmitModel {
         id: submit.id
     };
 }
-// function handleSubmit(submit: SubmitJsonModel): SubmitModel {
-
-//     const submitModel: SubmitModel = {
-//         text: submit.text,
-//         buttonText: submit.buttonText,
-//         paragraph: submit.paragraph,
-//         id: submit.id,
-//         payload: submit.payload,
-//         submitFields: []
-//     }
-
-//     // TODO:  Create payload handling, return endpoint and so on
-//     return {
-//         text: "SubmitTest",
-//         paragraph: "SubmitParagraphTest",
-//         buttonText: "SubmitTest",
-//         submitFields: [
-//             {
-//                 inputType: "text",
-//                 paragraph: "Enter your full name. E.g.: Jens Jensen",
-//                 placeholder: "full name",
-//                 text: "Full Name",
-//                 logicalName: "fullName"
-//             }
-//         ]
-//     }
-// }

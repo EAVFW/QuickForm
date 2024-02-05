@@ -2,7 +2,7 @@ import { QuickForm } from "../../../core/src/components"
 import { NavigationButton } from "../../../core/src/components/navigation-button/NavigationButton";
 import { OverviewList } from "../components/overview-list/OverviewList";
 
-export const TemplateTwo: React.FC = () => {
+export const TemplateThree: React.FC = () => {
     return (
         <div style={containerStyle}>
 
@@ -52,7 +52,65 @@ const overviewContainer: React.CSSProperties = {
     minHeight: '300px'
 };
 
-export const testDataTwo = {
+export const testDataThree = {
+    "layout": {
+        "slides": {
+            "slide1": {
+                "displayName": "Ship name and owners",
+                "rows": {
+                    "row1": {
+                        "columns": {
+                            "col1": {
+                                "rows": {
+                                    "row1_1": {
+                                        "questionRefLogicalName": "shipName"
+                                    },
+                                    "row1_2": {
+                                        "questionRefLogicalName": "shipOwners"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "slide2": {
+                "displayName": "Date and Cargo",
+                "rows": {
+                    "row2": {
+                        "columns": {
+                            "col1": {
+                                "rows": {
+                                    "row2_1": {
+                                        "questionRefLogicalName": "dateSelector"
+                                    },
+                                    "row2_2": {
+                                        "questionRefLogicalName": "cargo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "slide3": {
+                "displayName": "Bill of Lading",
+                "rows": {
+                    "row3": {
+                        "columns": {
+                            "col1": {
+                                "rows": {
+                                    "row3_1": {
+                                        "questionRefLogicalName": "billOfLading"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
     "intro": {
         "text": "Company LOI Request Form",
         "paragraph": "Click to start processing the request",
@@ -111,16 +169,14 @@ export const testDataTwo = {
             "text": "Has the Bill of Lading been verified?",
             "paragraph": "Please confirm whether the Bill of Lading details have been verified and are accurate.",
             "placeholder": "Verified/Not Verified",
-            "minItems": "1",
-            "maxItems": "1",
+            "minItems": 1,
+            "maxItems": 1,
             "options": {
                 "A": "Verified",
                 "B": "Not verified"
             },
             "lang": "EN"
         },
-
-
     }
 }
 

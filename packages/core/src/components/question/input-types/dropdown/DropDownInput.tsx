@@ -18,8 +18,8 @@ export function DropDownInput({ questionRef, inputProps, onOutputChange }: Input
         const newOptions = handleDropdownOptionClick({
             key: key,
             selectedOptions: selectedOptions,
-            maxItems: maxItems!,
-            minItems: minItems!,
+            maxItems: maxItems,
+            minItems: minItems,
             onOutputChange: answerQuestion,
             loggingEnabled: false
         });

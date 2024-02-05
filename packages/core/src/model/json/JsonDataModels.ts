@@ -6,7 +6,7 @@ import { Layout } from "./Layout";
 
 export type JsonDataModel = {
     intro?: IntroModel;
-    questions: { [logicalName: string]: QuestionModel }
+    questions: { [logicalName: string]: QuestionJsonModel }
     submit: SubmitJsonModel;
     ending: EndingModel;
     layout?: Layout;
@@ -16,7 +16,7 @@ export type SubmitJsonModel = {
     text: string;
     paragraph: string;
     buttonText: string;
-    submitFields: { [key: string]: QuestionModel };
+    submitFields: { [key: string]: QuestionJsonModel };
     payload?: any;
     id?: string;
 }

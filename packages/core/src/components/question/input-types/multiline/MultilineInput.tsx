@@ -1,4 +1,4 @@
-import { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef } from "react";
+import { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef, useState } from "react";
 import { InputProps } from "../InputProps";
 import styles from "./MultilineInput.module.css";
 import classNames from "classnames";
@@ -17,9 +17,11 @@ export type MultilineInput = {
 export function MultilineInput(props: InputProps) {
     const { state } = useQuickForm();
     const { placeholder, output } = props;
+    const [text, setText] = useState<string>(props.output);
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value.replace(/\r?\n/g, '\n'); // Normalize newline characters
+        setText(() => event.target.value)
         props.onOutputChange(newValue);
     };
 
@@ -30,9 +32,10 @@ export function MultilineInput(props: InputProps) {
     }, []);
 
     return (
-        <QuestionTextArea ref={ref}
+        <QuestionTextArea
+            ref={ref}
             placeholder={placeholder}
-            value={output}
+            value={text}
             onChange={handleChange}
             className=""
         />

@@ -8,5 +8,5 @@ export class QuestionModel {
     paragraph: string;
     answered?: boolean = false;
     inputProperties?: DropDownProperties | RadioProperties | SliderProperties;
-    output?: any = {};
+    output: any = {};
 }
