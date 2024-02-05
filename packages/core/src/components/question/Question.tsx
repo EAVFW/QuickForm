@@ -85,7 +85,7 @@ export const Question: React.FC<QuestionProps> = ({ headline, className, model, 
         // dispatch({ type: 'SET_OUTPUT', payload: newOutput });
     };
 
-
+    console.log("rendering question", model);
     return (
         <div
             className={className}

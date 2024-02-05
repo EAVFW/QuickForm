@@ -23,8 +23,8 @@ export type QuickformState = {
 export const defaultState = (data: FormData = defaultData): QuickformState => {
     // TODO - Handle Layout
     const slidesDefined = data.slides.length > 0;
-
-    return {
+    const introSlideDefined = typeof data.intro !== "undefined";
+    const defState = {
         id: "",
         errorMsg: "",
         data: data,
@@ -37,10 +37,13 @@ export const defaultState = (data: FormData = defaultData): QuickformState => {
         progress: 0,
         progressText: "",
         submitStatus: { isSubmitting: false, isSubmitError: false, isSubmitSuccess: false },
-        isIntroSlide: true,
+        isIntroSlide: introSlideDefined,
         isEndingSlide: false,
         isSubmitSlide: false
     };
+
+    console.log("defaultState", defState);
+    return defState;
 };
 
 export const defaultData: FormData = {

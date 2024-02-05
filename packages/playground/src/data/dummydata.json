@@ -1,16 +1,11 @@
 {
-    "intro": {
-        "text": "Playground Request Form",
-        "paragraph": "Click to start processing the request.",
-        "buttonText": "Start"
-    },
     "submit": {
         "text": "Example Submit Text",
         "paragraph": "Example paragraph describing the submit action.",
         "buttonText": "Submit",
-        "submitFields": [
-            {
-                "logicalName": "question1",
+        "submitFields": {
+            "fullName": {
+                "logicalName": "fullName",
                 "inputType": "text",
                 "text": "What is your name?",
                 "placeholder": "Enter your name",
@@ -18,8 +13,8 @@
                 "answered": false,
                 "output": {}
             },
-            {
-                "logicalName": "question2",
+            "email": {
+                "logicalName": "email",
                 "inputType": "email",
                 "text": "What is your email?",
                 "placeholder": "Enter your email",
@@ -27,7 +22,7 @@
                 "answered": false,
                 "output": {}
             }
-        ]
+        }
     },
     "ending": {
         "text": "Thanks for choosing DummyData",

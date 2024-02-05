@@ -1,5 +1,6 @@
 import { QuickFormModelTransformer, registerQuickFormService } from "./QuickFormServices";
 import { Column, FormData, Layout, QuestionModel, Row, RowLayout, SlideModel, SubmitModel } from "../model";
+import { SubmitJsonModel } from "../model/JsonDataModel";
 
 /*
 * This function is responsible for taking the JSON format of the input (TODO add link to JSON Schema), and transforming it into the "Form" model that QuickForm supports.
@@ -163,22 +164,53 @@ function createSlide(questions: { [logicalName: string]: QuestionModel }): Slide
     return slide;
 }
 
+function handleSubmit(submit: SubmitJsonModel): SubmitModel {
+    const submitFieldsArray: QuestionModel[] = Object.entries(submit.submitFields).map(([key, value]) => {
+        return new QuestionModel({
+            logicalName: key,
+            inputType: value.inputType,
+            text: value.text,
+            placeholder: value.placeholder,
+            paragraph: value.paragraph,
+            answered: value.answered,
+            inputProperties: value.inputProperties,
+            output: value.output
+        });
+    });
 
-function handleSubmit(submit: SubmitModel): SubmitModel {
-
-    // TODO:  Create payload handling, return endpoint and so on
     return {
-        text: "SubmitTest",
-        paragraph: "SubmitParagraphTest",
-        buttonText: "SubmitTest",
-        submitFields: [
-            {
-                inputType: "text",
-                paragraph: "Enter your full name. E.g.: Jens Jensen",
-                placeholder: "full name",
-                text: "Full Name",
-                logicalName: "fullName"
-            }
-        ]
-    }
+        text: submit.text,
+        paragraph: submit.paragraph,
+        buttonText: submit.buttonText,
+        submitFields: submitFieldsArray,
+        payload: submit.payload,
+        id: submit.id
+    };
 }
+// function handleSubmit(submit: SubmitJsonModel): SubmitModel {
+
+//     const submitModel: SubmitModel = {
+//         text: submit.text,
+//         buttonText: submit.buttonText,
+//         paragraph: submit.paragraph,
+//         id: submit.id,
+//         payload: submit.payload,
+//         submitFields: []
+//     }
+
+//     // TODO:  Create payload handling, return endpoint and so on
+//     return {
+//         text: "SubmitTest",
+//         paragraph: "SubmitParagraphTest",
+//         buttonText: "SubmitTest",
+//         submitFields: [
+//             {
+//                 inputType: "text",
+//                 paragraph: "Enter your full name. E.g.: Jens Jensen",
+//                 placeholder: "full name",
+//                 text: "Full Name",
+//                 logicalName: "fullName"
+//             }
+//         ]
+//     }
+// }

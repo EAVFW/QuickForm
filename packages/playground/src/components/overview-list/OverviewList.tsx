@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuickForm } from '../../../../core/src/state/QuickFormContext';
 
-export const HafOverview = () => {
+export const OverviewList = () => {
     const { state, goToSlide } = useQuickForm();
 
     if (state.isIntroSlide || state.isSubmitSlide || state.isEndingSlide) return null;

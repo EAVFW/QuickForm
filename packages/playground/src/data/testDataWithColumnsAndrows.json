@@ -85,8 +85,8 @@
         "text": "Example Submit Text",
         "paragraph": "Example paragraph describing the submit action.",
         "buttonText": "Submit",
-        "submitFields": [
-            {
+        "submitFields": {
+            "fullName": {
                 "logicalName": "question1",
                 "inputType": "text",
                 "text": "What is your name?",
@@ -95,7 +95,7 @@
                 "answered": false,
                 "output": {}
             },
-            {
+            "email": {
                 "logicalName": "question2",
                 "inputType": "email",
                 "text": "What is your email?",
@@ -104,7 +104,7 @@
                 "answered": false,
                 "output": {}
             }
-        ]
+        }
     },
     "ending": {
         "text": "Thanks for choosing DummyData",

@@ -4,10 +4,11 @@ import { ImArrowRightIcon } from "../icons/ImArrowRightIcon";
 import { useQuickForm } from "../../state/QuickFormContext";
 
 type HeadingProps = {
+    readonly style?: React.CSSProperties;
     readonly children: ReactNode;
     readonly className?: string;
-    readonly style?: React.CSSProperties;
     questionNum?: number;
+    displayNumber?: boolean;
 };
 
 const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
@@ -17,9 +18,9 @@ const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => 
 
 registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);
 
-export function Heading({ children, className, questionNum, style = {} }: HeadingProps) {
+export function Heading({ children, className, questionNum, displayNumber = false, style = {} }: HeadingProps) {
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
-    // console.log("shouldDisplay", shouldDisplayNumber);
+    console.log("shouldDisplay", shouldDisplayNumber);
     return (
         <h1
             className={className}
