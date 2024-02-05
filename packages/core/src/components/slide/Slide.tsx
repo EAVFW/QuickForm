@@ -65,7 +65,6 @@ const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
                         <Question
                             key={innerRowIndex}
                             model={question}
-                            questionNumber={innerRowIndex + 1}
                         />
                     );
                 })}
@@ -74,18 +73,15 @@ const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
     } else {
         const question = findQuestionByLogicalName(row.questionRefLogicalName, questions);
         if (!question) return null;
-        const questionIndex = questions.indexOf(question);
 
         return (
             <div style={fullRowStyle}>
                 <Question
                     model={question}
-                    questionNumber={questionIndex + 1}
                 />
             </div>
         )
     }
-
 }
 
 

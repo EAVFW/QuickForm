@@ -4,7 +4,7 @@ export const TemplateOne: React.FC = () => {
     return (
         <div style={containerStyle}>
             <section style={formHeading}>
-                <Heading displayNumber={false} style={{ fontSize: '36px', fontWeight: '700', margin: '2px' }}>Beregn prisen for gulvslibning </Heading>
+                <Heading style={{ fontSize: '36px', fontWeight: '700', margin: '2px' }}>Beregn prisen for gulvslibning </Heading>
                 <Paragraph style={{ fontSize: '36px', fontWeight: '400', color: '#333', margin: '2px' }}> Få prisen med det samme</Paragraph>
             </section>
 

@@ -17,8 +17,8 @@ export type InputType = {
 }
 
 export type DropDownProperties = {
-    maxItems?: string;
-    minItems?: string;
+    maxItems?: number;
+    minItems?: number;
     options?: {
         [key: string]: string;
     }

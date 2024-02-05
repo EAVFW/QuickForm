@@ -2,19 +2,19 @@ import { ChangeEvent, useEffect, useRef } from "react";
 import classNames from "classnames";
 import styles from "./TextInput.module.css";
 import { InputProps } from "../InputProps";
-import { useQuickForm } from "../../../../state/QuickFormContext";
+// import { useQuickForm } from "../../../../state/QuickFormContext";
+// import { isValidEmail } from "../../../../validation/isValidEmail";
 
 export function TextInput({ placeholder, output, onOutputChange }: InputProps) {
     const ref = useRef<HTMLInputElement>(null);
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => onOutputChange(event.target.value);
+    // const { state, setErrorMsg } = useQuickForm();
 
     useEffect(() => {
         if (ref.current) {
             ref.current.focus();
         }
     }, [ref]);
-
-    console.log("placeHodlerText", placeholder);
 
     return (
         <input

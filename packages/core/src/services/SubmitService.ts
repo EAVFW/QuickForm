@@ -1,17 +1,16 @@
 import { QuickformAction, QuickformState } from "../state/index";
-import { formResponsPayload } from "./PayloadService";
 
-export const onSubmitBtnClicked = async (id: string, questionState: QuickformState, dispatch: React.Dispatch<QuickformAction>) => {
+export const onSubmitBtnClicked = async (state: QuickformState, dispatch: React.Dispatch<QuickformAction>) => {
 
     try {
-        // await fakeApiCall(questionState);
+        // const submitEndpoint = `/api/entities/entity/records/${id}/payload`
 
-        let rsp = await fetch(`/api/entities/entity/records/${id}/payload`, {
+        let rsp = await fetch(`/api/entities/entity/records/some-endpoint`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify(formResponsPayload(questionState)),
+            body: JSON.stringify(formPayload(state)),
             credentials: "include"
         });
 
@@ -31,31 +30,42 @@ export const onSubmitBtnClicked = async (id: string, questionState: QuickformSta
             await new Promise((resolve, reject) => setTimeout(resolve, 1000));
         }
 
-        let documentRsp = await fetch(`/api/workflowruns/${response.runid}`, {
-            method: "GET",
-            headers: {
-                "content-type": "application/json",
-            },
-            credentials: "include"
-        });
-
-        let document = await documentRsp.json();
-        // dispatch({
-        //     type: 'PDF_PREVIEW', url: `/api/files/${document.body.document}?content-disposition=inline`
+        // let documentRsp = await fetch(`/api/workflowruns/${response.runid}`, {
+        //     method: "GET",
+        //     headers: {
+        //         "content-type": "application/json",
+        //     },
+        //     credentials: "include"
         // });
-        console.log("Submit data", document);
+
+        // let document = await documentRsp.json();
+        // // dispatch({
+        // //     type: 'PDF_PREVIEW', url: `/api/files/${document.body.document}?content-disposition=inline`
+        // // });
+        // console.log("Submit data", document);
 
     } catch (error: any) {
         console.error(error.message);
         dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true } });
 
-        //TODO: Go to error?
-
         return;
     } finally {
         dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitOK: true } });
-
-        dispatch({ type: 'NEXT_SLIDE' });
     }
 
+}
+
+
+export const formPayload = (state: QuickformState): Record<string, any> => {
+    const payload: Record<string, any> = {};
+    for (var slide of state.slides) {
+        slide.questions.forEach(q => {
+            payload[q.logicalName!] = q.output;
+        })
+    }
+    for (var q of state.data.submit.submitFields) {
+        payload[q.logicalName] = q.output
+    }
+
+    return payload;
 }

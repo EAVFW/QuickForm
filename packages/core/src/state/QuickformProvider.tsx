@@ -22,6 +22,10 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
     const answerQuestion = (logicalName: string, output: any) => { dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output }) };
     const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
+    const setErrorMsg = (msg: string) => {
+        console.log("errorMsg");
+        dispatch({ type: "SET_ERROR_MSG", msg: msg })
+    };
 
     return (
         <QuickFormContext.Provider value={{
@@ -31,7 +35,8 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
             goToNextSlide,
             goToPrevSlide,
             answerQuestion,
-            setIntroVisited
+            setIntroVisited,
+            setErrorMsg
         }}>
             <ErrorMessage message={state.errorMsg} />
             {children}

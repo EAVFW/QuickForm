@@ -26,6 +26,7 @@ export class NavigationActionHandler {
         return {
             ...state,
             currIdx: newIdx,
+            currStep: newIdx + 1,
             hasNextSlide: newIdx < slides.length - 1,
             hasPrevSlide: newIdx > 0
         };

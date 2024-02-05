@@ -17,10 +17,11 @@ export const OverviewList = () => {
                     <li
                         key={slideIndex}
                         style={listItemStyle}
+                        title={"Go to slide" + slideIndex + 1}
                         onClick={() => handleOnQuestionClicked(slideIndex)}
                     >
                         <span style={linkStyle}>
-                            {slideIndex + 1}. {slide.displayName /* might need to do a string.join on the questionNames here if no displayName is defined */}
+                            {slideIndex + 1}. {slide.displayName}
                         </span>
                         {slide.isAnswered && (
                             <span style={{ ...checkIconStyle, opacity: 1 }}>✔</span>

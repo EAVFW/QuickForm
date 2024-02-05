@@ -1,18 +1,14 @@
 import { ReactNode } from "react";
 import { inputTypeComponentMap } from "./InputComponentMapper";
 import React from "react";
-import { useQuickForm } from "../../state/QuickFormContext";
 import { Paragraph, Heading } from "..";
 import { QuestionModel } from "../../model/QuestionModel";
 import { InputTypes } from "../../model";
 
 type QuestionProps = {
-    questionNumber: number;
     model: QuestionModel;
     className?: string,
     icon?: ReactNode
-    nextButton?: ReactNode
-    headline?: ReactNode;
 }
 
 const questionStyling: React.CSSProperties = {
@@ -24,20 +20,8 @@ const questionStyling: React.CSSProperties = {
 const headingStyle: React.CSSProperties = { fontSize: '1.5rem' };
 const paragraphStyle: React.CSSProperties = { fontSize: '1rem' }
 
-/**
- * I popose that we consider changing the name here.
- * Yes its questions, but its also more i think.
- * 
- * Right now it able to render Intro and Ending also.
- * So maybe we just keep this as the main rendering component, making FormContent obsolete. 
- * I see FormContent as "Full QuickForm with overview" example, it makes sense to have in the library for quick use.
- * 
- * */
-
-export const Question: React.FC<QuestionProps> = ({ headline, className, model, questionNumber }) => {
-
-    const { text, paragraph, inputType, placeholder, output } = model;
-    const InputType = inputTypeComponentMap[inputType as InputTypes];
+export const Question: React.FC<QuestionProps> = ({ className, model }) => {
+    const InputType = inputTypeComponentMap[model.inputType as InputTypes];
 
     if (!InputType || typeof InputType === "undefined") {
         return <div
@@ -81,7 +65,7 @@ export const Question: React.FC<QuestionProps> = ({ headline, className, model, 
      * 
      */
     const handleOutputChange = (newOutput: string) => {
-
+        model.output = newOutput;
         // dispatch({ type: 'SET_OUTPUT', payload: newOutput });
     };
 
@@ -91,21 +75,23 @@ export const Question: React.FC<QuestionProps> = ({ headline, className, model, 
             className={className}
             style={questionStyling}
         >
-            <Heading questionNum={questionNumber} style={headingStyle}>
-                {headline ?? text}
+            <Heading style={headingStyle}>
+                {model.text}
             </Heading>
 
             <Paragraph
                 style={paragraphStyle}
             >
-                {paragraph ?? ""}
+                {model.paragraph}
             </Paragraph>
 
             <InputType
-                inputType={inputType as InputTypes}
+                key={"input" + model.logicalName}
+                questionRef={model.logicalName}
+                inputType={model.inputType as InputTypes}
                 inputProps={model.inputProperties}
-                placeholder={placeholder}
-                output={output}
+                placeholder={model.placeholder}
+                output={model.output}
                 onOutputChange={handleOutputChange}
             />
         </div>

@@ -36,8 +36,6 @@ const formContent: React.CSSProperties = {
     width: '100%',
     minWidth: '500px',
     minHeight: '500px',
-    borderRadius: '10px',
-    boxShadow: '0px 0px 5px 1px',
 };
 
 const navbuttonStyle: React.CSSProperties = {

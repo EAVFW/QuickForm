@@ -29,8 +29,6 @@ export function MultilineInput(props: InputProps) {
         setTimeout(() => { ref.current?.focus(); }, 300);
     }, []);
 
-    console.log("placeholder", placeholder);
-
     return (
         <QuestionTextArea ref={ref}
             placeholder={placeholder}

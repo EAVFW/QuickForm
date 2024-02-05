@@ -12,6 +12,9 @@ export const NavigationButton: React.FC<Props> = ({ className, style }) => {
     const { goToNextSlide, goToPrevSlide, state } = useQuickForm();
     const [leftHover, setLeftHover] = useState<boolean>(false);
     const [rightHover, setRightHover] = useState<boolean>(false);
+    if (state.isIntroSlide || state.isSubmitSlide || state.isEndingSlide) {
+        return null;
+    }
 
     const disablePrevBtn = !state.hasPrevSlide;
     const prevLabel = disablePrevBtn ? "No previous slide" : "Go to previous";
@@ -60,7 +63,6 @@ export const NavigationButton: React.FC<Props> = ({ className, style }) => {
     );
 }
 
-/* CSS Styling */
 const slideNavigationButton: React.CSSProperties = {
     width: '50px',
     height: '100%',

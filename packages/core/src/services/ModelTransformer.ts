@@ -114,7 +114,11 @@ function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel
 function defaultLayout(questions: { [logicalName: string]: QuestionModel }): SlideModel[] {
     const slides: SlideModel[] = [];
     Object.keys(questions).map(logicalName => {
-        slides.push(createSlide({ [logicalName]: questions[logicalName] }));
+        let slide: SlideModel = createSlide({ [logicalName]: questions[logicalName] });
+        // if (slide.questions.length === 1) {
+        //     slide.displayName = slide.questions[0].text
+        // }
+        slides.push(slide);
     });
     return slides;
 }
@@ -180,11 +184,10 @@ function mapJsonQuestionToModelQuestion(key: string, value: QuestionJsonModel): 
         text: value.text,
         placeholder: value.placeholder,
         paragraph: value.paragraph,
-        answered: value.answered,
+        answered: false,
         inputProperties: inputProperties,
         output: value.output
     };
-    console.log("qmodel", qmodel);
     return qmodel;
 }
 

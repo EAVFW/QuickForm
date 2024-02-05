@@ -3,6 +3,7 @@ import { QuickformState } from "./QuickformState";
 import { onSubmitBtnClicked } from "../services/SubmitService";
 import { NavigationActionHandler } from "./action-handlers/NavigationActionHandler";
 import { QuestionModel } from "../model/QuestionModel";
+import { SlideModel } from "../model/SlideModel";
 
 export const quickformReducer = (state: QuickformState, action: QuickformAction): QuickformState => {
 
@@ -48,7 +49,7 @@ const findSlideIdxAndQuestionIdx = (state: QuickformState, logicalName: string):
 
 const handleSubmit = (state: QuickformState, action: React.Dispatch<QuickformAction>) => {
     if (!state.submitStatus.isSubmitting) {
-        onSubmitBtnClicked(state.id, state, action);
+        onSubmitBtnClicked(state, action);
         return {
             ...state,
             submitStatus: { ...state.submitStatus, ...{ isSubmitting: true } },
@@ -59,7 +60,6 @@ const handleSubmit = (state: QuickformState, action: React.Dispatch<QuickformAct
 
 
 const updateQuestionProperty = (state: QuickformState, logicalName: string, propertyName: string, propertyValue: any): QuickformState => {
-    // TODO - Fix this function
     const { slideIndex, questionIndex } = findSlideIdxAndQuestionIdx(state, logicalName);
 
     if (slideIndex === -1 || questionIndex === -1) {
@@ -67,25 +67,41 @@ const updateQuestionProperty = (state: QuickformState, logicalName: string, prop
     }
 
     const newState = { ...state, slides: [...state.slides] };
-
-    const originalSlide = state.slides[slideIndex];
-    const clonedQuestions = originalSlide.questions.map((question: QuestionModel, idx: number) =>
+    const originalSlide = newState.slides[slideIndex];
+    const updatedQuestions = originalSlide.questions.map((question: QuestionModel, idx: number) =>
         idx === questionIndex ? { ...question, [propertyName]: propertyValue } : question
     );
 
-    // newState.slides[slideIndex] = new Slide(clonedQuestions);
+    const updatedSlide = {
+        ...originalSlide,
+        questions: updatedQuestions,
+        isAnswered: updatedQuestions.length > 0 && updatedQuestions.every(q => q.answered),
+        addQuestion: originalSlide.addQuestion,
+    };
 
-    // if (originalSlide.columns) {
-    //     newState.slides[slideIndex].columns = { ...originalSlide.columns };
-    // }
-    // if (originalSlide.rows) {
-    //     newState.slides[slideIndex].rows = [...originalSlide.rows];
-    // }
+    newState.slides[slideIndex] = updatedSlide;
 
     return newState;
 };
 
+const updateQuestion = (state: QuickformState, logicalName: string, answered: true): QuickformState => {
+    const { slideIndex, questionIndex } = findSlideIdxAndQuestionIdx(state, logicalName);
+
+    if (slideIndex === -1 || questionIndex === -1) {
+        return state;
+    }
+
+
+}
+
 const answerQuestion = (state: QuickformState, logicalName: string, output: any) => {
-    const newState = updateQuestionProperty(state, logicalName, 'answered', true);
-    return computeProgress(updateQuestionProperty(newState, logicalName, 'output', output));
+    console.log(`answering question for ${logicalName} with output ${output}`);
+    // const newState = updateQuestionProperty(state, logicalName, 'answered', true);
+    // const newState2 = updateQuestionProperty(newState, logicalName, 'output', output);
+    const progressUpdated = computeProgress(updateQuestionProperty(updateQuestionProperty(state, logicalName, 'answered', true), logicalName, 'output', output));
+    console.log("progressUpdated", progressUpdated);
+    if (!progressUpdated.slides[progressUpdated.currIdx].isAnswered === true) {
+        return progressUpdated
+    }
+    return NavigationActionHandler.handleNextSlideAction(progressUpdated)
 };

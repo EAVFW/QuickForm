@@ -1,36 +1,39 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import styles from './DropDownInput.module.css';
-import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
 import { useKeyPressHandler } from '../../../../hooks/useKeyPressHandler';
-import { InputProps } from "../InputProps";
 import { useQuickForm } from '../../../../state/QuickFormContext';
+import styles from './DropDownInput.module.css';
+import { InputProps } from '../InputProps';
 import { DropDownProperties } from '../../../../model';
+import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
 
-export function DropDownInput(props: InputProps) {
-    const { state, dispatch, answerQuestion } = useQuickForm();
+export function DropDownInput({ questionRef, inputProps, onOutputChange }: InputProps) {
+    const { answerQuestion } = useQuickForm();
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-    const { maxItems, minItems, options } = (props.inputProps as DropDownProperties);
-    const remainingChoices = parseInt(minItems!) - selectedOptions.length;
+    const { maxItems, minItems, options } = (inputProps as DropDownProperties);
+    const remainingChoices = minItems - selectedOptions.length;
 
     /* Refactored this large function outside of component due to async state errors.. change loggingEnabled to false if no need for excessive console logs. */
-    const onClickHandler = (key: string) => {
+    const onClickHandler = React.useCallback((key: string) => {
         const newOptions = handleDropdownOptionClick({
             key: key,
             selectedOptions: selectedOptions,
             maxItems: maxItems!,
             minItems: minItems!,
-            onOutputChange: props.onOutputChange,
-            markQuestionAsAnswered: () => { },
-            dispatch: dispatch,
-            questionState: {},
+            onOutputChange: answerQuestion,
             loggingEnabled: false
         });
 
-        setSelectedOptions(newOptions);
-    }
+        const newOptionsLength = typeof newOptions.length !== "number" ? parseInt(newOptions.length) : newOptions.length;
+        const minItemsLength = typeof minItems !== "number" ? parseInt(minItems) : minItems;
+        if (newOptionsLength === minItemsLength) {
+            answerQuestion(questionRef, newOptions.join(","))
+        } else {
+            setSelectedOptions(prev => newOptions);
+        }
+    }, [selectedOptions, maxItems, minItems, onOutputChange]);
 
-    useKeyPressHandler(Object.keys(options), (e, key) => { onClickHandler(key) });
+    useKeyPressHandler(Object.keys(options), (e, key) => onClickHandler(key));
 
     return (
         <>

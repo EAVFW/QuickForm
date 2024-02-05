@@ -6,7 +6,6 @@ export function useHandleEnterKeypress(inputType: "multilinetext" | string, disa
             if (event.key === "Enter") {
                 event.preventDefault();
                 if (customFunc) {
-                    console.log("customFunc() fired");
                     customFunc();
                 }
             }

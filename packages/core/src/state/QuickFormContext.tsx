@@ -10,6 +10,7 @@ interface IQuickFormContext {
     goToPrevSlide: () => void;
     answerQuestion: (logicalName: string, output: any) => void;
     setIntroVisited: () => void;
+    setErrorMsg: (msg: string) => void;
 }
 
 export const QuickFormContext = React.createContext<IQuickFormContext>(
@@ -20,7 +21,8 @@ export const QuickFormContext = React.createContext<IQuickFormContext>(
         goToNextSlide: () => { },
         goToPrevSlide: () => { },
         answerQuestion: () => { },
-        setIntroVisited: () => { }
+        setIntroVisited: () => { },
+        setErrorMsg: () => { }
     }
 );
 

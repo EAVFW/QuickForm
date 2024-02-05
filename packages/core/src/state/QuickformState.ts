@@ -3,7 +3,6 @@ import { FormData } from "../model/FormData";
 import { SlideModel } from "../model/SlideModel";
 
 export type QuickformState = {
-    id?: string;
     errorMsg: string;
     data: FormData;
     slides: SlideModel[];
@@ -25,7 +24,6 @@ export const defaultState = (data: FormData = defaultData): QuickformState => {
     const slidesDefined = data.slides.length > 0;
     const introSlideDefined = typeof data.intro !== "undefined";
     const defState = {
-        id: "",
         errorMsg: "",
         data: data,
         slides: data.slides,
@@ -42,7 +40,6 @@ export const defaultState = (data: FormData = defaultData): QuickformState => {
         isSubmitSlide: false
     };
 
-    console.log("defaultState", defState);
     return defState;
 };
 
