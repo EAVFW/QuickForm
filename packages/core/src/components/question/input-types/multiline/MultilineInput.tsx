@@ -29,6 +29,8 @@ export function MultilineInput(props: InputProps) {
         setTimeout(() => { ref.current?.focus(); }, 300);
     }, []);
 
+    console.log("placeholder", placeholder);
+
     return (
         <QuestionTextArea ref={ref}
             placeholder={placeholder}
@@ -53,7 +55,7 @@ const QuestionTextArea = forwardRef(
                     styles["input__text"],
                     className
                 )}
-                placeholder={placeholder ?? ""}
+                placeholder={placeholder}
                 value={value}
                 onChange={onChange}
                 maxLength={maxLength}

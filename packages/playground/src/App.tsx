@@ -8,11 +8,11 @@ import { TemplateTwo, testData } from "./templates/TemplateTwo";
 export const App = () => {
     const [selectedTemplate, setSelectedTemplate] = useState('templateOne');
 
-    const temp1 = <QuickFormProvider json={dummydata}>
+    const temp2 = <QuickFormProvider key="templateOne" json={testDataWithColumnsAndRows}>
         <TemplateOne />
     </QuickFormProvider>
 
-    const temp2 = <QuickFormProvider json={testData}>
+    const temp1 = <QuickFormProvider key="templateTwo" json={testData}>
         <TemplateTwo />
     </QuickFormProvider>
 

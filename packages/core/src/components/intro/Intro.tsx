@@ -2,7 +2,6 @@ import { Button, Heading } from "../index";
 import { Paragraph } from "../../components/paragraph/Paragraph";
 import { IntroModel } from "../../model";
 import { useHandleEnterKeypress } from "../../hooks";
-import classNames from "classnames";
 
 type IntroProps = {
     data: IntroModel;
@@ -13,7 +12,7 @@ type IntroProps = {
 export const Intro: React.FC<IntroProps> = ({ data, errorMsg, onBtnClick }) => {
 
     /* Listens to enter key pressed */
-    useHandleEnterKeypress("intro", onBtnClick);
+    useHandleEnterKeypress("intro", false, onBtnClick);
 
     return (
         <div style={introStyling}>

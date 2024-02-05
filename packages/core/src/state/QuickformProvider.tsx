@@ -4,7 +4,7 @@ import { defaultState } from "./QuickformState";
 import { QuickFormContext } from "./QuickFormContext";
 import { ErrorMessage } from "../components";
 import { transformJSONInput } from "../services/ModelTransformer";
-import { JsonDataModel } from "../model/JsonDataModel";
+import { JsonDataModel } from "../model/json/JsonDataModels";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;

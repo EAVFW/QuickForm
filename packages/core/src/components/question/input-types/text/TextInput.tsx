@@ -14,6 +14,8 @@ export function TextInput({ placeholder, output, onOutputChange }: InputProps) {
         }
     }, [ref]);
 
+    console.log("placeHodlerText", placeholder);
+
     return (
         <input
             ref={ref}

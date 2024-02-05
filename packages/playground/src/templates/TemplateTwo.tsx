@@ -2,42 +2,56 @@ import { QuickForm } from "../../../core/src/components"
 import { NavigationButton } from "../../../core/src/components/navigation-button/NavigationButton";
 import { OverviewList } from "../components/overview-list/OverviewList";
 
-
 export const TemplateTwo: React.FC = () => {
     return (
         <div style={containerStyle}>
-            <section style={formContent}>
+
+            <section style={overviewContainer}>
                 <OverviewList />
+            </section>
+
+            <section style={formContent}>
                 <QuickForm />
+                <NavigationButton style={navbuttonStyle} />
             </section>
-            <section style={formFooter}>
-                <NavigationButton style={{ display: 'flex', justifyContent: 'end', marginRight: '10px', marginBottom: '10px' }} />
-            </section>
+
         </div>
     )
 }
 
 const containerStyle: React.CSSProperties = {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: '10px',
-    boxShadow: '0px 0px 5px 1px',
+
 }
 
-const formContent = {
+const formContent: React.CSSProperties = {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignContent: 'space-around',
     height: '100%',
     width: '100%',
     minWidth: '500px',
     minHeight: '500px',
+    borderRadius: '10px',
+    boxShadow: '0px 0px 5px 1px',
 };
 
-const formFooter: React.CSSProperties = {
+const navbuttonStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'end',
+    marginRight: '10px',
+    marginBottom: '10px',
     width: '100%',
+}
+
+const overviewContainer: React.CSSProperties = {
+    display: 'flex',
+    minWidth: '300px',
+    minHeight: '300px'
 };
 
 export const testData = {

@@ -1,6 +1,6 @@
 import { QuickFormModelTransformer, registerQuickFormService } from "./QuickFormServices";
-import { Column, FormData, Layout, QuestionModel, Row, RowLayout, SlideModel, SubmitModel } from "../model";
-import { SubmitJsonModel } from "../model/JsonDataModel";
+import { Column, DropDownProperties, FormData, Layout, QuestionModel, RadioProperties, Row, RowLayout, SlideModel, SliderProperties, SubmitModel } from "../model";
+import { QuestionJsonModel, SubmitJsonModel } from "../model/json/JsonDataModels";
 
 /*
 * This function is responsible for taking the JSON format of the input (TODO add link to JSON Schema), and transforming it into the "Form" model that QuickForm supports.
@@ -108,34 +108,8 @@ function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel
         }
     });
 
-    return rows; // Return the constructed rows for potential further nesting
+    return rows;
 }
-
-// function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel, questions: { [logicalName: string]: QuestionModel }) {
-//     const rows: Row[] = [];
-//     Object.values(rowLayouts).forEach(rowLayout => {
-//         // Add question if questionRefLogicalName is present and a corresponding question exists
-//         if (rowLayout.questionRefLogicalName && questions.hasOwnProperty(rowLayout.questionRefLogicalName)) {
-//             const question = questions[rowLayout.questionRefLogicalName];
-//             slide.addQuestion(question);
-//             rows.push({
-//                 style: rowLayout.style,
-//                 questionRefLogicalName: rowLayout.questionRefLogicalName
-//             })
-//         }
-
-//         // Process nested rows within columns if they exist
-//         if (rowLayout.columns) {
-//             Object.values(rowLayout.columns).forEach(column => {
-//                 if (column.rows) {
-//                     processRows(column.rows, slide, questions); // Recursive call for nested rows within columns
-//                 }
-//             });
-//         }
-//     });
-// }
-
-
 
 function defaultLayout(questions: { [logicalName: string]: QuestionModel }): SlideModel[] {
     const slides: SlideModel[] = [];
@@ -149,10 +123,7 @@ function createSlide(questions: { [logicalName: string]: QuestionModel }): Slide
     const slide = new SlideModel();
     // Create rows from questions, assuming each question corresponds to a separate row
     const rows: Row[] = Object.entries(questions).map(([logicalName, question]) => {
-        slide.addQuestion({
-            ...question,
-            logicalName: logicalName
-        })
+        slide.addQuestion(mapJsonQuestionToModelQuestion(logicalName, question));
 
         return {
             style: {},
@@ -164,9 +135,62 @@ function createSlide(questions: { [logicalName: string]: QuestionModel }): Slide
     return slide;
 }
 
+function mapJsonQuestionToModelQuestion(key: string, value: QuestionJsonModel): QuestionModel {
+    let inputProperties: DropDownProperties | RadioProperties | SliderProperties;
+    // switch (value.inputType) {
+    //     case "dropdown":
+    //         inputProperties = value as DropDownProperties;
+    //         break;
+    //     case "radio":
+    //         inputProperties = value as RadioProperties;
+    //         break;
+    //     case "slider":
+    //         inputProperties = value as SliderProperties;
+    //         break;
+    //     default:
+    //         inputProperties = {};
+    // }
+    switch (value.inputType) {
+        case "dropdown":
+            inputProperties = {
+                options: (value as (QuestionJsonModel & DropDownProperties)).options,
+                minItems: (value as (QuestionJsonModel & DropDownProperties)).minItems,
+                maxItems: (value as (QuestionJsonModel & DropDownProperties)).maxItems,
+            };
+            break;
+        case "radio":
+            inputProperties = {
+                options: (value as (QuestionJsonModel & RadioProperties)).options,
+            };
+            break;
+        case "slider":
+            inputProperties = {
+                min: (value as (QuestionJsonModel & SliderProperties)).min,
+                max: (value as (QuestionJsonModel & SliderProperties)).max,
+                step: (value as (QuestionJsonModel & SliderProperties)).step,
+            };
+            break;
+        default:
+            inputProperties = undefined;
+    }
+
+    const qmodel = {
+        logicalName: key,
+        inputType: value.inputType,
+        text: value.text,
+        placeholder: value.placeholder,
+        paragraph: value.paragraph,
+        answered: value.answered,
+        inputProperties: inputProperties,
+        output: value.output
+    };
+    console.log("qmodel", qmodel);
+    return qmodel;
+}
+
 function handleSubmit(submit: SubmitJsonModel): SubmitModel {
     const submitFieldsArray: QuestionModel[] = Object.entries(submit.submitFields).map(([key, value]) => {
-        return new QuestionModel({
+        return {
             logicalName: key,
             inputType: value.inputType,
             text: value.text,
@@ -175,7 +199,7 @@ function handleSubmit(submit: SubmitJsonModel): SubmitModel {
             answered: value.answered,
             inputProperties: value.inputProperties,
             output: value.output
-        });
+        };
     });
 
     return {

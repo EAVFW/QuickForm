@@ -17,17 +17,19 @@ export type InputType = {
 }
 
 export type DropDownProperties = {
-    readonly maxItems?: string;
-    readonly minItems?: string;
-    readonly options?: {
+    maxItems?: string;
+    minItems?: string;
+    options?: {
         [key: string]: string;
     }
 }
 
 export type RadioProperties = {
-    // TODO
+    options: any;
 }
 
 export type SliderProperties = {
-    // TODO
+    min: number;
+    max: number;
+    step: number;
 }

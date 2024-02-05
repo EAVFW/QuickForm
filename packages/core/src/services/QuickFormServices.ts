@@ -1,6 +1,6 @@
 
 import { FormData } from "../model";
-import { JsonDataModel } from "../model/JsonDataModel";
+import { JsonDataModel } from "../model/json/JsonDataModels";
 
 export type HeadingNumberDisplayProvider = () => boolean;
 export type QuickFormModelTransformer = (data: JsonDataModel) => FormData;

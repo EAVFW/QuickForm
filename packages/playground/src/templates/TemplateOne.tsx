@@ -1,6 +1,4 @@
 import { QuickForm, Heading, Paragraph } from "../../../core/src/components"
-import { NavigationButton } from "../../../core/src/components/navigation-button/NavigationButton";
-
 
 export const TemplateOne: React.FC = () => {
     return (

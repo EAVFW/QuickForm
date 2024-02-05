@@ -1,12 +1,12 @@
 import "../style/QuickForm.css";
 import { useQuickForm } from "../state/QuickFormContext";
 import React from "react";
-import { Ending, ErrorMessage, Slide, Submit } from "../components";
+import { Ending, ErrorMessage, Submit } from "../components";
 import { Intro } from "./intro/Intro";
+import { SlideRenderer } from "../components/slide-renderer/SlideRenderer";
 
 export const QuickForm: React.FC = () => {
     const { state, setIntroVisited } = useQuickForm();
-    const currentSlide = state.slides[state.currIdx];
 
     if (state.isIntroSlide) {
         return <Intro data={state.data.intro} errorMsg={state.errorMsg} onBtnClick={setIntroVisited} />
@@ -22,7 +22,7 @@ export const QuickForm: React.FC = () => {
     return (
         <div>
             {state.errorMsg && state.errorMsg !== "" && <ErrorMessage message={state.errorMsg} />}
-            <Slide model={currentSlide} />
+            <SlideRenderer />
         </div>
     );
 }

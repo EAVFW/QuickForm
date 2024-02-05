@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export function useHandleEnterKeypress(inputType: "multilinetext" | string, customFunc?: () => void) {
+export function useHandleEnterKeypress(inputType: "multilinetext" | string, disabled?: boolean, customFunc?: () => void) {
     useEffect(() => {
         function handleKeypress(event: KeyboardEvent) {
             if (event.key === "Enter") {
@@ -11,7 +11,7 @@ export function useHandleEnterKeypress(inputType: "multilinetext" | string, cust
                 }
             }
         }
-        if (inputType !== "multilinetext") {
+        if (typeof disabled !== undefined && !disabled) {
             document.addEventListener("keypress", handleKeypress);
 
             return function () {
