@@ -1,21 +1,24 @@
 {
   "version": "1.0.0",
-  "name": "@eavfw/quickform-core",
+  "name": "@eavfw/quickform-designer",
   "dependencies": {
-    "classnames": "^2.5.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+
   },
   "peerDependencies": {
+    "@eavfw/apps": "^1.4.0-vnext.18",
+    "@eavfw/designer": "^1.1.0",
+    "@eavfw/manifest": "^1.5.0-vnext.7",
+    "@eavfw/forms": "^1.2.0-vnext.5",
+    "@eavfw/utils": "^1.0.3-vnext.2",
+    "@eavfw/designer-core": "^1.1.0",
+    "@fluentui/react-components": "^9.46.1",
+    "pako": "^2.0.4",
+    "@craftjs/core": "^0.2.4",
+    "@eavfw/designer-nodes": "^1.1.0"
 
   },
   "devDependencies": {
-    "@types/classnames": "^2.3.1",
-    "@types/node": "16.7.10",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "html-webpack-plugin": "^5.6.0",
-    "typescript": "^5.3.3"
+    "@types/pako": "2.0.0"
   },
   "license": "MIT",
   "files": [
