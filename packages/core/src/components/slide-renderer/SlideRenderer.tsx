@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useQuickForm } from '../../state/QuickFormContext';
 import { Button } from '../button/Button';
 import { useHandleEnterKeypress } from '../../hooks';
 import { Slide } from '../slide/Slide';
-
 
 
 export const SlideRenderer: React.FC = () => {
@@ -26,7 +25,7 @@ export const SlideRenderer: React.FC = () => {
     const handleGoToNextSlideClicked = () => {
         for (var q of currentSlide.questions) {
             if (typeof q.output !== "undefined" && q.output !== "") {
-                answerQuestion(q.logicalName, q.output);
+                answerQuestion(q.logicalName!, q.output);
             }
         }
 

@@ -22,7 +22,7 @@ export class SlideModel {
 export type Row = {
     style?: React.CSSProperties;
     columns?: Column[];
-    questionRefLogicalName: string;
+    questionRefLogicalName?: string;
 }
 
 export type Column = {

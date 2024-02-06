@@ -15,7 +15,10 @@
 // import type { FormProps } from "@rjsf/core";
 // import { assertSubmitModel } from "model/QuestionModel";
 
-import { QuestionModel } from "../../model";
+import React from "react";
+import { SubmitModel } from "../../model";
+import { useQuickForm } from "../../state/QuickFormContext";
+import { Heading, Paragraph, Button, Spinner } from "../index";
 
 // export const Submit: React.FC = () => {
 
@@ -68,18 +71,57 @@ import { QuestionModel } from "../../model";
 // }
 
 
+export const Submit: React.FC<SubmitModel> = ({ text, paragraphs, buttonText, submitFields = [] }: SubmitModel) => {
+    const { state } = useQuickForm();
 
-type SubmitProps = {
-    text: string;
-    paragraph: string;
-    buttonText: string;
-    submitFields: QuestionModel[];
-}
+    if (state.submitStatus.isSubmitting) {
+        return <Spinner speed="medium" message="Submitting.. Please wait.." />
+    }
 
-export const Submit: React.FC<SubmitProps> = ({ text, paragraph, buttonText, submitFields }: SubmitProps) => {
+    const handleOnSubmitBtnClicked = () => {
+        // Submit
+    }
+
     return (
-        <>
-            Submit slide
-        </>
+        <div style={submitStyling}>
+            <Heading >
+                {text}
+            </Heading>
+            {
+                paragraphs && paragraphs.length > 0 &&
+                paragraphs.map(p => (
+                    <Paragraph style={{ fontSize: '1rem', marginTop: '10px' }}>
+                        {p}
+                    </Paragraph>
+                ))
+            }
+
+            <div style={{ marginTop: '10px' }}>
+                <ul>
+                    {submitFields.map(sf => {
+                        return (
+                            <li
+                                style={{ margin: '10px' }}
+                            >{sf.text}</li>
+                        )
+                    })}
+                </ul>
+            </div>
+
+            <Button
+                showPressEnter={true}
+                onClick={handleOnSubmitBtnClicked}
+            >
+                {buttonText}
+            </Button>
+
+        </div>
     )
 };
+
+const submitStyling: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '72rem',
+    transition: 'transform 0.3s ease-out',
+}

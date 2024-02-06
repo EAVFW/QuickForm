@@ -1,25 +1,34 @@
 {
-  "name": "core",
-  "author": "",
-  "license": "ISC",
   "version": "1.0.0",
-  "keywords": [],
-  "description": "",
+  "name": "@eavfw/quickform-core",
   "dependencies": {
     "classnames": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
+  "peerDependencies": {
+
+  },
   "devDependencies": {
     "@types/classnames": "^2.3.1",
-    "@types/css-modules": "^1.0.5",
     "@types/node": "16.7.10",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "html-webpack-plugin": "^5.6.0",
     "typescript": "^5.3.3"
   },
-  "scripts": {},
+  "license": "MIT",
   "files": [
     "src"
-  ]
+  ],
+  "author": "Poul Kjeldager <poul@kjeldager.com>",
+  "type": "module",
+  "main": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EAVFW/QuickForm.git"
+  },
+  "scripts": {
+    "release": "semantic-release -e semantic-release-monorepo"
+  }
 }

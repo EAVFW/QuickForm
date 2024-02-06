@@ -14,11 +14,13 @@ export type JsonDataModel = {
 
 export type SubmitJsonModel = {
     text: string;
-    paragraph: string;
+    paragraphs: string[];
     buttonText: string;
     submitFields: { [key: string]: QuestionJsonModel };
-    payload?: any;
-    id?: string;
+    submitUrl: string;
+    submitMethod: string;
+    // payload?: any;
+    // id?: string;
 }
 
 type QuestionBaseModel = {

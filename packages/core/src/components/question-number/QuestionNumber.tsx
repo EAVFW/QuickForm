@@ -1,6 +1,7 @@
 import { HeadingNumberDisplayProvider, registerQuickFormService, resolveQuickFormService } from "../../services/QuickFormServices";
 import { ImArrowRightIcon } from "../icons";
 import { useQuickForm } from "../../state/QuickFormContext";
+import React from "react";
 
 const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
     const { state } = useQuickForm();

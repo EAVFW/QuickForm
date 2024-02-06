@@ -1,4 +1,4 @@
-import styles from "./Button.module.css";
+import React from "react";
 import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
 
 type BtnContainerProps = {
@@ -12,6 +12,7 @@ type BtnContainerProps = {
 };
 
 export const Button: React.FC<BtnContainerProps> = ({ children, showPressEnter, onClick, disabled, visible, style }: BtnContainerProps) => {
+    const [hover, setHover] = useState<boolean>(false);
 
     if (typeof visible !== "undefined" && visible === false) {
         return (<></>);
@@ -36,10 +37,12 @@ export const Button: React.FC<BtnContainerProps> = ({ children, showPressEnter, 
     return (
         <div style={{ ...btnContainerStyle, ...style }}>
             <button
-                style={buttonStyle}
+                style={{ ...buttonStyle, ...style, ...hover ? hoverStyle : {} }}
                 disabled={disabled}
                 type="button"
                 onClick={onClick}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
             >
                 {children}
 
@@ -66,10 +69,9 @@ const buttonStyle = {
     border: 'thin solid var(--on-surface)',
     borderRadius: '8px',
     cursor: 'pointer',
-    fontSize: '1rem',
+    fontSize: '1.5rem',
     fontWeight: 700,
     padding: '10px 14px',
-    // Hover, active, focus-visible styles cannot be directly applied as inline styles. Fix it with useState or similar if it is preffered to keep them as React.CSSProperties
 };
 
 const spanStyle = {
@@ -81,3 +83,8 @@ const strongStyle = {
     fontWeight: 'bolder',
     letterSpacing: '0.04em',
 };
+
+const hoverStyle: React.CSSProperties = {
+    color: 'var(--white)',
+    backgroundColor: 'var(--primary)'
+}

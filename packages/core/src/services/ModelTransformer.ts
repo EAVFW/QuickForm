@@ -8,35 +8,33 @@ import { QuestionJsonModel, SubmitJsonModel } from "../model/json/JsonDataModels
 * With the "Layout" config, it is possible to creates "Slides"(or Pages/Sections) with multiple inputs at a time.
 */
 export const transformJSONInput: QuickFormModelTransformer = (data): FormData => {
+    let slides;
 
-    const form = new FormData();
-
-    // Step 1 - Handle Intro, Submit, Ending.
-    form.intro = data.intro;
-    form.ending = data.ending;
-    form.submit = handleSubmit(data.submit);
-
-    // Step 2 - Transform questions into slides with rows and columns
+    // Transform questions into slides with rows and columns
     if (isDefined(data.questions)) {
-        const layout = data.layout;
-        if (isDefined(layout)) {
+        if (isDefined(data.layout)) {
             // If layout is defined, assign slides as per layout
-            form.slides = handleLayout(layout, data.questions);
+            slides = handleLayout(data.layout!, data.questions);
         } else {
             // If layout is not defined, assign one question to each slide with only 1 column pr. slide
-            form.slides = defaultLayout(data.questions);
+            slides = defaultLayout(data.questions);
         }
     }
     else {
         throw console.error("Unable to read props.questions @ModelTransformer.ts");
     }
 
-    return form;
+    return {
+        intro: data.intro,
+        ending: data.ending,
+        submit: handleSubmit(data.submit),
+        slides: slides
+    };
 };
 
 registerQuickFormService("modeltransformer", transformJSONInput);
 
-function isDefined(object: object) {
+function isDefined(object?: object) {
     return object && typeof object !== "undefined"
 }
 
@@ -66,11 +64,7 @@ function processRows(rowLayouts: { [key: string]: RowLayout }, slide: SlideModel
         // Add question if questionRefLogicalName is present and a corresponding question exists
         if (rowLayout.questionRefLogicalName && questions.hasOwnProperty(rowLayout.questionRefLogicalName)) {
             const question = questions[rowLayout.questionRefLogicalName];
-            slide.addQuestion({
-                ...question,
-                logicalName: rowLayout.questionRefLogicalName,
-                output: ""
-            });
+            slide.addQuestion(mapJsonQuestionToModelQuestion(rowLayout.questionRefLogicalName, question));
             newRow = {
                 style: rowLayout.style,
                 questionRefLogicalName: rowLayout.questionRefLogicalName,
@@ -154,8 +148,8 @@ function mapJsonQuestionToModelQuestion(key: string, value: QuestionJsonModel): 
     };
 }
 
-function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownProperties | RadioProperties | SliderProperties {
-    let inputProperties: DropDownProperties | RadioProperties | SliderProperties;
+function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownProperties | RadioProperties | SliderProperties | undefined {
+    let inputProperties: DropDownProperties | RadioProperties | SliderProperties | undefined;
     // switch (value.inputType) {
     //     case "dropdown":
     //         inputProperties = value as DropDownProperties;
@@ -176,6 +170,8 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
                 minItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).minItems,
                 maxItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).maxItems,
             };
+            console.log("dropdown", questionJsonModel)
+            console.log("inputProperties", inputProperties)
             break;
         case "radio":
             inputProperties = {
@@ -212,10 +208,12 @@ function handleSubmit(submit: SubmitJsonModel): SubmitModel {
 
     return {
         text: submit.text,
-        paragraph: submit.paragraph,
+        paragraphs: submit.paragraphs,
         buttonText: submit.buttonText,
         submitFields: submitFieldsArray,
-        payload: submit.payload,
-        id: submit.id
+        submitUrl: submit.submitUrl,
+        submitMethod: submit.submitMethod,
+        // payload: submit.payload,
+        // id: submit.id
     };
 }

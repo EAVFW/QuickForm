@@ -1,12 +1,19 @@
-import { DropDownProperties, RadioProperties, SliderProperties } from "./InputType";
+import { DropDownProperties, InputTypeMap, RadioProperties, SliderProperties } from "./InputType";
+
+type QuestionInputType = keyof InputTypeMap | "text";
 
 export class QuestionModel {
-    readonly logicalName?: string;
+    logicalName: string = "";
     inputType: string;
-    text: string;
-    placeholder: string;
-    paragraph: string;
+    text: string = "";
+    placeholder: string = "";
+    paragraph: string = "";
     answered?: boolean = false;
-    inputProperties?: DropDownProperties | RadioProperties | SliderProperties;
     output: any = {};
+    inputProperties?: DropDownProperties | RadioProperties | SliderProperties | undefined;
+
+    constructor(inputType: QuestionInputType, inputProperties?: QuestionModel['inputProperties']) {
+        this.inputType = inputType;
+        this.inputProperties = inputProperties;
+    }
 }

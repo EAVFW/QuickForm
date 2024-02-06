@@ -1,16 +1,17 @@
+import React from "react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import styles from "./TextInput.module.css";
-import { InputProps } from "../InputProps";
+import { InputProps } from "model/InputType";
 // import { useQuickForm } from "../../../../state/QuickFormContext";
 // import { isValidEmail } from "../../../../validation/isValidEmail";
 
-export function TextInput(props: InputProps) {
+export function TextInput({ questionModel, onOutputChange }: InputProps) {
     const ref = useRef<HTMLInputElement>(null);
-    const [text, setText] = useState<string>(props.output);
+    const [text, setText] = useState<string>(questionModel!.output);
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setText(() => event.target.value);
-        props.onOutputChange(event.target.value);
+        onOutputChange(event.target.value);
     }
     // const { state, setErrorMsg } = useQuickForm();
 
@@ -25,7 +26,7 @@ export function TextInput(props: InputProps) {
             ref={ref}
             type="text"
             className={classNames(styles.input__text)}
-            placeholder={props.placeholder}
+            placeholder={questionModel.placeholder}
             value={text}
             onChange={handleChange}
         />

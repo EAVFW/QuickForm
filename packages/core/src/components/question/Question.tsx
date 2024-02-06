@@ -88,11 +88,7 @@ export const Question: React.FC<QuestionProps> = ({ className, model }) => {
 
             <InputType
                 key={"input" + model.logicalName}
-                questionRef={model.logicalName}
-                inputType={model.inputType as InputTypes}
-                inputProps={model.inputProperties}
-                placeholder={model.placeholder}
-                output={model.output}
+                questionModel={model}
                 onOutputChange={handleOutputChange}
             />
         </div>

@@ -7,7 +7,7 @@ type SpinnerProps = {
     message?: string;
 }
 
-const SpinnerComponent: React.FC<SpinnerProps> = (props: SpinnerProps) => {
+export const Spinner: React.FC<SpinnerProps> = (props: SpinnerProps) => {
     const speeds = {
         slow: "5s",
         medium: "3s",
@@ -84,5 +84,3 @@ const SpinnerComponent: React.FC<SpinnerProps> = (props: SpinnerProps) => {
         </div>
     );
 };
-
-export default SpinnerComponent;

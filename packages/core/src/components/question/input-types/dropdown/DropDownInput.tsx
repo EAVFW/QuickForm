@@ -3,37 +3,36 @@ import classNames from 'classnames';
 import { useKeyPressHandler } from '../../../../hooks/useKeyPressHandler';
 import { useQuickForm } from '../../../../state/QuickFormContext';
 import styles from './DropDownInput.module.css';
-import { InputProps } from '../InputProps';
-import { DropDownProperties } from '../../../../model';
+import { DropDownProperties, InputProps } from '../../../../model';
 import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
 
-export function DropDownInput({ questionRef, inputProps, onOutputChange }: InputProps) {
+export function DropDownInput({ questionModel, onOutputChange }: InputProps) {
     const { answerQuestion } = useQuickForm();
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-    const { maxItems, minItems, options } = (inputProps as DropDownProperties);
-    const remainingChoices = minItems - selectedOptions.length;
+    const { maxItems, minItems, options } = (questionModel?.inputProperties as DropDownProperties);
+    const remainingChoices = minItems! - selectedOptions.length;
 
     /* Refactored this large function outside of component due to async state errors.. change loggingEnabled to false if no need for excessive console logs. */
     const onClickHandler = React.useCallback((key: string) => {
         const newOptions = handleDropdownOptionClick({
             key: key,
             selectedOptions: selectedOptions,
-            maxItems: maxItems,
-            minItems: minItems,
+            maxItems: maxItems!,
+            minItems: minItems!,
             onOutputChange: answerQuestion,
             loggingEnabled: false
         });
 
         const newOptionsLength = typeof newOptions.length !== "number" ? parseInt(newOptions.length) : newOptions.length;
-        const minItemsLength = typeof minItems !== "number" ? parseInt(minItems) : minItems;
+        const minItemsLength = typeof minItems !== "number" ? minItems : minItems;
         if (newOptionsLength === minItemsLength) {
-            answerQuestion(questionRef, newOptions.join(","))
+            answerQuestion(questionModel?.logicalName!, newOptions.join(","))
         } else {
             setSelectedOptions(prev => newOptions);
         }
     }, [selectedOptions, maxItems, minItems, onOutputChange]);
 
-    useKeyPressHandler(Object.keys(options), (e, key) => onClickHandler(key));
+    useKeyPressHandler(Object.keys(options!), (e, key) => onClickHandler(key));
 
     return (
         <>
@@ -49,7 +48,7 @@ export function DropDownInput({ questionRef, inputProps, onOutputChange }: Input
             >
                 <DropdownOptionsList
                     styles={styles}
-                    options={options}
+                    options={options!}
                     selectedOptions={selectedOptions}
                     dropDownOptionClick={onClickHandler}
                 />

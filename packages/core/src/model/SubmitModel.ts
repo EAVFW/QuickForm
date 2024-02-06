@@ -2,9 +2,9 @@ import { QuestionModel } from "./QuestionModel";
 
 export type SubmitModel = {
     text: string;
-    paragraph: string;
+    paragraphs: string[];
     buttonText: string;
     submitFields: QuestionModel[];
-    payload?: any;
-    id?: string;
+    submitUrl: string;
+    submitMethod: string;
 };
