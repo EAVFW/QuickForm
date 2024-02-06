@@ -5,6 +5,7 @@ import { QuickFormContext } from "./QuickFormContext";
 import { ErrorMessage } from "../components";
 import { transformJSONInput } from "../services/ModelTransformer";
 import { JsonDataModel } from "../model/json/JsonDataModels";
+import React from "react";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
@@ -17,7 +18,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
     const defaultStateObj = useMemo(() => { return defaultState(transformJSONInput(json)) }, []);
     const [state, dispatch] = useReducer(quickformReducer, defaultStateObj);
 
-    const goToSlide = (index?: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
+    const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => { dispatch({ type: 'NEXT_SLIDE' }); };
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
     const answerQuestion = (logicalName: string, output: any) => { dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output }) };
@@ -26,6 +27,10 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
         console.log("errorMsg");
         dispatch({ type: "SET_ERROR_MSG", msg: msg })
     };
+    const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => {
+        const currSlide = state.slides[state.currIdx];
+        return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName
+    }
 
     return (
         <QuickFormContext.Provider value={{
@@ -36,7 +41,8 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
             goToPrevSlide,
             answerQuestion,
             setIntroVisited,
-            setErrorMsg
+            setErrorMsg,
+            isFirstQuestionInCurrentSlide
         }}>
             <ErrorMessage message={state.errorMsg} />
             {children}

@@ -57,9 +57,9 @@ const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
 
     if (typeof row.columns !== "undefined") {
         return row.columns.map((column, columnIndex) => (
-            <div key={columnIndex} style={getColumnStyle(row.columns.length)}>
+            <div key={columnIndex} style={getColumnStyle(row.columns!.length)}>
                 {column.rows.map((innerRow, innerRowIndex) => {
-                    const question = findQuestionByLogicalName(innerRow.questionRefLogicalName, questions);
+                    const question = findQuestionByLogicalName(innerRow.questionRefLogicalName!, questions);
                     if (!question) return null;
                     return (
                         <Question
@@ -71,7 +71,7 @@ const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
             </div>
         ))
     } else {
-        const question = findQuestionByLogicalName(row.questionRefLogicalName, questions);
+        const question = findQuestionByLogicalName(row.questionRefLogicalName!, questions);
         if (!question) return null;
 
         return (

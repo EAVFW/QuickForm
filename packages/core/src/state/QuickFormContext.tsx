@@ -11,6 +11,7 @@ interface IQuickFormContext {
     answerQuestion: (logicalName: string, output: any) => void;
     setIntroVisited: () => void;
     setErrorMsg: (msg: string) => void;
+    isFirstQuestionInCurrentSlide: (questionLogicalName: string) => boolean;
 }
 
 export const QuickFormContext = React.createContext<IQuickFormContext>(
@@ -22,7 +23,8 @@ export const QuickFormContext = React.createContext<IQuickFormContext>(
         goToPrevSlide: () => { },
         answerQuestion: () => { },
         setIntroVisited: () => { },
-        setErrorMsg: () => { }
+        setErrorMsg: () => { },
+        isFirstQuestionInCurrentSlide: () => true
     }
 );
 
