@@ -10,6 +10,12 @@ type EndingProps = {
     data: EndingModel;
 }
 
+const endingStyles: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column'
+}
+
 export const Ending: React.FC<EndingProps> = ({ data }) => {
     const { state } = useQuickForm();
     const submitStatus = state.submitStatus;
@@ -20,7 +26,7 @@ export const Ending: React.FC<EndingProps> = ({ data }) => {
     }, [submitStatus]);
 
     return (
-        <>
+        <div style={endingStyles}>
             {submitStatus.isSubmitError &&
                 <>
                     <ErrorIcon classNames={classNames(styles.endingSvg)} />
@@ -36,19 +42,19 @@ export const Ending: React.FC<EndingProps> = ({ data }) => {
                     </Heading>
 
                     {data.text &&
-                        <Paragraph>
+                        <Paragraph style={{ marginTop: '10px' }}>
                             {data.text}
                         </Paragraph>
                     }
 
                     {data.paragraph &&
-                        <Paragraph  >
+                        <Paragraph style={{ marginTop: '10px' }}>
                             {data.paragraph}
                         </Paragraph>
                     }
                 </>
             }
-        </>
+        </div>
     );
 }
 

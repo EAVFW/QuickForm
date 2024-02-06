@@ -19,6 +19,7 @@ import React from "react";
 import { SubmitModel } from "../../model";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { Heading, Paragraph, Button, Spinner } from "../index";
+import { SubmitActionHandler } from "../../state/action-handlers/SubmitActionHandler";
 
 // export const Submit: React.FC = () => {
 
@@ -72,14 +73,20 @@ import { Heading, Paragraph, Button, Spinner } from "../index";
 
 
 export const Submit: React.FC<SubmitModel> = ({ text, paragraphs, buttonText, submitFields = [] }: SubmitModel) => {
-    const { state } = useQuickForm();
+    const { state, dispatch } = useQuickForm();
 
     if (state.submitStatus.isSubmitting) {
         return <Spinner speed="medium" message="Submitting.. Please wait.." />
     }
 
-    const handleOnSubmitBtnClicked = () => {
-        // Submit
+    const handleSubmit = async () => {
+        dispatch({ type: "SET_SUBMIT_STATUS", status: { ...state.submitStatus, isSubmitting: true } });
+
+        try {
+            await SubmitActionHandler.submit(state, dispatch);
+        } catch (error) {
+            dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true, isSubmitSuccess: false } });
+        }
     }
 
     return (
@@ -89,8 +96,8 @@ export const Submit: React.FC<SubmitModel> = ({ text, paragraphs, buttonText, su
             </Heading>
             {
                 paragraphs && paragraphs.length > 0 &&
-                paragraphs.map(p => (
-                    <Paragraph style={{ fontSize: '1rem', marginTop: '10px' }}>
+                paragraphs.map((p, idx) => (
+                    <Paragraph key={idx} style={{ fontSize: '1rem', marginTop: '10px' }}>
                         {p}
                     </Paragraph>
                 ))
@@ -98,11 +105,14 @@ export const Submit: React.FC<SubmitModel> = ({ text, paragraphs, buttonText, su
 
             <div style={{ marginTop: '10px' }}>
                 <ul>
-                    {submitFields.map(sf => {
+                    {submitFields.map((sf, idx) => {
                         return (
                             <li
+                                key={idx}
                                 style={{ margin: '10px' }}
-                            >{sf.text}</li>
+                            >
+                                {sf.text}
+                            </li>
                         )
                     })}
                 </ul>
@@ -110,7 +120,7 @@ export const Submit: React.FC<SubmitModel> = ({ text, paragraphs, buttonText, su
 
             <Button
                 showPressEnter={true}
-                onClick={handleOnSubmitBtnClicked}
+                onClick={handleSubmit}
             >
                 {buttonText}
             </Button>
