@@ -1,0 +1,1 @@
+export type ViewNames = "settings" | "intro" | "submit" | "ending" | "layout" | "questions";
