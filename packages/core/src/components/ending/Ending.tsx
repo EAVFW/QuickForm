@@ -1,31 +1,39 @@
-"use client"
-import { Paragraph } from "../paragraph/Paragraph";
 import React, { useEffect } from "react";
-import { Heading } from "..";
+import { Heading, Paragraph } from "../index";
+import { ErrorIcon, Checkmark } from "../icons/index";
 import styles from "./Ending.module.css";
 import classNames from "classnames";
-import { ErrorIcon } from "../icons/ErrorIcon";
-import { Checkmark } from "../icons/Checkmark";
-import { useQuickForm } from "state/QuickFormContext";
+import { useQuickForm } from "../../state/QuickFormContext";
+import { EndingModel } from "../../model";
 
-export const Ending: React.FC = () => {
-    const { questionState: { submitStatus, currentQuestion: { text, paragraph } } } = useQuickForm();
-    //  const { text, paragraph,  } = questionState?.currentQuestion || {};
+type EndingProps = {
+    data: EndingModel;
+}
+
+const endingStyles: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column'
+}
+
+export const Ending: React.FC<EndingProps> = ({ data }) => {
+    const { state } = useQuickForm();
+    const submitStatus = state.submitStatus;
+
     useEffect(() => {
         console.log("Ending rendered..", submitStatus, classNames(styles.svgcolor), "test");
 
     }, [submitStatus]);
 
-
     return (
-        <>
+        <div style={endingStyles}>
             {submitStatus.isSubmitError &&
                 <>
                     <ErrorIcon classNames={classNames(styles.endingSvg)} />
                     <Heading>Der skete en fejl, prøv igen</Heading>
                 </>
             }
-            {submitStatus.isSubmitOK &&
+            {submitStatus.isSubmitSuccess &&
                 <>
                     <Checkmark classNames={classNames(styles.endingSvg)} />
 
@@ -33,20 +41,20 @@ export const Ending: React.FC = () => {
                         Form has been successfully submitted.
                     </Heading>
 
-                    {text &&
-                        <Paragraph>
-                            <span dangerouslySetInnerHTML={{ __html: text }} ></span>
+                    {data.text &&
+                        <Paragraph style={{ marginTop: '10px' }}>
+                            {data.text}
                         </Paragraph>
                     }
 
-                    {paragraph &&
-                        <Paragraph  >
-                            <span dangerouslySetInnerHTML={{ __html: paragraph }} ></span>
+                    {data.paragraph &&
+                        <Paragraph style={{ marginTop: '10px' }}>
+                            {data.paragraph}
                         </Paragraph>
                     }
                 </>
             }
-        </>
+        </div>
     );
 }
 

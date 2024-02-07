@@ -1,40 +1,38 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import styles from './DropDownInput.module.css';
-import { InputProps } from '../InputProps';
-import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
-import { assertDropDownModel } from '../../../../model/QuestionModel';
 import { useKeyPressHandler } from '../../../../hooks/useKeyPressHandler';
-import { useQuickForm } from 'state/QuickFormContext';
+import { useQuickForm } from '../../../../state/QuickFormContext';
+import styles from './DropDownInput.module.css';
+import { DropDownProperties, InputProps } from '../../../../model';
+import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
 
-export function DropDownInput(props: InputProps) {
-    const { questionState, dispatch, markQuestionAsAnswered } = useQuickForm();
-    const { options = {}, minItems, maxItems } = assertDropDownModel(questionState.currentQuestion);
-    ;
-    const { onAnswered, onOutputChange } = props;
-
+export function DropDownInput({ questionModel, onOutputChange }: InputProps) {
+    const { answerQuestion } = useQuickForm();
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-    const remainingChoices = parseInt(minItems!) - selectedOptions.length;
+    const { maxItems, minItems, options } = (questionModel?.inputProperties as DropDownProperties);
+    const remainingChoices = minItems! - selectedOptions.length;
 
     /* Refactored this large function outside of component due to async state errors.. change loggingEnabled to false if no need for excessive console logs. */
-    const onClickHandler = (key: string) => {
+    const onClickHandler = React.useCallback((key: string) => {
         const newOptions = handleDropdownOptionClick({
             key: key,
             selectedOptions: selectedOptions,
             maxItems: maxItems!,
             minItems: minItems!,
-            onOutputChange: onOutputChange,
-            markQuestionAsAnswered: markQuestionAsAnswered,
-            dispatch: dispatch,
-            questionState: questionState,
-            onAnswered: onAnswered!,
+            onOutputChange: answerQuestion,
             loggingEnabled: false
         });
 
-        setSelectedOptions(newOptions);
-    }
+        const newOptionsLength = typeof newOptions.length !== "number" ? parseInt(newOptions.length) : newOptions.length;
+        const minItemsLength = typeof minItems !== "number" ? minItems : minItems;
+        if (newOptionsLength === minItemsLength) {
+            answerQuestion(questionModel?.logicalName!, newOptions.join(","))
+        } else {
+            setSelectedOptions(prev => newOptions);
+        }
+    }, [selectedOptions, maxItems, minItems, onOutputChange]);
 
-    useKeyPressHandler(Object.keys(options), (e, key) => { onClickHandler(key) });
+    useKeyPressHandler(Object.keys(options!), (e, key) => onClickHandler(key));
 
     return (
         <>
@@ -50,7 +48,7 @@ export function DropDownInput(props: InputProps) {
             >
                 <DropdownOptionsList
                     styles={styles}
-                    options={options}
+                    options={options!}
                     selectedOptions={selectedOptions}
                     dropDownOptionClick={onClickHandler}
                 />

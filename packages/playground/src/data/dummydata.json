@@ -1,67 +1,32 @@
 {
-    "intro": {
-        "inputType": "intro",
-        "text": "Playground Request Form",
-        "paragraph": "Click to start processing the request.",
-        "buttonText": "Start"
-    },
     "submit": {
-        "inputType": "submit",
-        "text": "Submit form",
-        "paragraph": null,
+        "text": "Example Submit Text",
+        "paragraph": "Example paragraph describing the submit action.",
         "buttonText": "Submit",
         "submitFields": {
-            "schema": {
-                "title": "Who should sign the xx?",
-                "type": "object",
-                "description": "To speed up the process, you may provide the signing information already now. When ready we will send the digital loi for signature to this person.",
-                "additionalProperties": false,
-                "required": [
-                    "fullname",
-                    "title",
-                    "email"
-                ],
-                "properties": {
-                    "fullname": {
-                        "title": "Fullname",
-                        "type": "string",
-                        "minLength": 1
-                    },
-                    "title": {
-                        "title": "Title",
-                        "type": "string",
-                        "minLength": 1
-                    },
-                    "email": {
-                        "title": "Email",
-                        "type": "string",
-                        "minLength": 1
-                    },
-                    "send_before_approval": {
-                        "title": "Send signature request",
-                        "type": "boolean",
-                        "description": "If checked, we will send the signature request to your signer right away before we have approved the values. You may use this option to speed up the process, however if we find errors in the filled data your signer will have to sign again. If not checked, we will send the request for signatur when we have approved LOI."
-                    }
-                }
+            "fullName": {
+                "logicalName": "fullName",
+                "inputType": "text",
+                "text": "What is your name?",
+                "placeholder": "Enter your name",
+                "paragraph": "We need your name for identification.",
+                "answered": false,
+                "output": {}
             },
-            "uiSchema": {
-                "fullname": {
-                    "ui:placeholder": "Full name of the signing person."
-                },
-                "title": {
-                    "ui:placeholder": "Title of the signing person."
-                },
-                "email": {
-                    "ui:placeholder": "Email of the signing person"
-                }
+            "email": {
+                "logicalName": "email",
+                "inputType": "email",
+                "text": "What is your email?",
+                "placeholder": "Enter your email",
+                "paragraph": "We need your email for contact.",
+                "answered": false,
+                "output": {}
             }
         }
     },
     "ending": {
-        "inputType": "ending",
-        "text": "Thanks for choosing Playground",
-        "paragraph": "The form has now been submitted.",
-        "buttonText": null
+        "text": "Thanks for choosing DummyData",
+        "paragraph": "The form has now been submitted."
     },
     "questions": {
         "contact": {

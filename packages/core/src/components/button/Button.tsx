@@ -1,7 +1,5 @@
-"use client";
-import styles from "./Button.module.css";
+import React from "react";
 import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
-import classNames from "classnames";
 
 type BtnContainerProps = {
     readonly className?: string;
@@ -13,15 +11,12 @@ type BtnContainerProps = {
     visible?: boolean;
 };
 
-export function Button({ children, showPressEnter, className, onClick, disabled, visible, style }: BtnContainerProps) {
+export const Button: React.FC<BtnContainerProps> = ({ children, showPressEnter, onClick, disabled, visible, style }: BtnContainerProps) => {
+    const [hover, setHover] = useState<boolean>(false);
 
-    if (visible !== undefined && visible === false) {
+    if (typeof visible !== "undefined" && visible === false) {
         return (<></>);
     }
-    if (disabled) {
-        return (<div>Denne er lukket</div>);
-    }
-
 
     const [isOnMobile, setIsOnMobile] = useState(false);
     useEffect(() => {
@@ -34,22 +29,62 @@ export function Button({ children, showPressEnter, className, onClick, disabled,
         };
 
         window.addEventListener("resize", handleResizeEvent);
-
         return () => {
             window.removeEventListener("resize", handleResizeEvent);
         };
     }, []);
 
     return (
-        <div className={classNames(styles["btn-container"], className)} style={style ? style : {}}>
-            <button disabled={disabled} type="button" onClick={onClick}>
+        <div style={{ ...btnContainerStyle, ...style }}>
+            <button
+                style={{ ...buttonStyle, ...style, ...hover ? hoverStyle : {} }}
+                disabled={disabled}
+                type="button"
+                onClick={onClick}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+            >
                 {children}
+
             </button>
             {!disabled && !isOnMobile && showPressEnter && (
-                <span>
-                    <>Tryk <strong>Enter ↵</strong></>
+                <span style={spanStyle}>
+                    <>Tryk <strong style={strongStyle}>Enter ↵</strong></>
                 </span>
             )}
         </div>
     );
+}
+
+const btnContainerStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12.5px',
+    marginTop: '16px',
+};
+
+const buttonStyle = {
+    color: 'var(--on-surface)',
+    backgroundColor: 'transparent',
+    border: 'thin solid var(--on-surface)',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontSize: '1.5rem',
+    fontWeight: 700,
+    padding: '10px 14px',
+};
+
+const spanStyle = {
+    color: 'var(--on-surface)',
+    fontSize: '1.25rem',
+};
+
+const strongStyle = {
+    fontWeight: 'bolder',
+    letterSpacing: '0.04em',
+};
+
+const hoverStyle: React.CSSProperties = {
+    color: 'var(--white)',
+    backgroundColor: 'var(--primary)'
 }

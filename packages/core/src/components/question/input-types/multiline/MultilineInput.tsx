@@ -1,8 +1,9 @@
-import React, { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef } from "react";
-import { InputProps } from "../InputProps";
+import { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef, useState } from "react";
 import styles from "./MultilineInput.module.css";
 import classNames from "classnames";
-import { useQuickForm } from "state/QuickFormContext";
+import { useQuickForm } from "../../../../state/QuickFormContext";
+import React from "react";
+import { InputProps } from "../../../../model/index";
 
 export type MultilineInput = {
     readonly placeholder?: string;
@@ -14,25 +15,29 @@ export type MultilineInput = {
     readonly maxLength?: number;
 }
 
-export function MultilineInput(props: InputProps) {
-    const { questionState } = useQuickForm();
-    const { placeholder } = props;
+export function MultilineInput({ questionModel, onOutputChange }: InputProps) {
+    const { isFirstQuestionInCurrentSlide } = useQuickForm();
+    const { placeholder, output } = questionModel;
+    const [text, setText] = useState<string>(output);
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value.replace(/\r?\n/g, '\n'); // Normalize newline characters
-        props.onOutputChange(newValue);
+        setText(() => event.target.value)
+        onOutputChange(newValue);
     };
 
     const ref = useRef<HTMLTextAreaElement>(null);
-
     useEffect(() => {
-        setTimeout(() => { ref.current?.focus(); }, 300);
-    }, []);
+        if (ref.current && isFirstQuestionInCurrentSlide(questionModel.logicalName)) {
+            ref.current.focus();
+        }
+    }, [ref]);
 
     return (
-        <QuestionTextArea ref={ref}
+        <QuestionTextArea
+            ref={ref}
             placeholder={placeholder}
-            value={questionState?.currentQuestion.output}
+            value={text}
             onChange={handleChange}
             className=""
         />
@@ -53,7 +58,7 @@ const QuestionTextArea = forwardRef(
                     styles["input__text"],
                     className
                 )}
-                placeholder={placeholder ?? ""}
+                placeholder={placeholder}
                 value={value}
                 onChange={onChange}
                 maxLength={maxLength}

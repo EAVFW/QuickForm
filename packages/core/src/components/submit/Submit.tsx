@@ -15,6 +15,12 @@
 // import type { FormProps } from "@rjsf/core";
 // import { assertSubmitModel } from "model/QuestionModel";
 
+import React from "react";
+import { SubmitModel } from "../../model";
+import { useQuickForm } from "../../state/QuickFormContext";
+import { Heading, Paragraph, Button, Spinner } from "../index";
+import { SubmitActionHandler } from "../../state/action-handlers/SubmitActionHandler";
+
 // export const Submit: React.FC = () => {
 
 //     const tw = useTailWind();
@@ -66,7 +72,66 @@
 // }
 
 
+export const Submit: React.FC<SubmitModel> = ({ text, paragraphs, buttonText, submitFields = [] }: SubmitModel) => {
+    const { state, dispatch } = useQuickForm();
 
+    if (state.submitStatus.isSubmitting) {
+        return <Spinner speed="medium" message="Submitting.. Please wait.." />
+    }
 
+    const handleSubmit = async () => {
+        dispatch({ type: "SET_SUBMIT_STATUS", status: { ...state.submitStatus, isSubmitting: true } });
 
-export const Submit: React.FC = () => { return <></> };
+        try {
+            await SubmitActionHandler.submit(state, dispatch);
+        } catch (error) {
+            dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true, isSubmitSuccess: false } });
+        }
+    }
+
+    return (
+        <div style={submitStyling}>
+            <Heading >
+                {text}
+            </Heading>
+            {
+                paragraphs && paragraphs.length > 0 &&
+                paragraphs.map((p, idx) => (
+                    <Paragraph key={idx} style={{ fontSize: '1rem', marginTop: '10px' }}>
+                        {p}
+                    </Paragraph>
+                ))
+            }
+
+            <div style={{ marginTop: '10px' }}>
+                <ul>
+                    {submitFields.map((sf, idx) => {
+                        return (
+                            <li
+                                key={idx}
+                                style={{ margin: '10px' }}
+                            >
+                                {sf.text}
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
+
+            <Button
+                showPressEnter={true}
+                onClick={handleSubmit}
+            >
+                {buttonText}
+            </Button>
+
+        </div>
+    )
+};
+
+const submitStyling: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '72rem',
+    transition: 'transform 0.3s ease-out',
+}

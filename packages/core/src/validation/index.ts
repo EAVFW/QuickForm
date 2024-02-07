@@ -1,2 +1,2 @@
-export { isNotValidEmail } from "./isNotValidEmail";
+export { isValidEmail } from "./isValidEmail";
 export { isTaskSpecificEmail } from "./isTaskSpecificEmail";

@@ -4,13 +4,13 @@ import { useQuickForm } from "../state/QuickFormContext";
 
 export function useHandleScroll() {
     const timerIdRef = useRef<number>();
-    const { goToNextQuestion, goToPreviousQuestion, questionState: { submitStatus } } = useQuickForm();
+    const { goToNextSlide: goToNextQuestion, goToPrevSlide: goToPreviousQuestion, state: { submitStatus } } = useQuickForm();
 
     useEffect(() => {
         function handleScroll(event: WheelEvent) {
             clearTimeout(timerIdRef.current);
 
-            if (submitStatus.isSubmitting || submitStatus.isSubmitOK) {
+            if (submitStatus.isSubmitting || submitStatus.isSubmitSuccess) {
                 return;
             }
 

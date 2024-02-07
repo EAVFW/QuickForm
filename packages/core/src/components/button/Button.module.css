@@ -4,71 +4,79 @@
   align-items: center;
   gap: 12.5px;
   margin-top: 32px;
-  width: 100%;
 }
 
 /* Base button styles */
-    .btn-container > button {
-        color: var(--on-surface);
-        background-color: transparent;
-        border: thin solid var(--on-surface);
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 2rem;
-        font-weight: 700;
-        padding: 10px 14px;
-    }
+.btn-container>button {
+  color: var(--on-surface);
+  background-color: transparent;
+  border: thin solid var(--on-surface);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 10px 14px;
+}
 
-        .btn-container > button:hover {
-            color: var(--white);
-            background-color: var(--on-background);
-        }
+.btn-container>button:hover {
+  color: var(--white);
+  background-color: var(--on-background);
+}
 
 @keyframes blink {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
-    opacity: 0.4; /* Adjust as needed for desired "blink" effect */
+    opacity: 0.4;
+    /* Adjust as needed for desired "blink" effect */
   }
 }
 
 @keyframes fastBlink {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
-  25%, 75% {
+
+  25%,
+  75% {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
 }
 
 
-.btn-container > button:active {
+.btn-container>button:active {
   animation: fastBlink 0.6s 0.5;
   background-color: var(--primary);
   color: var(--on-surface);
 }
 
-.btn-container > button:focus-visible {
+.btn-container>button:focus-visible {
   outline: none;
 }
 
-.btn-container > button > img {
+.btn-container>button>img {
   bottom: 2.5px;
   position: absolute;
   right: 5px;
 }
 
 /* Base span styles */
-.btn-container > span {
+.btn-container>span {
   color: var(--on-surface);
   font-size: 1.25rem;
 }
 
-.btn-container > span > strong {
+.btn-container>span>strong {
   font-weight: bolder;
   letter-spacing: 0.04em;
 }
@@ -81,7 +89,7 @@
     gap: 17.5px;
   }
 
-  .btn-container > span {
+  .btn-container>span {
     font-size: 1.5rem;
   }
 }
@@ -91,7 +99,7 @@
   margin-top: 15px;
 }
 
-.btn-container.ok > button {
+.btn-container.ok>button {
   padding-right: 38px;
   position: relative;
 }
