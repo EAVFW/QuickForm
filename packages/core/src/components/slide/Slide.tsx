@@ -31,7 +31,7 @@ export const Slide: React.FC<SlideProps> = ({ model }: SlideProps) => {
     }
 
     return (
-        <div id="Slide" style={{ display: 'flex' }}>
+        <div id="Slide" style={{ display: 'flex', flexDirection: 'column' }}>
             {
                 model.rows.map((row, rowIndex) => (
                     <div key={rowIndex} style={rowContainerStyling}>
