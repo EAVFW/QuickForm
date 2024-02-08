@@ -17,6 +17,7 @@ export function DropDownInput({ questionModel, onOutputChange }: InputProps) {
     const { maxItems, minItems, options } = (questionModel?.inputProperties as DropDownProperties);
     const remainingChoices = minItems! - selectedOptions.length;
 
+    logger.log("Dropdown Input: {@options} {@selectedOptions}", options, selectedOptions);
     /* Refactored this large function outside of component due to async state errors.. change loggingEnabled to false if no need for excessive console logs. */
     const onClickHandler = React.useCallback((key: string) => {
         const newOptions = handleDropdownOptionClick({
@@ -35,7 +36,8 @@ export function DropDownInput({ questionModel, onOutputChange }: InputProps) {
             key, newOptionsLength === minItemsLength, minItemsLength, newOptions.join(","), selectedOptions, options);
 
         if (newOptionsLength === minItemsLength) {
-            answerQuestion(questionModel?.logicalName!, newOptions.join(","))
+            setSelectedOptions(prev => newOptions);
+            answerQuestion(questionModel?.logicalName!, newOptions.join(","));
         } else {
             setSelectedOptions(prev => newOptions);
         }

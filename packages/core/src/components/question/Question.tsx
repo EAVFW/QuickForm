@@ -20,14 +20,14 @@ const questionStyling: React.CSSProperties = {
 }
 
 const headingStyle: React.CSSProperties = { fontSize: '1.5rem' };
-const paragraphStyle: React.CSSProperties = { fontSize: '1rem' }
+const paragraphStyle: React.CSSProperties = { fontSize: '1.3rem' }
 
 export const Question: React.FC<QuestionProps> = ({ className, model }) => {
     const InputType = inputTypeComponentMap[model.inputType as InputTypes];
 
     const { state } = useQuickForm();
-     
-    const label = state.isSubmitSlide ? '' : `${state.currIdx + 1}.${String.fromCharCode('A'.charCodeAt(0) + state.slides[state.currIdx].questions.indexOf(model))}`;
+    const ql = state.slides[state.currIdx].questions.length === 1 ? '' : `.${String.fromCharCode('A'.charCodeAt(0) + state.slides[state.currIdx].questions.indexOf(model))}`;
+    const label = state.isSubmitSlide ? '' : `${state.currIdx + 1}${ql}`;
 
 
     if (!InputType || typeof InputType === "undefined") {
@@ -82,11 +82,11 @@ export const Question: React.FC<QuestionProps> = ({ className, model }) => {
             className={className}
             style={questionStyling}
         >
-            <Heading label={label}>
+            <Heading label={label} style={headingStyle} >
                 {model.text}
             </Heading>
 
-            <Paragraph>
+            <Paragraph style={paragraphStyle}>
                 {model.paragraph}
             </Paragraph>
 

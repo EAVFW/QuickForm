@@ -10,7 +10,7 @@ function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel
    
 
     if (question.inputType === "dropdown" && question.dataType === "boolean")
-        value = value === true ? 'Y' : 'N';
+        value = value === true ? 'Y' : value===false? 'N':'';
 
 
     logger.log("Transforming Question {key}: {@question} with value {@value}", key, question, value);

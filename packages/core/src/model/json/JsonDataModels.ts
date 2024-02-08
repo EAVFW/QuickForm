@@ -13,8 +13,6 @@ type QuickFormQuestionDefinition = {
     placeholder?: string;
     paragraph: string;
     dataType?:"string"|"number"|"boolean"
-    //answered?: boolean;
-    //output?: any;
 }
 
 export type QuestionJsonModel =

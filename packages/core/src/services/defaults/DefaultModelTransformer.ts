@@ -163,28 +163,14 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload:any): SubmitMod
             } as QuestionJsonModel])
     );
 
+    const questionTransformer = resolveQuickFormService("questionTransformer");
     const submitFieldsArray: QuestionModel[] = Object.entries(submitFields).map(([key, question]) => {
 
+       
         let value = payload?.[key];
 
-
-        if (question.inputType === "dropdown" && question.dataType === "boolean")
-            value = value === true ? 'Y' : 'N';
-
-
-        logger.log("Transforming Question {key}: {@question} with value {@value}", key, question, value);
-
-        return {
-            logicalName: key,
-            dataType: question.dataType ?? "string",
-            inputType: question.inputType,
-            text: question.text,
-            placeholder: question.placeholder??'',
-            paragraph: question.paragraph,
-            answered: typeof value !== "undefined" && value !== '',
-            inputProperties: parseInputProperties(question),
-            output: value ?? ""
-        };
+        return questionTransformer(key, question, value);
+         
     });
 
     return {
@@ -210,7 +196,7 @@ const transformJSONInput: QuickFormModelTransformer = (definition, payload): Qui
 
     const logger = resolveQuickFormService("logger");
     console.log(JSON.stringify(definition.questions, null, 4));
-    logger.log("Transforming Quickform Def to Model with\n\nlayout:\n{@layout}\nquestions:\n{@questions}", definition.layout, definition.questions);
+    logger.log("Transforming Quickform Def to Model with\n\nlayout:\n{@layout}\nquestions:\n{@questions}\nsubmit:\n{@submit}\npayload:\n{@payload}", definition.layout, definition.questions, definition.submit, payload);
 
     // Transform questions into slides with rows and columns
     if (isDefined(definition.questions)) {

@@ -6,17 +6,17 @@
     "react-dom": "18.2.0"
   },
   "peerDependencies": {
-    "@eavfw/apps": "^1.4.0-vnext.18",
-    "@eavfw/designer": "^1.1.0",
+    "@eavfw/apps": "^1.4.0-vnext.20",
+    "@eavfw/designer": "^1.1.1",
     "@eavfw/manifest": "^1.5.0-vnext.7",
     "@eavfw/forms": "^1.2.0-vnext.5",
-    "@eavfw/utils": "^1.0.3-vnext.2",
-    "@eavfw/designer-core": "^1.1.0",
+    "@eavfw/utils": "^1.0.3-vnext.3",
+    "@eavfw/designer-core": "^1.1.1",
     "@fluentui/react-components": "^9.46.1",
     "pako": "^2.0.4",
     "@craftjs/core": "^0.2.4",
 
-    "@eavfw/designer-nodes": "^1.1.0",
+    "@eavfw/designer-nodes": "^1.1.1",
 
     "@rjsf/fluentui-rc": "^5.17.0",
     "@rjsf/validator-ajv8": "^5.17.0",
