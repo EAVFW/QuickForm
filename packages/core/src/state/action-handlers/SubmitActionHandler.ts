@@ -1,3 +1,4 @@
+import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { QuickformAction, QuickformState } from "../index";
 
 export class SubmitActionHandler {
@@ -30,14 +31,28 @@ export class SubmitActionHandler {
     }
 
     static generatePayload = (state: QuickformState): Record<string, any> => {
+
+        const logger = resolveQuickFormService("logger");
         const payload: Record<string, any> = {};
         for (var slide of state.slides) {
             slide.questions.forEach(q => {
                 payload[q.logicalName!] = q.output;
             })
         }
+        payload["submitFields"] = {};
+        
         for (var q of state.data.submit.submitFields) {
-            payload[q.logicalName] = q.output
+
+            
+            let value = q.output;
+
+            logger.log("Adding submitField Answer for {dataType} {q}={output}", q.dataType, q.logicalName, value)
+
+            if (q.dataType === "boolean" && q.inputType === "dropdown") {
+                value = value === "Y" ? true : false;
+            }
+
+            payload["submitFields"][q.logicalName] = value;
         }
 
         return payload;

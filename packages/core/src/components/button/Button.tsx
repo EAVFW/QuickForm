@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
 
@@ -60,7 +61,10 @@ const btnContainerStyle = {
     display: 'flex',
     alignItems: 'center',
     gap: '12.5px',
+
+    margin: '30px',
     marginTop: '16px',
+   
 };
 
 const buttonStyle = {

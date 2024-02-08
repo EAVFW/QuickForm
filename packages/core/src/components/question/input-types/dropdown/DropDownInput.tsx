@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { useKeyPressHandler } from '../../../../hooks/useKeyPressHandler';
@@ -5,10 +6,14 @@ import { useQuickForm } from '../../../../state/QuickFormContext';
 import styles from './DropDownInput.module.css';
 import { DropDownProperties, InputProps } from '../../../../model';
 import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
+import { resolveQuickFormService } from '../../../../services/QuickFormServices';
 
 export function DropDownInput({ questionModel, onOutputChange }: InputProps) {
+
+    const logger = resolveQuickFormService("logger");
+
     const { answerQuestion } = useQuickForm();
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<string[]>(questionModel.answered ? [questionModel.output] : []);
     const { maxItems, minItems, options } = (questionModel?.inputProperties as DropDownProperties);
     const remainingChoices = minItems! - selectedOptions.length;
 
@@ -25,6 +30,10 @@ export function DropDownInput({ questionModel, onOutputChange }: InputProps) {
 
         const newOptionsLength = typeof newOptions.length !== "number" ? parseInt(newOptions.length) : newOptions.length;
         const minItemsLength = typeof minItems !== "number" ? minItems : minItems;
+
+        logger.log("Dropdown Clicked: {key}, isFinished={isFinished}, minItemsLength={minItemsLength}, Result={result},selectedOptions={@selectedOptions},options={@options}",
+            key, newOptionsLength === minItemsLength, minItemsLength, newOptions.join(","), selectedOptions, options);
+
         if (newOptionsLength === minItemsLength) {
             answerQuestion(questionModel?.logicalName!, newOptions.join(","))
         } else {

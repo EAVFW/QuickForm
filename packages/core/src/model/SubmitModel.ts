@@ -2,7 +2,7 @@ import { QuestionModel } from "./QuestionModel";
 
 export type SubmitModel = {
     text: string;
-    paragraphs: string[];
+    paragraph: string;
     buttonText: string;
     submitFields: QuestionModel[];
     submitUrl: string;

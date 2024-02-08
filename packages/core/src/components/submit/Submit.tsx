@@ -18,7 +18,7 @@
 import React from "react";
 import { SubmitModel } from "../../model";
 import { useQuickForm } from "../../state/QuickFormContext";
-import { Heading, Paragraph, Button, Spinner } from "../index";
+import { Heading, Paragraph, Button, Spinner, Question } from "../index";
 import { SubmitActionHandler } from "../../state/action-handlers/SubmitActionHandler";
 
 // export const Submit: React.FC = () => {
@@ -72,7 +72,7 @@ import { SubmitActionHandler } from "../../state/action-handlers/SubmitActionHan
 // }
 
 
-export const Submit: React.FC<SubmitModel> = ({ text, paragraphs, buttonText, submitFields = [] }: SubmitModel) => {
+export const Submit: React.FC<SubmitModel> = ({ text, paragraph ,buttonText, submitFields = [] }: SubmitModel) => {
     const { state, dispatch } = useQuickForm();
 
     if (state.submitStatus.isSubmitting) {
@@ -94,25 +94,26 @@ export const Submit: React.FC<SubmitModel> = ({ text, paragraphs, buttonText, su
             <Heading >
                 {text}
             </Heading>
-            {
-                paragraphs && paragraphs.length > 0 &&
-                paragraphs.map((p, idx) => (
-                    <Paragraph key={idx} style={{ fontSize: '1rem', marginTop: '10px' }}>
-                        {p}
-                    </Paragraph>
-                ))
-            }
+
+            <Paragraph>
+                {paragraph}
+            </Paragraph>
+
+            {/*{*/}
+            {/*    paragraphs && paragraphs.length > 0 &&*/}
+            {/*    paragraphs.map((p, idx) => (*/}
+            {/*        <Paragraph key={idx} style={{ fontSize: '1rem', marginTop: '10px' }}>*/}
+            {/*            {p}*/}
+            {/*        </Paragraph>*/}
+            {/*    ))*/}
+            {/*}*/}
 
             <div style={{ marginTop: '10px' }}>
                 <ul>
                     {submitFields.map((sf, idx) => {
-                        return (
-                            <li
-                                key={idx}
-                                style={{ margin: '10px' }}
-                            >
-                                {sf.text}
-                            </li>
+                        return (<>
+                            <Question model={sf} />
+                            </>                           
                         )
                     })}
                 </ul>

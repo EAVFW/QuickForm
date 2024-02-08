@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from "react";
 import { Heading, Paragraph } from "../index";
 import { ErrorIcon, Checkmark } from "../icons/index";

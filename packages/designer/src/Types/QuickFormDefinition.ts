@@ -5,11 +5,13 @@ export type QuickFormElement = {
     ref: string
 }
 export type QuickFormColumn = {
-    [key: string]: QuickFormElement
+    rows: {
+        [key: string]: QuickFormElement
+    }
 }
 export type QuickFormRow = {
     columns: {
-        [key: string]: QuickFormColumn
+        [key: string]: QuickFormElement /* | QuickFormColumn this is not supported in designer yet */
     }
 };
 export type QuickFormSlide = {

@@ -4,14 +4,14 @@
 
 import { QuestionModel } from "./QuestionModel";
 
-export type InputTypes =
-    "text" |
-    "multilinetext" |
-    "dropdown"
-    // "radio" |
-    // "slider" |
-    // "select";
-    ;
+//export type InputTypes =
+//    "text" |
+//    "multilinetext" |
+//    "dropdown"
+//    // "radio" |
+//    // "slider" |
+//    // "select";
+//    ;
 
 export type InputProps = {
     questionModel: QuestionModel;
@@ -21,6 +21,8 @@ export type InputProps = {
 const Dropdown = "dropdown";
 const Radio = "radio";
 const Slider = "slider";
+const Multilinetext = "multilinetext"
+const Text = "text"
 
 export interface InputTypeMap {
     [Dropdown]: DropDownProperties;
@@ -29,6 +31,7 @@ export interface InputTypeMap {
 }
 
 export type DropDownProperties = {
+    inputType: typeof Dropdown;
     maxItems?: number;
     minItems?: number;
     options?: {
@@ -37,11 +40,23 @@ export type DropDownProperties = {
 }
 
 export type RadioProperties = {
+    inputType: typeof Radio;
     options: any;
 }
 
 export type SliderProperties = {
+    inputType: typeof Slider;
     min: number;
     max: number;
     step: number;
+}
+
+export type MultilineProperties = {
+    inputType: typeof Multilinetext;
+    rows?: any;
+}
+
+export type TextProperties = {
+    inputType: typeof Text;
+    rows?: any;
 }

@@ -3,7 +3,8 @@ import { inputTypeComponentMap } from "./InputComponentMapper";
 import React from "react";
 import { Paragraph, Heading } from "..";
 import { QuestionModel } from "../../model/QuestionModel";
-import { InputTypes } from "../../model";
+import { InputTypes } from "../../model/json/JsonDataModels";
+import { useQuickForm } from "../../state/QuickFormContext";
 
 type QuestionProps = {
     model: QuestionModel;
@@ -23,6 +24,11 @@ const paragraphStyle: React.CSSProperties = { fontSize: '1rem' }
 
 export const Question: React.FC<QuestionProps> = ({ className, model }) => {
     const InputType = inputTypeComponentMap[model.inputType as InputTypes];
+
+    const { state } = useQuickForm();
+     
+    const label = state.isSubmitSlide ? '' : `${state.currIdx + 1}.${String.fromCharCode('A'.charCodeAt(0) + state.slides[state.currIdx].questions.indexOf(model))}`;
+
 
     if (!InputType || typeof InputType === "undefined") {
         return <div
@@ -76,13 +82,11 @@ export const Question: React.FC<QuestionProps> = ({ className, model }) => {
             className={className}
             style={questionStyling}
         >
-            <Heading style={headingStyle}>
+            <Heading label={label}>
                 {model.text}
             </Heading>
 
-            <Paragraph
-                style={paragraphStyle}
-            >
+            <Paragraph>
                 {model.paragraph}
             </Paragraph>
 

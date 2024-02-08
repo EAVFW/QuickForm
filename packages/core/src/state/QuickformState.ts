@@ -1,10 +1,11 @@
 import { SubmitStatus } from "../model/SubmitStatus";
-import { FormData } from "../model/FormData";
+
 import { SlideModel } from "../model/SlideModel";
+import { QuickFormModel } from "../model";
 
 export type QuickformState = {
     errorMsg: string;
-    data: FormData;
+    data: QuickFormModel;
     slides: SlideModel[];
     hasNextSlide: boolean;
     hasPrevSlide: boolean;
@@ -19,7 +20,7 @@ export type QuickformState = {
     isEndingSlide: boolean;
 }
 
-export const defaultState = (data: FormData = defaultData): QuickformState => {
+export const defaultState = (data: QuickFormModel = defaultData): QuickformState => {
     // TODO - Handle Layout
     const slidesDefined = data.slides.length > 0;
     const introSlideDefined = typeof data.intro !== "undefined";
@@ -43,7 +44,7 @@ export const defaultState = (data: FormData = defaultData): QuickformState => {
     return defState;
 };
 
-export const defaultData: FormData = {
+export const defaultData: QuickFormModel = {
     intro: {
         text: "Welcome to Quickform",
         paragraph: "Click the button to get started",
@@ -51,7 +52,7 @@ export const defaultData: FormData = {
     },
     submit: {
         text: "Example Submit Text",
-        paragraphs: ["Example paragraph describing the submit action."],
+        paragraph: "Example paragraph describing the submit action.",
         submitUrl: "https://www.test.com/payloads",
         submitMethod: "POST",
         buttonText: "Submit",
@@ -59,6 +60,7 @@ export const defaultData: FormData = {
             {
                 logicalName: "question1",
                 inputType: "text",
+                dataType:"string",
                 text: "What is your name?",
                 placeholder: "Enter your name",
                 paragraph: "We need your name for identification.",
@@ -68,6 +70,7 @@ export const defaultData: FormData = {
             {
                 logicalName: "question2",
                 inputType: "email",
+                dataType: "string",
                 text: "What is your email?",
                 placeholder: "Enter your email",
                 paragraph: "We need your email for contact.",

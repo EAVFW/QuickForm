@@ -1,3 +1,4 @@
+"use client"
 import React, { useContext } from "react";
 import { QuickformState, defaultState } from "./QuickformState";
 import { QuickformAction } from "./index";

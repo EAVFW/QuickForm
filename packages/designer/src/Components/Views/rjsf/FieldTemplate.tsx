@@ -9,7 +9,7 @@ import {
 } from '@rjsf/utils';
 import { createContext, useContext } from 'react';
 
-const FieldTemplateDescription = createContext<string | undefined>(undefined);
+const FieldTemplateDescription = createContext<any | undefined>(undefined);
 export const useFieldDescription = ()=> useContext(FieldTemplateDescription);
 /** The `FieldTemplate` component is the template used by `SchemaField` to render any field. It renders the field
  * content, (label, description, children, errors and help) inside of a `WrapIfAdditional` component.

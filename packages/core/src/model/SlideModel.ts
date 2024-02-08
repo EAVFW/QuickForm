@@ -1,4 +1,7 @@
+import { resolveQuickFormService } from "../services/QuickFormServices";
 import { QuestionModel } from "./QuestionModel";
+import { QuestionJsonModel } from "./json/JsonDataModels";
+import { QuestionRef } from "./json/Layout";
 
 export class SlideModel {
     displayName?: string;
@@ -14,18 +17,38 @@ export class SlideModel {
         return this.questions.length > 0 && this.questions.every(question => question.answered);
     }
 
-    addQuestion(question: QuestionModel) {
-        this.questions.push(question);
+    addQuestion(layout: QuestionRef, question: QuestionJsonModel, payload: any) {
+        const mapJsonQuestionToModelQuestion = resolveQuickFormService("questionTransformer");
+        const questionModel = mapJsonQuestionToModelQuestion(layout.ref, question, payload[question?.logicalName ?? layout.ref])
+
+        this.questions.push(questionModel);
+
+        return {
+            style: layout.style,
+            type: "question",
+            ref: layout.ref
+        } as QuestionLayout;
     }
 }
 
-export type Row = {
+export type QuestionLayout = {
     style?: React.CSSProperties;
-    columns?: Column[];
-    questionRefLogicalName?: string;
+    type: "question",
+    ref: string
 }
 
-export type Column = {
+export type RowColumns = {
     style?: React.CSSProperties;
+    type: "row",
+    columns: Array<Column>
+}
+
+export type Row = QuestionLayout | RowColumns
+
+
+export type ColumnWithRows = {
+    style?: React.CSSProperties;
+    type:"column",
     rows: Row[];
 }
+export type Column = QuestionLayout | ColumnWithRows;

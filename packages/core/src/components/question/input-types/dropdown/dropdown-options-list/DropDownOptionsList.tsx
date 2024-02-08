@@ -16,14 +16,14 @@ export const DropdownOptionsList: React.FC<{
 }> = ({ styles, options, selectedOptions, dropDownOptionClick }) => (
     <>
         {Object.entries(options).map(([key, value]) => {
-            const isSelected = selectedOptions.includes(value);
+            const isSelected = selectedOptions.includes(key);
             return (
                 <DropdownSelectOption
                     key={key}
                     className={classNames(styles["dropdown-item"], {
                         [styles["inactive-option"]]: !isSelected && selectedOptions.length === 2,
                     })}
-                    onClick={() => dropDownOptionClick(value)}
+                    onClick={() => dropDownOptionClick(key)}
                     isSelected={isSelected}
                 >
                     <span className={classNames(styles["dropdown-item-label"], { [styles["selected"]]: isSelected })}>

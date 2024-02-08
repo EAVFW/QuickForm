@@ -1,3 +1,4 @@
+"use client";
 import { useEffect } from 'react';
 
 /* This is used to remove the error message from the interface when the user clicks any area of the screen after the message has been shown for 2 seconds. 

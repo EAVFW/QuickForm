@@ -1,3 +1,4 @@
+"use client"
 import { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef, useState } from "react";
 import styles from "./MultilineInput.module.css";
 import classNames from "classnames";

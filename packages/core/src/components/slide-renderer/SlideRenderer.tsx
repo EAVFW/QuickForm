@@ -44,7 +44,7 @@ export const SlideRenderer: React.FC = () => {
     /* Listens to enter key pressed */
     const enterKeyDisabled = currentSlide.questions.some(q => q.inputType === "multilinetext");
     useHandleEnterKeypress("slide", enterKeyDisabled, handleGoToNextSlideClicked);
-    console.log("currentSlide", currentSlide);
+    console.log("SlideRenderer: currentSlide", currentSlide);
 
     return (
         <div
@@ -53,10 +53,10 @@ export const SlideRenderer: React.FC = () => {
         >
             <Slide model={currentSlide} />
             <Button
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'start'}}
                 onClick={handleGoToNextSlideClicked}
                 showPressEnter={!enterKeyDisabled}
-                children={"Næste"} />
+                children={"Ok"} />
         </div>
     );
 };

@@ -1,22 +1,28 @@
+"use client"
 import { useMemo, useReducer } from "react";
 import { quickformReducer } from "./QuickformReducer";
 import { defaultState } from "./QuickformState";
 import { QuickFormContext } from "./QuickFormContext";
 import { ErrorMessage } from "../components";
-import { transformJSONInput } from "../services/ModelTransformer";
-import { JsonDataModel } from "../model/json/JsonDataModels";
+
+import { QuickFormDefinition } from "../model";
 import React from "react";
+import "../services"
+import { resolveQuickFormService } from "../services/QuickFormServices";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
-    json: JsonDataModel;
+    definition: QuickFormDefinition;
+    payload: any;
 }
 
-export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, json, }) => {
-    // TODO - make resolveX work
-    // const transform = resolveQuickFormService("modeltransformer");
-    const defaultStateObj = useMemo(() => { return defaultState(transformJSONInput(json)) }, []);
+export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload }) => {
+   
+    const transform = resolveQuickFormService("modeltransformer");
+    const defaultStateObj = useMemo(() => { return defaultState(transform(definition,payload)) }, []);
     const [state, dispatch] = useReducer(quickformReducer, defaultStateObj);
+
+    console.log(JSON.stringify(defaultStateObj, null, 4));
 
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => { dispatch({ type: 'NEXT_SLIDE' }); };

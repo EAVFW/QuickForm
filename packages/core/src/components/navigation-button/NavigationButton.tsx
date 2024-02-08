@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { useQuickForm } from '../../state/QuickFormContext';
 import { ArrowUpIcon } from '../icons/ArrowUpIcon';

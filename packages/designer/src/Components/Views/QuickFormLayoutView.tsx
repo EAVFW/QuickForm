@@ -80,7 +80,7 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
                         layout.slides[slideId]?.rows ?? {
                         }).map(([rowid, row]) => [rowid, {
                             "type": { "resolvedName": "Question" },
-                            "isCanvas": true, "props": { questionid: row.columns["column1"]["q"].ref },
+                            "isCanvas": true, "props": { questionid: row.columns["column1"].ref },
                             "displayName": "Question",
                             "custom": { "displayName": "Question" },
                             "parent": "ROOT",
@@ -204,7 +204,7 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
                         slide.rows = {};
 
                     slide.rows[rowid] = {
-                        ...slide.rows?.[rowid] ?? {}, columns: { "column1": { "q": { type: "question", ref: row.props.questionid } } }
+                        ...slide.rows?.[rowid] ?? {}, columns: { "column1": {  type: "question", ref: row.props.questionid }  }
                     };
                 }
 

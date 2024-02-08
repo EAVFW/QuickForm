@@ -15,6 +15,9 @@ const submitSlideSchema = {
     uiSchema: {
         paragraph: {
             "ui:widget": "textarea"
+        },
+        submitFields: {
+            "ui:widget": "textarea"
         }
     },
     schema: {
@@ -27,8 +30,17 @@ const submitSlideSchema = {
                 type: "string"
 
             },
+            paragraph: {
+                title: "Paragraph",
+                description: "The text displayed to the end user when about to submit the form",
+                type: "string"
+
+            },
+            "submitFields": {
+                type: "string"
+            },
             buttonText: {
-                title: "Submit",
+                title: "Submit button text",
                 description:"The text on the button for submitting the form",
                 type: "string"
             },

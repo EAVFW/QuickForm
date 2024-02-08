@@ -1,7 +1,8 @@
 import React from 'react';
-import { SlideModel, QuestionModel, Row } from "../../model";
+import { SlideModel, QuestionModel, Row, Column } from "../../model";
 import { Question } from '../question/Question';
 import { useQuickForm } from '../../state/QuickFormContext';
+import { resolveQuickFormService } from '../../services/QuickFormServices';
 
 
 
@@ -21,7 +22,7 @@ type SlideProps = {
 
 export const Slide: React.FC<SlideProps> = ({ model }: SlideProps) => {
     const { state } = useQuickForm();
-
+    console.log("SlideComponent", model);
     const rowContainerStyling: React.CSSProperties = {
         display: 'flex',
         flexDirection: 'row',
@@ -42,36 +43,30 @@ export const Slide: React.FC<SlideProps> = ({ model }: SlideProps) => {
     );
 };
 
-type RowRendererProps = {
-    row: Row;
+
+type ColumnRendererProps = {
+    column: Column;
     questions: QuestionModel[];
 }
 
-const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
 
-    const fullRowStyle: React.CSSProperties = {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-    };
 
-    if (typeof row.columns !== "undefined") {
-        return row.columns.map((column, columnIndex) => (
-            <div key={columnIndex} style={getColumnStyle(row.columns!.length)}>
-                {column.rows.map((innerRow, innerRowIndex) => {
-                    const question = findQuestionByLogicalName(innerRow.questionRefLogicalName!, questions);
-                    if (!question) return null;
-                    return (
-                        <Question
-                            key={innerRowIndex}
-                            model={question}
-                        />
-                    );
-                })}
-            </div>
-        ))
-    } else {
-        const question = findQuestionByLogicalName(row.questionRefLogicalName!, questions);
+const fullRowStyle: React.CSSProperties = {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+};
+
+const ColumnRenderer: React.FC<ColumnRendererProps> = ({ column, questions }) => {
+
+    const logger = resolveQuickFormService("logger");
+
+    logger.log("Rendering column {@column}", column);
+
+    if (column.type === "question") {
+
+        const question = findQuestionByLogicalName(column.ref!, questions);
+
         if (!question) return null;
 
         return (
@@ -82,6 +77,63 @@ const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
             </div>
         )
     }
+
+    return (<>
+         
+            {column.rows.map((innerRow, innerRowIndex) => {
+
+                if (innerRow.type === "question") {
+
+                    const question = findQuestionByLogicalName(innerRow.ref!, questions);
+                    if (!question) return null;
+
+                    return (
+                        <Question
+                            key={innerRowIndex}
+                            model={question}
+                        />
+                    );
+                } else {
+                    return <RowRenderer key={"row" + innerRowIndex} row={innerRow} questions={questions} />
+                }
+            })}
+    </>
+    )
+}
+
+type RowRendererProps = {
+    row: Row;
+    questions: QuestionModel[];
+}
+
+
+const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
+
+    const logger = resolveQuickFormService("logger");
+
+    logger.log("Rendering row {@row}",row);
+
+   
+    if (row.type === "row") {
+        return <>{row.columns.map((column, columnIndex) => (
+            <div key={columnIndex} style={getColumnStyle(row.columns!.length)}>
+                <ColumnRenderer column={column} questions={questions} />
+            </div>
+        ))}</>
+    } else {
+        const question = findQuestionByLogicalName(row.ref!, questions);
+        if (!question) return null;
+
+        return (
+            <div style={fullRowStyle}>
+                <Question
+                    model={question}
+                />
+            </div>
+        )
+    }
+
+    
 }
 
 
