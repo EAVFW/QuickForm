@@ -3,8 +3,9 @@ import React from "react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import styles from "./TextInput.module.css";
-import { InputProps } from "model/InputType";
+
 import { useQuickForm } from "../../../../state/QuickFormContext";
+import { InputProps } from "../../../../model/InputType";
 // import { useQuickForm } from "../../../../state/QuickFormContext";
 // import { isValidEmail } from "../../../../validation/isValidEmail";
 
