@@ -1,9 +1,9 @@
 import { Column, Layout, QuestionModel, QuestionRef, Row, SlideElements, SlideModel, SubmitModel } from "../../model";
 import { QuickFormModel } from "../../model/QuickFormModel";
 import { QuickFormQuestionsDefinition } from "../../model/QuickFormQuestionsDefinition";
-import { QuickFormSubmitDefinition } from "model/json/QuickFormSubmitDefinition";
 import { QuickFormModelTransformer, registerQuickFormService, resolveQuickFormService } from "../QuickFormServices";
 import { QuestionJsonModel } from "../../model/json/JsonDataModels";
+import { QuickFormSubmitDefinition } from "../../model/json/QuickFormSubmitDefinition";
 
 
 function isDefined(object?: object) {

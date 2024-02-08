@@ -1,7 +1,7 @@
 import { EndingModel } from "../EndingModel";
 import { IntroModel } from "../IntroModel";
 import { QuestionModel } from "../QuestionModel";
-import { DropDownProperties, MultilineProperties, RadioProperties, SliderProperties, TextProperties } from "../InputType";
+import { DropDownProperties, EmailProperties, MultilineProperties, RadioProperties, SliderProperties, TextProperties } from "../InputType";
 import { Layout } from "./Layout";
 
 
@@ -20,7 +20,8 @@ export type QuestionJsonModel =
     QuickFormQuestionDefinition & RadioProperties |
     QuickFormQuestionDefinition & SliderProperties |
     QuickFormQuestionDefinition & MultilineProperties |
-    QuickFormQuestionDefinition & TextProperties
+    QuickFormQuestionDefinition & TextProperties |
+    QuickFormQuestionDefinition & EmailProperties
     ;
 
 

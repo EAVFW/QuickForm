@@ -26,6 +26,7 @@ export const inputTypeComponentMap = {
     radio: TextInput,
     slider: TextInput,
     multilinetext: MultilineInput,
+    email: TextInput,
     // lastName: LastNameInput,
     // industry: IndustryInput,
     // role: RoleInput,

@@ -24,6 +24,8 @@ const Slider = "slider";
 const Multilinetext = "multilinetext"
 const Text = "text"
 
+const Email = "email"
+
 export interface InputTypeMap {
     [Dropdown]: DropDownProperties;
     [Radio]: RadioProperties;
@@ -58,5 +60,10 @@ export type MultilineProperties = {
 
 export type TextProperties = {
     inputType: typeof Text;
+    rows?: any;
+}
+
+export type EmailProperties = {
+    inputType: typeof Email;
     rows?: any;
 }
