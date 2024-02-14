@@ -153,7 +153,7 @@ export const QuickFormQuestionsView: React.FC<{
                 </Field>
 
                 {question.inputType &&
-                    <Form key={currentQuestion + question.inputType}
+                    <Form tagName="div" key={currentQuestion + question.inputType}
                         templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
                         validator={validator}
                         {...schemas[question.inputType]}
