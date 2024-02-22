@@ -10,9 +10,6 @@ function isDefined(object?: object) {
     return object && typeof object !== "undefined"
 }
 
-
-
-
 function processRows(rowLayouts: SlideElements, slide: SlideModel, questions: QuickFormQuestionsDefinition, payload: any): Row[] {
     const logger = resolveQuickFormService("logger");
 
@@ -144,7 +141,7 @@ function createSlide(questions: QuickFormQuestionsDefinition, payload: any): Sli
 
 
 
-function handleSubmit(submit: QuickFormSubmitDefinition, payload:any): SubmitModel {
+function handleSubmit(submit: QuickFormSubmitDefinition, payload: any): SubmitModel {
 
     const logger = resolveQuickFormService("logger");
     const parseInputProperties = resolveQuickFormService("inputTypePropertiesTransformer");
@@ -155,7 +152,7 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload:any): SubmitMod
         Object.entries((schema?.properties ?? {}) as { [key: string]: any })
             .map(([k, v]) => [k, {
                 inputType: v.type === "string" ? "text" : "dropdown",
-                options: v.type === "string" ? undefined : {"Y":"Yes","N":"No"},
+                options: v.type === "string" ? undefined : { "Y": "Yes", "N": "No" },
                 placeholder: uiSchema?.[k]?.["ui:placeholder"],
                 text: (uiSchema?.[k]?.["ui:label"] ?? true) ? v.title : undefined,
                 paragraph: v.description,
@@ -164,13 +161,10 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload:any): SubmitMod
     );
 
     const questionTransformer = resolveQuickFormService("questionTransformer");
+
     const submitFieldsArray: QuestionModel[] = Object.entries(submitFields).map(([key, question]) => {
-
-       
         let value = payload?.[key];
-
         return questionTransformer(key, question, value);
-         
     });
 
     return {
