@@ -8,19 +8,35 @@ import { QuickForm } from '../../core/src/components';
 
 export const App = () => {
     const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(newDummyForm);
+    const [hackToChangeQuickForm, setHackToChangeQuickForm] = useState(0);
+
+    const onChangeEditorValue = (value: string) => {
+        console.log("Editor input changed");
+        setSelectedTemplate(JSON.parse(value));
+        setHackToChangeQuickForm(hackToChangeQuickForm + 1)
+    }
 
     return (
-        <div style={containerStyling}>
-            <div style={selectSwitchStyling}>
+        <div id="Container" style={containerStyling}>
+
+            <div id="Editor" style={editorStyling}>
                 {/* Monaco editor */}
-                {/* <Editor /> */}
+                <Editor
+                    defaultLanguage='json'
+                    defaultValue={JSON.stringify(selectedTemplate)}
+                    onChange={onChangeEditorValue}
+                    // value={JSON.stringify(selectedTemplate)}
+                    theme="vs-dark"
+                />
             </div>
-            <div style={quickformStyling}>
+
+            <div id="QuickForm" style={quickformStyling}>
                 {/* Quickform here */}
-                <QuickFormProvider key="templateThree" definition={selectedTemplate} payload={{}} >
+                <QuickFormProvider key={hackToChangeQuickForm} definition={selectedTemplate} payload={{}} >
                     <QuickForm />
-                </QuickFormProvider>;
+                </QuickFormProvider>
             </div>
+
         </div>
     );
 };
@@ -28,17 +44,20 @@ export const App = () => {
 const containerStyling: React.CSSProperties = {
     width: '100%',
     height: '800px',
-    padding: '10px'
+    padding: '10px',
+    display: 'flex',
 }
 
-const selectSwitchStyling: React.CSSProperties = {
+const editorStyling: React.CSSProperties = {
     margin: 'auto',
-    width: '100%'
+    width: '50%',
+    height: '100%'
 }
 
 const quickformStyling: React.CSSProperties = {
     display: 'flex',
     marginTop: '20px',
     justifyContent: 'center',
-    width: '100%'
+    alignItems: 'center',
+    width: '50%'
 }
