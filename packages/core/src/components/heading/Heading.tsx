@@ -16,24 +16,21 @@ const headingStyles: React.CSSProperties = {
     color: 'var(--on-surface)',
 }
 
-
 const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
     let { state } = useQuickForm();
-    console.log("defaultHeadingNumberDisplayProvider", [!(state.isEndingSlide || state.isIntroSlide || state.isSubmitSlide) ,state])
+    console.log("defaultHeadingNumberDisplayProvider", [!(state.isEndingSlide || state.isIntroSlide || state.isSubmitSlide), state])
     return !(state.isEndingSlide || state.isIntroSlide || state.isSubmitSlide)
 }
-
 registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);
 
-import { ImArrowRight } from "react-icons/im";
 import classNames from "classnames";
+import { ImArrowRightIcon } from "../../components/icons";
 
 export function Heading({ children, className, label, style = {} }: HeadingProps) {
 
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
     const { state } = useQuickForm();
-   
-   
+
     return (
         <h1
             className={classNames(styles["heading"], className, label ? styles["num"] : "")}
@@ -41,7 +38,7 @@ export function Heading({ children, className, label, style = {} }: HeadingProps
 
             {shouldDisplayNumber &&
                 <div style={rootStyles}>
-                    {label}&nbsp;<ImArrowRight size={"12px"} />
+                    {label}&nbsp;<ImArrowRightIcon size={"12px"} />
                 </div>
             }
 
@@ -55,7 +52,7 @@ const rootStyles = {
     left: 0,
     translate: "-110px",
     justifyContent: 'end',
-    width:'100px',
+    width: '100px',
     display: "flex",
     alignItems: "center",
     fontSize: "22px",
