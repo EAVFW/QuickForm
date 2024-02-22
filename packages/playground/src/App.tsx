@@ -1,49 +1,25 @@
+import React from 'react';
 import { useState } from 'react';
-import { QuickFormProvider } from "../../core/src/state/QuickformProvider";
-import testDataWithColumnsAndRows from "./data/testDataWithColumnsAndrows.json";
-import { TemplateOne } from "./templates/TemplateOne";
-import { TemplateTwo, testDataTwo } from "./templates/TemplateTwo";
-import { TemplateThree, testDataThree } from './templates/TemplateThree';
+import { QuickFormDefinition } from '../../core/src/model';
+import { newDummyForm } from "./data/dummydata";
+import { QuickFormProvider } from '../../core/src/state';
+import { Editor } from '@monaco-editor/react';
+import { QuickForm } from '../../core/src/components';
 
 export const App = () => {
-    const [selectedTemplate, setSelectedTemplate] = useState('templateThree');
-
-    const temp1 = <QuickFormProvider key="templateOne" json={testDataWithColumnsAndRows}>
-        <TemplateOne />
-    </QuickFormProvider>;
-    const temp2 = <QuickFormProvider key="templateTwo" json={testDataTwo}>
-        <TemplateTwo />
-    </QuickFormProvider>;
-    const temp3 = <QuickFormProvider key="templateThree" json={testDataThree} >
-        <TemplateThree />
-    </QuickFormProvider>;
-
-
-    const renderTemplate = () => {
-        switch (selectedTemplate) {
-            case 'templateOne': return temp1;
-            case 'templateTwo': return temp2;
-            case "templateThree": return temp3;
-            default:
-                return temp1;
-        }
-    };
+    const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(newDummyForm);
 
     return (
         <div style={containerStyling}>
             <div style={selectSwitchStyling}>
-                <select
-                    style={{ width: '200px', height: '50px' }}
-                    value={selectedTemplate}
-                    onChange={(e) => setSelectedTemplate(e.target.value)}
-                >
-                    <option value="templateOne">Template One</option>
-                    <option value="templateTwo">Template Two</option>
-                    <option value="templateThree">Template Three</option>
-                </select>
+                {/* Monaco editor */}
+                {/* <Editor /> */}
             </div>
             <div style={quickformStyling}>
-                {renderTemplate()}
+                {/* Quickform here */}
+                <QuickFormProvider key="templateThree" definition={selectedTemplate} payload={{}} >
+                    <QuickForm />
+                </QuickFormProvider>;
             </div>
         </div>
     );
