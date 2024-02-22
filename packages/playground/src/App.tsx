@@ -4,16 +4,22 @@ import { QuickFormDefinition } from '../../core/src/model';
 import { newDummyForm } from "./data/dummydata";
 import { QuickFormProvider } from '../../core/src/state';
 import { Editor } from '@monaco-editor/react';
-import { QuickForm } from '../../core/src/components';
+import { Button, QuickForm } from '../../core/src/components';
 
 export const App = () => {
     const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(newDummyForm);
     const [hackToChangeQuickForm, setHackToChangeQuickForm] = useState(0);
+    const [editorValue, setEditorValue] = useState<string>("");
 
     const onChangeEditorValue = (value: string) => {
         console.log("Editor input changed");
-        setSelectedTemplate(JSON.parse(value));
-        setHackToChangeQuickForm(hackToChangeQuickForm + 1)
+        setEditorValue(value);
+    }
+
+    const updateQuickForm = () => {
+        console.log("QuickForm updated.");
+        setSelectedTemplate(() => JSON.parse(editorValue));
+        setHackToChangeQuickForm(() => hackToChangeQuickForm + 1);
     }
 
     return (
@@ -28,6 +34,7 @@ export const App = () => {
                     // value={JSON.stringify(selectedTemplate)}
                     theme="vs-dark"
                 />
+                <Button onClick={updateQuickForm} style={{ margin: 'auto' }} > Opdater QuickForm </Button>
             </div>
 
             <div id="QuickForm" style={quickformStyling}>
