@@ -1,16 +1,16 @@
 import React from 'react';
 import { useState } from 'react';
 import { QuickFormDefinition } from '../../core/src/model';
-import carpenterTestData from "./data/carpenterTestData.json";
+import cleanTestData from "./data/clean.json";
 import { QuickFormProvider } from '../../core/src/state';
 import { Editor } from '@monaco-editor/react';
 import { Button, QuickForm } from '../../core/src/components';
-import "./components/slider/Slider";
+import "./components/slider/SliderInput";
 
 export const App = () => {
-    const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(carpenterTestData as QuickFormDefinition);
+    const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(cleanTestData as QuickFormDefinition);
     const [hackToChangeQuickForm, setHackToChangeQuickForm] = useState(0);
-    const [editorValue, setEditorValue] = useState<string>(JSON.stringify(carpenterTestData));
+    const [editorValue, setEditorValue] = useState<string>(JSON.stringify(cleanTestData));
 
     const onChangeEditorValue = (value: string) => {
         console.log("Editor input changed");
@@ -44,6 +44,13 @@ export const App = () => {
             </div>
 
             <div id="QuickForm" style={quickformStyling}>
+                <h1 style={{ fontWeight: '800', whiteSpace: 'nowrap' }}>
+                    BEREGN PRISEN FOR RENSNING AF FLISER
+                </h1>
+                <h2>
+                    Få prisen med det samme
+
+                </h2>
                 <QuickFormProvider key={hackToChangeQuickForm} definition={selectedTemplate} payload={{}} >
                     <QuickForm />
                 </QuickFormProvider>
@@ -68,6 +75,7 @@ const editorStyling: React.CSSProperties = {
 
 const quickformStyling: React.CSSProperties = {
     display: 'flex',
+    flexDirection: "column",
     marginTop: '20px',
     justifyContent: 'center',
     alignItems: 'center',

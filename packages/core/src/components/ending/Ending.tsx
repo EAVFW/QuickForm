@@ -37,15 +37,10 @@ export const Ending: React.FC<EndingProps> = ({ data }) => {
             {submitStatus.isSubmitSuccess &&
                 <>
                     <Checkmark classNames={classNames(styles.endingSvg)} />
-
-                    <Heading>
-                        Form has been successfully submitted.
-                    </Heading>
-
                     {data.text &&
-                        <Paragraph style={{ marginTop: '10px' }}>
+                        <Heading style={{ marginTop: '10px' }}>
                             {data.text}
-                        </Paragraph>
+                        </Heading>
                     }
 
                     {data.paragraph &&
