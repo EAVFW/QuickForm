@@ -1,5 +1,7 @@
 import { QuickFormDefinition } from "../../../core/src/model/QuickFormDefinition";
 
+
+
 export const newDummyForm = {
     "layout": {
         "slides": {

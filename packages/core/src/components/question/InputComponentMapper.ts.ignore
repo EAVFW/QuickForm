@@ -1,0 +1,26 @@
+import React from "react";
+import { TextInput, MultilineInput, DropDownInput } from "./input-types/index";
+import { InputProps } from "../../model/InputType";
+
+type InputComponentType = React.ComponentType<InputProps>;
+
+export type InputComponentDictionary = {
+    [key: string]: InputComponentType;
+};
+
+export const inputComponents: InputComponentDictionary = {
+    "text": TextInput,
+    // TODO - Create Radio
+    "radio": TextInput,
+    // TODO - Create Slider
+    "slider": TextInput,
+    "multilinetext": MultilineInput,
+    // TODO - Create Email
+    "email": TextInput,
+    "dropdown": DropDownInput,
+    "none": TextInput,
+};
+
+const RegisterComponent = (key: string, component: InputComponentType) => {
+    inputComponents[key] = component;
+};

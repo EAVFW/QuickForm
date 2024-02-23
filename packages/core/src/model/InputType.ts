@@ -21,10 +21,9 @@ export type InputProps = {
 const Dropdown = "dropdown";
 const Radio = "radio";
 const Slider = "slider";
-const Multilinetext = "multilinetext"
-const Text = "text"
-
-const Email = "email"
+const Multilinetext = "multilinetext";
+const Text = "text";
+const Email = "email";
 
 export interface InputTypeMap {
     [Dropdown]: DropDownProperties;

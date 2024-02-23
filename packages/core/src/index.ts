@@ -1,4 +1,4 @@
-import "./services";
 export * from "./components";
 export * from "./state";
-export type { QuickFormDefinition } from "./model";
+export * from "./services";
+export type { QuickFormDefinition, InputProps } from "./model";
