@@ -123,7 +123,7 @@
             "type": "number",
             "lang": "DA"
         },
-        "algaeRemoval": {
+        "removeAlgae": {
             "inputType": "toggle",
             "text": "Skal alger fjernes?",
             "paragraph": "Vælg 'Ja', hvis der er behov for fjernelse af alger, ellers vælg 'Nej'.",
@@ -133,7 +133,7 @@
             },
             "lang": "DA"
         },
-        "impregnation": {
+        "impregnateTiles": {
             "inputType": "toggle",
             "text": "Skal fliserne imprægneres?",
             "paragraph": "Vælg 'Ja', hvis fliserne skal imprægneres, ellers vælg 'Nej'.",

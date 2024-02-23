@@ -6,6 +6,7 @@ import { QuickFormProvider } from '../../core/src/state';
 import { Editor } from '@monaco-editor/react';
 import { Button, QuickForm } from '../../core/src/components';
 import "./components/slider/SliderInput";
+import "./components/toggle/ToggleInput";
 
 export const App = () => {
     const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(cleanTestData as QuickFormDefinition);
