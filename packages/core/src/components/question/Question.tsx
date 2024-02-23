@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
-import { inputTypeComponentMap } from "./InputComponentMapper";
 import React from "react";
 import { Paragraph, Heading } from "..";
 import { QuestionModel } from "../../model/QuestionModel";
-import { InputTypes } from "../../model/json/JsonDataModels";
 import { useQuickForm } from "../../state/QuickFormContext";
+import { resolveQuickFormService } from "../../services/QuickFormServices";
+import { resolveInputComponent   } from "../../services";
 
 type QuestionProps = {
     model: QuestionModel;
@@ -23,7 +23,10 @@ const headingStyle: React.CSSProperties = { fontSize: '1.5rem' };
 const paragraphStyle: React.CSSProperties = { fontSize: '1.3rem' }
 
 export const Question: React.FC<QuestionProps> = ({ className, model }) => {
-    const InputType = inputTypeComponentMap[model.inputType as InputTypes];
+    // const InputType = inputComponents[model.inputType as InputTypes];
+    const InputType = resolveInputComponent(model.inputType);
+    const logger = resolveQuickFormService("logger");
+    logger.log("QuestionRender for question {@model} InputProps", model);
 
     const { state } = useQuickForm();
     const ql = state.slides[state.currIdx].questions.length === 1 ? '' : `.${String.fromCharCode('A'.charCodeAt(0) + state.slides[state.currIdx].questions.indexOf(model))}`;
@@ -35,7 +38,7 @@ export const Question: React.FC<QuestionProps> = ({ className, model }) => {
             className={className}
             style={questionStyling}
         >
-            Not able to find inputtype for question: {model.logicalName}
+            Attempted to use inputtype {model.inputType} but was not able to find a matching input for question: {model.logicalName}
         </div>
     }
 

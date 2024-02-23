@@ -2,8 +2,6 @@ import { DropDownProperties, RadioProperties, SliderProperties } from "../../mod
 import { QuestionJsonModel } from "../../model/json/JsonDataModels";
 import { registerQuickFormService } from "../QuickFormServices";
 
-
-
 function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownProperties | RadioProperties | SliderProperties | undefined {
     let inputProperties: DropDownProperties | RadioProperties | SliderProperties | undefined;
     // switch (value.inputType) {
@@ -22,7 +20,7 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
     switch (questionJsonModel.inputType) {
         case "dropdown":
             inputProperties = {
-                inputType :questionJsonModel.inputType,
+                inputType: questionJsonModel.inputType,
                 options: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).options,
                 minItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).minItems ?? 1,
                 maxItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).maxItems ?? 1,
@@ -52,3 +50,36 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
 }
 
 registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);
+
+import React from "react";
+import { TextInput, MultilineInput, DropDownInput } from "../../components/question/input-types/index";
+import { InputProps } from "../../model/InputType";
+
+export type InputComponentType = React.ComponentType<InputProps>;
+
+export type InputComponentDictionary = {
+    [key: string]: InputComponentType;
+};
+
+const inputComponents: InputComponentDictionary = {
+    "text": TextInput,
+    // TODO - Create Radio
+    "radio": TextInput,
+    // TODO - Create Slider
+    "slider": TextInput,
+    "multilinetext": MultilineInput,
+    // TODO - Create Email
+    "email": TextInput,
+    "dropdown": DropDownInput,
+    "none": TextInput,
+};
+
+export const registerInputComponent = (key: string, component: InputComponentType) => {
+    inputComponents[key] = component;
+};
+
+export const resolveInputComponent = (key: string): InputComponentType => {
+    return inputComponents[key];
+}
+
+// registerQuickFormService("registerInputTypeComponent", RegisterComponent);

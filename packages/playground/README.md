@@ -3,10 +3,7 @@
 
 ## Introduction
 Welcome to the **QuickForms Playground**! This package is an integral part of the QuickForms project, designed to provide developers with a convenient and efficient environment for testing and developing QuickForms.   
-It simplifies the process of setting up a local development server, allowing you to focus on creating and refining your forms.  
-
-## Name: Playground
-The name "Playground" was chosen to reflect the package's purpose: a space where developers can experiment, test, and play with QuickForms features in a controlled and flexible environment. It's the perfect place to try out new ideas, debug issues, and see your forms in action.
+It simplifies the process of setting up a local development server, allowing you to focus on creating and refining your forms. Use it to experiment, test, and play with QuickForms features in a controlled and flexible environment. It's the perfect place to try out new ideas, debug issues, and see your forms in action.  
 
 ## Use Case  
 The Playground is ideal for:  

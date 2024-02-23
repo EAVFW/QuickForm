@@ -17,12 +17,12 @@ type QuickFormProviderProps = {
 }
 
 export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload }) => {
-   
+
     const transform = resolveQuickFormService("modeltransformer");
-    const defaultStateObj = useMemo(() => { return defaultState(transform(definition,payload)) }, []);
+    const defaultStateObj = useMemo(() => { return defaultState(transform(definition, payload)) }, []);
     const [state, dispatch] = useReducer(quickformReducer, defaultStateObj);
 
-    console.log(JSON.stringify(defaultStateObj, null, 4));
+    // console.log(JSON.stringify(defaultStateObj, null, 4));
 
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => { dispatch({ type: 'NEXT_SLIDE' }); };

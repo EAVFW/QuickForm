@@ -1,0 +1,205 @@
+{
+    "layout": {
+        "slides": {
+            "slide1": {
+                "title": "Calculate the price for cleaning of tiles",
+                "rows": {
+                    "row1": {
+                        "columns": {
+                            "col1": {
+                                "rows": {
+                                    "row1_1": {
+                                        "type": "question",
+                                        "ref": "areaToClean"
+                                    },
+                                    "row1_2": {
+                                        "type": "question",
+                                        "ref": "removeAlgae"
+                                    },
+                                    "row1_3": {
+                                        "type": "question",
+                                        "ref": "impregnateTiles"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "slide2": {
+                "title": "Enter your details",
+                "rows": {
+                    "row2": {
+                        "columns": {
+                            "col1": {
+                                "rows": {
+                                    "row2_1": {
+                                        "type": "question",
+                                        "ref": "name"
+                                    },
+                                    "row2_2": {
+                                        "type": "question",
+                                        "ref": "phone"
+                                    },
+                                    "row2_3": {
+                                        "type": "question",
+                                        "ref": "email"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "intro": {
+        "text": "Get your cleaning quote instantly",
+        "paragraph": "Fill in the details to calculate the cleaning cost",
+        "buttonText": "Start Calculation"
+    },
+    "submit": {
+        "text": "Get your Quote",
+        "buttonText": "Calculate",
+        "paragraphs": [
+            "Please review your information before submitting.",
+            "Make sure all the details are correct to receive an accurate quote."
+        ],
+        "submitUrl": "https://example.com/post",
+        "submitMethod": "POST",
+        "submitFields": {
+            "uiSchema": {
+                "areaToClean": {
+                    "ui:widget": "range",
+                    "ui:placeholder": "Area in square meters",
+                    "ui:label": "How many square meters need to be cleaned?"
+                },
+                "removeAlgae": {
+                    "ui:widget": "radio",
+                    "ui:options": {
+                        "inline": true
+                    },
+                    "ui:title": "Should algae be removed?"
+                },
+                "impregnateTiles": {
+                    "ui:widget": "radio",
+                    "ui:options": {
+                        "inline": true
+                    },
+                    "ui:title": "Should the tiles be impregnated?"
+                },
+                "name": {
+                    "ui:placeholder": "Enter your name",
+                    "ui:label": "Name"
+                },
+                "phone": {
+                    "ui:placeholder": "Enter your phone number",
+                    "ui:label": "Phone"
+                },
+                "email": {
+                    "ui:placeholder": "Enter your email",
+                    "ui:label": "E-mail"
+                }
+            },
+            "schema": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                    "areaToClean": {
+                        "type": "number",
+                        "title": "Area to clean",
+                        "minimum": 1,
+                        "maximum": 200
+                    },
+                    "removeAlgae": {
+                        "type": "boolean",
+                        "title": "Algae removal"
+                    },
+                    "impregnateTiles": {
+                        "type": "boolean",
+                        "title": "Impregnate tiles"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "format": "tel",
+                        "title": "Phone"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "title": "E-mail"
+                    }
+                },
+                "required": [
+                    "areaToClean",
+                    "name",
+                    "phone",
+                    "email"
+                ]
+            }
+        }
+    },
+    "ending": {
+        "inputType": "ending",
+        "text": "Thank you for using our service",
+        "paragraph": "We will contact you shortly with your quote."
+    },
+    "questions": {
+        "areaToClean": {
+            "inputType": "slider",
+            "text": "How many square meters need cleaning?",
+            "paragraph": "Please slide to select the area size in square meters",
+            "placeholder": "20 m2",
+            "min": 1,
+            "max": 200,
+            "step": 10,
+            "type": "number",
+            "lang": "EN"
+        },
+        "algaeRemoval": {
+            "inputType": "toggle",
+            "text": "Should algae be removed?",
+            "paragraph": "Select 'Yes' if algae removal is needed, otherwise select 'No'.",
+            "options": {
+                "yes": "Yes",
+                "no": "No"
+            },
+            "lang": "EN"
+        },
+        "impregnation": {
+            "inputType": "toggle",
+            "text": "Should the tiles be impregnated?",
+            "paragraph": "Select 'Yes' if tiles should be impregnated, otherwise select 'No'.",
+            "options": {
+                "yes": "Yes",
+                "no": "No"
+            },
+            "lang": "EN"
+        },
+        "name": {
+            "inputType": "text",
+            "text": "What is your name?",
+            "paragraph": "Please enter your full name.",
+            "placeholder": "Enter your name",
+            "lang": "EN"
+        },
+        "phone": {
+            "inputType": "text",
+            "text": "What is your phone number?",
+            "paragraph": "Please enter your phone number for contact purposes.",
+            "placeholder": "Enter your phone number",
+            "lang": "EN"
+        },
+        "email": {
+            "inputType": "text",
+            "text": "What is your email address?",
+            "paragraph": "Please enter your email to receive the quotation.",
+            "placeholder": "Enter your email",
+            "lang": "EN"
+        }
+    }
+}

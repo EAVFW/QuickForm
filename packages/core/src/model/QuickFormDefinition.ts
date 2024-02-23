@@ -1,7 +1,6 @@
 import { EndingModel } from "./EndingModel";
 import { IntroModel } from "./IntroModel";
 import { QuickFormQuestionsDefinition } from "./QuickFormQuestionsDefinition";
-import { QuestionJsonModel } from "./json/JsonDataModels";
 import { QuickFormSubmitDefinition } from "./json/QuickFormSubmitDefinition";
 import { Layout } from "./json/Layout";
 
