@@ -5,19 +5,7 @@ import { registerQuickFormService } from "../QuickFormServices";
 
 function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownProperties | RadioProperties | SliderProperties | undefined {
     let inputProperties: DropDownProperties | RadioProperties | SliderProperties | undefined;
-    // switch (value.inputType) {
-    //     case "dropdown":
-    //         inputProperties = value as DropDownProperties;
-    //         break;
-    //     case "radio":
-    //         inputProperties = value as RadioProperties;
-    //         break;
-    //     case "slider":
-    //         inputProperties = value as SliderProperties;
-    //         break;
-    //     default:
-    //         inputProperties = {};
-    // }
+
     switch (questionJsonModel.inputType) {
         case "dropdown":
             inputProperties = {
@@ -69,7 +57,6 @@ const inputComponents: InputComponentDictionary = {
     // TODO - Create Toggle
     "toggle": TextInput,
 
-    
     "text": TextInput,
     "slider": TextInput,
     "multilinetext": MultilineInput,
