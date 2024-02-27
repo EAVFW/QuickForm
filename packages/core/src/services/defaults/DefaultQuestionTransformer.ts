@@ -7,10 +7,10 @@ function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel
     const parseInputProperties = resolveQuickFormService("inputTypePropertiesTransformer");
     const logger = resolveQuickFormService("logger");
 
-   
+
 
     if (question.inputType === "dropdown" && question.dataType === "boolean")
-        value = value === true ? 'Y' : value===false? 'N':'';
+        value = value === true ? 'Y' : value === false ? 'N' : '';
 
 
     logger.log("Transforming Question {key}: {@question} with value {@value}", key, question, value);
@@ -18,13 +18,13 @@ function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel
     return {
         logicalName: question.logicalName ?? key,
         inputType: question.inputType,
-        dataType: question.dataType??"string",
+        dataType: question.dataType ?? "string",
         text: question.text,
-        placeholder: question.placeholder??'',
+        placeholder: question.placeholder ?? '',
         paragraph: question.paragraph,
-        answered: typeof (value) !== undefined && value !== '',
-        inputProperties: parseInputProperties(question), 
-        output: value ?? '', 
+        answered: typeof (value) !== "undefined" && value !== '' && value !== null && value !== "",
+        inputProperties: parseInputProperties(question),
+        output: value ?? '',
     } as QuestionModel;
 }
 registerQuickFormService("questionTransformer", mapJsonQuestionToModelQuestion);
