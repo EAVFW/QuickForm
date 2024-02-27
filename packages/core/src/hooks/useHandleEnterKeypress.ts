@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect } from "react";
 
 export function useHandleEnterKeypress(inputType: "multilinetext" | string, disabled?: boolean, customFunc?: () => void) {

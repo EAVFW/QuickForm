@@ -9,9 +9,15 @@ type ErrorProps = {
 
 export const ErrorMessage: React.FC<ErrorProps> = ({ message }: ErrorProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  const { dispatch } = useQuickForm();
+  const { dispatch, state } = useQuickForm();
 
-  useDelayedClickListener(() => dispatch({ type: "SET_ERROR_MSG", msg: "" }));
+  const resetErrorMessage = () => {
+    if (state.errorMsg !== "") {
+      dispatch({ type: "SET_ERROR_MSG", msg: "" })
+    }
+  }
+
+  useDelayedClickListener(resetErrorMessage);
 
   useEffect(() => {
     if (message) {

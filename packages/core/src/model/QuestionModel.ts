@@ -10,7 +10,7 @@ export class QuestionModel {
     placeholder: string = "";
     paragraph: string = "";
     dataType: "string" | "number" | "boolean" = "string"
-    answered?: boolean = false;
+    answered: boolean = false;
     output: any = {};
     inputProperties?: DropDownProperties | RadioProperties | SliderProperties | undefined;
 

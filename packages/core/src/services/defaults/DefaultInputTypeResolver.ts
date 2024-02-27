@@ -1,22 +1,11 @@
+import { FC } from "react";
 import { DropDownProperties, RadioProperties, SliderProperties } from "../../model";
 import { QuestionJsonModel } from "../../model/json/JsonDataModels";
 import { registerQuickFormService } from "../QuickFormServices";
 
 function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownProperties | RadioProperties | SliderProperties | undefined {
     let inputProperties: DropDownProperties | RadioProperties | SliderProperties | undefined;
-    // switch (value.inputType) {
-    //     case "dropdown":
-    //         inputProperties = value as DropDownProperties;
-    //         break;
-    //     case "radio":
-    //         inputProperties = value as RadioProperties;
-    //         break;
-    //     case "slider":
-    //         inputProperties = value as SliderProperties;
-    //         break;
-    //     default:
-    //         inputProperties = {};
-    // }
+
     switch (questionJsonModel.inputType) {
         case "dropdown":
             inputProperties = {
@@ -32,6 +21,7 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
             inputProperties = {
                 inputType: questionJsonModel.inputType,
                 options: (questionJsonModel as (QuestionJsonModel & RadioProperties)).options,
+                direction: (questionJsonModel as (QuestionJsonModel & RadioProperties)).direction
             };
             break;
         case "slider":
@@ -51,25 +41,26 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
 
 registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);
 
-import React from "react";
 import { TextInput, MultilineInput, DropDownInput } from "../../components/question/input-types/index";
 import { InputProps } from "../../model/InputType";
 
-export type InputComponentType = React.ComponentType<InputProps>;
+export type InputComponentType = FC<InputProps>;
 
 export type InputComponentDictionary = {
     [key: string]: InputComponentType;
 };
 
 const inputComponents: InputComponentDictionary = {
-    "text": TextInput,
     // TODO - Create Radio
     "radio": TextInput,
-    // TODO - Create Slider
-    "slider": TextInput,
-    "multilinetext": MultilineInput,
     // TODO - Create Email
     "email": TextInput,
+    // TODO - Create Toggle
+    "toggle": TextInput,
+
+    "text": TextInput,
+    "slider": TextInput,
+    "multilinetext": MultilineInput,
     "dropdown": DropDownInput,
     "none": TextInput,
 };

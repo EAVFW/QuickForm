@@ -1,17 +1,4 @@
-// "intro" | "submit" | "ending"| "text" ;
-// | "phone" | "email" | "dropdown" | "cpr" | "bankaccount"
-// |  "firstName" | "lastName" | "industry" | "role" | "goal" | "email";
-
 import { QuestionModel } from "./QuestionModel";
-
-//export type InputTypes =
-//    "text" |
-//    "multilinetext" |
-//    "dropdown"
-//    // "radio" |
-//    // "slider" |
-//    // "select";
-//    ;
 
 export type InputProps = {
     questionModel: QuestionModel;
@@ -19,30 +6,44 @@ export type InputProps = {
 }
 
 const Dropdown = "dropdown";
+const Email = "email";
+const Multilinetext = "multilinetext";
 const Radio = "radio";
 const Slider = "slider";
-const Multilinetext = "multilinetext";
 const Text = "text";
-const Email = "email";
 
 export interface InputTypeMap {
     [Dropdown]: DropDownProperties;
+    [Email]: EmailProperties;
+    [Multilinetext]: MultilineProperties;
     [Radio]: RadioProperties;
     [Slider]: SliderProperties;
+    [Text]: TextProperties;
 }
 
 export type DropDownProperties = {
     inputType: typeof Dropdown;
     maxItems?: number;
     minItems?: number;
-    options?: {
+    options: {
         [key: string]: string;
     }
 }
 
+export type EmailProperties = {
+    inputType: typeof Email;
+}
+
+export type MultilineProperties = {
+    inputType: typeof Multilinetext;
+}
+
 export type RadioProperties = {
     inputType: typeof Radio;
-    options: any;
+    options: {
+        [key: string]: string;
+    }
+    direction?: "horizontal" | "vertical";
 }
 
 export type SliderProperties = {
@@ -52,17 +53,6 @@ export type SliderProperties = {
     step: number;
 }
 
-export type MultilineProperties = {
-    inputType: typeof Multilinetext;
-    rows?: any;
-}
-
 export type TextProperties = {
     inputType: typeof Text;
-    rows?: any;
-}
-
-export type EmailProperties = {
-    inputType: typeof Email;
-    rows?: any;
 }
