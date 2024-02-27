@@ -21,6 +21,7 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
             inputProperties = {
                 inputType: questionJsonModel.inputType,
                 options: (questionJsonModel as (QuestionJsonModel & RadioProperties)).options,
+                direction: (questionJsonModel as (QuestionJsonModel & RadioProperties)).direction
             };
             break;
         case "slider":

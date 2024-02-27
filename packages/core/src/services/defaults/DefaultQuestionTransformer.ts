@@ -22,7 +22,7 @@ function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel
         text: question.text,
         placeholder: question.placeholder ?? '',
         paragraph: question.paragraph,
-        answered: typeof (value) !== "undefined" && value !== '' && value !== null && value !== "",
+        answered: typeof (value) !== "undefined" && value !== '' && value !== null,
         inputProperties: parseInputProperties(question),
         output: value ?? '',
     } as QuestionModel;

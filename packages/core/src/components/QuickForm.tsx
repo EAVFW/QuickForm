@@ -1,7 +1,7 @@
 import "../style/QuickForm.css";
 import React from "react";
 import { useQuickForm } from "../state/QuickFormContext";
-import { Ending, ErrorMessage, Submit } from "./index";
+import { Ending, Submit } from "./index";
 import { Intro } from "./intro/Intro";
 import { SlideRenderer } from "./slide-renderer/SlideRenderer";
 
@@ -21,7 +21,6 @@ export const QuickForm: React.FC = () => {
 
     return (
         <div className="container">
-            {state.errorMsg && state.errorMsg !== "" && <ErrorMessage message={state.errorMsg} />}
             <SlideRenderer />
         </div>
     );

@@ -1,10 +1,10 @@
-"use client"
+"use client";
 import { useEffect, useRef } from "react";
 import { useQuickForm } from "../state/QuickFormContext";
 
 export function useHandleScroll() {
     const timerIdRef = useRef<number>();
-    const { goToNextSlide: goToNextQuestion, goToPrevSlide: goToPreviousQuestion, state: { submitStatus } } = useQuickForm();
+    const { goToNextSlide, goToPrevSlide, state: { submitStatus } } = useQuickForm();
 
     useEffect(() => {
         function handleScroll(event: WheelEvent) {
@@ -17,7 +17,7 @@ export function useHandleScroll() {
             timerIdRef.current = window.setTimeout(() => {
                 if (event.deltaY > 0) {
                     //   handleOkClick();
-                    goToNextQuestion();
+                    goToNextSlide();
                 } else if (event.deltaY <= -1) {
                     //   setErrorMsg({});
                     //   setQuestionNum((prevValue) =>
@@ -25,7 +25,7 @@ export function useHandleScroll() {
                     //       ? { ...prevValue }
                     //       : { prev: prevValue.now, now: prevValue.now - 1 }
                     //   );
-                    goToPreviousQuestion();
+                    goToPrevSlide();
                 }
             }, 32);
         }
@@ -37,6 +37,5 @@ export function useHandleScroll() {
         };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        //   }, [isSubmitting , isSubmitOK]);
     }, [])
 }

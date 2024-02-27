@@ -25,7 +25,7 @@ export type DropDownProperties = {
     inputType: typeof Dropdown;
     maxItems?: number;
     minItems?: number;
-    options?: {
+    options: {
         [key: string]: string;
     }
 }
@@ -40,7 +40,10 @@ export type MultilineProperties = {
 
 export type RadioProperties = {
     inputType: typeof Radio;
-    options: any;
+    options: {
+        [key: string]: string;
+    }
+    direction?: "horizontal" | "vertical";
 }
 
 export type SliderProperties = {
