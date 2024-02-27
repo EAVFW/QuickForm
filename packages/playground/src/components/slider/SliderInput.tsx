@@ -3,7 +3,7 @@ import { InputProps, registerInputComponent } from "@eavfw/quickform-core";
 import { SliderProperties } from "@eavfw/quickform-core/src/model";
 import styles from "./SliderInput.module.css";
 
-export const SliderInput: FC<InputProps> = ({ questionModel, onOutputChange }) => {
+export const SliderInput = ({ questionModel, onOutputChange }:InputProps) => {
     const min = Number((questionModel.inputProperties as SliderProperties).min) || 0;
     const max = Number((questionModel.inputProperties as SliderProperties).max) || 100;
     const unit = 'm2';

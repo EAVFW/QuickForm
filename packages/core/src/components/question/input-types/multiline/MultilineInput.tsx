@@ -6,15 +6,7 @@ import { useQuickForm } from "../../../../state/QuickFormContext";
 import React from "react";
 import { InputProps } from "../../../../model/index";
 
-export type MultilineInput = {
-    readonly placeholder?: string;
-    readonly className?: string;
-    readonly value?: string;
-    readonly onChange?: ChangeEventHandler<HTMLTextAreaElement>;
-    readonly width?: string;
-    readonly focus?: boolean;
-    readonly maxLength?: number;
-}
+
 
 export function MultilineInput({ questionModel, onOutputChange }: InputProps) {
     const { isFirstQuestionInCurrentSlide } = useQuickForm();
@@ -45,9 +37,19 @@ export function MultilineInput({ questionModel, onOutputChange }: InputProps) {
     );
 }
 
+type MultilineInputProps = {
+    readonly placeholder?: string;
+    readonly className?: string;
+    readonly value?: string;
+    readonly onChange?: ChangeEventHandler<HTMLTextAreaElement>;
+    readonly width?: string;
+    readonly focus?: boolean;
+    readonly maxLength?: number;
+}
+
 const QuestionTextArea = forwardRef(
     (
-        { placeholder, className, value, onChange, width, focus = true, maxLength }: MultilineInput,
+        { placeholder, className, value, onChange, width, focus = true, maxLength }: MultilineInputProps,
         passedRef: ForwardedRef<HTMLTextAreaElement>
     ) => {
         const textareaRef = (passedRef as RefObject<HTMLTextAreaElement>) ?? useRef<HTMLTextAreaElement>(null);
