@@ -8,7 +8,7 @@ import { DropDownProperties, InputProps } from '../../../../model';
 import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
 import { resolveQuickFormService } from '../../../../services/QuickFormServices';
 
-export function DropDownInput({ questionModel, onOutputChange }: InputProps) {
+export function DropDownInput({ questionModel }: InputProps) {
 
     const logger = resolveQuickFormService("logger");
 
@@ -41,7 +41,7 @@ export function DropDownInput({ questionModel, onOutputChange }: InputProps) {
         } else {
             setSelectedOptions(prev => newOptions);
         }
-    }, [selectedOptions, maxItems, minItems, onOutputChange]);
+    }, [selectedOptions, maxItems, minItems]);
 
     useKeyPressHandler(Object.keys(options!), (e, key) => onClickHandler(key));
 

@@ -2,7 +2,6 @@ import { QuestionModel } from "./QuestionModel";
 
 export type InputProps = {
     questionModel: QuestionModel;
-    onOutputChange(output: string): void;
 }
 
 const Dropdown = "dropdown";
@@ -11,14 +10,33 @@ const Multilinetext = "multilinetext";
 const Radio = "radio";
 const Slider = "slider";
 const Text = "text";
+const Buttons = "buttons";
 
 export interface InputTypeMap {
+    [Buttons]: ButtonsProperties;
     [Dropdown]: DropDownProperties;
     [Email]: EmailProperties;
     [Multilinetext]: MultilineProperties;
     [Radio]: RadioProperties;
     [Slider]: SliderProperties;
     [Text]: TextProperties;
+}
+
+export type InputPropertiesTypes =
+    ButtonsProperties |
+    DropDownProperties |
+    EmailProperties |
+    MultilineProperties |
+    RadioProperties |
+    SliderProperties |
+    TextProperties |
+    undefined;
+
+export type ButtonsProperties = {
+    inputType: typeof Buttons;
+    options: {
+        [key: string]: string;
+    }
 }
 
 export type DropDownProperties = {

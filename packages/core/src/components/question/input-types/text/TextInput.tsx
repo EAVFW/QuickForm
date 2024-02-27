@@ -6,11 +6,11 @@ import styles from "./TextInput.module.css";
 import { useQuickForm } from "../../../../state/QuickFormContext";
 import { InputProps } from "../../../../model/InputType";
 
-export function TextInput({ questionModel, onOutputChange }: InputProps) {
+export function TextInput({ questionModel }: InputProps) {
     const [text, setText] = useState<string>(questionModel!.output);
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setText(() => event.target.value);
-        onOutputChange(event.target.value);
+        questionModel.output = event.target.value;
     }
     const { isFirstQuestionInCurrentSlide } = useQuickForm();
     const ref = useRef<HTMLInputElement>(null);

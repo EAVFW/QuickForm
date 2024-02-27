@@ -1,4 +1,4 @@
-import { DropDownProperties, EmailProperties, MultilineProperties, RadioProperties, SliderProperties, TextProperties } from "../InputType";
+import { ButtonsProperties, DropDownProperties, EmailProperties, MultilineProperties, RadioProperties, SliderProperties, TextProperties } from "../InputType";
 
 type QuickFormQuestionDefinition = {
     logicalName?: string;
@@ -10,12 +10,11 @@ type QuickFormQuestionDefinition = {
 }
 
 export type QuestionJsonModel =
+    QuickFormQuestionDefinition & ButtonsProperties |
     QuickFormQuestionDefinition & DropDownProperties |
+    QuickFormQuestionDefinition & EmailProperties |
+    QuickFormQuestionDefinition & MultilineProperties |
     QuickFormQuestionDefinition & RadioProperties |
     QuickFormQuestionDefinition & SliderProperties |
-    QuickFormQuestionDefinition & MultilineProperties |
-    QuickFormQuestionDefinition & TextProperties |
-    QuickFormQuestionDefinition & EmailProperties
+    QuickFormQuestionDefinition & TextProperties
     ;
-
-export type InputTypes = QuestionJsonModel["inputType"]

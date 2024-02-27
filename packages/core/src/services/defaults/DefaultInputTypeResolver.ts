@@ -1,12 +1,20 @@
 import { FC } from "react";
-import { DropDownProperties, RadioProperties, SliderProperties } from "../../model";
+import { DropDownProperties, RadioProperties, SliderProperties, ButtonsProperties, InputPropertiesTypes, InputProps } from "../../model";
 import { QuestionJsonModel } from "../../model/json/JsonDataModels";
 import { registerQuickFormService } from "../QuickFormServices";
+import { TextInput, MultilineInput, DropDownInput } from "../../components/question/input-types/index";
 
-function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownProperties | RadioProperties | SliderProperties | undefined {
-    let inputProperties: DropDownProperties | RadioProperties | SliderProperties | undefined;
+function parseInputProperties(questionJsonModel: QuestionJsonModel): InputPropertiesTypes {
+    let inputProperties: InputPropertiesTypes;
 
     switch (questionJsonModel.inputType) {
+        case "buttons":
+            inputProperties = {
+                inputType: questionJsonModel.inputType,
+                options: (questionJsonModel as (QuestionJsonModel & ButtonsProperties)).options
+            };
+            break;
+
         case "dropdown":
             inputProperties = {
                 inputType: questionJsonModel.inputType,
@@ -14,9 +22,8 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
                 minItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).minItems ?? 1,
                 maxItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).maxItems ?? 1,
             };
-            console.log("dropdown", questionJsonModel)
-            console.log("inputProperties", inputProperties)
             break;
+
         case "radio":
             inputProperties = {
                 inputType: questionJsonModel.inputType,
@@ -24,6 +31,7 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
                 direction: (questionJsonModel as (QuestionJsonModel & RadioProperties)).direction
             };
             break;
+
         case "slider":
             inputProperties = {
                 inputType: questionJsonModel.inputType,
@@ -32,6 +40,7 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
                 step: (questionJsonModel as (QuestionJsonModel & SliderProperties)).step,
             };
             break;
+
         default:
             inputProperties = undefined;
     }
@@ -41,8 +50,7 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): DropDownPro
 
 registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);
 
-import { TextInput, MultilineInput, DropDownInput } from "../../components/question/input-types/index";
-import { InputProps } from "../../model/InputType";
+
 
 export type InputComponentType = FC<InputProps>;
 
@@ -51,12 +59,11 @@ export type InputComponentDictionary = {
 };
 
 const inputComponents: InputComponentDictionary = {
-    // TODO - Create Radio
-    "radio": TextInput,
     // TODO - Create Email
     "email": TextInput,
     // TODO - Create Toggle
     "toggle": TextInput,
+
 
     "text": TextInput,
     "slider": TextInput,

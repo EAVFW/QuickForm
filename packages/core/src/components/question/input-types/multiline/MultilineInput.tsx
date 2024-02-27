@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef, useState } from "react";
 import styles from "./MultilineInput.module.css";
 import classNames from "classnames";
@@ -8,15 +8,15 @@ import { InputProps } from "../../../../model/index";
 
 
 
-export function MultilineInput({ questionModel, onOutputChange }: InputProps) {
+export function MultilineInput({ questionModel }: InputProps) {
     const { isFirstQuestionInCurrentSlide } = useQuickForm();
     const { placeholder, output } = questionModel;
     const [text, setText] = useState<string>(output);
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value.replace(/\r?\n/g, '\n'); // Normalize newline characters
-        setText(() => event.target.value)
-        onOutputChange(newValue);
+        setText(() => event.target.value);
+        questionModel.output = newValue;
     };
 
     const ref = useRef<HTMLTextAreaElement>(null);

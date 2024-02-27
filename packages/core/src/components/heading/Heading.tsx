@@ -1,8 +1,10 @@
-import React, { CSSProperties } from "react";
-import { ReactNode } from "react";
 import { HeadingNumberDisplayProvider, registerQuickFormService, resolveQuickFormService } from "../../services/QuickFormServices";
 import { useQuickForm } from "../../state/QuickFormContext";
-import styles from "./Heading.module.css";
+import { ImArrowRightIcon } from "../../components/icons";
+import React, { CSSProperties } from "react";
+import classNames from "classnames";
+import { ReactNode } from "react";
+
 type HeadingProps = {
     readonly children: ReactNode;
     readonly style?: React.CSSProperties;
@@ -10,44 +12,32 @@ type HeadingProps = {
     readonly label?: string;
 };
 
-const headingStyles: React.CSSProperties = {
-    fontSize: '2.4rem',
-    fontWeight: 'unset',
-    color: 'var(--on-surface)',
-}
-
-const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
-    let { state } = useQuickForm();
-    console.log("defaultHeadingNumberDisplayProvider", [!(state.isEndingSlide || state.isIntroSlide || state.isSubmitSlide), state])
-    return !(state.isEndingSlide || state.isIntroSlide || state.isSubmitSlide)
-}
-registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);
-
-import classNames from "classnames";
-import { ImArrowRightIcon } from "../../components/icons";
-
-export function Heading({ children, className, label, style = {} }: HeadingProps) {
+export function Heading({ children, label, style = {} }: HeadingProps) {
 
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
-    const { state } = useQuickForm();
+
+    const headingStyles: React.CSSProperties = {
+        fontSize: '1.5rem',
+        fontWeight: 'unset',
+        color: 'var(--on-surface)',
+    }
+
+    console.log("shouldDisplayNumber", shouldDisplayNumber);
 
     return (
-        <h1
-            className={classNames(styles["heading"], className, label ? styles["num"] : "")}
-            style={{ ...style, ...headingStyles }} >
-
-            {shouldDisplayNumber &&
-                <div style={rootStyles}>
-                    {label}&nbsp;<ImArrowRightIcon size={"12px"} />
-                </div>
-            }
-
-            {children}
+        <h1 style={{ ...style, ...headingStyles }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                {shouldDisplayNumber && <ImArrowRightIcon size="12px" />}
+                {shouldDisplayNumber && <span style={{ marginLeft: '4px', marginRight: '4px' }}>{label}</span>}
+                {children}
+            </span>
         </h1>
     );
+
+
 }
 
-const rootStyles = {
+const rootStyles: CSSProperties = {
     position: "absolute",
     left: 0,
     translate: "-110px",
@@ -57,4 +47,10 @@ const rootStyles = {
     alignItems: "center",
     fontSize: "22px",
     top: "11px"
-} as CSSProperties;
+};
+
+const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
+    let { state } = useQuickForm();
+    return !(state.isEndingSlide || state.isIntroSlide || state.isSubmitSlide)
+}
+registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);

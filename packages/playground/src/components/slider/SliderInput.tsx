@@ -3,7 +3,7 @@ import { InputProps, registerInputComponent } from "@eavfw/quickform-core";
 import { SliderProperties } from "@eavfw/quickform-core/src/model";
 import styles from "./SliderInput.module.css";
 
-export const SliderInput = ({ questionModel, onOutputChange }:InputProps) => {
+export const SliderInput = ({ questionModel }: InputProps) => {
     const min = Number((questionModel.inputProperties as SliderProperties).min) || 0;
     const max = Number((questionModel.inputProperties as SliderProperties).max) || 100;
     const unit = 'm2';
@@ -12,7 +12,7 @@ export const SliderInput = ({ questionModel, onOutputChange }:InputProps) => {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         setValue(newValue);
-        onOutputChange(newValue);
+        questionModel.output = newValue;
     }
 
     const calculatePosition = (value: number, min: number, max: number): number => {

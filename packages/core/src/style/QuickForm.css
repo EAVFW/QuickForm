@@ -3,19 +3,23 @@
     /* Font family */
     --font-family: 'var(--chivo), Monaco, Consolas';
     --font-family: 'Nunito', sans-serif;
-    font-family: var(--font-family); 
+    font-family: var(--font-family);
+    font-size: 1.3em;
 
-     --white: #ffffff;
+    --white: #ffffff;
     --black: #000;
     --primary: #154068;
     --primary-variant: #112D4D;
     --secondary: #24517b;
     --background: #ffffff;
-    --surface: #e9e8e8;
+    --surface: #c9c9c9;
+
     --on-primary: #ffffff;
     --on-secondary: #000000;
     --on-background: #000000;
-    --on-surface: #000000; 
+    --on-surface: #000000;
+
+    --border-color: var(--primary);
 
     /* Feedback Colors (for alerts, success, error messages, etc.) */
     --error: #DB4437;
@@ -50,9 +54,10 @@
     flex-direction: column;
     min-height: 550px;
     z-index: 1;
-    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); */
-    /* border-radius: 20px; */
-    /* background-color: var(--background); */
+    border-radius: 20px;
+    border-color: var(--primary);
+    border: 5px solid var(--primary);
+    padding: 50px;
 }
 
 /* Media query for viewports with a max-width of 600px */
