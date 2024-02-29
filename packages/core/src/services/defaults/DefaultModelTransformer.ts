@@ -148,7 +148,7 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload:any): SubmitMod
 
     const logger = resolveQuickFormService("logger");
     const parseInputProperties = resolveQuickFormService("inputTypePropertiesTransformer");
-    const { submitFields: { schema, uiSchema } } = submit;
+    const { submitFields: { schema, uiSchema } = {} } = submit;
     logger.log("Transforming submitfields: {@schema} {@uiSchema}", schema, uiSchema);
 
     const submitFields = Object.fromEntries(
@@ -174,9 +174,9 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload:any): SubmitMod
     });
 
     return {
-        text: schema.title ?? submit.text,
-        paragraph: schema.description,
-        buttonText: submit.buttonText,
+        text: schema?.title ?? submit?.text ?? "Submit QuickForm",
+        paragraph: schema?.description,
+        buttonText: submit?.buttonText ?? "Submit",
         submitFields: submitFieldsArray,
         submitUrl: submit.submitUrl,
         submitMethod: submit.submitMethod,
