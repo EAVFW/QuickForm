@@ -1,7 +1,8 @@
-"use client"
+"use client";
 import React, { useContext } from "react";
 import { QuickformState, defaultState } from "./QuickformState";
 import { QuickformAction } from "./index";
+import { SlideModel } from "../model";
 
 interface IQuickFormContext {
     state: QuickformState;
@@ -13,6 +14,7 @@ interface IQuickFormContext {
     setIntroVisited: () => void;
     setErrorMsg: (msg: string) => void;
     isFirstQuestionInCurrentSlide: (questionLogicalName: string) => boolean;
+    getCurrentSlide: () => SlideModel;
 }
 
 export const QuickFormContext = React.createContext<IQuickFormContext>(
@@ -25,7 +27,10 @@ export const QuickFormContext = React.createContext<IQuickFormContext>(
         answerQuestion: () => { },
         setIntroVisited: () => { },
         setErrorMsg: () => { },
-        isFirstQuestionInCurrentSlide: () => true
+        isFirstQuestionInCurrentSlide: () => true,
+        getCurrentSlide: () => (
+            { questions: [], rows: [], isAnswered: false, addQuestion: () => ({ type: "question", ref: "" }) }
+        ),
     }
 );
 

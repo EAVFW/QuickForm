@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useMemo, useReducer } from "react";
 import { quickformReducer } from "./QuickformReducer";
 import { defaultState } from "./QuickformState";
@@ -37,6 +37,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
         const currSlide = state.slides[state.currIdx];
         return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName
     }
+    const getCurrentSlide = () => (state.slides[state.currIdx]);
 
     return (
         <QuickFormContext.Provider value={{
@@ -48,7 +49,8 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
             answerQuestion,
             setIntroVisited,
             setErrorMsg,
-            isFirstQuestionInCurrentSlide
+            isFirstQuestionInCurrentSlide,
+            getCurrentSlide
         }}>
             <ErrorMessage message={state.errorMsg} />
             {children}

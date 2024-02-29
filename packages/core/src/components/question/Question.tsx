@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import React from "react";
 import { Paragraph, Heading } from "..";
 import { QuestionModel } from "../../model/QuestionModel";
@@ -22,9 +22,26 @@ const questionStyling: React.CSSProperties = {
 export const Question: React.FC<QuestionProps> = ({ className, model }) => {
     const InputType = resolveInputComponent(model.inputType);
     const logger = resolveQuickFormService("logger");
+    const [visible, setIsVisible] = useState(true);
+    const { state, getCurrentSlide } = useQuickForm();
     logger.log("QuestionRender for question {@model} InputProps", model);
 
-    const { state } = useQuickForm();
+    function evalInScope(js: string, contextAsScope: any) {
+        return new Function(`with (this) { return (${js}); }`).call(contextAsScope);
+    }
+
+
+    useEffect(() => {
+        if (model.visible && model.visible?.rule) {
+            const shouldRender = evalInScope(model.visible.rule, { getCurrentSlide });
+            setIsVisible(shouldRender)
+        }
+    }, [getCurrentSlide().questions])
+
+    if (!visible) {
+        return null;
+    }
+
     const ql = state.slides[state.currIdx].questions.length === 1 ? '' : `.${String.fromCharCode('A'.charCodeAt(0) + state.slides[state.currIdx].questions.indexOf(model))}`;
     const label = state.isSubmitSlide ? '' : `${state.currIdx + 1}${ql}`;
 

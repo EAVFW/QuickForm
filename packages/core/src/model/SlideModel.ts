@@ -17,16 +17,17 @@ export class SlideModel {
         return this.questions.length > 0 && this.questions.every(question => question.answered);
     }
 
-    addQuestion(layout: QuestionRef, question: QuestionJsonModel, payload: any) {
+    addQuestion(layout: QuestionRef, question: QuestionJsonModel, payload: any, visible?: { type: string; rule: string; }) {
         const mapJsonQuestionToModelQuestion = resolveQuickFormService("questionTransformer");
-        const questionModel = mapJsonQuestionToModelQuestion(layout.ref, question, payload[question?.logicalName ?? layout.ref])
+        const questionModel = mapJsonQuestionToModelQuestion(layout.ref, question, payload[question?.logicalName ?? layout.ref], visible)
 
         this.questions.push(questionModel);
 
         return {
             style: layout.style,
             type: "question",
-            ref: layout.ref
+            ref: layout.ref,
+            visible: visible
         } as QuestionLayout;
     }
 }
@@ -48,7 +49,7 @@ export type Row = QuestionLayout | RowColumns
 
 export type ColumnWithRows = {
     style?: React.CSSProperties;
-    type:"column",
+    type: "column",
     rows: Row[];
 }
 export type Column = QuestionLayout | ColumnWithRows;

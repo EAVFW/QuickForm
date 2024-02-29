@@ -2,7 +2,7 @@ import { QuestionModel } from "../../model";
 import { QuestionJsonModel } from "../../model/json/JsonDataModels";
 import { registerQuickFormService, resolveQuickFormService } from "../QuickFormServices";
 
-function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel, value?: any): QuestionModel {
+function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel, value?: any, visible?: { type: string; rule: string; }): QuestionModel {
 
     const parseInputProperties = resolveQuickFormService("inputTypePropertiesTransformer");
     const logger = resolveQuickFormService("logger");
@@ -25,6 +25,7 @@ function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel
         answered: typeof (value) !== "undefined" && value !== '' && value !== null,
         inputProperties: parseInputProperties(question),
         output: value ?? '',
+        visible: visible
     } as QuestionModel;
 }
 registerQuickFormService("questionTransformer", mapJsonQuestionToModelQuestion);
