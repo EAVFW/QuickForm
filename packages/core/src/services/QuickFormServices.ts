@@ -1,12 +1,14 @@
 
-import { DropDownProperties, QuestionModel, QuickFormModel, RadioProperties, SliderProperties } from "../model";
+import { InputPropertiesTypes, QuestionModel, QuickFormModel } from "../model";
 import { QuickFormDefinition } from "../model";
 import { QuestionJsonModel } from "../model/json/JsonDataModels";
+import { InputComponentType } from "./defaults/DefaultInputTypeResolver";
 
 export type HeadingNumberDisplayProvider = () => boolean;
-export type QuickFormModelTransformer = (data: QuickFormDefinition,payload:any) => QuickFormModel;
+export type QuickFormModelTransformer = (data: QuickFormDefinition, payload: any) => QuickFormModel;
 export type QuestionTransformer = (key: string, question: QuestionJsonModel, value?: any) => QuestionModel;
-export type InputTypePropertiesTransformer = (questionJsonModel: QuestionJsonModel) => DropDownProperties | RadioProperties | SliderProperties | undefined;
+export type InputTypePropertiesTransformer = (questionJsonModel: QuestionJsonModel) => InputPropertiesTypes | undefined;
+export type RegisterInputTypeComponent = (key: string, component: InputComponentType) => void;
 export interface IQuickFormLogger {
 
     log(body: string, ...args: any[]): void;
@@ -17,6 +19,7 @@ export type QuickFormFeatures = {
     headingNumberDisplayProvider?: HeadingNumberDisplayProvider,
     questionTransformer?: QuestionTransformer,
     inputTypePropertiesTransformer?: InputTypePropertiesTransformer;
+    registerInputTypeComponent?: RegisterInputTypeComponent;
     logger?: IQuickFormLogger
 }
 let _quickFormFeatures: QuickFormFeatures = {

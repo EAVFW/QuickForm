@@ -1,1 +1,1 @@
-import "./defaults";
+export * from "./defaults";

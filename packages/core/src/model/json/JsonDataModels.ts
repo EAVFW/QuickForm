@@ -1,10 +1,4 @@
-import { EndingModel } from "../EndingModel";
-import { IntroModel } from "../IntroModel";
-import { QuestionModel } from "../QuestionModel";
-import { DropDownProperties, EmailProperties, MultilineProperties, RadioProperties, SliderProperties, TextProperties } from "../InputType";
-import { Layout } from "./Layout";
-
-
+import { ButtonsProperties, DropDownProperties, EmailProperties, MultilineProperties, RadioProperties, SliderProperties, TextProperties } from "../InputType";
 
 type QuickFormQuestionDefinition = {
     logicalName?: string;
@@ -12,17 +6,15 @@ type QuickFormQuestionDefinition = {
     text: string;
     placeholder?: string;
     paragraph: string;
-    dataType?:"string"|"number"|"boolean"
+    dataType?: "string" | "number" | "boolean";
 }
 
 export type QuestionJsonModel =
+    QuickFormQuestionDefinition & ButtonsProperties |
     QuickFormQuestionDefinition & DropDownProperties |
+    QuickFormQuestionDefinition & EmailProperties |
+    QuickFormQuestionDefinition & MultilineProperties |
     QuickFormQuestionDefinition & RadioProperties |
     QuickFormQuestionDefinition & SliderProperties |
-    QuickFormQuestionDefinition & MultilineProperties |
-    QuickFormQuestionDefinition & TextProperties |
-    QuickFormQuestionDefinition & EmailProperties
+    QuickFormQuestionDefinition & TextProperties
     ;
-
-
-export type InputTypes = QuestionJsonModel["inputType"]
