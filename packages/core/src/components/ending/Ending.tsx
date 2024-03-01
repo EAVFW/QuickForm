@@ -1,14 +1,12 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { Heading, Paragraph } from "../index";
 import { ErrorIcon, Checkmark } from "../icons/index";
-import styles from "./Ending.module.css";
-import classNames from "classnames";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { EndingModel } from "../../model";
 
 type EndingProps = {
-    data: EndingModel;
+    model: EndingModel;
 }
 
 const endingStyles: React.CSSProperties = {
@@ -17,35 +15,31 @@ const endingStyles: React.CSSProperties = {
     flexDirection: 'column'
 }
 
-export const Ending: React.FC<EndingProps> = ({ data }) => {
+export const Ending: React.FC<EndingProps> = ({ model }) => {
     const { state } = useQuickForm();
+    const { text, paragraph } = model;
     const submitStatus = state.submitStatus;
-
-    useEffect(() => {
-        console.log("Ending rendered..", submitStatus, classNames(styles.svgcolor), "test");
-
-    }, [submitStatus]);
 
     return (
         <div style={endingStyles}>
             {submitStatus.isSubmitError &&
                 <>
-                    <ErrorIcon classNames={classNames(styles.endingSvg)} />
+                    <ErrorIcon color={'var(--on-surface)'} />
                     <Heading>Der skete en fejl, prøv igen</Heading>
                 </>
             }
             {submitStatus.isSubmitSuccess &&
                 <>
-                    <Checkmark classNames={classNames(styles.endingSvg)} />
-                    {data.text &&
+                    <Checkmark color={'var(--on-surface)'} />
+                    {text &&
                         <Heading style={{ marginTop: '10px' }}>
-                            {data.text}
+                            {text}
                         </Heading>
                     }
 
-                    {data.paragraph &&
+                    {paragraph &&
                         <Paragraph style={{ marginTop: '10px' }}>
-                            {data.paragraph}
+                            {paragraph}
                         </Paragraph>
                     }
                 </>
@@ -53,4 +47,3 @@ export const Ending: React.FC<EndingProps> = ({ data }) => {
         </div>
     );
 }
-

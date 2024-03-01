@@ -1,3 +1,3 @@
-﻿import { QuestionJsonModel } from "./json/JsonDataModels";
+﻿import { QuestionJsonModel } from "./JsonDataModels";
 
 export type QuickFormQuestionsDefinition = { [logicalName: string]: QuestionJsonModel; };

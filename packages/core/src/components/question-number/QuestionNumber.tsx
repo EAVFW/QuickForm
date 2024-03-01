@@ -12,7 +12,6 @@ registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDis
 
 export const QuestionNumber: React.FC<{ questionNum?: number }> = ({ questionNum }) => {
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
-    console.log("shouldDisplay", shouldDisplayNumber);
     if (!shouldDisplayNumber) {
         return null
     }

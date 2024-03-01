@@ -30,6 +30,3 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
         default: return state;
     }
 };
-
-
-

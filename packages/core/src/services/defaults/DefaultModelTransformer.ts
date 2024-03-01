@@ -1,9 +1,9 @@
 import { Column, Layout, QuestionModel, QuestionRef, Row, SlideElements, SlideModel, SubmitModel } from "../../model";
 import { QuickFormModel } from "../../model/QuickFormModel";
-import { QuickFormQuestionsDefinition } from "../../model/QuickFormQuestionsDefinition";
+import { QuickFormQuestionsDefinition } from "../../model/json-definitions/QuickFormQuestionsDefinition";
 import { QuickFormModelTransformer, registerQuickFormService, resolveQuickFormService } from "../QuickFormServices";
-import { QuestionJsonModel } from "../../model/json/JsonDataModels";
-import { QuickFormSubmitDefinition } from "../../model/json/QuickFormSubmitDefinition";
+import { QuestionJsonModel } from "../../model/json-definitions/JsonDataModels";
+import { QuickFormSubmitDefinition } from "../../model/json-definitions/QuickFormSubmitDefinition";
 
 
 function isDefined(object?: object) {
@@ -26,7 +26,7 @@ function processRows(rowLayouts: SlideElements, slide: SlideModel, questions: Qu
                 if (!question)
                     return;
 
-                rows.push(slide.addQuestion(rowLayout, question, payload, rowLayout.visible));
+                rows.push(slide.addQuestion(rowLayout, question, payload));
 
                 break;
 
@@ -48,7 +48,7 @@ function processRows(rowLayouts: SlideElements, slide: SlideModel, questions: Qu
                             return;
                         }
 
-                        columns.push(slide.addQuestion(columnLayout, question, payload, columnLayout.visible));
+                        columns.push(slide.addQuestion(columnLayout, question, payload));
 
 
                     } else {
@@ -183,7 +183,6 @@ const transformJSONInput: QuickFormModelTransformer = (definition, payload): Qui
     let slides: SlideModel[];
 
     const logger = resolveQuickFormService("logger");
-    console.log(JSON.stringify(definition.questions, null, 4));
     logger.log("Transforming Quickform Def to Model with\n\nlayout:\n{@layout}\nquestions:\n{@questions}\nsubmit:\n{@submit}\npayload:\n{@payload}", definition.layout, definition.questions, definition.submit, payload);
 
     // Transform questions into slides with rows and columns

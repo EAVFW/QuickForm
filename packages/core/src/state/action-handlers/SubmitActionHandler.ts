@@ -89,4 +89,3 @@ export class SubmitActionHandler {
 // dispatch({
 //     type: 'PDF_PREVIEW', url: `/api/files/${document.body.document}?content-disposition=inline`
 // });
-// console.log("Submit data", document);

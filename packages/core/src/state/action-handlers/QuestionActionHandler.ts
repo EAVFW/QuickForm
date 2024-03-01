@@ -21,7 +21,7 @@ export class QuestionActionHandler {
         const { slideIndex, questionIndex } = this.findSlideIdxAndQuestionIdx(state, logicalName);
         const logger = resolveQuickFormService("logger");
 
-        logger.log("Updating Question Property:  {logicalName}, {propertyName}, {propertyValue}, {slideIndex}, {questionIndex}", logicalName, propertyName, propertyValue, slideIndex, questionIndex);
+        logger.log("Updating Question: {logicalName}.{propertyName} = {propertyValue}.  slideIndex: {slideIndex}, questionIndex: {questionIndex}", logicalName, propertyName, propertyValue, slideIndex, questionIndex);
 
         if (state.isSubmitSlide) {
             const questions = state.data.submit.submitFields;
@@ -63,9 +63,7 @@ export class QuestionActionHandler {
     };
 
     static answerQuestion = (state: QuickformState, logicalName: string, output: any) => {
-        console.log(`answering question for ${logicalName} with output ${output}`);
         const progressUpdated = this.computeProgress(this.updateQuestionProperty(this.updateQuestionProperty(state, logicalName, 'answered', true), logicalName, 'output', output));
-        console.log("progressUpdated", progressUpdated);
         return progressUpdated;
     };
 

@@ -1,7 +1,7 @@
 
 import { InputPropertiesTypes, QuestionModel, QuickFormModel } from "../model";
 import { QuickFormDefinition } from "../model";
-import { QuestionJsonModel } from "../model/json/JsonDataModels";
+import { QuestionJsonModel } from "../model/json-definitions/JsonDataModels";
 import { InputComponentType } from "./defaults/DefaultInputTypeResolver";
 
 export type HeadingNumberDisplayProvider = () => boolean;

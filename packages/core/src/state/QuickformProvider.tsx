@@ -22,15 +22,12 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
     const defaultStateObj = useMemo(() => { return defaultState(transform(definition, payload)) }, []);
     const [state, dispatch] = useReducer(quickformReducer, defaultStateObj);
 
-    // console.log(JSON.stringify(defaultStateObj, null, 4));
-
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => { dispatch({ type: 'NEXT_SLIDE' }); };
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
     const answerQuestion = (logicalName: string, output: any) => { dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output }) };
     const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
     const setErrorMsg = (msg: string) => {
-        console.log("errorMsg");
         dispatch({ type: "SET_ERROR_MSG", msg: msg })
     };
     const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => {

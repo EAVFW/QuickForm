@@ -1,7 +1,7 @@
 import { resolveQuickFormService } from "../services/QuickFormServices";
 import { QuestionModel } from "./QuestionModel";
-import { QuestionJsonModel } from "./json/JsonDataModels";
-import { QuestionRef } from "./json/Layout";
+import { QuestionJsonModel } from "./json-definitions/JsonDataModels";
+import { QuestionRef } from "./json-definitions/Layout";
 
 export class SlideModel {
     displayName?: string;
@@ -17,17 +17,16 @@ export class SlideModel {
         return this.questions.length > 0 && this.questions.every(question => question.answered);
     }
 
-    addQuestion(layout: QuestionRef, question: QuestionJsonModel, payload: any, visible?: { type: string; rule: string; }) {
+    addQuestion(layout: QuestionRef, question: QuestionJsonModel, payload: any) {
         const mapJsonQuestionToModelQuestion = resolveQuickFormService("questionTransformer");
-        const questionModel = mapJsonQuestionToModelQuestion(layout.ref, question, payload[question?.logicalName ?? layout.ref], visible)
+        const questionModel = mapJsonQuestionToModelQuestion(layout.ref, question, payload[question?.logicalName ?? layout.ref])
 
         this.questions.push(questionModel);
 
         return {
             style: layout.style,
             type: "question",
-            ref: layout.ref,
-            visible: visible
+            ref: layout.ref
         } as QuestionLayout;
     }
 }

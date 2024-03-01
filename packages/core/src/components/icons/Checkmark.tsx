@@ -1,10 +1,6 @@
 import React from "react";
 
-type CheckmarkProps = {
-    classNames?: string;
-}
-
-export const Checkmark: React.FC<CheckmarkProps> = ({ classNames }) => {
+export const Checkmark: React.FC<IconProps> = ({ color = "green" }) => {
     return (
         <div style={{ textAlign: 'center' }}>
             <svg
@@ -15,9 +11,8 @@ export const Checkmark: React.FC<CheckmarkProps> = ({ classNames }) => {
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <path
-                    className={`${classNames}`}
+                    stroke={color}
                     d="M20 6L9 17L4 12"
-                    stroke="green"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -26,4 +21,3 @@ export const Checkmark: React.FC<CheckmarkProps> = ({ classNames }) => {
         </div>
     );
 }
-

@@ -14,12 +14,10 @@ export const App = () => {
     const [editorValue, setEditorValue] = useState<string>(JSON.stringify(carp));
 
     const onChangeEditorValue = (value: string) => {
-        console.log("Editor input changed");
         setEditorValue(value);
     }
 
     const updateQuickForm = () => {
-        console.log("QuickForm updated.");
         setSelectedTemplate(() => JSON.parse(editorValue));
         setHackToChangeQuickForm(() => hackToChangeQuickForm + 1);
     }

@@ -1,13 +1,11 @@
 import { QuestionModel } from "../../model";
-import { QuestionJsonModel } from "../../model/json/JsonDataModels";
+import { QuestionJsonModel } from "../../model/json-definitions/JsonDataModels";
 import { registerQuickFormService, resolveQuickFormService } from "../QuickFormServices";
 
-function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel, value?: any, visible?: { type: string; rule: string; }): QuestionModel {
+function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel, value?: any): QuestionModel {
 
     const parseInputProperties = resolveQuickFormService("inputTypePropertiesTransformer");
     const logger = resolveQuickFormService("logger");
-
-
 
     if (question.inputType === "dropdown" && question.dataType === "boolean")
         value = value === true ? 'Y' : value === false ? 'N' : '';
@@ -25,7 +23,7 @@ function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel
         answered: typeof (value) !== "undefined" && value !== '' && value !== null,
         inputProperties: parseInputProperties(question),
         output: value ?? '',
-        visible: visible
+        visible: question.visible
     } as QuestionModel;
 }
 registerQuickFormService("questionTransformer", mapJsonQuestionToModelQuestion);

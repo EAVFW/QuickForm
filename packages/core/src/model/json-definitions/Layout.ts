@@ -56,8 +56,4 @@ export type QuestionRef = {
     style?: React.CSSProperties;
     type: "question";
     ref: string;
-    visible?: {
-        type: string;
-        rule: string;
-    }
 }
