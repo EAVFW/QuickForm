@@ -31,7 +31,6 @@ export class QuestionActionHandler {
             );
 
             state.data.submit.submitFields = updatedQuestions;
-
             return { ...state };
 
         }
@@ -42,9 +41,6 @@ export class QuestionActionHandler {
 
         const newState = { ...state, slides: [...state.slides] };
         const originalSlide = newState.slides[slideIndex];
-
-
-
 
         const updatedQuestions = originalSlide.questions.map((question: QuestionModel, idx: number) =>
             idx === questionIndex ? { ...question, [propertyName]: propertyValue } : question

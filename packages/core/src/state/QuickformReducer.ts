@@ -17,7 +17,12 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
 
         /* Deals with steps and navigation */
         case 'SET_INDEX': return NavigationActionHandler.handleSetIndexAction(state, action.index);
-        case 'NEXT_SLIDE': return NavigationActionHandler.handleNextSlideAction(state);
+        case 'NEXT_SLIDE':
+            if (state.slides[state.currIdx].isAnswered === true) {
+                return NavigationActionHandler.handleNextSlideAction(state);
+            } else {
+                return { ...state, errorMsg: "All questions must be answered." }
+            }
         case 'PREV_SLIDE': return NavigationActionHandler.handlePrevSlideAction(state);
 
         /* Deals with progress, overview and submit */
