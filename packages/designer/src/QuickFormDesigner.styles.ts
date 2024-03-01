@@ -3,7 +3,7 @@ import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 
 export const useQuickFormDesignerStyles = makeStyles({
     root: {
-        ...shorthands.border("2px", "solid", "#ccc"),
+       // ...shorthands.border("2px", "solid", "#ccc"),
         ...shorthands.overflow("hidden"),
 
         display: "flex",

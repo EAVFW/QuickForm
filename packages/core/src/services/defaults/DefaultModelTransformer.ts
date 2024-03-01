@@ -21,20 +21,17 @@ function processRows(rowLayouts: SlideElements, slide: SlideModel, questions: Qu
         switch (rowLayout.type) {
             case "question":
 
-
                 const question = questions[rowLayout.ref];
                 if (!question)
                     return;
 
                 rows.push(slide.addQuestion(rowLayout, question, payload));
-
                 break;
 
             case undefined:
             case "row":
 
                 logger.log("Processing row with columns {@rowLayouts}", rowLayout.columns);
-
                 const columns: Column[] = [];
                 Object.values(rowLayout.columns).forEach(columnLayout => {
 
@@ -49,7 +46,6 @@ function processRows(rowLayouts: SlideElements, slide: SlideModel, questions: Qu
                         }
 
                         columns.push(slide.addQuestion(columnLayout, question, payload));
-
 
                     } else {
                         const columnRows = columnLayout.rows ? processRows(columnLayout.rows, slide, questions, payload) : [];
@@ -72,16 +68,13 @@ function processRows(rowLayouts: SlideElements, slide: SlideModel, questions: Qu
 
                 break;
 
-
             default:
                 throw new Error("Unsupported layout type");
         }
-
     });
 
     return rows;
 }
-
 
 function handleLayout(layout: Layout, questions: QuickFormQuestionsDefinition, payload: any): SlideModel[] {
 
@@ -90,7 +83,6 @@ function handleLayout(layout: Layout, questions: QuickFormQuestionsDefinition, p
     logger.log("Handling {@slides} for {@questions}", layout.slides, questions);
 
     const slides: SlideModel[] = [];
-
 
     if (layout.slides) {
         Object.values(layout.slides).forEach(slide => {
@@ -105,8 +97,6 @@ function handleLayout(layout: Layout, questions: QuickFormQuestionsDefinition, p
 
     return slides;
 }
-
-
 
 function defaultLayout(questions: QuickFormQuestionsDefinition, payload: any): SlideModel[] {
     const slides: SlideModel[] = [];
@@ -136,12 +126,10 @@ function createSlide(questions: QuickFormQuestionsDefinition, payload: any): Sli
     return slide;
 }
 
-
-
 function handleSubmit(submit: QuickFormSubmitDefinition, payload: any): SubmitModel {
 
     const logger = resolveQuickFormService("logger");
-    const { submitFields: { schema, uiSchema } } = submit;
+    const { submitFields: { schema, uiSchema } = {} } = submit;
     logger.log("Transforming submitfields: {@schema} {@uiSchema}", schema, uiSchema);
 
     const submitFields = Object.fromEntries(
@@ -164,15 +152,14 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload: any): SubmitMo
     });
 
     return {
-        text: schema.title ?? submit.text,
-        paragraph: schema.description,
-        buttonText: submit.buttonText,
+        text: schema?.title ?? submit?.text ?? "Submit QuickForm",
+        paragraph: schema?.description,
+        buttonText: submit?.buttonText ?? "Submit",
         submitFields: submitFieldsArray,
         submitUrl: submit.submitUrl,
         submitMethod: submit.submitMethod,
     };
 }
-
 
 /*
 * This function is responsible for taking the JSON format of the input (TODO add link to JSON Schema), and transforming it into the "Form" model that QuickForm supports.
