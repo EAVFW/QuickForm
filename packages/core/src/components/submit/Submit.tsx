@@ -50,7 +50,15 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
                 <ul>
                     {submitFields.map((sf, idx) => {
                         if (sf.visible && sf.visible?.rule) {
-                            return <ConditionalRender key={sf.logicalName} model={sf} />
+                            return (
+                                <ConditionalRender
+                                    key={sf.logicalName}
+                                    engine={sf.visible?.type}
+                                    rule={sf.visible?.rule}
+                                >
+                                    <Question key={sf.logicalName} model={sf} />
+                                </ConditionalRender>
+                            )
                         }
                         return (
                             <Question key={sf.logicalName} model={sf} />

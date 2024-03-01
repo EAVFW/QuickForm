@@ -32,7 +32,20 @@ export const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
     if (!question) return null;
 
     if (question.visible && question.visible?.rule) {
-        return <ConditionalRender style={fullRowStyle} model={question} />
+
+        return (
+            <ConditionalRender
+                key={question.logicalName}
+                engine={question.visible?.type}
+                rule={question.visible?.rule}
+            >
+                <Question
+                    key={question.logicalName}
+                    style={fullRowStyle}
+                    model={question}
+                />
+            </ConditionalRender>
+        )
     }
 
     return <Question key={question.logicalName} style={fullRowStyle} model={question} />

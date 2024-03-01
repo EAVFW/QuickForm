@@ -28,7 +28,19 @@ export const ColumnRenderer: React.FC<ColumnRendererProps> = ({ column, question
         const question = findQuestionByLogicalName(column.ref!, questions);
         if (!question) return null;
         if (question.visible && question.visible?.rule) {
-            return <ConditionalRender key={question.logicalName} style={fullRowStyle} model={question} />
+            return (
+                <ConditionalRender
+                    key={question.logicalName}
+                    engine={question.visible?.type}
+                    rule={question.visible?.rule}
+                >
+                    <Question
+                        key={question.logicalName}
+                        style={fullRowStyle}
+                        model={question}
+                    />
+                </ConditionalRender>
+            )
         }
         return <Question key={question.logicalName} style={fullRowStyle} model={question} />
     }
@@ -40,7 +52,19 @@ export const ColumnRenderer: React.FC<ColumnRendererProps> = ({ column, question
                 const question = findQuestionByLogicalName(innerRow.ref!, questions);
                 if (!question) return null;
                 if (question.visible && question.visible?.rule) {
-                    return <ConditionalRender key={question.logicalName} model={question} />
+                    return (
+                        <ConditionalRender
+                            key={question.logicalName}
+                            engine={question.visible?.type}
+                            rule={question.visible?.rule}
+                        >
+                            <Question
+                                key={question.logicalName}
+                                style={fullRowStyle}
+                                model={question}
+                            />
+                        </ConditionalRender>
+                    )
                 }
                 return <Question key={question.logicalName} model={question} />
             } else {
