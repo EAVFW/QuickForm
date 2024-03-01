@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { DropDownProperties, RadioProperties, SliderProperties, ButtonsProperties, InputPropertiesTypes, InputProps } from "../../model";
-import { QuestionJsonModel } from "../../model/json/JsonDataModels";
+import { QuestionJsonModel } from "../../model/json-definitions/JsonDataModels";
 import { registerQuickFormService } from "../QuickFormServices";
 import { TextInput, MultilineInput, DropDownInput } from "../../components/question/input-types/index";
 

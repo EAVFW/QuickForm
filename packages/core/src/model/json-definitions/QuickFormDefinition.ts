@@ -1,8 +1,8 @@
-import { EndingModel } from "./EndingModel";
-import { IntroModel } from "./IntroModel";
+import { EndingModel } from "../EndingModel";
+import { IntroModel } from "../IntroModel";
 import { QuickFormQuestionsDefinition } from "./QuickFormQuestionsDefinition";
-import { QuickFormSubmitDefinition } from "./json/QuickFormSubmitDefinition";
-import { Layout } from "./json/Layout";
+import { QuickFormSubmitDefinition } from "./QuickFormSubmitDefinition";
+import { Layout } from "./Layout";
 
 
 export type QuickFormDefinition = {

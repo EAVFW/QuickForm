@@ -20,13 +20,10 @@ export type SlideElements = {
     [key: string]: SlideElement
 }
 
-
-
 /**
  * A slideElement can be either a set of columns or a question
  */
 export type SlideElement = RowColumnsLayout | QuestionRef;
-
 
 /**
  * The RowColumnsLayout is a row with columns
@@ -40,7 +37,16 @@ export type RowColumnsLayout = {
      */
     type?: "row";
     columns: ColumnsLayoutDefinition;
+}
 
+export type ColumnsLayoutDefinition = {
+    [key: string]: ColumnLayout | QuestionRef
+}
+
+export type ColumnLayout = {
+    style?: React.CSSProperties;
+    type?: "column"
+    rows: SlideElements
 }
 
 /**
@@ -48,20 +54,6 @@ export type RowColumnsLayout = {
  */
 export type QuestionRef = {
     style?: React.CSSProperties;
-    type: "question",
+    type: "question";
     ref: string;
 }
-
-
-
-
-export type ColumnLayout = {
-    style?: React.CSSProperties;
-    type?:"column"
-    rows: SlideElements
-}
-
-export type ColumnsLayoutDefinition = {
-    [key: string]: ColumnLayout | QuestionRef
-}
-

@@ -13,4 +13,3 @@ export const Divider: React.FC<DividerProps> = ({ color }) => {
 
     return <hr style={dividerStyle} />;
 };
-

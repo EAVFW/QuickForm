@@ -5,12 +5,12 @@ import { IntroModel } from "../../model";
 import { useHandleEnterKeypress } from "../../hooks";
 
 type IntroProps = {
-    data: IntroModel;
-    errorMsg: string;
+    model: IntroModel;
     onBtnClick: React.Dispatch<void>;
 }
 
-export const Intro: React.FC<IntroProps> = ({ data, errorMsg, onBtnClick }) => {
+export const Intro: React.FC<IntroProps> = ({ model, onBtnClick }) => {
+    const { text, paragraph, buttonText } = model;
 
     /* Listens to enter key pressed */
     useHandleEnterKeypress("intro", false, onBtnClick);
@@ -18,14 +18,13 @@ export const Intro: React.FC<IntroProps> = ({ data, errorMsg, onBtnClick }) => {
     return (
         <div style={introStyling}>
             <Heading >
-                {data.text}
+                {text}
             </Heading>
             <Paragraph style={{ marginTop: '10px' }}>
-                {data.paragraph}
+                {paragraph}
             </Paragraph>
             <Button
                 onClick={() => onBtnClick()}
-                visible={errorMsg === ""}
                 showPressEnter={true}
                 style={{
                     fontSize: '1.8rem',
@@ -33,7 +32,7 @@ export const Intro: React.FC<IntroProps> = ({ data, errorMsg, onBtnClick }) => {
                     padding: '10px 14px'
                 }}
             >
-                {data.buttonText}
+                {buttonText}
             </Button>
         </div>
     )

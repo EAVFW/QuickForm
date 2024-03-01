@@ -1,8 +1,7 @@
 import { HeadingNumberDisplayProvider, registerQuickFormService, resolveQuickFormService } from "../../services/QuickFormServices";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { ImArrowRightIcon } from "../../components/icons";
-import React, { CSSProperties } from "react";
-import classNames from "classnames";
+import React from "react";
 import { ReactNode } from "react";
 
 type HeadingProps = {
@@ -22,8 +21,6 @@ export function Heading({ children, label, style = {} }: HeadingProps) {
         color: 'var(--on-surface)',
     }
 
-    console.log("shouldDisplayNumber", shouldDisplayNumber);
-
     return (
         <h1 style={{ ...style, ...headingStyles }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
@@ -36,18 +33,6 @@ export function Heading({ children, label, style = {} }: HeadingProps) {
 
 
 }
-
-const rootStyles: CSSProperties = {
-    position: "absolute",
-    left: 0,
-    translate: "-110px",
-    justifyContent: 'end',
-    width: '100px',
-    display: "flex",
-    alignItems: "center",
-    fontSize: "22px",
-    top: "11px"
-};
 
 const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
     let { state } = useQuickForm();

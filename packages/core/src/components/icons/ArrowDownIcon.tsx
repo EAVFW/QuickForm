@@ -1,10 +1,6 @@
 import React from "react";
 
-interface ArrowDownProps {
-    className?: string;
-}
-
-export const ArrowDownIcon: React.FC<ArrowDownProps> = ({ className }) => {
+export const ArrowDownIcon: React.FC<IconProps> = ({ className }) => {
     return (
         <div className={className}>
             <svg
