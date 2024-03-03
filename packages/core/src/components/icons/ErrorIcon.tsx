@@ -1,4 +1,5 @@
 import React from "react";
+import { IconProps } from "./iconProps";
 
 export const ErrorIcon: React.FC<IconProps> = ({ style, color = "red", size = 100 }) => {
     return (

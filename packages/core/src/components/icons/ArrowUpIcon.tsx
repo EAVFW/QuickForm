@@ -1,4 +1,5 @@
 import React from "react";
+import { IconProps } from "./iconProps";
 
 export const ArrowUpIcon: React.FC<IconProps> = ({ className }) => {
     return (

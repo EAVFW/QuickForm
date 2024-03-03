@@ -1,8 +1,8 @@
-type IconProps = {
+export type IconProps = {
     style?: React.CSSProperties;
     color?: string;
     backgroundColor?: string;
-    size?: number;
+    size?: number | string;
     textColor?: string;
     className?: string;
     opacity?: number;

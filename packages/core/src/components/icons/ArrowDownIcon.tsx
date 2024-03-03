@@ -1,4 +1,5 @@
 import React from "react";
+import type { IconProps } from "./iconProps";
 
 export const ArrowDownIcon: React.FC<IconProps> = ({ className }) => {
     return (
