@@ -7,6 +7,10 @@ type QuickFormQuestionDefinition = {
     placeholder?: string;
     paragraph: string;
     dataType?: "string" | "number" | "boolean";
+    visible?: {
+        type: string;
+        rule: string;
+    }
 }
 
 export type QuestionJsonModel =
@@ -16,5 +20,4 @@ export type QuestionJsonModel =
     QuickFormQuestionDefinition & MultilineProperties |
     QuickFormQuestionDefinition & RadioProperties |
     QuickFormQuestionDefinition & SliderProperties |
-    QuickFormQuestionDefinition & TextProperties
-    ;
+    QuickFormQuestionDefinition & TextProperties;

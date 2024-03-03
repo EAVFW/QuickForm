@@ -1,11 +1,6 @@
 import React from "react";
 
-interface RightArrowProps {
-    className?: string;
-    size?: string;
-}
-
-export const RightArrow: React.FC<RightArrowProps> = ({ className, size = '16px' }) => {
+export const RightArrow: React.FC<IconProps> = ({ className, size = '16px' }) => {
     return (
         <div className={className}>
             <svg viewBox="0 0 448 512" height={size} width={size}>
@@ -14,4 +9,3 @@ export const RightArrow: React.FC<RightArrowProps> = ({ className, size = '16px'
         </div>
     );
 };
-

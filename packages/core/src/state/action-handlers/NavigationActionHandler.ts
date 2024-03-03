@@ -1,17 +1,6 @@
 import { QuickformState } from "../../state/QuickformState";
 
 export class NavigationActionHandler {
-    static handleSetIndexAction = (state: QuickformState, newIndex: number): QuickformState => {
-        if (newIndex >= 0 && newIndex < state.slides.length) {
-            return {
-                ...state,
-                currIdx: newIndex,
-                currStep: newIndex + 1,
-            };
-        }
-        return state;
-    };
-
     private static handleSlideChange = (state: QuickformState, direction: 'next' | 'prev') => {
         const currIdx = state.currIdx;
         const slides = state.slides;
@@ -39,4 +28,14 @@ export class NavigationActionHandler {
     static handlePrevSlideAction = (state: QuickformState) => {
         return NavigationActionHandler.handleSlideChange(state, 'prev');
     }
+    static handleSetIndexAction = (state: QuickformState, newIndex: number): QuickformState => {
+        if (newIndex >= 0 && newIndex < state.slides.length) {
+            return {
+                ...state,
+                currIdx: newIndex,
+                currStep: newIndex + 1,
+            };
+        }
+        return state;
+    };
 }

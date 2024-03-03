@@ -1,10 +1,6 @@
 import React from "react";
 
-interface ImArrowRightProps {
-    size?: string;
-}
-
-export const ImArrowRightIcon: React.FC<ImArrowRightProps> = ({ size = '20px' }) => {
+export const ImArrowRightIcon: React.FC<IconProps> = ({ size = '20px' }) => {
     return (
         <>
             <svg viewBox="0 0 448 512" height={size} width={size}>

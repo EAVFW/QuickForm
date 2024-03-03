@@ -1,7 +1,7 @@
 import { resolveQuickFormService } from "../services/QuickFormServices";
 import { QuestionModel } from "./QuestionModel";
-import { QuestionJsonModel } from "./json/JsonDataModels";
-import { QuestionRef } from "./json/Layout";
+import { QuestionJsonModel } from "./json-definitions/JsonDataModels";
+import { QuestionRef } from "./json-definitions/Layout";
 
 export class SlideModel {
     displayName?: string;
@@ -48,7 +48,7 @@ export type Row = QuestionLayout | RowColumns
 
 export type ColumnWithRows = {
     style?: React.CSSProperties;
-    type:"column",
+    type: "column",
     rows: Row[];
 }
 export type Column = QuestionLayout | ColumnWithRows;

@@ -2,7 +2,7 @@
     "layout": {
         "slides": {
             "slide1": {
-                "title": "Calculate the price for cleaning of tiles",
+                "title": "Beregn prisen for rengøring af fliser",
                 "rows": {
                     "row1": {
                         "columns": {
@@ -18,7 +18,11 @@
                                     },
                                     "row1_3": {
                                         "type": "question",
-                                        "ref": "impregnateTiles"
+                                        "ref": "impregnateTiles",
+                                        "visible": {
+                                            "type": "JSEval",
+                                            "rule": "getCurrentSlide().questions.find(q => q.logicalName === 'removeAlgae').output === 'hest'"
+                                        }
                                     }
                                 }
                             }
@@ -27,7 +31,7 @@
                 }
             },
             "slide2": {
-                "title": "Enter your details",
+                "title": "Indtast dine oplysninger",
                 "rows": {
                     "row2": {
                         "columns": {
@@ -53,51 +57,27 @@
             }
         }
     },
-    "intro": {
-        "text": "Get your cleaning quote instantly",
-        "paragraph": "Fill in the details to calculate the cleaning cost",
-        "buttonText": "Start Calculation"
-    },
     "submit": {
-        "text": "Get your Quote",
-        "buttonText": "Calculate",
+        "text": "",
+        "buttonText": "Beregn",
         "paragraphs": [
-            "Please review your information before submitting.",
-            "Make sure all the details are correct to receive an accurate quote."
+            "Gennemgå venligst dine oplysninger før indsendelse.",
+            "Sørg for, at alle detaljer er korrekte for at modtage et nøjagtigt tilbud."
         ],
-        "submitUrl": "https://example.com/post",
+        "submitUrl": "https://httpbin.org/post",
         "submitMethod": "POST",
         "submitFields": {
             "uiSchema": {
-                "areaToClean": {
-                    "ui:widget": "range",
-                    "ui:placeholder": "Area in square meters",
-                    "ui:label": "How many square meters need to be cleaned?"
-                },
-                "removeAlgae": {
-                    "ui:widget": "radio",
-                    "ui:options": {
-                        "inline": true
-                    },
-                    "ui:title": "Should algae be removed?"
-                },
-                "impregnateTiles": {
-                    "ui:widget": "radio",
-                    "ui:options": {
-                        "inline": true
-                    },
-                    "ui:title": "Should the tiles be impregnated?"
-                },
                 "name": {
-                    "ui:placeholder": "Enter your name",
-                    "ui:label": "Name"
+                    "ui:placeholder": "Indtast dit navn",
+                    "ui:label": "Navn"
                 },
                 "phone": {
-                    "ui:placeholder": "Enter your phone number",
-                    "ui:label": "Phone"
+                    "ui:placeholder": "Indtast dit telefonnummer",
+                    "ui:label": "Telefon"
                 },
                 "email": {
-                    "ui:placeholder": "Enter your email",
+                    "ui:placeholder": "Indtast din e-mail",
                     "ui:label": "E-mail"
                 }
             },
@@ -105,28 +85,14 @@
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
                 "properties": {
-                    "areaToClean": {
-                        "type": "number",
-                        "title": "Area to clean",
-                        "minimum": 1,
-                        "maximum": 200
-                    },
-                    "removeAlgae": {
-                        "type": "boolean",
-                        "title": "Algae removal"
-                    },
-                    "impregnateTiles": {
-                        "type": "boolean",
-                        "title": "Impregnate tiles"
-                    },
                     "name": {
                         "type": "string",
-                        "title": "Name"
+                        "title": "Navn"
                     },
                     "phone": {
                         "type": "string",
                         "format": "tel",
-                        "title": "Phone"
+                        "title": "Telefon"
                     },
                     "email": {
                         "type": "string",
@@ -145,61 +111,61 @@
     },
     "ending": {
         "inputType": "ending",
-        "text": "Thank you for using our service",
-        "paragraph": "We will contact you shortly with your quote."
+        "text": "Tak for at du brugte vores service",
+        "paragraph": "Vi vil kontakte dig snarest med dit tilbud."
     },
     "questions": {
         "areaToClean": {
             "inputType": "slider",
-            "text": "How many square meters need cleaning?",
-            "paragraph": "Please slide to select the area size in square meters",
+            "text": "Hvor mange kvadratmeter skal renses?",
+            "paragraph": "",
             "placeholder": "20 m2",
             "min": 1,
             "max": 200,
             "step": 10,
             "type": "number",
-            "lang": "EN"
+            "lang": "DA"
         },
-        "algaeRemoval": {
+        "removeAlgae": {
             "inputType": "toggle",
-            "text": "Should algae be removed?",
-            "paragraph": "Select 'Yes' if algae removal is needed, otherwise select 'No'.",
+            "text": "Skal alger fjernes?",
+            "paragraph": "Vælg 'Ja', hvis der er behov for fjernelse af alger, ellers vælg 'Nej'.",
             "options": {
-                "yes": "Yes",
-                "no": "No"
+                "yes": "Ja",
+                "no": "Nej"
             },
-            "lang": "EN"
+            "lang": "DA"
         },
-        "impregnation": {
+        "impregnateTiles": {
             "inputType": "toggle",
-            "text": "Should the tiles be impregnated?",
-            "paragraph": "Select 'Yes' if tiles should be impregnated, otherwise select 'No'.",
+            "text": "Skal fliserne imprægneres?",
+            "paragraph": "Vælg 'Ja', hvis fliserne skal imprægneres, ellers vælg 'Nej'.",
             "options": {
-                "yes": "Yes",
-                "no": "No"
+                "yes": "Ja",
+                "no": "Nej"
             },
-            "lang": "EN"
+            "lang": "DA"
         },
         "name": {
             "inputType": "text",
-            "text": "What is your name?",
-            "paragraph": "Please enter your full name.",
-            "placeholder": "Enter your name",
-            "lang": "EN"
+            "text": "Hvad er dit navn?",
+            "paragraph": "Indtast venligst dit fulde navn.",
+            "placeholder": "Indtast dit navn",
+            "lang": "DA"
         },
         "phone": {
             "inputType": "text",
-            "text": "What is your phone number?",
-            "paragraph": "Please enter your phone number for contact purposes.",
-            "placeholder": "Enter your phone number",
-            "lang": "EN"
+            "text": "Hvad er dit telefonnummer?",
+            "paragraph": "Indtast venligst dit telefonnummer til kontaktformål.",
+            "placeholder": "Indtast dit telefonnummer",
+            "lang": "DA"
         },
         "email": {
             "inputType": "text",
-            "text": "What is your email address?",
-            "paragraph": "Please enter your email to receive the quotation.",
-            "placeholder": "Enter your email",
-            "lang": "EN"
+            "text": "Hvad er din e-mailadresse?",
+            "paragraph": "Indtast venligst din e-mail for at modtage tilbuddet.",
+            "placeholder": "Indtast din e-mail",
+            "lang": "DA"
         }
     }
 }
