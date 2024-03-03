@@ -1,5 +1,6 @@
 export type LayoutDefinition = {
     style?: React.CSSProperties;
+    autoAdvanceSlides?: boolean;
     slides?: { [key: string]: SlideLayout };
 }
 
