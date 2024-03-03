@@ -51,8 +51,9 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): InputProper
 registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);
 
 
-
-export type InputComponentType = FC<InputProps>;
+import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+export type InputComponentMetadata = { label: string, uiSchema: any, schema: JSONSchema7 };
+export type InputComponentType = FC<InputProps> & { quickform?: InputComponentMetadata };
 
 export type InputComponentDictionary = {
     [key: string]: InputComponentType;
@@ -80,4 +81,12 @@ export const resolveInputComponent = (key: string): InputComponentType => {
     return inputComponents[key];
 }
 
+export const resolveInputComponentSchemas = () => {
+
+    const result = Object.fromEntries(Object.keys(inputComponents).filter(x => "quickform" in inputComponents[x]).map(k => [k, inputComponents[k].quickform]));
+    console.log("resolveInputComponentSchemas", [result, Object.keys(inputComponents).filter(x => "quickform" in inputComponents[x]), Object.keys( inputComponents)]);
+    return result as {
+        [k: string]: InputComponentMetadata
+    };
+}
 // registerQuickFormService("registerInputTypeComponent", RegisterComponent);

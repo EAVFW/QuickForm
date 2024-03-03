@@ -1,3 +1,4 @@
+"use client"
 import "../style/QuickForm.css";
 import React from "react";
 import { useQuickForm } from "../state/QuickFormContext";

@@ -10,12 +10,13 @@ import { ariaDescribedByIds } from "@rjsf/utils";
 import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 
+import { InputComponentMetadata, resolveInputComponentSchemas } from "@eavfw/quickform-core";
 
 
 
 
 
-const schemas = {
+const default_schemas = {
     "text": {
         label: "Text",
         uiSchema: {
@@ -66,8 +67,9 @@ const schemas = {
                 }
             }
         }
-    }
-} as { [key: string]: { label: string, uiSchema: any, schema: JSONSchema7 } };
+    },
+    
+} as { [key: string]: InputComponentMetadata };
 
 
 
@@ -78,6 +80,9 @@ export const QuickFormQuestionsView: React.FC<{
 }> = ({ currentQuestion, questions, dispatch }) => {
 
     const styles = useViewStyles();
+
+    const schemas = { ...default_schemas, ...resolveInputComponentSchemas() };
+
     console.log("QuickFormQuestionsView", [currentQuestion, questions]);
     if (currentQuestion && currentQuestion in questions) {
         const question = questions[currentQuestion];
