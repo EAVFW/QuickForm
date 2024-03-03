@@ -1,6 +1,4 @@
-import { createContext, useContext, useEffect, PropsWithChildren } from "react";
-import { QuickFormDef } from "../Types/QuickFormDefinition";
-import { ViewNames } from "../Types/ViewNames";
+import { PropsWithChildren, createContext, useContext } from "react";
 import { useDocument } from "../Hooks/useDocument";
 
 export const QuickFormDefContext = createContext<ReturnType<typeof useDocument> | undefined>(undefined);

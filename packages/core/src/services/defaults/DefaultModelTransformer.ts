@@ -1,4 +1,4 @@
-import { Column, Layout, QuestionModel, QuestionRef, Row, SlideElements, SlideModel, SubmitModel } from "../../model";
+import { Column, LayoutDefinition, QuestionModel, QuestionRef, Row, SlideElements, SlideModel, SubmitModel } from "../../model";
 import { QuickFormModel } from "../../model/QuickFormModel";
 import { QuickFormQuestionsDefinition } from "../../model/json-definitions/QuickFormQuestionsDefinition";
 import { QuickFormModelTransformer, registerQuickFormService, resolveQuickFormService } from "../QuickFormServices";
@@ -76,7 +76,7 @@ function processRows(rowLayouts: SlideElements, slide: SlideModel, questions: Qu
     return rows;
 }
 
-function handleLayout(layout: Layout, questions: QuickFormQuestionsDefinition, payload: any): SlideModel[] {
+function handleLayout(layout: LayoutDefinition, questions: QuickFormQuestionsDefinition, payload: any): SlideModel[] {
 
     const logger = resolveQuickFormService("logger");
 

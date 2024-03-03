@@ -13,7 +13,7 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
     const styles = useViewStyles();
     const { view, activeQuestion, activeSlide, quickformpayload: { layout } } = useQuickFormDefinition();
 
-    const segments = ["QuickForm", view, activeQuestion, activeSlide && layout.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
+    const segments = ["QuickForm", view, activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
     return (
         <div className={styles.section}>
         <Breadcrumb

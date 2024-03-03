@@ -1,5 +1,5 @@
 import { useEditorChanges } from "@eavfw/designer";
-import { QuickFormDef } from "../../Types/QuickFormDefinition";
+import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
 import { ViewNames } from "../../Types/ViewNames";
 
 
@@ -67,7 +67,7 @@ export const NavDrawer = ({
                                         aria-label="Remove item"
                                         appearance="subtle"
                                         onClick={() => {
-                                            updateQuickFormPayload((old) => { delete old.layout.slides[key]; return { ...old }; });
+                                            updateQuickFormPayload((old) => { if (old.layout?.slides) delete old.layout.slides[key]; return { ...old }; });
                                             setView("layout");
                                         }}
                                         icon={<TrashCanIcon />}
@@ -94,7 +94,7 @@ export const NavDrawer = ({
                                             if (!old.layout.slides)
                                                 old.layout.slides = {};
 
-                                            old.layout.slides[id] = { title: "New Slide", schemaName :"NewSlide", logicalName:"newslide" };
+                                            old.layout.slides[id] = { title: "New Slide", schemaName:"NewSlide", logicalName:"newslide" };
                                             old.__designer.activeSlide = id;
                                             return { ...old };
                                         });

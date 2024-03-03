@@ -1,4 +1,4 @@
-export type Layout = {
+export type LayoutDefinition = {
     style?: React.CSSProperties;
     slides?: { [key: string]: SlideLayout };
 }
@@ -10,7 +10,9 @@ export type Layout = {
 export type SlideLayout = {
     title?: string;
     style?: React.CSSProperties;
-    rows: SlideElements;
+    rows?: SlideElements;
+    schemaName?: string;
+    logicalName?: string
 }
 
 /**

@@ -5,7 +5,7 @@ import validator from '@rjsf/validator-ajv8';
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 import { Dropdown, DropdownProps, Option, shorthands, mergeClasses, Field, Input } from '@fluentui/react-components';
 import { useViewStyles } from "../Styles/useViewStyles.styles";
-import { QuickFormDef } from "../../Types/QuickFormDefinition";
+import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
 import { ariaDescribedByIds } from "@rjsf/utils";
 import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
@@ -74,9 +74,9 @@ const default_schemas = {
 
 
 export const QuickFormQuestionsView: React.FC<{
-    dispatch: React.Dispatch<React.SetStateAction<QuickFormDef>>,
+    dispatch: React.Dispatch<React.SetStateAction<QuickFormDesignerDefinition>>,
     currentQuestion?: string,
-    questions: QuickFormDef["questions"]
+    questions: QuickFormDesignerDefinition["questions"]
 }> = ({ currentQuestion, questions, dispatch }) => {
 
     const styles = useViewStyles();
