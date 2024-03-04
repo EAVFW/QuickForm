@@ -13,65 +13,7 @@ import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 import { InputComponentMetadata, resolveInputComponentSchemas } from "@eavfw/quickform-core";
 
 
-
-
-
-const default_schemas = {
-    "text": {
-        label: "Text",
-        uiSchema: {
-            paragraph: {
-                "ui:widget": "textarea"
-            }
-        },
-        schema: {
-            type: "object",
-
-            properties: {
-                text: {
-                    title:"Text",
-                    type: "string"
-                },
-                placeholder: {
-                    title: "Placeholder",
-                    type: "string"
-                },
-                paragraph: {
-                    title:"Paragraph",
-                    type: "string"
-                }
-            }
-        }
-    },
-    "multilinetext": {
-        label: "Multiline Text",
-        uiSchema: {
-            paragraph: {
-                "ui:widget": "textarea"
-            }
-        },
-        schema: {
-            type: "object",
-            properties: {
-                text: {
-                    title: "Text",
-                    type: "string"
-                },
-                placeholder: {
-                    title: "Placeholder",
-                    type: "string"
-                },
-                paragraph: {
-                    title: "Paragraph",
-                    type: "string"
-                }
-            }
-        }
-    },
-    
-} as { [key: string]: InputComponentMetadata };
-
-
+ 
 
 export const QuickFormQuestionsView: React.FC<{
     dispatch: React.Dispatch<React.SetStateAction<QuickFormDesignerDefinition>>,
@@ -81,11 +23,15 @@ export const QuickFormQuestionsView: React.FC<{
 
     const styles = useViewStyles();
 
-    const schemas = { ...default_schemas, ...resolveInputComponentSchemas() };
+    const schemas = resolveInputComponentSchemas();
+
+  
 
     console.log("QuickFormQuestionsView", [currentQuestion, questions]);
     if (currentQuestion && currentQuestion in questions) {
         const question = questions[currentQuestion];
+     
+
         const _onChange: DropdownProps["onOptionSelect"] = (e, d) => {
             dispatch(old => {
                 if (d.optionValue) {
@@ -97,12 +43,17 @@ export const QuickFormQuestionsView: React.FC<{
             console.log("onOptionSelect", [e, d]);
         }
 
+        const { label, schema, uiSchema } = question.inputType ? schemas[question.inputType] : {} as InputComponentMetadata;
+        if (uiSchema) {
+            uiSchema["text"] = { "ui:widget": "hidden" };
+        }
+
         return (
             <div className={mergeClasses(styles.section, styles.sectionSlim)}>
 
 
                 <Field
-                    label="Question Title"
+                    label="Question?" hint="The question text"
                     orientation="horizontal"
                     required={true} style={{ marginBottom: '25px' }}
                 >
@@ -113,17 +64,22 @@ export const QuickFormQuestionsView: React.FC<{
                         value={question?.text??''}
                         onChange={(ev, data) => {
                             dispatch(old => {
-                                let text = data.value;
-                                let schemaName = removeNonAlphanumeric(text);
-                                let logicalName = schemaName.toLowerCase();
-                               
-                                old.questions[logicalName] = { ...old.questions[currentQuestion], text, schemaName, logicalName };
-                                delete old.questions[currentQuestion];
 
-                                if (!old.__designer)
-                                    old.__designer = {};
+                                if (old.questions[currentQuestion].logicalName === currentQuestion) {
+                                    let text = data.value;
+                                    let schemaName = removeNonAlphanumeric(text);
+                                    let logicalName = schemaName.toLowerCase();
 
-                                old.__designer.activeQuestion = logicalName;
+                                    old.questions[logicalName] = { ...old.questions[currentQuestion], text, schemaName, logicalName };
+                                    delete old.questions[currentQuestion];
+
+                                    if (!old.__designer)
+                                        old.__designer = {};
+
+                                    old.__designer.activeQuestion = logicalName;
+                                } else {
+                                    old.questions[currentQuestion].text = data.value;
+                                }
                                 return { ...old };
                             });
                         } }

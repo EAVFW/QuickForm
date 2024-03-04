@@ -1,30 +1,27 @@
 "use client"
-import React from "react";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import styles from "./TextInput.module.css";
-import { useQuickForm } from "../../../../state/QuickFormContext";
-import { InputProps, TextProperties } from "../../../../model/InputType";
+import { ChangeEvent, useState } from "react";
+import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
+import { InputProps } from "../../../../model/InputType";
+
+import styles from "../text/TextInput.module.css";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
 
-export const TextInput: InputComponentType<TextProperties> =({ questionModel })=> {
+export const PhoneInput: InputComponentType = ({ questionModel }) => {
+
+    
     const [text, setText] = useState<string>(questionModel!.output);
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setText(() => event.target.value);
         questionModel.output = event.target.value;
     }
-    const { isFirstQuestionInCurrentSlide } = useQuickForm();
-    const ref = useRef<HTMLInputElement>(null);
-    useEffect(() => {
-        if (ref.current && isFirstQuestionInCurrentSlide(questionModel.logicalName)) {
-            ref.current.focus();
-        }
-    }, [ref]);
+
+    const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
 
     return (
         <input
             ref={ref}
-            type="text"
+            type="email"
             className={classNames(styles.input__text)}
             placeholder={questionModel.placeholder}
             value={text}
@@ -33,8 +30,8 @@ export const TextInput: InputComponentType<TextProperties> =({ questionModel })=
     );
 }
 
-TextInput.quickform = {
-    label: "Text",
+PhoneInput.quickform = {
+    label: "Phone",
     uiSchema: {
         paragraph: {
             "ui:widget": "textarea"
@@ -59,4 +56,4 @@ TextInput.quickform = {
         }
     }
 }
-registerInputComponent("text", TextInput);
+registerInputComponent("phone", PhoneInput);

@@ -52,6 +52,11 @@ type QuickFormQuestionDefinition = {
         type: string;
         rule: string;
     }
+
+    /**
+     * The ordering of the question
+     */
+    order?: number
 }
 
 /**

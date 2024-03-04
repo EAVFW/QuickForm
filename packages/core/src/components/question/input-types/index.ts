@@ -13,3 +13,5 @@ export * from './text/TextInput';
 export * from './multiline/MultilineInput';
 
 
+import "./email/EmailInput";
+import "./phone/PhoneInput";

@@ -13,6 +13,9 @@ import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 const endingSlideSchema = {
     label: "Ending Settings",
     uiSchema: {
+        text: {
+            "ui:widget": "textarea"
+        },
         paragraph: {
             "ui:widget": "textarea"
         }
@@ -22,7 +25,7 @@ const endingSlideSchema = {
         required: ["text"],
         properties: {
             text: {
-                title: "Placeholder",
+                title: "Text",
                 description: "The headline displayed to the end user when completed the form",
                 type: "string"
 
@@ -52,7 +55,7 @@ export const QuickFormEndingSettingsView = () => {
                     console.log("change", [a, b]);
 
                     dispatch(old => {
-                        old.intro = { ...old.ending, ...a.formData }
+                        old.ending = { ...old.ending, ...a.formData }
                         return { ...old };
                     });
                 }}

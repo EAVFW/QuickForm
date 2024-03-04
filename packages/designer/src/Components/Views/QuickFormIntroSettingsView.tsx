@@ -7,9 +7,12 @@ import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { mergeClasses } from "@fluentui/react-components";
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 
-const inputSlideSchema = {
+const introSlideSchema = {
     label: "Intro Settings",
     uiSchema: {
+        text: {
+            "ui:widget": "textarea"
+        },
         paragraph: {
             "ui:widget": "textarea"
         }
@@ -19,7 +22,7 @@ const inputSlideSchema = {
         required: ["text"],
         properties: {            
             text: {
-                title: "Placeholder",
+                title: "Text",
                 description:"The headline displayed to the end user when first loading the form",
                 type: "string"
               
@@ -47,7 +50,7 @@ export const QuickFormIntroSettingsView = () => {
         <div className={mergeClasses(styles.section, styles.sectionSlim)}>
         <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
             validator={validator}
-            {...inputSlideSchema}
+            {...introSlideSchema}
             formData={intro}
             onChange={(a, b) => {
                 console.log("change", [a, b]);

@@ -7,14 +7,15 @@ import styles from './DropDownInput.module.css';
 import { DropDownProperties, InputProps } from '../../../../model';
 import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
 import { resolveQuickFormService } from '../../../../services/QuickFormServices';
+import { InputComponentType, registerInputComponent } from '../../../../services/defaults/DefaultInputTypeResolver';
 
-export function DropDownInput({ questionModel }: InputProps) {
+export const DropDownInput: InputComponentType<DropDownProperties> = ({ questionModel, options, maxItems, minItems }) => {
 
     const logger = resolveQuickFormService("logger");
 
     const { answerQuestion } = useQuickForm();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(questionModel.answered ? [questionModel.output] : []);
-    const { maxItems, minItems, options } = (questionModel?.inputProperties as DropDownProperties);
+   // const { maxItems, minItems, options } = (questionModel?.inputProperties as DropDownProperties);
     const remainingChoices = minItems! - selectedOptions.length;
 
     logger.log("Dropdown Input: {@options} {@selectedOptions}", options, selectedOptions);
@@ -67,3 +68,5 @@ export function DropDownInput({ questionModel }: InputProps) {
         </>
     );
 }
+
+registerInputComponent("dropdown", DropDownInput);

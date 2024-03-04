@@ -53,6 +53,7 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
             <InputType
                 key={"input" + model.logicalName}
                 questionModel={model}
+                {...model.inputProperties ?? {}}
             />
         </div>
     );

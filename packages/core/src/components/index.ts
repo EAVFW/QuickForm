@@ -11,4 +11,6 @@ export { Question } from "./question/Question";
 export { Slide } from "./slide/Slide";
 export { Submit } from "./submit/Submit";
 export { QuickForm } from "./QuickForm";
-export {Spinner} from "./spinner/Spinner";
+export { Spinner } from "./spinner/Spinner";
+
+import "./question/input-types";

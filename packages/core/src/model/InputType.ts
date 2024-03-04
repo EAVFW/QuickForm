@@ -1,7 +1,7 @@
 import { QuestionModel } from "./QuestionModel";
 
-export type InputProps = {
-    questionModel: QuestionModel;
+export type InputProps<TProps = InputPropertiesTypes> = {
+    questionModel: QuestionModel<TProps>;
 }
 
 const Dropdown = "dropdown";
@@ -30,7 +30,7 @@ export type InputPropertiesTypes =
     RadioProperties |
     SliderProperties |
     TextProperties |
-    undefined;
+    {};
 
 export type ButtonsProperties = {
     inputType: typeof Buttons;

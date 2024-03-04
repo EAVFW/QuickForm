@@ -9,15 +9,22 @@ import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { mergeClasses } from "@fluentui/react-components";
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+import { JsonField, JsonWidget } from "./rjsf/Widgets/JsonWidget";
+import { RegistryFieldsType } from "@rjsf/utils";
 
 const submitSlideSchema = {
     label: "Ending Settings",
     uiSchema: {
+        text: {
+            "ui:widget": "textarea"
+        },
         paragraph: {
             "ui:widget": "textarea"
         },
         submitFields: {
-            "ui:widget": "textarea"
+            "ui:widget": "jsonWidget",
+         //   "ui:ObjectFieldTemplate": JsonFieldTemplate
+            "ui:field":"jsonField"
         }
     },
     schema: {
@@ -25,7 +32,7 @@ const submitSlideSchema = {
         required: ["text"],
         properties: {
             text: {
-                title: "Placeholder",
+                title: "Text",
                 description: "The headline displayed to the end user when about to submit the form",
                 type: "string"
 
@@ -36,8 +43,8 @@ const submitSlideSchema = {
                 type: "string"
 
             },
-            "submitFields": {
-                type: "string"
+            submitFields: {
+                type: "object"
             },
             buttonText: {
                 title: "Submit button text",
@@ -56,7 +63,7 @@ export const QuickFormSubmitSettingsView = () => {
 
     return (
         <div className={mergeClasses(styles.section, styles.sectionSlim)}>
-            <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
+            <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }} fields={{ "jsonField": JsonField }} widgets={{ jsonWidget: JsonWidget }}
                 validator={validator}
                 {...submitSlideSchema}
                 formData={submit}
@@ -64,7 +71,7 @@ export const QuickFormSubmitSettingsView = () => {
                     console.log("change", [a, b]);
 
                     dispatch(old => {
-                        old.intro = { ...old.submit, ...a.formData }
+                        old.submit = { ...old.submit, ...a.formData }
                         return { ...old };
                     });
                 }}

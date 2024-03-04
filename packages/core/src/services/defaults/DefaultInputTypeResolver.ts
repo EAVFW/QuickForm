@@ -2,7 +2,7 @@ import { FC } from "react";
 import { DropDownProperties, RadioProperties, SliderProperties, ButtonsProperties, InputPropertiesTypes, InputProps } from "../../model";
 import { QuestionJsonModel } from "../../model/json-definitions/JsonDataModels";
 import { registerQuickFormService } from "../QuickFormServices";
-import { TextInput, MultilineInput, DropDownInput } from "../../components/question/input-types/index";
+//import { TextInput, MultilineInput, DropDownInput } from "../../components/question/input-types/index";
 
 function parseInputProperties(questionJsonModel: QuestionJsonModel): InputPropertiesTypes {
     let inputProperties: InputPropertiesTypes;
@@ -42,7 +42,8 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): InputProper
             break;
 
         default:
-            inputProperties = undefined;
+            inputProperties = {}
+;
     }
 
     return inputProperties
@@ -53,31 +54,27 @@ registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties)
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 export type InputComponentMetadata = { label: string, uiSchema: any, schema: JSONSchema7 };
-export type InputComponentType = FC<InputProps> & { quickform?: InputComponentMetadata };
+export type InputComponentType<T = InputPropertiesTypes> = FC<InputProps<T> & T> & { quickform?: InputComponentMetadata };
 
 export type InputComponentDictionary = {
-    [key: string]: InputComponentType;
-};
 
+    [key: string]: InputComponentType<any>;
+};
+const ThrowIfUsed: InputComponentType = (props) => { throw new Error("Not registered") }
 const inputComponents: InputComponentDictionary = {
-    // TODO - Create Email
-    "email": TextInput,
-    // TODO - Create Toggle
-    "toggle": TextInput,
-
-
-    "text": TextInput,
-    "slider": TextInput,
-    "multilinetext": MultilineInput,
-    "dropdown": DropDownInput,
-    "none": TextInput,
+    text: ThrowIfUsed,
+    none: ThrowIfUsed,
+    dropdown: ThrowIfUsed,
+    slider: ThrowIfUsed,
+    toggle: ThrowIfUsed,
+    multilinetext: ThrowIfUsed
 };
 
-export const registerInputComponent = (key: string, component: InputComponentType) => {
+export const registerInputComponent = <T extends InputPropertiesTypes = InputPropertiesTypes>(key: string, component: InputComponentType<T>) => {
     inputComponents[key] = component;
 };
 
-export const resolveInputComponent = (key: string): InputComponentType => {
+export const resolveInputComponent = <T extends InputPropertiesTypes = InputPropertiesTypes>(key: string): InputComponentType<T> => {
     return inputComponents[key];
 }
 

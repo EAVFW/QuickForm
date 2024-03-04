@@ -1,6 +1,6 @@
 import { InputPropertiesTypes, InputTypeMap } from "./InputType";
 
-export type QuestionModel = {
+export type QuestionModel<TProps = InputPropertiesTypes> = {
     logicalName: string;
     inputType: keyof InputTypeMap | "text";
     text: string;
@@ -9,7 +9,7 @@ export type QuestionModel = {
     dataType: "string" | "number" | "boolean";
     answered: boolean;
     output: any;
-    inputProperties?: InputPropertiesTypes;
+    inputProperties?: TProps;
     visible?: {
         type: string;
         rule: string;
