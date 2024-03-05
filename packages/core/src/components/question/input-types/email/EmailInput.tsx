@@ -6,28 +6,12 @@ import { InputProps } from "../../../../model/InputType";
 
 import styles from "../text/TextInput.module.css";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import { BaseInputComponent } from "../text/TextInput";
 
-export const EmailInput: InputComponentType = ({ questionModel }) => {
+export const EmailInput: InputComponentType = (props) => {
 
     
-    const [text, setText] = useState<string>(questionModel!.output);
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setText(() => event.target.value);
-        questionModel.output = event.target.value;
-    }
-
-    const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
-
-    return (
-        <input
-            ref={ref}
-            type="email"
-            className={classNames(styles.input__text)}
-            placeholder={questionModel.placeholder}
-            value={text}
-            onChange={handleChange}
-        />
-    );
+    return <BaseInputComponent type="email" {...props} />
 }
 
 EmailInput.quickform = {

@@ -82,7 +82,7 @@ export type InputComponentDictionary = {
 
     [key: string]: InputComponentType<any>;
 };
-const ThrowIfUsed: InputComponentType = (props) => { throw new Error("Not registered") }
+const ThrowIfUsed: InputComponentType = (props) => { throw new Error("Not registered: " + props.questionModel.inputType) }
 const inputComponents: InputComponentDictionary = {
     text: ThrowIfUsed,
     none: ThrowIfUsed,

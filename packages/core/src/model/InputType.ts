@@ -1,6 +1,9 @@
+import { CSSProperties } from "react";
 import { QuestionModel } from "./QuestionModel";
 
 export type InputProps<TProps = InputPropertiesTypes> = {
+    className?: string;
+    style?: CSSProperties,
     questionModel: QuestionModel<TProps>;
 }
 

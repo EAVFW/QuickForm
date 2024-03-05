@@ -25,6 +25,7 @@
     "release": "npm-run-all --continue-on-error release-*",
     "release-core": "npm run release --workspace packages/core",
     "release-designer": "npm run release --workspace packages/designer",
+    "release-inputs": "npm run release --workspace packages/inputs",
 
     "eavfw-link": "npm link @eavfw/apps @eavfw/next @eavfw/expressions @eavfw/manifest @eavfw/hooks @eavfw/forms @eavfw/utils @eavfw/designer @eavfw/designer-core @eavfw/designer-nodes",
 

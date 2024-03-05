@@ -7,7 +7,7 @@
     "react-dom": "^18.2.0"
   },
   "peerDependencies": {
-
+    "@griffel/react": "1.5.20"
   },
   "devDependencies": {
     "react-icons": "^4.11.0",

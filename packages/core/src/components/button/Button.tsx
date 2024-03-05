@@ -1,18 +1,19 @@
 "use client";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
+import { quickformtokens } from "../../style/quickformtokens";
 
 type BtnContainerProps = {
     readonly className?: string;
     readonly style?: React.CSSProperties;
-    readonly children: ReactNode;
+   
     readonly disabled?: boolean;
     readonly showPressEnter?: boolean;
     readonly onClick?: MouseEventHandler;
     visible?: boolean;
 };
 
-export const Button: React.FC<BtnContainerProps> = ({ children, showPressEnter, onClick, disabled, visible, style }: BtnContainerProps) => {
+export const Button: React.FC<PropsWithChildren< BtnContainerProps>> = ({ children, showPressEnter, onClick, disabled, visible, style }) => {
     const [hover, setHover] = useState<boolean>(false);
 
     if (typeof visible !== "undefined" && visible === false) {
@@ -36,7 +37,7 @@ export const Button: React.FC<BtnContainerProps> = ({ children, showPressEnter, 
     }, []);
 
     return (
-        <div style={{ ...btnContainerStyle, ...style }}>
+        <div style={{ ...btnContainerStyle }}>
             <button
                 style={{ ...buttonStyle, ...style, ...hover ? hoverStyle : {} }}
                 disabled={disabled}
@@ -62,24 +63,24 @@ const btnContainerStyle = {
     alignItems: 'center',
     gap: '12.5px',
 
-    margin: '30px',
-    marginTop: '16px',
+    marginTop: '30px',
+    //marginTop: '16px',
 
 };
 
 const buttonStyle = {
-    color: 'var(--on-surface)',
-    backgroundColor: 'transparent',
-    border: 'thin solid var(--on-surface)',
+    color: quickformtokens.onSurface,
+    backgroundColor: quickformtokens.primary,
+    border: `thin solid ${quickformtokens.primary}`,
     borderRadius: '8px',
     cursor: 'pointer',
-    fontSize: '1.5rem',
+    fontSize: '2rem',
     fontWeight: 700,
     padding: '10px 14px',
 };
 
 const spanStyle = {
-    color: 'var(--on-surface)',
+    color: quickformtokens.onSurface,
     fontSize: '1.25rem',
 };
 
@@ -89,6 +90,6 @@ const strongStyle = {
 };
 
 const hoverStyle: React.CSSProperties = {
-    color: 'var(--white)',
-    backgroundColor: 'var(--primary)'
+    color: quickformtokens.white,
+    backgroundColor: quickformtokens.primaryLighter
 }

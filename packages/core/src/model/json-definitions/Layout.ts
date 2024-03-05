@@ -1,5 +1,53 @@
+
+export const defaultQuickFormTokens = {
+
+   
+
+    white: '#ffffff',
+    black: '#000',
+    primary: '#154068',
+    primaryLighter: 'color-mix(in srgb, var(--primary) 90%, white)',
+    primaryVariant: '#112D4D',
+    secondary: '#24517b',
+    background: '#ffffff',
+    surface: '#c9c9c9',
+
+    onPrimary: '#ffffff',
+    onSecondary: '#000000',
+    onBackground: '#000000',
+    onBackgroundDarker100: 'color-mix(in srgb, var(--on-background) 90%, black)',
+    onBackgroundDarker200: 'color-mix(in srgb, var(--on-background) 80%, black)',
+    onBackgroundDarker300: 'color-mix(in srgb, var(--on-background) 70%, black)',
+    onBackgroundDarker400: 'color-mix(in srgb, var(--on-background) 60%, black)',
+    onBackgroundDarker500: 'color-mix(in srgb, var(--on-background) 50%, black)',
+    onBackgroundDarker600: 'color-mix(in srgb, var(--on-background) 40%, black)',
+    onBackgroundDarker700: 'color-mix(in srgb, var(--on-background) 30%, black)',
+    onBackgroundDarker800: 'color-mix(in srgb, var(--on-background) 20%, black)',
+    onBackgroundDarker900: 'color-mix(in srgb, var(--on-background) 10%, black)',
+    onBackgroundLighter: 'color-mix(in srgb, var(--on-background) 80%, white)',
+    onSurface: '#000000',
+
+
+    btnFontSize: '2rem',
+    questionTextFontSize: '2.4rem',
+    questionParagraphFontSize: '2rem',
+    questionQuestionNumberFontSiez: '1.6rem',
+    questionInputGap: "3.6rem",
+    questionInputFontSize: "3rem",
+    questionPlaceholderColor: 'color-mix(in srgb, var(--on-surface) 80%, black)',
+
+    fontFamily: 'var(--chivo), Monaco, Consolas',
+
+    gap1: '0.5rem',
+    gap2: '1rem',
+    gap4: '2rem',
+
+    borderColor:'var(--primary)'
+}
+
 export type LayoutDefinition = {
     style?: React.CSSProperties;
+    tokens?: Partial<typeof defaultQuickFormTokens>;
     autoAdvanceSlides?: boolean;
     slides?: { [key: string]: SlideLayout };
 }

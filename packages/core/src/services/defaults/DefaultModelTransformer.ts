@@ -95,15 +95,26 @@ function handleLayout(layout: LayoutDefinition, questions: QuickFormQuestionsDef
         });
     }
 
+    logger.log("Generated {@slides} from layout", slides);
+
     return slides;
 }
 
 function defaultLayout(questions: QuickFormQuestionsDefinition, payload: any): SlideModel[] {
+
+    const logger = resolveQuickFormService("logger");
+
     const slides: SlideModel[] = [];
-    Object.keys(questions).map(logicalName => {
-        let slide: SlideModel = createSlide({ [logicalName]: questions[logicalName] }, payload);
+
+    Object.keys(questions).map((key, index) => [key, index] as [string, number])
+        .sort(([q1, i1], [q2, i2]) => (questions[q1].order ?? i1) - (questions[q2].order ?? i2))
+        .map(([questionKey]) => {
+        let slide: SlideModel = createSlide({ [questionKey]: questions[questionKey] }, payload);
         slides.push(slide);
     });
+
+    logger.log("Generated {@slides} from layout", slides);
+
     return slides;
 }
 
@@ -113,9 +124,9 @@ function createSlide(questions: QuickFormQuestionsDefinition, payload: any): Sli
     logger.log("Creating Slides for {@questions}", questions);
     const slide = new SlideModel();
     // Create rows from questions, assuming each question corresponds to a separate row
-    const rows: Row[] = Object.entries(questions).map(([logicalName, question]) => {
+    const rows: Row[] = Object.entries(questions).map(([questionKey, question]) => {
         const questionRef = {
-            ref: logicalName,
+            ref: questionKey,
             type: "question"
         } as QuestionRef;
         return slide.addQuestion(questionRef, question, payload);
@@ -174,7 +185,7 @@ const transformJSONInput: QuickFormModelTransformer = (definition, payload): Qui
 
     // Transform questions into slides with rows and columns
     if (isDefined(definition.questions)) {
-        if (isDefined(definition.layout)) {
+        if (definition.layout && definition.layout.slides && Object.keys(definition.layout.slides).length>0) {
             // If layout is defined, assign slides as per layout
             slides = handleLayout(definition.layout!, definition.questions, payload);
         } else {

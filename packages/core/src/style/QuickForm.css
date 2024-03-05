@@ -4,8 +4,9 @@
     --font-family: 'var(--chivo), Monaco, Consolas';
     --font-family: 'Nunito', sans-serif;
     font-family: var(--font-family);
-    font-size: 1.3em;
+    /*font-size: 1.3em;*/
 
+    /*
     --white: #ffffff;
     --black: #000;
     --primary: #154068;
@@ -19,7 +20,9 @@
     --on-background: #000000;
     --on-surface: #000000;
 
-    --border-color: var(--primary);
+    */
+
+    /*--border-color: var(--primary);*/
 
     /* Feedback Colors (for alerts, success, error messages, etc.) */
     --error: #DB4437;

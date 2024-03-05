@@ -21,7 +21,7 @@ export const QuickForm: React.FC = () => {
     }
 
     return (
-        <div className="container">
+        <div className="slide-container">
             <SlideRenderer />
         </div>
     );

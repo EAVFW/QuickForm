@@ -28,7 +28,7 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 
     const { answerQuestion } = useQuickForm();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(questionModel.answered ? [questionModel.output] : []);
-   // const { maxItems, minItems, options } = (questionModel?.inputProperties as DropDownProperties);
+    // const { maxItems, minItems, options } = (questionModel?.inputProperties as DropDownProperties);
     const remainingChoices = minItems! - selectedOptions.length;
 
     logger.log("Dropdown Input: {@options} {@selectedOptions}", options, selectedOptions);
@@ -71,12 +71,13 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
                     [styles["dropdown-no-margin-top"]]: remainingChoices !== 0,
                 })}
             >
-                <DropdownOptionsList
-                    styles={styles}
-                    options={options!}
-                    selectedOptions={selectedOptions}
-                    dropDownOptionClick={onClickHandler}
-                />
+                    <DropdownOptionsList
+                        styles={styles}
+                        options={options!}
+                        selectedOptions={selectedOptions}
+                        dropDownOptionClick={onClickHandler}
+                    />
+                
             </div>
         </>
     );
@@ -101,7 +102,7 @@ DropDownInput.quickform = {
                 title: "Text",
                 type: "string"
             },
-           
+
             placeholder: {
                 title: "Placeholder",
                 type: "string"
@@ -117,7 +118,7 @@ DropDownInput.quickform = {
             minItems: {
                 title: "Minum Items Picked",
                 type: "integer",
-                default:1
+                default: 1
             },
             maxItems: {
                 title: "Maxium Items Picked",

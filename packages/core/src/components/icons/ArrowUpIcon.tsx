@@ -1,7 +1,7 @@
 import React from "react";
 import { IconProps } from "./iconProps";
 
-export const ArrowUpIcon: React.FC<IconProps> = ({ className }) => {
+export const ArrowUpIcon: React.FC<IconProps> = ({ className, color }) => {
     return (
         <div className={className}>
             <svg
@@ -14,7 +14,7 @@ export const ArrowUpIcon: React.FC<IconProps> = ({ className }) => {
             >
                 <path
                     d="M6 15L12 9L18 15"
-                    stroke="currentColor"
+                    stroke={color}
                     strokeWidth="1"
                     strokeLinecap="round"
                     strokeLinejoin="round"

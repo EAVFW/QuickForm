@@ -2,7 +2,7 @@ import { QuestionModel } from "../../model";
 import { QuestionJsonModel } from "../../model/json-definitions/JsonDataModels";
 import { registerQuickFormService, resolveQuickFormService } from "../QuickFormServices";
 
-function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel, value?: any): QuestionModel {
+function mapJsonQuestionToModelQuestion(questionKey: string, question: QuestionJsonModel, value?: any): QuestionModel {
 
     const parseInputProperties = resolveQuickFormService("inputTypePropertiesTransformer");
     const logger = resolveQuickFormService("logger");
@@ -11,10 +11,11 @@ function mapJsonQuestionToModelQuestion(key: string, question: QuestionJsonModel
         value = value === true ? 'Y' : value === false ? 'N' : '';
 
 
-    logger.log("Transforming Question {key}: {@question} with value {@value}", key, question, value);
+    logger.log("Transforming Question {key}: {@question} with value {@value}", questionKey, question, value);
 
     return {
-        logicalName: question.logicalName ?? key,
+        questionKey: questionKey,
+        logicalName: question.logicalName ?? questionKey,
         inputType: question.inputType,
         dataType: question.dataType ?? "string",
         text: question.text,

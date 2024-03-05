@@ -3,16 +3,34 @@ import React, { useState } from 'react';
 import { useQuickForm } from '../../state/QuickFormContext';
 import { ArrowUpIcon } from '../icons/ArrowUpIcon';
 import { ArrowDownIcon } from '../icons/ArrowDownIcon';
-
+import { quickformtokens } from '../../style/quickformtokens';
+import { makeStyles, mergeClasses } from "@griffel/react"
 interface Props {
     className?: string;
     style?: React.CSSProperties;
 }
 
+const useNavigationStyles = makeStyles({
+
+    button: {
+        ':hover': {
+            stroke: quickformtokens.onBackgroundDarker300
+        },
+        stroke: quickformtokens.onBackground
+    },
+    icon: {
+        
+    },
+    disabled: {
+        stroke: quickformtokens.onBackgroundDarker800
+    }
+});
 export const NavigationButton: React.FC<Props> = ({ className, style }) => {
+    const styles = useNavigationStyles();
+
     const { goToNextSlide, goToPrevSlide, state } = useQuickForm();
-    const [leftHover, setLeftHover] = useState<boolean>(false);
-    const [rightHover, setRightHover] = useState<boolean>(false);
+   // const [leftHover, setLeftHover] = useState<boolean>(false);
+   // const [rightHover, setRightHover] = useState<boolean>(false);
     if (state.isIntroSlide || state.isSubmitSlide || state.isEndingSlide) {
         return null;
     }
@@ -20,44 +38,47 @@ export const NavigationButton: React.FC<Props> = ({ className, style }) => {
     const disablePrevBtn = !state.hasPrevSlide;
     const prevLabel = disablePrevBtn ? "No previous slide" : "Go to previous";
     const rightBtnStyling = {
+        backgroundColor: quickformtokens.background,
         ...right,
         ...slideNavigationButton,
-        ...(rightHover ? hover : {})
+       // ...(rightHover ? hover : {})
     }
 
     const disableNextBtn = !state.hasNextSlide;
     const nextLabel = disableNextBtn ? "No next slide" : "Go to next";
     const leftBtnStyling = {
+        backgroundColor: quickformtokens.background,
         ...left,
+        
         ...slideNavigationButton,
-        ...(leftHover ? hover : {})
+      //  ...(leftHover ? hover : {})
     }
 
     return (
         <div className={className} style={style}>
             <label title={prevLabel} style={leftBtnStyling} >
-                <button
+                <button className={styles.button}
                     disabled={disablePrevBtn}
-                    onMouseEnter={() => setLeftHover(true)}
-                    onMouseLeave={() => setLeftHover(false)}
-                    style={leftBtnStyling}
+                   // onMouseEnter={() => setLeftHover(true)}
+                  //  onMouseLeave={() => setLeftHover(false)}
+                    style={leftBtnStyling}  
                     onClick={goToPrevSlide}
                 >
-                    <ArrowDownIcon />
+                    <ArrowUpIcon className={mergeClasses(styles.icon, disablePrevBtn && styles.disabled)} />
                 </button>
             </label>
 
             <label title={nextLabel} style={rightBtnStyling}>
-                <button
+                <button className={styles.button}
                     disabled={disableNextBtn}
                     aria-label='Go to next'
 
-                    onMouseEnter={() => setRightHover(true)}
-                    onMouseLeave={() => setRightHover(false)}
+                  //  onMouseEnter={() => setRightHover(true)}
+                  //  onMouseLeave={() => setRightHover(false)}
                     style={rightBtnStyling}
                     onClick={goToNextSlide}
                 >
-                    <ArrowUpIcon />
+                    <ArrowDownIcon className={mergeClasses(styles.icon, disableNextBtn && styles.disabled)} />
                 </button>
             </label>
         </div >
@@ -79,5 +100,5 @@ const right: React.CSSProperties = {
     borderBottomRightRadius: '10px',
 };
 const hover: React.CSSProperties = {
-    backgroundColor: 'var(--hover)',
+ //   backgroundColor: quickformtokens.onBackgroundDarker
 };
