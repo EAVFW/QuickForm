@@ -1,4 +1,5 @@
-﻿import { useEffect } from "react";
+﻿"use client"
+import { useEffect } from "react";
 
 
 export function useKeyPressHandler(keys: string[], onclick: (e: KeyboardEvent, key: string) => void) {

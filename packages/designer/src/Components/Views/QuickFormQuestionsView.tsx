@@ -6,14 +6,16 @@ import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 import { Dropdown, DropdownProps, Option, shorthands, mergeClasses, Field, Input } from '@fluentui/react-components';
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
-import { ariaDescribedByIds } from "@rjsf/utils";
+import { FieldProps, ariaDescribedByIds } from "@rjsf/utils";
 import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 
 import { InputComponentMetadata, resolveInputComponentSchemas } from "@eavfw/quickform-core";
 
 
- 
+const additionalFields = {} as { [key: string]: React.FC<FieldProps> } ;
+
+export const registerInputControlDesignerField = (field: string, component: React.FC<FieldProps>) => additionalFields[field] = component;
 
 export const QuickFormQuestionsView: React.FC<{
     dispatch: React.Dispatch<React.SetStateAction<QuickFormDesignerDefinition>>,
@@ -116,6 +118,7 @@ export const QuickFormQuestionsView: React.FC<{
                 {question.inputType &&
                     <Form tagName="div" key={currentQuestion + question.inputType}
                         templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
+                        fields={additionalFields}
                         validator={validator}
                         {...schemas[question.inputType]}
                         formData={questions[currentQuestion]}

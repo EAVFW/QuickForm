@@ -4,7 +4,7 @@ export type InputProps<TProps = InputPropertiesTypes> = {
     questionModel: QuestionModel<TProps>;
 }
 
-const Dropdown = "dropdown";
+//const Dropdown = "dropdown";
 const Email = "email";
 const Multilinetext = "multilinetext";
 const Radio = "radio";
@@ -14,7 +14,7 @@ const Buttons = "buttons";
 
 export interface InputTypeMap {
     [Buttons]: ButtonsProperties;
-    [Dropdown]: DropDownProperties;
+    
     [Email]: EmailProperties;
     [Multilinetext]: MultilineProperties;
     [Radio]: RadioProperties;
@@ -24,7 +24,7 @@ export interface InputTypeMap {
 
 export type InputPropertiesTypes =
     ButtonsProperties |
-    DropDownProperties |
+  
     EmailProperties |
     MultilineProperties |
     RadioProperties |
@@ -39,14 +39,7 @@ export type ButtonsProperties = {
     }
 }
 
-export type DropDownProperties = {
-    inputType: typeof Dropdown;
-    maxItems?: number;
-    minItems?: number;
-    options: {
-        [key: string]: string;
-    }
-}
+ 
 
 export type EmailProperties = {
     inputType: typeof Email;

@@ -27,7 +27,7 @@ import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definiti
 import { CaretUpFilled, CaretDownFilled } from "@fluentui/react-icons"
 const useNavDrawerStyles = makeStyles({
     actions: {
-        backgroundColor: tokens.colorBrandBackground,
+        backgroundColor: tokens.colorNeutralBackground1Hover,
         position: "absolute",
         right:0
     }
@@ -144,6 +144,9 @@ export const NavDrawer = ({
                                                                 ?? old.questions[Object.keys(old.questions)[index - 1]];
                                                             oq.order = index;
                                                             const q = old.questions[key]; q.order = index - 1;
+
+                                                            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j))
+
                                                             return { ...old };
                                                         })
                                                     }}
@@ -158,6 +161,10 @@ export const NavDrawer = ({
                                                                 ?? old.questions[Object.keys(old.questions)[index + 1]];
                                                             oq.order = index;
                                                             const q = old.questions[key]; q.order = index + 1;
+
+                                                            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j))
+
+
                                                             return { ...old };
                                                         })
                                                     }}

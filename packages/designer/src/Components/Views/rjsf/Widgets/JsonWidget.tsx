@@ -18,7 +18,7 @@ export const JsonField: React.FC<FieldProps> = ({ uiSchema = {}, schema: rawSche
     const { fields, formContext, schemaUtils, translateString, globalUiOptions } = registry;
     const schema= schemaUtils.retrieveSchema(rawSchema, formData);
 
-    const json = JSON.stringify(props.formData);
+    const json = JSON.stringify(formData);
     const uiOptions = getUiOptions(uiSchema, globalUiOptions);
 
     const templateTitle = uiOptions.title ?? schema.title ?? title ?? name;

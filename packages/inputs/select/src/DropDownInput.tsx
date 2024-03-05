@@ -1,13 +1,26 @@
 "use client"
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { useKeyPressHandler } from '../../../../hooks/useKeyPressHandler';
-import { useQuickForm } from '../../../../state/QuickFormContext';
+import { useKeyPressHandler, useQuickForm, resolveQuickFormService, InputComponentType, registerInputComponent } from '@eavfw/quickform-core';
+
 import styles from './DropDownInput.module.css';
-import { DropDownProperties, InputProps } from '../../../../model';
+
 import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
-import { resolveQuickFormService } from '../../../../services/QuickFormServices';
-import { InputComponentType, registerInputComponent } from '../../../../services/defaults/DefaultInputTypeResolver';
+
+
+
+const SelectInputType = "select";
+
+export type DropDownProperties = {
+    inputType: typeof SelectInputType;
+    maxItems?: number;
+    minItems?: number;
+    options: {
+        [key: string]: string;
+    }
+}
+
+
 
 export const DropDownInput: InputComponentType<DropDownProperties> = ({ questionModel, options, maxItems, minItems }) => {
 
@@ -67,6 +80,52 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
             </div>
         </>
     );
+}
+
+
+DropDownInput.quickform = {
+    label: "Select",
+    uiSchema: {
+        paragraph: {
+            "ui:widget": "textarea"
+        },
+        options: {
+            "ui:field": "OptionsFields"
+        }
+    },
+    schema: {
+        type: "object",
+
+        properties: {
+            text: {
+                title: "Text",
+                type: "string"
+            },
+           
+            placeholder: {
+                title: "Placeholder",
+                type: "string"
+            },
+            paragraph: {
+                title: "Paragraph",
+                type: "string"
+            },
+            options: {
+                type: "object",
+                additionalProperties: true
+            },
+            minItems: {
+                title: "Minum Items Picked",
+                type: "integer",
+                default:1
+            },
+            maxItems: {
+                title: "Maxium Items Picked",
+                type: "integer",
+                default: 1
+            },
+        }
+    }
 }
 
 registerInputComponent("dropdown", DropDownInput);
