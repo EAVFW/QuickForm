@@ -42,7 +42,7 @@ export function DropdownSelectOption({
     >
       {children}
           {isSelected && (
-              <Checkmark size={24} />)}
+              <Checkmark color={quickformtokens.onSurface} size={24} />)}
     </span>
   );
 }

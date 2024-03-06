@@ -64,6 +64,9 @@
     display: block;
     margin-top: 30px;
 }
+.dropdown-text {
+    flex-grow:1;
+}
 
 /* Responsive styles */
 @media screen and (max-width: 403px) {
