@@ -32,13 +32,14 @@
     border: thin solid var(--border-color);
     border-radius: 8px;
     display: flex;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     font-weight: 700;
-    height: 24px;
+    height: calc(100% - 8px);
     justify-content: center;
     margin-right: 10px;
     transition: background-color 0.5s, color 0.5s;
-    min-width: 24px;
+     
+    aspect-ratio: 1 / 1;
 }
 
   /*  .dropdown-item-label.selected {
