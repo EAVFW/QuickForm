@@ -58,6 +58,7 @@ export const defaultData: QuickFormModel = {
         buttonText: "Submit",
         submitFields: [
             {
+                questionKey:"question1",
                 logicalName: "question1",
                 inputType: "text",
                 dataType:"string",
@@ -68,6 +69,7 @@ export const defaultData: QuickFormModel = {
                 output: {}
             },
             {
+                questionKey:"question1",
                 logicalName: "question2",
                 inputType: "email",
                 dataType: "string",

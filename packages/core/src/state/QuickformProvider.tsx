@@ -53,7 +53,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
         return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName
     }
     const getCurrentSlide = () => (state.slides[state.currIdx]);
-    const variables = defineQuickFormTokens(defaultQuickFormTokens, tokens, definition.layout.tokens);
+    const variables = defineQuickFormTokens(defaultQuickFormTokens, tokens ?? {}, definition?.layout?.tokens ?? {});
     
     return (
         <QuickFormContext.Provider value={{
