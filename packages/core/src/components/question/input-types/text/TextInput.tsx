@@ -17,6 +17,9 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
     
     const resize = () => {
         const input = ref.current;
+        if (!input)
+            return;
+
         const oldvalue = input.value;
 
         if (!oldvalue || oldvalue === '')
