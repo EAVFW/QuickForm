@@ -26,7 +26,7 @@ export function Heading({ children, label, style = {} }: HeadingProps) {
 
     return (
         <h1 style={{ ...style, ...headingStyles }}>
-            {shouldDisplayNumber && <span style={{
+            {shouldDisplayNumber && <span style={{ //TODO - if mobile left 0, top:-2.4rem,justifycontext start
                 display: 'inline-flex', alignItems: 'center', gap: quickformtokens.gap1, position: "absolute", width: "100px", left: "-100px", justifyContent: "end",
                 fontSize: quickformtokens.questionQuestionNumberFontSiez,
                 height:"100%",

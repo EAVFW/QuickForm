@@ -3,6 +3,7 @@ import classNames from "classnames";
 import styles from "./DropdownSelectOption.module.css";
 import { makeStyles, mergeClasses } from "@griffel/react";
 import { quickformtokens } from "@eavfw/quickform-core/src/style/quickformtokens";
+import { Checkmark } from "@eavfw/quickform-core/src/components/icons";
 
 type DropdownSelectOptionProps = {
   readonly isSelected?: boolean;
@@ -40,15 +41,8 @@ export function DropdownSelectOption({
       onClick={onClick}
     >
       {children}
-      {isSelected && (
-        // TODO: Fix image!
-        // <Image
-        //   src="/check-small.svg"
-        //   alt="check small"
-        //   width={30}
-        //   height={30}
-        // />
-        <></>)}
+          {isSelected && (
+              <Checkmark size={24} />)}
     </span>
   );
 }

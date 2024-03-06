@@ -51,7 +51,9 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 
         if (newOptionsLength === minItemsLength) {
             setSelectedOptions(prev => newOptions);
-            answerQuestion(questionModel?.logicalName!, newOptions.join(","));
+            setTimeout(() => {
+                answerQuestion(questionModel?.logicalName!, newOptions.join(","));
+            },1000);
         } else {
             setSelectedOptions(prev => newOptions);
         }

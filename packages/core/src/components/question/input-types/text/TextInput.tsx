@@ -12,11 +12,40 @@ import { QuestionModel } from "../../../../model";
 export const BaseInputComponent = ({ questionModel, className, style, type }: { type: InputHTMLAttributes<HTMLInputElement>["type"], questionModel: QuestionModel, className?: string, style?: CSSProperties }) => {
 
     const [text, setText] = useState<string>(questionModel!.output);
+   
+    const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
+    
+    const resize = () => {
+        const input = ref.current;
+        const oldvalue = input.value;
+
+        if (!oldvalue || oldvalue === '')
+            input.value = input.placeholder;
+
+        const isOverflowed = input.scrollWidth > input.clientWidth;
+        input.value = oldvalue;
+        if (isOverflowed) {
+            var style = window.getComputedStyle(input, null).getPropertyValue('font-size');
+            input.style.fontSize = (parseFloat(style) - 1) + "px";
+            resize();
+        }
+
+    }
+
+    useEffect(() => {
+        if (ref.current) {
+
+            resize();
+        }
+
+    }, [ref]);
+
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setText(() => event.target.value);
         questionModel.output = event.target.value;
+
+        resize();
     }
-    const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
 
     return (
         <input style={style}
