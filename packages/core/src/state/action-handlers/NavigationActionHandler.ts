@@ -1,4 +1,4 @@
-import { isSlideAnswered } from "../../utils/slideUtils";
+import { isSlideAnswered } from "../../utils/quickformUtils";
 import { QuickformState } from "../../state/QuickformState";
 
 export class NavigationActionHandler {

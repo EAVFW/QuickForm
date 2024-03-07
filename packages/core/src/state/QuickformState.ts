@@ -57,7 +57,6 @@ export const defaultData: QuickFormModel = {
         buttonText: "Submit",
         submitFields: [
             {
-                isActive: true,
                 questionKey: "question1",
                 logicalName: "question1",
                 inputType: "text",
@@ -69,7 +68,6 @@ export const defaultData: QuickFormModel = {
                 output: {}
             },
             {
-                isActive: true,
                 questionKey: "question1",
                 logicalName: "question2",
                 inputType: "email",
@@ -99,7 +97,6 @@ export const defaultData: QuickFormModel = {
                         step: 10
                     },
                     inputType: "slider",
-                    isActive: true,
                     logicalName: "areaToClean",
                     output: "",
                     paragraph: "",
@@ -118,7 +115,6 @@ export const defaultData: QuickFormModel = {
                         }
                     },
                     inputType: "radio",
-                    isActive: true,
                     logicalName: "removeAlgae",
                     output: "",
                     paragraph: "Vælg 'Ja', hvis der er behov for fjernelse af alger, ellers vælg 'Nej'.",
@@ -137,7 +133,6 @@ export const defaultData: QuickFormModel = {
                         }
                     },
                     inputType: "buttons",
-                    isActive: true,
                     logicalName: "impregnateTiles",
                     output: "",
                     paragraph: "Vælg 'Ja', hvis fliserne skal imprægneres, ellers vælg 'Nej'.",
@@ -150,7 +145,6 @@ export const defaultData: QuickFormModel = {
                     dataType: "string",
                     inputProperties: {},
                     inputType: "checkbox",
-                    isActive: false,
                     logicalName: "luxuryPackage",
                     output: "",
                     paragraph: "",

@@ -16,14 +16,16 @@ function mapJsonQuestionToModelQuestion(questionKey: string, question: QuestionJ
         dataType: question.dataType ?? "string",
         inputProperties: parseInputProperties(question),
         inputType: question.inputType,
-        isActive: question.visible ? false : true,
         logicalName: question.logicalName ?? questionKey,
         output: value ?? '',
         paragraph: question.paragraph,
         placeholder: question.placeholder ?? '',
         questionKey: questionKey,
         text: question.text,
-        visible: question.visible
-    } as QuestionModel;
+        visible: question.visible ? {
+            ...question.visible,
+            isVisible: question.visible.isVisible ?? false
+        } : undefined
+    };
 }
 registerQuickFormService("questionTransformer", mapJsonQuestionToModelQuestion);

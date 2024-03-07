@@ -1,4 +1,4 @@
-import { isSlideAnswered } from "../utils/slideUtils";
+import { isSlideAnswered } from "../utils/quickformUtils";
 import { QuickformAction } from "./QuickformAction";
 import { QuickformState } from "./QuickformState";
 import { NavigationActionHandler } from "./action-handlers/NavigationActionHandler";

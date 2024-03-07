@@ -8,7 +8,6 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
     dataType: "string" | "number" | "boolean";
     inputProperties?: TProps;
     inputType: keyof InputTypeMap | "text" | string;
-    isActive: boolean; // Indicates if the question should be rendered and considered in calculations
     /**
      * The logical name is the name used in payloads and serialization
      */
@@ -19,7 +18,8 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
     questionKey: string,
     text: string;
     visible?: {
-        rule: string;
-        type: string;
+        rule: any;
+        engine: string;
+        isVisible: boolean;
     }
 }

@@ -1,6 +1,7 @@
 import { QuestionModel } from "../../model/QuestionModel";
 import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { QuickformState } from "../QuickformState";
+import { VisibilityHandler } from "./VisibilityHandler";
 
 export class QuestionActionHandler {
     static findSlideIdxAndQuestionIdx = (state: QuickformState, logicalName: string): { slideIndex: number; questionIndex: number } => {
@@ -59,8 +60,8 @@ export class QuestionActionHandler {
     };
 
     static answerQuestion = (state: QuickformState, logicalName: string, output: any) => {
-        // Should also handle the update of currentSlide.questions.visible.. this renders questions that have visibleRules.
         const progressUpdated = this.updateQuestionProperty(this.updateQuestionProperty(state, logicalName, 'answered', true), logicalName, 'output', output);
-        return progressUpdated;
+        const updateVisibleState = VisibilityHandler.updateVisibleState(progressUpdated);
+        return updateVisibleState;
     };
 }

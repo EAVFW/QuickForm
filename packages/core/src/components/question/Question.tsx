@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { ReactNode } from "react";
 import React from "react";
 import { Paragraph, Heading } from "..";
@@ -25,13 +25,13 @@ const questionStyling: React.CSSProperties = {
 }
 
 export const Question: React.FC<QuestionProps> = ({ model, style }) => {
+    if (model.visible && model.visible.isVisible === false) return null;
+
     const InputType = resolveInputComponent(model.inputType);
     const logger = resolveQuickFormService("logger");
     const { state } = useQuickForm();
     logger.log("QuestionRender for question {@model} InputProps", model);
 
-    // TODO - need to decide if this is a feasible way to apply that this model has been rendered. Since we made <ConditionalRender /> unknowing of what component it is rendering it can no longer handle this use case.
-    if (model.isActive !== true) model.isActive = true;
 
     const ql = state.slides[state.currIdx].questions.length === 1 ? '' : `.${String.fromCharCode('A'.charCodeAt(0) + state.slides[state.currIdx].questions.indexOf(model))}`;
     const label = state.isSubmitSlide ? '' : `${state.currIdx + 1}${ql}`;

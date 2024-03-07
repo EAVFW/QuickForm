@@ -2,8 +2,7 @@ import React, { useMemo } from 'react';
 import { QuestionModel, Row } from "../../../model";
 import { Question } from '../../question/Question';
 import { resolveQuickFormService } from '../../../services/QuickFormServices';
-import { findQuestionByKey, findQuestionByLogicalName } from '../../../utils/questionUtils';
-import { ConditionalRender } from '../conditional-render/ConditionalRender';
+import { findQuestionByKey } from '../../../utils/quickformUtils';
 import { fullRowStyle } from './rowStyles';
 import { ColumnRenderer, getColumnStyle } from '../column-renderer/ColumnRenderer';
 
@@ -30,23 +29,5 @@ export const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
 
     const question = useMemo(() => findQuestionByKey(row.ref!, questions), [row.ref]);
     if (!question) return null;
-
-    if (question.visible && question.visible?.rule) {
-
-        return (
-            <ConditionalRender
-                key={question.logicalName}
-                engine={question.visible?.type}
-                rule={question.visible?.rule}
-            >
-                <Question
-                    key={question.logicalName}
-                    style={fullRowStyle}
-                    model={question}
-                />
-            </ConditionalRender>
-        )
-    }
-
     return <Question key={question.logicalName} style={fullRowStyle} model={question} />
 }

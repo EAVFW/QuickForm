@@ -8,7 +8,7 @@ import { QuickFormDefinition, defaultQuickFormTokens } from "../model";
 import React from "react";
 import "../services"
 import { resolveQuickFormService } from "../services/QuickFormServices";
-import { isSlideAnswered } from "../utils/slideUtils";
+import { isSlideAnswered } from "../utils/quickformUtils";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;

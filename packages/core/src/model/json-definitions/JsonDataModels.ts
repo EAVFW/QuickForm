@@ -52,8 +52,9 @@ type QuickFormQuestionDefinition = {
      * TODO: the rule should be of type any, because its the engine (type) that knows its data type.
      */
     visible?: {
-        type: string;
+        engine: string;
         rule: any;
+        isVisible?: boolean;
     }
 
     /**
