@@ -15,7 +15,7 @@ function mapJsonQuestionToModelQuestion(questionKey: string, question: QuestionJ
         answered: typeof (value) !== "undefined" && value !== '' && value !== null,
         dataType: question.dataType ?? "string",
         inputProperties: parseInputProperties(question),
-        inputType: question.inputType,
+        inputType: question.inputType ?? "text",
         logicalName: question.logicalName ?? questionKey,
         output: value ?? '',
         paragraph: question.paragraph,
