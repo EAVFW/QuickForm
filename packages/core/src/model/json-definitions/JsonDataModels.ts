@@ -4,18 +4,18 @@ type QuickFormQuestionDefinition = {
 
     /** 
      * A logical name used when generating the payload.
-     *  When not defined the key of the question bag is used as logicalname
+     *  When not defined the key of the question bag is used as logicalname.
      */
     logicalName?: string;
 
     /**
-     * A schema name is a more readable name typical used to generate a logical name from, and typical the displayname (text) without whitespace and special chars
+     * A schema name is a more readable name typically used to generate a logical name from, and typically the displayname (text) without whitespace and special chars.
      */
     schemaName?: string;
 
     /**
      * The input type, when left out the implementation is deciding what to do. 
-     * Default implementation will use Text Input Field rendering "text"
+     * Default implementation will use Text Input Field rendering "text".
      */
     inputType?: string;
 
@@ -24,14 +24,14 @@ type QuickFormQuestionDefinition = {
      */
     text: string;
 
-    /** All input components should support a placeholder value, 
-     * if defined this is a help text to be rendered within the contorl to instruct the user what to do
+    /** All input components should support a placeholder value. 
+     * If defined this is a help text to be rendered within the control to instruct the user what to do.
      */
     placeholder?: string;
 
     /**
-     * The paragraph text is a explanation of why this question is asked, 
-     * and possible and deeper explanation of what the data is used for
+     * The paragraph text is an explanation of why this question is asked, 
+     * and possibly a deeper explanation of what the data is used for.
      */
     paragraph?: string;
 
@@ -41,16 +41,20 @@ type QuickFormQuestionDefinition = {
      * 
      * TODO : Where does it make sense to have that transform, is it the input controls reponsibility to transform the data?
      * I think it has to be, because a dropdown with datatype boolean, we as library cant know how to transform it.
+     * 
+     * KBA - Agreed, and as we do allow devs to implement their own inputcontrols, 
+     * we can never fully handle this if we dont assign the responsibility to the input control.
      */
     dataType?: "string" | "number" | "boolean";
 
     /**
-     * All questions support conditional rendering, allowing to specify a rule and a engine to execute it.
+     * All questions support conditional rendering, allowing one to specify a rule and a engine to execute it.
      * TODO: the rule should be of type any, because its the engine (type) that knows its data type.
      */
     visible?: {
-        type: string;
-        rule: string;
+        engine: string;
+        rule: any;
+        isVisible?: boolean;
     }
 
     /**
@@ -67,7 +71,7 @@ type QuickFormQuestionDefinition = {
 export type QuestionJsonModel =
     QuickFormQuestionDefinition |
     QuickFormQuestionDefinition & ButtonsProperties |
-  //  QuickFormQuestionDefinition & DropDownProperties |
+    //  QuickFormQuestionDefinition & DropDownProperties |
     QuickFormQuestionDefinition & EmailProperties |
     QuickFormQuestionDefinition & MultilineProperties |
     QuickFormQuestionDefinition & RadioProperties |

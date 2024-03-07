@@ -1,6 +1,7 @@
 import { QuestionModel } from "../../model/QuestionModel";
 import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { QuickformState } from "../QuickformState";
+import { VisibilityHandler } from "./VisibilityHandler";
 
 export class QuestionActionHandler {
     static findSlideIdxAndQuestionIdx = (state: QuickformState, logicalName: string): { slideIndex: number; questionIndex: number } => {
@@ -31,7 +32,6 @@ export class QuestionActionHandler {
             );
 
             state.data.submit.submitFields = updatedQuestions;
-
             return { ...state };
 
         }
@@ -42,9 +42,6 @@ export class QuestionActionHandler {
 
         const newState = { ...state, slides: [...state.slides] };
         const originalSlide = newState.slides[slideIndex];
-
-
-
 
         const updatedQuestions = originalSlide.questions.map((question: QuestionModel, idx: number) =>
             idx === questionIndex ? { ...question, [propertyName]: propertyValue } : question
@@ -63,18 +60,8 @@ export class QuestionActionHandler {
     };
 
     static answerQuestion = (state: QuickformState, logicalName: string, output: any) => {
-        const progressUpdated = this.computeProgress(this.updateQuestionProperty(this.updateQuestionProperty(state, logicalName, 'answered', true), logicalName, 'output', output));
-        return progressUpdated;
+        const progressUpdated = this.updateQuestionProperty(this.updateQuestionProperty(state, logicalName, 'answered', true), logicalName, 'output', output);
+        const updateVisibleState = VisibilityHandler.updateVisibleState(progressUpdated);
+        return updateVisibleState;
     };
-
-    static computeProgress = (state: QuickformState) => {
-        const slidesAnsweredCount = state.slides.reduce((sum, slide) => sum + (slide.isAnswered ? 1 : 0), 0);
-        const progress = (slidesAnsweredCount / state.totalSteps) * 100;
-        return {
-            ...state,
-            progress,
-            progressText: `${slidesAnsweredCount}/${state.totalSteps}`,
-            isSubmitSlide: progress === 100,
-        };
-    }
 }

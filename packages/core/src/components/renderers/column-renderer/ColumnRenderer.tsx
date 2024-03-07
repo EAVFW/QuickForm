@@ -2,8 +2,7 @@ import React from 'react';
 import { QuestionModel, Column } from "../../../model";
 import { Question } from '../../question/Question';
 import { resolveQuickFormService } from '../../../services/QuickFormServices';
-import { findQuestionByLogicalName } from '../../../utils/questionUtils';
-import { ConditionalRender } from '../conditional-render/ConditionalRender';
+import { findQuestionByLogicalName } from '../../../utils/quickformUtils';
 import { RowRenderer } from '../row-renderer/RowRenderer';
 import { fullRowStyle } from '../row-renderer/rowStyles';
 
@@ -26,22 +25,7 @@ export const ColumnRenderer: React.FC<ColumnRendererProps> = ({ column, question
 
     if (column.type === "question") {
         const question = findQuestionByLogicalName(column.ref!, questions);
-        if (!question) return null;
-        if (question.visible && question.visible?.rule) {
-            return (
-                <ConditionalRender
-                    key={question.logicalName}
-                    engine={question.visible?.type}
-                    rule={question.visible?.rule}
-                >
-                    <Question
-                        key={question.logicalName}
-                        style={fullRowStyle}
-                        model={question}
-                    />
-                </ConditionalRender>
-            )
-        }
+        if (!question || question.visible && question.visible.isVisible === false) return null;
         return <Question key={question.logicalName} style={fullRowStyle} model={question} />
     }
 
@@ -50,22 +34,7 @@ export const ColumnRenderer: React.FC<ColumnRendererProps> = ({ column, question
         {column.rows.map((innerRow, innerRowIndex) => {
             if (innerRow.type === "question") {
                 const question = findQuestionByLogicalName(innerRow.ref!, questions);
-                if (!question) return null;
-                if (question.visible && question.visible?.rule) {
-                    return (
-                        <ConditionalRender
-                            key={question.logicalName}
-                            engine={question.visible?.type}
-                            rule={question.visible?.rule}
-                        >
-                            <Question
-                                key={question.logicalName}
-                                style={fullRowStyle}
-                                model={question}
-                            />
-                        </ConditionalRender>
-                    )
-                }
+                if (!question || question.visible && question.visible.isVisible === false) return null;
                 return <Question key={question.logicalName} model={question} />
             } else {
                 return <RowRenderer key={"RowRenderer idx: " + innerRowIndex} row={innerRow} questions={questions} />

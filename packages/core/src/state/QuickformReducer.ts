@@ -1,3 +1,4 @@
+import { isSlideAnswered } from "../utils/quickformUtils";
 import { QuickformAction } from "./QuickformAction";
 import { QuickformState } from "./QuickformState";
 import { NavigationActionHandler } from "./action-handlers/NavigationActionHandler";
@@ -7,21 +8,28 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
 
     switch (action.type) {
         /* Question manipulation */
-        case 'ANSWER_QUESTION': {
-            const newState = QuestionActionHandler.answerQuestion(state, action.logicalName, action.output);
-            if (!newState.slides[newState.currIdx].isAnswered === true) {
-                return newState
+        case 'ANSWER_QUESTION': return QuestionActionHandler.answerQuestion(state, action.logicalName, action.output);
+        case 'ANSWER_QUESTION_AUTO_NAVIGATE': {
+            let newState = QuestionActionHandler.answerQuestion(state, action.logicalName, action.output);
+            if (isSlideAnswered(newState.slides[newState.currIdx])) {
+                newState = NavigationActionHandler.handleNextSlideAction(newState);
             }
-            return NavigationActionHandler.handleNextSlideAction(newState)
+            return newState;
         }
 
         /* Deals with steps and navigation */
         case 'SET_INDEX': return NavigationActionHandler.handleSetIndexAction(state, action.index);
+        // case 'NEXT_SLIDE':
+        //     if (isSlideAnswered(state.slides[state.currIdx])) {
+        //         return NavigationActionHandler.handleNextSlideAction(state);
+        //     } else {
+        //         return { ...state, errorMsg: "All questions must be answered." }
+        //     }
         case 'NEXT_SLIDE': return NavigationActionHandler.handleNextSlideAction(state);
         case 'PREV_SLIDE': return NavigationActionHandler.handlePrevSlideAction(state);
 
         /* Deals with progress, overview and submit */
-        case 'COMPUTE_PROGRESS': return QuestionActionHandler.computeProgress(state);
+        case 'COMPUTE_PROGRESS': return NavigationActionHandler.computeProgress(state);
         case 'SET_SUBMIT_STATUS': return { ...state, submitStatus: { ...state.submitStatus, ...action.status }, };
         // case "SUBMIT": return SubmitActionHandler.submit(state, action.dispatch);
         case "SET_ERROR_MSG": return { ...state, errorMsg: action.msg };

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { ReactNode } from "react";
 import React from "react";
 import { Paragraph, Heading } from "..";
@@ -21,10 +21,11 @@ const questionStyling: React.CSSProperties = {
     transition: "transform 0.3s ease-out",
     minHeight: '100px',
     color: quickformtokens.onSurface
-  //  margin: '20px'
+    //  margin: '20px'
 }
 
 export const Question: React.FC<QuestionProps> = ({ model, style }) => {
+
     const InputType = resolveInputComponent(model.inputType);
     const logger = resolveQuickFormService("logger");
     const { state } = useQuickForm();
