@@ -1,3 +1,4 @@
+import { isSlideAnswered } from "../../utils/slideUtils";
 import { QuickformState } from "../../state/QuickformState";
 
 export class NavigationActionHandler {
@@ -22,7 +23,7 @@ export class NavigationActionHandler {
     }
 
     static computeProgress = (state: QuickformState) => {
-        const slidesAnsweredCount = state.slides.reduce((sum, slide) => sum + (slide.isAnswered ? 1 : 0), 0);
+        const slidesAnsweredCount = state.slides.reduce((sum, slide) => sum + (isSlideAnswered(slide) ? 1 : 0), 0);
         const progress = (slidesAnsweredCount / state.totalSteps) * 100;
         return {
             ...state,

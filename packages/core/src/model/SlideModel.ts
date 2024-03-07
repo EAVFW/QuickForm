@@ -12,11 +12,6 @@ export class SlideModel {
         this.rows = rows;
     }
 
-    // Getter to check if all questions are answered on the slide
-    get isAnswered(): boolean {
-        return this.questions.length > 0 && this.questions.filter(q => q.isActive === true).every(question => question.answered);
-    }
-
     addQuestion(layout: QuestionRef, question: QuestionJsonModel, payload: any) {
         const mapJsonQuestionToModelQuestion = resolveQuickFormService("questionTransformer");
         const questionModel = mapJsonQuestionToModelQuestion(layout.ref, question, payload[question?.logicalName ?? layout.ref])
@@ -44,7 +39,6 @@ export type RowColumns = {
 }
 
 export type Row = QuestionLayout | RowColumns
-
 
 export type ColumnWithRows = {
     style?: React.CSSProperties;

@@ -6,6 +6,7 @@ export type QuickformAction =
     | { type: 'PREV_SLIDE' }
     | { type: 'SET_ERROR_MSG'; msg: string }
     | { type: 'ANSWER_QUESTION'; logicalName: string; output: string }
+    | { type: 'ANSWER_QUESTION_AUTO_NAVIGATE'; logicalName: string; output: string }
     | { type: 'COMPUTE_PROGRESS' }
     | { type: 'SET_SUBMIT_STATUS', status: SubmitStatus }
     | { type: 'SUBMIT', dispatch: React.Dispatch<QuickformAction>, id: string }

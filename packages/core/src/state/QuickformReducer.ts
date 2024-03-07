@@ -1,3 +1,4 @@
+import { isSlideAnswered } from "../utils/slideUtils";
 import { QuickformAction } from "./QuickformAction";
 import { QuickformState } from "./QuickformState";
 import { NavigationActionHandler } from "./action-handlers/NavigationActionHandler";
@@ -7,30 +8,24 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
 
     switch (action.type) {
         /* Question manipulation */
-        case 'ANSWER_QUESTION': {
-            const newState = QuestionActionHandler.answerQuestion(state, action.logicalName, action.output);
-            if (state.autoAdvanceSlides && !newState.slides[newState.currIdx].isAnswered === true) {
-                console.log("AutoNavigating");
-                return NavigationActionHandler.handleNextSlideAction(newState)
+        case 'ANSWER_QUESTION': return QuestionActionHandler.answerQuestion(state, action.logicalName, action.output);
+        case 'ANSWER_QUESTION_AUTO_NAVIGATE': {
+            let newState = QuestionActionHandler.answerQuestion(state, action.logicalName, action.output);
+            if (isSlideAnswered(newState.slides[newState.currIdx])) {
+                newState = NavigationActionHandler.handleNextSlideAction(newState);
             }
-            return newState
+            return newState;
         }
 
         /* Deals with steps and navigation */
         case 'SET_INDEX': return NavigationActionHandler.handleSetIndexAction(state, action.index);
-        case 'NEXT_SLIDE':
-            console.log("ShouldMoveNext", state.slides[state.currIdx].questions.filter(q => q.isActive === true));
-            console.log("ShouldMoveNext", state.slides[state.currIdx].questions.filter(q => q.isActive === true).every(q => q.answered === true));
-            for (var element of state.slides[state.currIdx].questions.filter(q => q.isActive === true)) {
-                console.log("element answered", element.answered);
-            }
-            console.log("ShouldMoveNext", state.slides[state.currIdx].isAnswered === true);
-
-            if (state.slides[state.currIdx].isAnswered === true) {
-                return NavigationActionHandler.handleNextSlideAction(state);
-            } else {
-                return { ...state, errorMsg: "All questions must be answered." }
-            }
+        // case 'NEXT_SLIDE':
+        //     if (isSlideAnswered(state.slides[state.currIdx])) {
+        //         return NavigationActionHandler.handleNextSlideAction(state);
+        //     } else {
+        //         return { ...state, errorMsg: "All questions must be answered." }
+        //     }
+        case 'NEXT_SLIDE': return NavigationActionHandler.handleNextSlideAction(state);
         case 'PREV_SLIDE': return NavigationActionHandler.handlePrevSlideAction(state);
 
         /* Deals with progress, overview and submit */

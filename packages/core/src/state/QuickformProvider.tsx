@@ -8,6 +8,7 @@ import { QuickFormDefinition, defaultQuickFormTokens } from "../model";
 import React from "react";
 import "../services"
 import { resolveQuickFormService } from "../services/QuickFormServices";
+import { isSlideAnswered } from "../utils/slideUtils";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
@@ -34,9 +35,21 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
     const [state, dispatch] = useReducer(quickformReducer, defaultStateObj);
 
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
-    const goToNextSlide = () => { dispatch({ type: 'NEXT_SLIDE' }); };
+    const goToNextSlide = () => {
+        if (isSlideAnswered(getCurrentSlide())) {
+            dispatch({ type: 'NEXT_SLIDE' });
+        } else {
+            dispatch({ type: "SET_ERROR_MSG", msg: "All questions must be answered" });
+        }
+    };
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
-    const answerQuestion = (logicalName: string, output: any) => { dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output }) };
+    const answerQuestion = (logicalName: string, output: any) => {
+        if (state.autoAdvanceSlides) {
+            dispatch({ type: 'ANSWER_QUESTION_AUTO_NAVIGATE', logicalName: logicalName, output: output });
+        } else {
+            dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output });
+        }
+    };
     const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
     const setErrorMsg = (msg: string) => {
         dispatch({ type: "SET_ERROR_MSG", msg: msg })

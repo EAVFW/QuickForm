@@ -19,7 +19,7 @@ class DefaultLogger implements IQuickFormLogger {
         });
 }
     log(message: string, ...args: any[]): void {
-        console.log(this.replaceLiteral(message,...args));
+        // console.log(this.replaceLiteral(message,...args));
     }
     warn(message: string, ...args: any[]): void {
         console.warn(this.replaceLiteral(message, ...args));
