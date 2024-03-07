@@ -25,7 +25,7 @@ export const ColumnRenderer: React.FC<ColumnRendererProps> = ({ column, question
 
     if (column.type === "question") {
         const question = findQuestionByLogicalName(column.ref!, questions);
-        if (!question) return null;
+        if (!question || question.visible && question.visible.isVisible === false) return null;
         return <Question key={question.logicalName} style={fullRowStyle} model={question} />
     }
 
@@ -34,7 +34,7 @@ export const ColumnRenderer: React.FC<ColumnRendererProps> = ({ column, question
         {column.rows.map((innerRow, innerRowIndex) => {
             if (innerRow.type === "question") {
                 const question = findQuestionByLogicalName(innerRow.ref!, questions);
-                if (!question) return null;
+                if (!question || question.visible && question.visible.isVisible === false) return null;
                 return <Question key={question.logicalName} model={question} />
             } else {
                 return <RowRenderer key={"RowRenderer idx: " + innerRowIndex} row={innerRow} questions={questions} />
