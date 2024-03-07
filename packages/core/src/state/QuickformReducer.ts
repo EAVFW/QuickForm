@@ -9,15 +9,23 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
         /* Question manipulation */
         case 'ANSWER_QUESTION': {
             const newState = QuestionActionHandler.answerQuestion(state, action.logicalName, action.output);
-            if (!newState.slides[newState.currIdx].isAnswered === true) {
-                return newState
+            if (state.autoAdvanceSlides && !newState.slides[newState.currIdx].isAnswered === true) {
+                console.log("AutoNavigating");
+                return NavigationActionHandler.handleNextSlideAction(newState)
             }
-            return NavigationActionHandler.handleNextSlideAction(newState)
+            return newState
         }
 
         /* Deals with steps and navigation */
         case 'SET_INDEX': return NavigationActionHandler.handleSetIndexAction(state, action.index);
         case 'NEXT_SLIDE':
+            console.log("ShouldMoveNext", state.slides[state.currIdx].questions.filter(q => q.isActive === true));
+            console.log("ShouldMoveNext", state.slides[state.currIdx].questions.filter(q => q.isActive === true).every(q => q.answered === true));
+            for (var element of state.slides[state.currIdx].questions.filter(q => q.isActive === true)) {
+                console.log("element answered", element.answered);
+            }
+            console.log("ShouldMoveNext", state.slides[state.currIdx].isAnswered === true);
+
             if (state.slides[state.currIdx].isAnswered === true) {
                 return NavigationActionHandler.handleNextSlideAction(state);
             } else {
@@ -26,7 +34,7 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
         case 'PREV_SLIDE': return NavigationActionHandler.handlePrevSlideAction(state);
 
         /* Deals with progress, overview and submit */
-        case 'COMPUTE_PROGRESS': return QuestionActionHandler.computeProgress(state);
+        case 'COMPUTE_PROGRESS': return NavigationActionHandler.computeProgress(state);
         case 'SET_SUBMIT_STATUS': return { ...state, submitStatus: { ...state.submitStatus, ...action.status }, };
         // case "SUBMIT": return SubmitActionHandler.submit(state, action.dispatch);
         case "SET_ERROR_MSG": return { ...state, errorMsg: action.msg };

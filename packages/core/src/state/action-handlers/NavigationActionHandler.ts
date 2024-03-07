@@ -21,8 +21,19 @@ export class NavigationActionHandler {
         };
     }
 
+    static computeProgress = (state: QuickformState) => {
+        const slidesAnsweredCount = state.slides.reduce((sum, slide) => sum + (slide.isAnswered ? 1 : 0), 0);
+        const progress = (slidesAnsweredCount / state.totalSteps) * 100;
+        return {
+            ...state,
+            progress,
+            progressText: `${slidesAnsweredCount}/${state.totalSteps}`,
+            isSubmitSlide: progress === 100,
+        };
+    }
+
     static handleNextSlideAction = (state: QuickformState) => {
-        return NavigationActionHandler.handleSlideChange(state, 'next');
+        return this.computeProgress(NavigationActionHandler.handleSlideChange(state, 'next'));
     }
 
     static handlePrevSlideAction = (state: QuickformState) => {

@@ -21,7 +21,7 @@ const questionStyling: React.CSSProperties = {
     transition: "transform 0.3s ease-out",
     minHeight: '100px',
     color: quickformtokens.onSurface
-  //  margin: '20px'
+    //  margin: '20px'
 }
 
 export const Question: React.FC<QuestionProps> = ({ model, style }) => {
@@ -29,6 +29,9 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
     const logger = resolveQuickFormService("logger");
     const { state } = useQuickForm();
     logger.log("QuestionRender for question {@model} InputProps", model);
+
+    // TODO - need to decide if this is a feasible way to apply that this model has been rendered. Since we made <ConditionalRender /> unknowing of what component it is rendering it can no longer handle this use case.
+    if (model.isActive !== true) model.isActive = true;
 
     const ql = state.slides[state.currIdx].questions.length === 1 ? '' : `.${String.fromCharCode('A'.charCodeAt(0) + state.slides[state.currIdx].questions.indexOf(model))}`;
     const label = state.isSubmitSlide ? '' : `${state.currIdx + 1}${ql}`;

@@ -59,18 +59,8 @@ export class QuestionActionHandler {
     };
 
     static answerQuestion = (state: QuickformState, logicalName: string, output: any) => {
-        const progressUpdated = this.computeProgress(this.updateQuestionProperty(this.updateQuestionProperty(state, logicalName, 'answered', true), logicalName, 'output', output));
+        // Should also handle the update of currentSlide.questions.visible.. this renders questions that have visibleRules.
+        const progressUpdated = this.updateQuestionProperty(this.updateQuestionProperty(state, logicalName, 'answered', true), logicalName, 'output', output);
         return progressUpdated;
     };
-
-    static computeProgress = (state: QuickformState) => {
-        const slidesAnsweredCount = state.slides.reduce((sum, slide) => sum + (slide.isAnswered ? 1 : 0), 0);
-        const progress = (slidesAnsweredCount / state.totalSteps) * 100;
-        return {
-            ...state,
-            progress,
-            progressText: `${slidesAnsweredCount}/${state.totalSteps}`,
-            isSubmitSlide: progress === 100,
-        };
-    }
 }

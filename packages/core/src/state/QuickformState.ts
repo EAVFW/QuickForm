@@ -1,48 +1,48 @@
 import { SubmitStatus } from "../model/SubmitStatus";
-
 import { SlideModel } from "../model/SlideModel";
-import { QuickFormModel } from "../model";
+import { LayoutDefinition, QuickFormModel } from "../model";
 
 export type QuickformState = {
-    errorMsg: string;
-    data: QuickFormModel;
-    slides: SlideModel[];
-    hasNextSlide: boolean;
-    hasPrevSlide: boolean;
+    autoAdvanceSlides?: boolean;
     currIdx: number;
     currStep: number;
-    totalSteps: number;
-    progress: number;
-    progressText: string;
-    submitStatus: SubmitStatus;
+    data: QuickFormModel;
+    errorMsg: string;
+    hasNextSlide: boolean;
+    hasPrevSlide: boolean;
+    isEndingSlide: boolean;
     isIntroSlide: boolean;
     isSubmitSlide: boolean;
-    isEndingSlide: boolean;
+    progress: number;
+    progressText: string;
+    slides: SlideModel[];
+    submitStatus: SubmitStatus;
+    totalSteps: number;
 }
 
-export const defaultState = (data: QuickFormModel = defaultData): QuickformState => {
-    // TODO - Handle Layout
-    const slidesDefined = data.slides.length > 0;
-    const introSlideDefined = typeof data.intro !== "undefined";
+export const defaultState = (data: QuickFormModel = defaultData, layout?: LayoutDefinition): QuickformState => {
+    console.log("autoAdvance?", layout?.autoAdvanceSlides);
     const defState = {
-        errorMsg: "",
+        autoAdvanceSlides: layout?.autoAdvanceSlides ?? false,
+        currIdx: 0,
+        currStep: data.slides.length > 0 ? 1 : 0,
         data: data,
-        slides: data.slides,
+        errorMsg: "",
         hasNextSlide: data.slides.length > 1,
         hasPrevSlide: false,
-        currIdx: 0,
-        currStep: slidesDefined ? 1 : 0,
-        totalSteps: data.slides.length,
+        isEndingSlide: false,
+        isIntroSlide: typeof data.intro !== "undefined",
+        isSubmitSlide: false,
         progress: 0,
         progressText: "",
+        slides: data.slides,
         submitStatus: { isSubmitting: false, isSubmitError: false, isSubmitSuccess: false },
-        isIntroSlide: introSlideDefined,
-        isEndingSlide: false,
-        isSubmitSlide: false
+        totalSteps: data.slides.length,
     };
 
     return defState;
 };
+
 
 export const defaultData: QuickFormModel = {
     intro: {
@@ -58,10 +58,11 @@ export const defaultData: QuickFormModel = {
         buttonText: "Submit",
         submitFields: [
             {
-                questionKey:"question1",
+                isActive: true,
+                questionKey: "question1",
                 logicalName: "question1",
                 inputType: "text",
-                dataType:"string",
+                dataType: "string",
                 text: "What is your name?",
                 placeholder: "Enter your name",
                 paragraph: "We need your name for identification.",
@@ -69,7 +70,8 @@ export const defaultData: QuickFormModel = {
                 output: {}
             },
             {
-                questionKey:"question1",
+                isActive:true,
+                questionKey: "question1",
                 logicalName: "question2",
                 inputType: "email",
                 dataType: "string",

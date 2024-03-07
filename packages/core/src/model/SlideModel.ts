@@ -14,7 +14,7 @@ export class SlideModel {
 
     // Getter to check if all questions are answered on the slide
     get isAnswered(): boolean {
-        return this.questions.length > 0 && this.questions.every(question => question.answered);
+        return this.questions.length > 0 && this.questions.filter(q => q.isActive === true).every(question => question.answered);
     }
 
     addQuestion(layout: QuestionRef, question: QuestionJsonModel, payload: any) {

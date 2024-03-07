@@ -4,22 +4,22 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
     /**
      * The question key is the key used in the json model, its the key that is used from layout to reference a given question. 
      */
-    questionKey: string,
+    answered: boolean;
+    dataType: "string" | "number" | "boolean";
+    inputProperties?: TProps;
+    inputType: keyof InputTypeMap | "text" | string;
+    isActive: boolean; // Indicates if the question should be rendered and considered in calculations
     /**
      * The logical name is the name used in payloads and serialization
      */
     logicalName: string;
-
-    inputType: keyof InputTypeMap | "text" | string;
-    text: string;
-    placeholder: string;
-    paragraph: string;
-    dataType: "string" | "number" | "boolean";
-    answered: boolean;
     output: any;
-    inputProperties?: TProps;
+    paragraph: string;
+    placeholder: string;
+    questionKey: string,
+    text: string;
     visible?: {
-        type: string;
         rule: string;
+        type: string;
     }
 }
