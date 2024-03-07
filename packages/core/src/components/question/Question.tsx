@@ -1,3 +1,4 @@
+"use client"
 import { ReactNode } from "react";
 import React from "react";
 import { Paragraph, Heading } from "..";
@@ -5,6 +6,9 @@ import { QuestionModel } from "../../model/QuestionModel";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { resolveInputComponent } from "../../services";
+import { quickformtokens } from "../../style/quickformtokens";
+
+
 
 type QuestionProps = {
     model: QuestionModel;
@@ -16,7 +20,8 @@ const questionStyling: React.CSSProperties = {
     maxWidth: '72rem',
     transition: "transform 0.3s ease-out",
     minHeight: '100px',
-    margin: '20px'
+    color: quickformtokens.onSurface
+  //  margin: '20px'
 }
 
 export const Question: React.FC<QuestionProps> = ({ model, style }) => {
@@ -50,9 +55,10 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
                 {model.paragraph}
             </Paragraph>
 
-            <InputType
+            <InputType style={{ marginTop: quickformtokens.questionInputGap, fontSize: quickformtokens.questionInputFontSize, fontFamily: quickformtokens.fontFamily }}
                 key={"input" + model.logicalName}
                 questionModel={model}
+                {...model.inputProperties ?? {}}
             />
         </div>
     );

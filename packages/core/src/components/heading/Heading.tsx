@@ -3,6 +3,8 @@ import { useQuickForm } from "../../state/QuickFormContext";
 import { ImArrowRightIcon } from "../../components/icons";
 import React from "react";
 import { ReactNode } from "react";
+import { quickformtokens } from "../../style/quickformtokens";
+
 
 type HeadingProps = {
     readonly children: ReactNode;
@@ -16,18 +18,27 @@ export function Heading({ children, label, style = {} }: HeadingProps) {
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
 
     const headingStyles: React.CSSProperties = {
-        fontSize: '1.5rem',
+        fontSize: quickformtokens.questionTextFontSize, //'1.5rem',
         fontWeight: 'unset',
         color: 'var(--on-surface)',
+        position: "relative"
     }
 
     return (
         <h1 style={{ ...style, ...headingStyles }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                {shouldDisplayNumber && <ImArrowRightIcon size="12px" />}
-                {shouldDisplayNumber && <span style={{ marginLeft: '4px', marginRight: '4px' }}>{label}</span>}
-                {children}
+            {shouldDisplayNumber && <span style={{ //TODO - if mobile left 0, top:-2.4rem,justifycontext start
+                display: 'inline-flex', alignItems: 'center', gap: quickformtokens.gap1, position: "absolute", width: "100px", left: "-100px", justifyContent: "end",
+                fontSize: quickformtokens.questionQuestionNumberFontSiez,
+                height:"100%",
+                paddingRight: quickformtokens.gap2
+            }}>
+
+                <span>{label}</span>
+                <ImArrowRightIcon size="12px" />
+
             </span>
+            }
+            {children}
         </h1>
     );
 

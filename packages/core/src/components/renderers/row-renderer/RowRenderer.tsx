@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { QuestionModel, Row } from "../../../model";
 import { Question } from '../../question/Question';
 import { resolveQuickFormService } from '../../../services/QuickFormServices';
-import { findQuestionByLogicalName } from '../../../utils/questionUtils';
+import { findQuestionByKey, findQuestionByLogicalName } from '../../../utils/questionUtils';
 import { ConditionalRender } from '../conditional-render/ConditionalRender';
 import { fullRowStyle } from './rowStyles';
 import { ColumnRenderer, getColumnStyle } from '../column-renderer/ColumnRenderer';
@@ -28,7 +28,7 @@ export const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
         )
     }
 
-    const question = findQuestionByLogicalName(row.ref!, questions);
+    const question = useMemo(() => findQuestionByKey(row.ref!, questions), [row.ref]);
     if (!question) return null;
 
     if (question.visible && question.visible?.rule) {

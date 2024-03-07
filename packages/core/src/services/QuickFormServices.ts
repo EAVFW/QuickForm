@@ -33,5 +33,5 @@ export function resolveQuickFormService<Key extends keyof QuickFormFeatures>(nam
     let f = _quickFormFeatures[name];
     if (!f)
         throw new Error(`'${name}' was not registered, registred keys: ${Object.keys(_quickFormFeatures)}`);
-    return f;
+    return f as Required<QuickFormFeatures>[Key];
 }

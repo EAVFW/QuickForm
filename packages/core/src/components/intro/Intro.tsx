@@ -20,7 +20,7 @@ export const Intro: React.FC<IntroProps> = ({ model, onBtnClick }) => {
             <Heading >
                 {text}
             </Heading>
-            <Paragraph style={{ marginTop: '10px' }}>
+            <Paragraph style={{ marginTop: '12px' }}>
                 {paragraph}
             </Paragraph>
             <Button

@@ -1,5 +1,5 @@
 import { useEditorChanges } from "@eavfw/designer";
-import { QuickFormDef } from "../../Types/QuickFormDefinition";
+import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
 import { ViewNames } from "../../Types/ViewNames";
 
 
@@ -8,11 +8,12 @@ import {
     DrawerHeader,
     DrawerHeaderTitle,
     Drawer,
-    Button,    
+    Button,
     tokens,
     Tree,
     TreeItem,
     TreeItemLayout,
+    makeStyles,
 } from "@fluentui/react-components";
 import { DrawerCloseIcon } from "../Icons/DrawerCloseIcon";
 import { SettingsViewIcon } from "../Icons/SettingsViewIcon";
@@ -21,16 +22,33 @@ import { ViewTreeItem } from "./ViewTreeItem";
 import { makeid } from "../../Utils/makeid";
 import { SerializedNodes } from "@craftjs/core";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
-
+import { useMemo } from "react";
+import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
+import { CaretUpFilled, CaretDownFilled } from "@fluentui/react-icons"
+const useNavDrawerStyles = makeStyles({
+    actions: {
+        backgroundColor: tokens.colorNeutralBackground1Hover,
+        position: "absolute",
+        right:0
+    }
+})
 export const NavDrawer = ({
-    setIsOpen, isOpen,  newSlideNodes
+    setIsOpen, isOpen, newSlideNodes
 }: {
-    
-    isOpen: boolean, setIsOpen: any, 
-        newSlideNodes:string|SerializedNodes
-    }) => {
-    const { setView, view, setActiveSlide, activeSlide, quickformpayload, updateQuickFormPayload, setActiveQuestion,activeQuestion } = useQuickFormDefinition();
+
+    isOpen: boolean, setIsOpen: any,
+    newSlideNodes: string | SerializedNodes
+}) => {
+    const { setView, view, setActiveSlide, activeSlide, quickformpayload, updateQuickFormPayload, setActiveQuestion, activeQuestion } = useQuickFormDefinition();
     const { actions: { history, deserialize } } = useEditorChanges();
+    const styles = useNavDrawerStyles();
+    const sortedQuestions = useMemo(() => {
+
+        return Object.entries(quickformpayload.questions ?? {}).map(([key, question], index) => [key, question, index] as [string, QuestionJsonModel, number])
+            .sort(([_, qa, ai], [__, qb, bi]) => (qa.order ?? ai) - (qb.order ?? bi));
+
+    }, [quickformpayload])
+
     return (
         <Drawer
             type="inline"
@@ -67,7 +85,7 @@ export const NavDrawer = ({
                                         aria-label="Remove item"
                                         appearance="subtle"
                                         onClick={() => {
-                                            updateQuickFormPayload((old) => { delete old.layout.slides[key]; return { ...old }; });
+                                            updateQuickFormPayload((old) => { if (old.layout?.slides) delete old.layout.slides[key]; return { ...old }; });
                                             setView("layout");
                                         }}
                                         icon={<TrashCanIcon />}
@@ -94,7 +112,7 @@ export const NavDrawer = ({
                                             if (!old.layout.slides)
                                                 old.layout.slides = {};
 
-                                            old.layout.slides[id] = { title: "New Slide", schemaName :"NewSlide", logicalName:"newslide" };
+                                            old.layout.slides[id] = { title: "New Slide", schemaName: "NewSlide", logicalName: "newslide" };
                                             old.__designer.activeSlide = id;
                                             return { ...old };
                                         });
@@ -111,15 +129,56 @@ export const NavDrawer = ({
 
 
                         <Tree aria-label="Questions">
-                            {Object.entries(quickformpayload.questions ?? {}).map(([key, slide]) =>
+                            {sortedQuestions.map(([key, question], index) =>
                                 <TreeItem key={key} itemType="leaf" onClick={() => { setActiveQuestion(key); setView("questions"); }}>
-                                    <TreeItemLayout style={activeQuestion === key ? { background: tokens.colorNeutralBackground1Hover } : {}} iconBefore={<QuestionIcon />} actions={<Button
-                                        aria-label="Remove item"
-                                        appearance="subtle"
-                                        onClick={() => { updateQuickFormPayload((old) => { delete old.questions[key]; return { ...old }; }) }}
-                                        icon={<TrashCanIcon />}
-                                    />}>
-                                        {slide.text}
+                                    <TreeItemLayout style={activeQuestion === key ? { background: tokens.colorNeutralBackground1Hover } : {}} iconBefore={<QuestionIcon />}
+                                        actions={{
+                                             className: styles.actions,
+                                            children: <>
+                                                <Button
+                                                    aria-label="Move Up"
+                                                    appearance="subtle"
+                                                    onClick={() => {
+                                                        updateQuickFormPayload((old) => {
+                                                            const oq = Object.values(old.questions).find(x => x.order === index - 1)
+                                                                ?? old.questions[Object.keys(old.questions)[index - 1]];
+                                                            oq.order = index;
+                                                            const q = old.questions[key]; q.order = index - 1;
+
+                                                            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j))
+
+                                                            return { ...old };
+                                                        })
+                                                    }}
+                                                    icon={<CaretUpFilled />}
+                                                />
+                                                <Button
+                                                    aria-label="Move Down"
+                                                    appearance="subtle"
+                                                    onClick={() => {
+                                                        updateQuickFormPayload((old) => {
+                                                            const oq = Object.values(old.questions).find(x => x.order === index + 1)
+                                                                ?? old.questions[Object.keys(old.questions)[index + 1]];
+                                                            oq.order = index;
+                                                            const q = old.questions[key]; q.order = index + 1;
+
+                                                            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j))
+
+
+                                                            return { ...old };
+                                                        })
+                                                    }}
+                                                    icon={<CaretDownFilled />}
+                                                />
+                                                <Button
+                                                    aria-label="Remove item"
+                                                    appearance="subtle"
+                                                    onClick={() => { updateQuickFormPayload((old) => { delete old.questions[key]; return { ...old }; }) }}
+                                                    icon={<TrashCanIcon />}
+                                                />
+                                            </>
+                                        }}>
+                                        {question.logicalName ? key : question.text}
                                     </TreeItemLayout>
                                 </TreeItem>
                             )}

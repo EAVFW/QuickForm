@@ -5,7 +5,7 @@ import { PageDesignEditor, CraftEditor, CraftViewPort, useEditorChanges } from "
 import { useEffect, useMemo } from "react";
 import { removeNonAlphanumeric } from "@eavfw/utils";
 import { SerializedNodes } from "@craftjs/core"
-import { QuickFormDef } from "../../Types/QuickFormDefinition";
+import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
 
 
 
@@ -52,9 +52,9 @@ const initial = JSON.stringify(
 
 
 export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
-    dispatch: React.Dispatch<React.SetStateAction<QuickFormDef>>,
+    dispatch: React.Dispatch<React.SetStateAction<QuickFormDesignerDefinition>>,
     slideId?: string,
-    layout: QuickFormDef["layout"]
+    layout: QuickFormDesignerDefinition["layout"]
 }) => {
     const styles = useViewStyles();
 
@@ -74,20 +74,37 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
 
 
          {
-            const rownodes = slideId && layout.slides[slideId]?.rows ?
+            const rownodes = slideId && layout?.slides?.[slideId]?.rows ?
                 Object.fromEntries(
                     Object.entries(
                         layout.slides[slideId]?.rows ?? {
-                        }).map(([rowid, row]) => [rowid, {
-                            "type": { "resolvedName": "Question" },
-                            "isCanvas": true, "props": { questionid: row.columns["column1"].ref },
-                            "displayName": "Question",
-                            "custom": { "displayName": "Question" },
-                            "parent": "ROOT",
-                            "hidden": false,
-                            "nodes": [],
-                            "linkedNodes": {}
-                        }])) : {
+                        }).map(([rowid, row]) => {
+
+                            if (row.type !== "row")
+                                throw new Error("Only Row is supported currently");
+
+                            const columns = Object.keys(row.columns);
+
+                            if (columns.length !== 1)
+                                throw new Error("Only one column rows is supported currently");
+
+                            const column = row?.columns?.[Object.keys(row.columns)[0]];
+
+                            if (column.type !== "question")
+                                throw new Error("Only one column rows with a question is supported currently");
+
+                            return [rowid, {
+                                "type": { "resolvedName": "Question" },
+                                "isCanvas": true, "props": { questionid: column.ref },
+                                "displayName": "Question",
+                                "custom": { "displayName": "Question" },
+                                "parent": "ROOT",
+                                "hidden": false,
+                                "nodes": [],
+                                "linkedNodes": {}
+                            }];
+
+                        })) : {
                     "GBCxB0dj1x": {
                         "type": { "resolvedName": "GridNode" },
                         "isCanvas": true, "props": {},
@@ -127,7 +144,7 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
                             canAddBottom: true
                         },
                         slideId: slideId,
-                        "displayName": slideId && slideId in layout.slides ? layout.slides[slideId].title : 'New Slide *'
+                        "displayName": slideId && layout?.slides && slideId in layout?.slides ? layout?.slides[slideId].title : 'New Slide *'
                     },
                     "hidden": false,
                     "nodes": Object.keys(rownodes),
@@ -162,6 +179,12 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
                     let title = name;
                     let schemaName = removeNonAlphanumeric(title);
                     let logicalName = schemaName.toLowerCase();
+                    if (!old.layout) {
+                        old.layout = {
+                        };
+                    }
+                    if (!old.layout.slides)
+                        old.layout.slides = {};
 
                     old.layout.slides[oldslideid] = { ...old.layout.slides[oldslideid], title, schemaName, logicalName };
                      
@@ -180,12 +203,13 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
 
         if (nodes?.ROOT && nodes.ROOT.custom.slideId === slideId) {
             dispatch(quickform => {
-                let layout = quickform.layout;
-                if (!layout)
-                    quickform.layout = {
-                        slides: {
-                        }
-                    };
+
+                if (!quickform.layout)
+                    quickform.layout = {};
+
+
+                if (!quickform.layout.slides)
+                    quickform.layout.slides = {};
 
                 let slide = quickform.layout.slides[quickform.__designer.activeSlide!];
                 if (!slide)
@@ -204,7 +228,9 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
                         slide.rows = {};
 
                     slide.rows[rowid] = {
-                        ...slide.rows?.[rowid] ?? {}, columns: { "column1": {  type: "question", ref: row.props.questionid }  }
+                        ...slide.rows?.[rowid] ?? {},
+                        type: "row",
+                        columns: { "column1": { type: "question", ref: row.props.questionid } }
                     };
                 }
 
@@ -219,7 +245,7 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
     
 
     if (slideId) {
-        console.log("CraftEditor9", [layout.slides, slideId]);
+        console.log("CraftEditor9", [layout?.slides, slideId]);
         return (
             <div className={mergeClasses(styles.section)}>
                 <CraftViewPort 
@@ -227,7 +253,7 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
                     height="auto"
                     background={{ r: 255, g: 255, b: 255, a: 1 }}
                     padding={['40', '40', '40', '40']}
-                    custom={{ displayName: slideId in layout.slides ? layout.slides[slideId].title : 'New Slide *' }}
+                    custom={{ displayName: layout?.slides && slideId in layout.slides ? layout.slides[slideId].title : 'New Slide *' }}
                     defaultValue={initial} />
             </div>)
 

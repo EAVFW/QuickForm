@@ -25,5 +25,7 @@ const rowContainerStyling: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    margin: '10px'
+    //margin: '10px' //PKS - i dont think we want margin here, 
+    //alignment of question rows with button at the slide level. 
+    //Atleast we then need to compute margin for button also to the same, and then if overriden it gives problems.
 }

@@ -1,4 +1,4 @@
-import { QuickFormDefinition } from "../../../core/src/model/QuickFormDefinition";
+import { QuickFormDefinition } from "@eavfw/quickform-core/src/model/json-definitions/QuickFormDefinition";
 
 
 

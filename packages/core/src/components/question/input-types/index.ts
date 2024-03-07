@@ -8,8 +8,10 @@
 // export * from './LastNameInput';
 // export * from './PhoneInput';
 // export * from './RoleInput';
-export * from './dropdown/DropDownInput';
+//export * from './dropdown/DropDownInput';
 export * from './text/TextInput';
 export * from './multiline/MultilineInput';
 
 
+import "./email/EmailInput";
+import "./phone/PhoneInput";

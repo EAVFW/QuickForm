@@ -2,7 +2,7 @@ import { useEAVForm } from "@eavfw/forms";
 import { AttributeDefinition, isLookup } from "@eavfw/manifest";
 import { gzip, ungzip } from "pako";
 import { useMemo, useEffect,useState } from "react";
-import { QuickFormDef } from "../Types/QuickFormDefinition";
+import { QuickFormDesignerDefinition } from "../Types/QuickFormDefinition";
 import { useModelDrivenApp } from "@eavfw/apps";
 import { ViewNames } from "../Types/ViewNames";
 
@@ -35,7 +35,7 @@ export const useDocument = (entityName: string, attributeName:string) => {
     }, [formData[column.logicalName]])
 
 
-    const [quickformpayload, updateQuickFormPayload] = useState<QuickFormDef>(JSON.parse(old ?? JSON.stringify({
+    const [quickformpayload, updateQuickFormPayload] = useState<QuickFormDesignerDefinition>(JSON.parse(old ?? JSON.stringify({
         intro: {
 
         },
@@ -47,19 +47,11 @@ export const useDocument = (entityName: string, attributeName:string) => {
         },
         layout: {
             slides: {
-                "slide1": {
-                    title: "Slide 1",
-                },
-                "slide2": {
-                    title: "Slide 2",
-                }
+               
             }
         },
         questions: {
-            "q1": {
-                title: "Question 1",
-                inputType: "text"
-            }
+           
         }
     })));
 

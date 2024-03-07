@@ -2,7 +2,7 @@ import { EndingModel } from "../EndingModel";
 import { IntroModel } from "../IntroModel";
 import { QuickFormQuestionsDefinition } from "./QuickFormQuestionsDefinition";
 import { QuickFormSubmitDefinition } from "./QuickFormSubmitDefinition";
-import { Layout } from "./Layout";
+import { LayoutDefinition } from "./Layout";
 
 
 export type QuickFormDefinition = {
@@ -10,7 +10,7 @@ export type QuickFormDefinition = {
     questions: QuickFormQuestionsDefinition,
     submit: QuickFormSubmitDefinition;
     ending: EndingModel;
-    layout?: Layout;
+    layout?: LayoutDefinition;
 }
 
 

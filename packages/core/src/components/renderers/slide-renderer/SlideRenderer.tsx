@@ -3,6 +3,9 @@ import { useQuickForm } from '../../../state/QuickFormContext';
 import { Button } from '../../button/Button';
 import { useHandleEnterKeypress } from '../../../hooks';
 import { Slide } from '../../slide/Slide';
+import { Checkmark } from '../../icons';
+import { quickformtokens } from '../../../style/quickformtokens';
+
 
 
 export const SlideRenderer: React.FC = () => {
@@ -20,7 +23,7 @@ export const SlideRenderer: React.FC = () => {
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}
                 onClick={goToNextSlide}
                 showPressEnter={!enterKeyDisabled}
-                children={"Ok"} />
+                children={<>OK<Checkmark style={{ marginLeft: quickformtokens.gap1 }} color={quickformtokens.onSurface} size={24} /></>} />
         </div>
     );
 };

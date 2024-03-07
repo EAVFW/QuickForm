@@ -1,4 +1,5 @@
 import React from "react";
+import { IconProps } from "./iconProps";
 
 export const RightArrow: React.FC<IconProps> = ({ className, size = '16px' }) => {
     return (

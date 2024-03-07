@@ -5,82 +5,35 @@ import validator from '@rjsf/validator-ajv8';
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 import { Dropdown, DropdownProps, Option, shorthands, mergeClasses, Field, Input } from '@fluentui/react-components';
 import { useViewStyles } from "../Styles/useViewStyles.styles";
-import { QuickFormDef } from "../../Types/QuickFormDefinition";
-import { ariaDescribedByIds } from "@rjsf/utils";
+import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
+import { FieldProps, ariaDescribedByIds } from "@rjsf/utils";
 import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 
+import { InputComponentMetadata, resolveInputComponentSchemas } from "@eavfw/quickform-core";
 
 
+const additionalFields = {} as { [key: string]: React.FC<FieldProps> } ;
 
-
-
-const schemas = {
-    "text": {
-        label: "Text",
-        uiSchema: {
-            paragraph: {
-                "ui:widget": "textarea"
-            }
-        },
-        schema: {
-            type: "object",
-
-            properties: {
-                text: {
-                    title:"Text",
-                    type: "string"
-                },
-                placeholder: {
-                    title: "Placeholder",
-                    type: "string"
-                },
-                paragraph: {
-                    title:"Paragraph",
-                    type: "string"
-                }
-            }
-        }
-    },
-    "multilinetext": {
-        label: "Multiline Text",
-        uiSchema: {
-            paragraph: {
-                "ui:widget": "textarea"
-            }
-        },
-        schema: {
-            type: "object",
-            properties: {
-                text: {
-                    title: "Text",
-                    type: "string"
-                },
-                placeholder: {
-                    title: "Placeholder",
-                    type: "string"
-                },
-                paragraph: {
-                    title: "Paragraph",
-                    type: "string"
-                }
-            }
-        }
-    }
-} as { [key: string]: { label: string, uiSchema: any, schema: JSONSchema7 } };
-
-
+export const registerInputControlDesignerField = (field: string, component: React.FC<FieldProps>) => additionalFields[field] = component;
 
 export const QuickFormQuestionsView: React.FC<{
-    dispatch: React.Dispatch<React.SetStateAction<QuickFormDef>>,
+    dispatch: React.Dispatch<React.SetStateAction<QuickFormDesignerDefinition>>,
     currentQuestion?: string,
-    questions: QuickFormDef["questions"]
+    questions: QuickFormDesignerDefinition["questions"]
 }> = ({ currentQuestion, questions, dispatch }) => {
 
     const styles = useViewStyles();
+
+    const schemas = resolveInputComponentSchemas();
+
+  
+
     console.log("QuickFormQuestionsView", [currentQuestion, questions]);
     if (currentQuestion && currentQuestion in questions) {
         const question = questions[currentQuestion];
+     
+
         const _onChange: DropdownProps["onOptionSelect"] = (e, d) => {
             dispatch(old => {
                 if (d.optionValue) {
@@ -92,12 +45,17 @@ export const QuickFormQuestionsView: React.FC<{
             console.log("onOptionSelect", [e, d]);
         }
 
+        const { label, schema, uiSchema } = question.inputType ? schemas[question.inputType] : {} as InputComponentMetadata;
+        if (uiSchema) {
+            uiSchema["text"] = { "ui:widget": "hidden" };
+        }
+
         return (
             <div className={mergeClasses(styles.section, styles.sectionSlim)}>
 
 
                 <Field
-                    label="Question Title"
+                    label="Question?" hint="The question text"
                     orientation="horizontal"
                     required={true} style={{ marginBottom: '25px' }}
                 >
@@ -108,17 +66,22 @@ export const QuickFormQuestionsView: React.FC<{
                         value={question?.text??''}
                         onChange={(ev, data) => {
                             dispatch(old => {
-                                let text = data.value;
-                                let schemaName = removeNonAlphanumeric(text);
-                                let logicalName = schemaName.toLowerCase();
-                               
-                                old.questions[logicalName] = { ...old.questions[currentQuestion], text, schemaName, logicalName };
-                                delete old.questions[currentQuestion];
 
-                                if (!old.__designer)
-                                    old.__designer = {};
+                                if (old.questions[currentQuestion].logicalName === currentQuestion) {
+                                    let text = data.value;
+                                    let schemaName = removeNonAlphanumeric(text);
+                                    let logicalName = schemaName.toLowerCase();
 
-                                old.__designer.activeQuestion = logicalName;
+                                    old.questions[logicalName] = { ...old.questions[currentQuestion], text, schemaName, logicalName };
+                                    delete old.questions[currentQuestion];
+
+                                    if (!old.__designer)
+                                        old.__designer = {};
+
+                                    old.__designer.activeQuestion = logicalName;
+                                } else {
+                                    old.questions[currentQuestion].text = data.value;
+                                }
                                 return { ...old };
                             });
                         } }
@@ -155,6 +118,7 @@ export const QuickFormQuestionsView: React.FC<{
                 {question.inputType &&
                     <Form tagName="div" key={currentQuestion + question.inputType}
                         templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
+                        fields={additionalFields}
                         validator={validator}
                         {...schemas[question.inputType]}
                         formData={questions[currentQuestion]}

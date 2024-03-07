@@ -1,3 +1,4 @@
+"use client"
 import "../style/QuickForm.css";
 import React from "react";
 import { useQuickForm } from "../state/QuickFormContext";
@@ -20,7 +21,7 @@ export const QuickForm: React.FC = () => {
     }
 
     return (
-        <div className="container">
+        <div className="slide-container">
             <SlideRenderer />
         </div>
     );
