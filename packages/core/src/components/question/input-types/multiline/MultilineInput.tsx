@@ -4,20 +4,18 @@ import styles from "./MultilineInput.module.css";
 import classNames from "classnames";
 import { useQuickForm } from "../../../../state/QuickFormContext";
 import React from "react";
-import { InputProps, MultilineProperties } from "../../../../model/index";
+import { MultilineProperties } from "../../../../model/index";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
 
-
-
-export const MultilineInput: InputComponentType<MultilineProperties> = ({ questionModel  })=> {
-    const { isFirstQuestionInCurrentSlide } = useQuickForm();
+export const MultilineInput: InputComponentType<MultilineProperties> = ({ questionModel }) => {
+    const { isFirstQuestionInCurrentSlide, answerQuestion } = useQuickForm();
     const { placeholder, output } = questionModel;
     const [text, setText] = useState<string>(output);
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value.replace(/\r?\n/g, '\n'); // Normalize newline characters
-        setText(() => event.target.value);
-        questionModel.output = newValue;
+        setText(() => newValue);
+        answerQuestion(questionModel.logicalName, newValue);
     };
 
     const ref = useRef<HTMLTextAreaElement>(null);

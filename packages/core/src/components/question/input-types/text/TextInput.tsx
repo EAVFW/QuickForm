@@ -1,10 +1,10 @@
-"use client"
-import React, { CSSProperties, HtmlHTMLAttributes, InputHTMLAttributes } from "react";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+"use client";
+import React, { CSSProperties, InputHTMLAttributes } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import classNames from "classnames";
 import styles from "./TextInput.module.css";
 import { useQuickForm } from "../../../../state/QuickFormContext";
-import { InputProps, TextProperties } from "../../../../model/InputType";
+import { TextProperties } from "../../../../model/InputType";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
 import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
 import { QuestionModel } from "../../../../model";
@@ -12,9 +12,9 @@ import { QuestionModel } from "../../../../model";
 export const BaseInputComponent = ({ questionModel, className, style, type }: { type: InputHTMLAttributes<HTMLInputElement>["type"], questionModel: QuestionModel, className?: string, style?: CSSProperties }) => {
 
     const [text, setText] = useState<string>(questionModel!.output);
-   
     const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
-    
+    const { answerQuestion } = useQuickForm();
+
     const resize = () => {
         const input = ref.current;
         if (!input)
@@ -32,21 +32,17 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
             input.style.fontSize = (parseFloat(style) - 1) + "px";
             resize();
         }
-
     }
 
     useEffect(() => {
         if (ref.current) {
-
             resize();
         }
-
     }, [ref]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setText(() => event.target.value);
-        questionModel.output = event.target.value;
-
+        answerQuestion(questionModel.logicalName, event.target.value);
         resize();
     }
 
@@ -63,7 +59,6 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
 
 }
 export const TextInput: InputComponentType<TextProperties> = (props) => {
-
     return <BaseInputComponent type="text" {...props} />
 }
 
