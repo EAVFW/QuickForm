@@ -7,11 +7,16 @@ import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { mergeClasses } from "@fluentui/react-components";
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+import { defaultQuickFormTokens } from "@eavfw/quickform-core";
+
+
 
 const inputSlideSchema = {
     label: "QuickForm Feature Flags",
     uiSchema: {
-       
+        quickFormTokens: {
+
+        }
     },
     schema: {
         type: "object",
@@ -23,10 +28,38 @@ const inputSlideSchema = {
                 type: "boolean"
 
             },
+            quickFormTokens: {
+                title: "Tokens (Variables)",
+                type: "object",
+                properties: {
+
+                }
+            }
         }
     }
 } as { label: string, uiSchema: any, schema: JSONSchema7 };
 
+function registerToken(key: keyof typeof defaultQuickFormTokens, title:string, description:string, widget:string) {
+
+    const tokensSchema = inputSlideSchema.schema.properties?.quickFormTokens! as JSONSchema7;
+    const uiSchema = inputSlideSchema.uiSchema.quickFormTokens;
+    if (tokensSchema && tokensSchema.properties) {
+        tokensSchema.properties[key] = {
+            title,
+            description,
+            type: "string",
+            default: defaultQuickFormTokens[key]
+        }
+    }
+    if (widget) {
+        uiSchema[key] = { "ui:widget": widget }
+    }
+}
+
+registerToken("surface", "Surface Color", "The surface color....", "color");
+registerToken("onSurface", "On Surface Color", "The color used on the surface....", "color");
+registerToken("questionTextFontSize", "Question Text Font Size", "The size of question text...", "text");
+registerToken("questionParagraphFontSize", "Question Paragraph Font Size", "The size of question paragraph...", "text");
 
 export const QuickFormSettingsView = () => {
 
