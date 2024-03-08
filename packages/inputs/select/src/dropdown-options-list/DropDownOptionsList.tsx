@@ -21,7 +21,7 @@ export const DropdownOptionsList: React.FC<{
                 <DropdownSelectOption
                     key={key}
                     className={classNames(styles["dropdown-item"], {
-                        [styles["inactive-option"]]: !isSelected && selectedOptions.length === 2,
+                        //[styles["inactive-option"]]: !isSelected && selectedOptions.length === options,
                     })}
                     onClick={() => dropDownOptionClick(key)}
                     isSelected={isSelected}

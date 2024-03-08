@@ -82,13 +82,13 @@
     }
 
     .dropdown-item-label {
-        align-self: flex-start;
-        margin-top: 7.5px;
+       /* align-self: flex-start;
+        margin-top: 7.5px;*/
     }
 
     .dropdown-text {
         display: block;
-        line-height: 1.25em;
+        /*line-height: 1.25em;*/
         padding: 6px 0;
         width: 27rem;
     }

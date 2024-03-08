@@ -20,11 +20,15 @@ import {
 import { useCallback, useState } from "react";
 
 import { registerInputControlDesignerField } from "@eavfw/quickform-designer";
+import Form from "@rjsf/fluentui-rc";
+import validator from '@rjsf/validator-ajv8';
+import { FieldTemplate } from "@eavfw/quickform-designer/src/Components/Views/rjsf/FieldTemplate";
+import { BaseInputTemplate } from "@eavfw/quickform-designer/src/Components/Views/rjsf/BaseInputTemplate";
+
 type Item = {
     key: string,
     label: string;
     value: string;
-    keyboardkey: string
 }
 const columns: TableColumnDefinition<Item>[] = [
     createTableColumn<Item>({
@@ -69,25 +73,31 @@ export const OptionsFields: React.FC<FieldProps<{ [key: string]: {} }>> = ({ uiS
 
     const [columnSizingOptions] = useState<TableColumnSizingOptions>({
         key: {
-            defaultWidth: 100,
-           // minWidth: 100,
+            defaultWidth: 50,
+            // minWidth: 100,
         },
         label: {
-           // minWidth: 200,
-            defaultWidth: 200,
+            // minWidth: 200,
+            defaultWidth: 100,
         },
-       
+        value: {
+            // minWidth: 200,
+            defaultWidth: 100,
+        },
+
     });
 
     const {
         getRows,
         columnSizing_unstable,
+        tableRef,
         selection: {
             allRowsSelected,
             someRowsSelected,
             toggleAllRows,
             toggleRow,
             isRowSelected,
+            selectedRows
         },
     } = useTableFeatures(
         {
@@ -95,13 +105,14 @@ export const OptionsFields: React.FC<FieldProps<{ [key: string]: {} }>> = ({ uiS
             items,
         },
         [
+            useTableColumnSizing_unstable({ columnSizingOptions }),
             useTableSelection({
                 selectionMode: "multiselect",
                 defaultSelectedItems: new Set(),
             }),
-            useTableColumnSizing_unstable({ columnSizingOptions })
+           
         ],
-       
+
     );
     const toggleAllKeydown = useCallback(
         (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -131,15 +142,24 @@ export const OptionsFields: React.FC<FieldProps<{ [key: string]: {} }>> = ({ uiS
     const [open, setOpen] = useState(false);
     const [optionKey, setOptionKey] = useState('');
     const [optionLabel, setOptionLabel] = useState('');
+    const [optionValue, setOptionValue] = useState({key:'',value:'',label:''});
+
+    const optionsSchema = rawSchema.additionalProperties;
+    const customOptionSchema = optionsSchema !== true
 
     const handleSubmit = () => {
 
-        onChange({ ...formData, [optionKey]: optionLabel });
+        if (optionsSchema === true) {
+            onChange({ ...formData, [optionKey]: optionLabel });
+        } else {
+            onChange({ ...formData, [optionValue.key]: { value:optionValue.value, label: optionValue.label } });
+        }
+        
         setOpen(false);
         setOptionKey('');
         setOptionLabel('');
     }
-
+  
     return (<>
         <Dialog open={open}
             onOpenChange={(event, data) => {
@@ -152,14 +172,35 @@ export const OptionsFields: React.FC<FieldProps<{ [key: string]: {} }>> = ({ uiS
                 <DialogBody>
                     <DialogTitle>New Option</DialogTitle>
                     <DialogContent className={styles.content}>
-                        <Field label="Option Key">
-                            <Input value={optionKey} required type="text" id={"question-schema-name"} onChange={(e, d) => setOptionKey(d.value)} />
-                        </Field>
-                        <Field label="Option Label">
-                            <Input value={optionLabel} required type="text" id={"question-schema-name"} onChange={(e, d) => setOptionLabel(d.value)} />
-                        </Field>
+
+                        {typeof (optionsSchema) !== "boolean" && optionsSchema ? (
+                            <Form tagName="div"
+                                templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
+                                schema={optionsSchema}
+                                validator={validator}
+
+                                formData={optionValue}
+                                onChange={(a, b) => {
+                                    setOptionValue(a.formData);
+                                }}
+                            >
+                                <>
+                                </>
+                            </Form>
+                        ) : (
+                            <>
 
 
+                                <Field label="Option Key">
+                                    <Input value={optionKey} required type="text" id={"question-schema-name"} onChange={(e, d) => setOptionKey(d.value)} />
+                                </Field>
+                                <Field label="Option Label">
+                                    <Input value={optionLabel} required type="text" id={"question-schema-name"} onChange={(e, d) => setOptionLabel(d.value)} />
+                                </Field>
+
+                            </>
+                        )
+                        }
                     </DialogContent>
                     <DialogActions>
                         <DialogTrigger disableButtonEnhancement>
@@ -180,11 +221,11 @@ export const OptionsFields: React.FC<FieldProps<{ [key: string]: {} }>> = ({ uiS
                 relationship="description"
                 withArrow
             >
-                <ToolbarButton appearance="primary" onClick={() => setOpen(true)}>Add</ToolbarButton>
+                <ToolbarButton appearance="primary" onClick={() => { setOptionValue(rows.find(x => x.selected)?.item ?? { key: '', value: '', label: '' });  setOpen(true); }}>{selectedRows.size === 0 ? 'Add' : 'Edit'}</ToolbarButton>
             </Tooltip>
 
         </Toolbar>
-        <Table aria-label="Table with multiselect" size="small">
+        <Table aria-label="Table with multiselect" size="small" ref={tableRef}>
             <TableHeader>
                 <TableRow>
                     <TableSelectionCell
@@ -194,11 +235,12 @@ export const OptionsFields: React.FC<FieldProps<{ [key: string]: {} }>> = ({ uiS
                         onClick={toggleAllRows}
                         onKeyDown={toggleAllKeydown}
                         checkboxIndicator={{ "aria-label": "Select all rows " }}
-                      
+
                     />
 
                     <TableHeaderCell   {...columnSizing_unstable.getTableHeaderCellProps('key')}>Key</TableHeaderCell>
                     <TableHeaderCell {...columnSizing_unstable.getTableHeaderCellProps('label')}>Label</TableHeaderCell>
+                    {customOptionSchema && <TableHeaderCell {...columnSizing_unstable.getTableHeaderCellProps('value')}>Value</TableHeaderCell>}
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -224,6 +266,12 @@ export const OptionsFields: React.FC<FieldProps<{ [key: string]: {} }>> = ({ uiS
                                 {item.label}
                             </TableCellLayout>
                         </TableCell>
+                        {customOptionSchema && <TableCell>
+                            <TableCellLayout>
+                                {item.value}
+                            </TableCellLayout>
+                        </TableCell>
+                        }
                     </TableRow>
                 ))}
             </TableBody>
