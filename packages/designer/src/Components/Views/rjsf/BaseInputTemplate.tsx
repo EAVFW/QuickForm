@@ -78,7 +78,7 @@ export function BaseInputTemplate<
                         )}
                     </InfoLabel>
                 )
-            }}  orientation="horizontal">
+            }}  >
                 <Input
                     id={id}
                     name={id}
