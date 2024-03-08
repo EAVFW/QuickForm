@@ -20,7 +20,7 @@ export function Paragraph({ style, children }: ParagraphProps) {
     if (typeof (children) === "string")
         return <p className={styles["para"]}
             style={paragraphStyles}
-            dangerouslySetInnerHTML={{ __html: children } } />;
+            dangerouslySetInnerHTML={{ __html: children.replace(/(?:\r\n|\r|\n)/g, '<br/>') }} />;
 
     return <p className={styles["para"]} style={paragraphStyles}>{children}</p>;
 }
