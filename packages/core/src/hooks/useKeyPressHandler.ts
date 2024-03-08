@@ -17,5 +17,5 @@ export function useKeyPressHandler(keys: string[], onclick: (e: KeyboardEvent, k
         };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, keys);
+    }, [keys.join(''), onclick]);
 }
