@@ -5,7 +5,7 @@ import { useKeyPressHandler, useQuickForm, resolveQuickFormService, InputCompone
 
 import styles from './DropDownInput.module.css';
 
-import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
+import { DropdownOptionsList, SelectOptions, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
 
 
 
@@ -15,10 +15,7 @@ export type DropDownProperties = {
     inputType: typeof SelectInputType;
     maxItems?: number;
     minItems?: number;
-    options: {
-        [key: string]: string | {value:number, label:string}
-;
-    }
+    options: SelectOptions
 }
 
 
@@ -29,7 +26,7 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 
     const { answerQuestion } = useQuickForm();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(questionModel.answered ? [questionModel.output] : []);
-    const remainingChoices = minItems - selectedOptions.length;
+    const remainingChoices = Math.max(0, minItems - selectedOptions.length);
 
     logger.log("Dropdown Input: {@options} {@selectedOptions}", rawOptions, selectedOptions);
 
@@ -40,6 +37,7 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
         const newOptions = handleDropdownOptionClick({
             key: key,
             selectedOptions: selectedOptions,
+            options: rawOptions,
             maxItems: maxItems!,
             minItems: minItems!,
             onOutputChange: answerQuestion,
@@ -50,14 +48,16 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
         const minItemsLength = typeof minItems !== "number" ? minItems : minItems;
 
         logger.log("Dropdown Clicked: {key}, isFinished={isFinished}, minItemsLength={minItemsLength}, Result={result},selectedOptions={@selectedOptions},options={@options}",
-            key, newOptionsLength === minItemsLength, minItemsLength, newOptions.join(","), selectedOptions, options);
+            key, newOptionsLength >= minItemsLength, minItemsLength, newOptions.join(","), selectedOptions, options);
 
         setSelectedOptions(prev => newOptions);
 
-        if (newOptionsLength > minItemsLength) { 
-            setTimeout(() => {
-                answerQuestion(questionModel?.logicalName!, newOptions.join(","));
-            }, 1000);
+        if (newOptionsLength >= minItemsLength) {
+            const mapper = (x: string) => { const o = rawOptions[x]; return typeof o === "string" ? x : o.value };
+            answerQuestion(questionModel?.logicalName!, maxItems === 1 ? newOptions.map(mapper)[0] :  newOptions.map(mapper), true);//  newOptions.join(","));
+            
+        } else {
+            answerQuestion(questionModel?.logicalName!, undefined, false);//  newOptions.join(","));
         }
 
     }, [selectedOptions, maxItems, minItems]);
@@ -129,10 +129,13 @@ DropDownInput.quickform = {
                 type: "object",
                 additionalProperties: {
                     "type": "object",
+                    required:["key","label"],
                     properties: {
                         key: { "type": "string", title: "Key", description: "The key used for the option, this is also the keyboard key used to select this option" },
                         label: { "type": "string", title: "Label", description:"The label shown to the end users" },
-                        value: { "type": "number", title: "Value", description:"Used in calculations when this option is picked" }
+                        value: { "type": "number", title: "Value", description: "Used in calculations when this option is picked" },
+                        clearOthers: { type: "boolean", "title": "Clear Others", description: "When set, this options clears other options already picked" },
+                        clearOnOthers: { type: "boolean", "title": "Clear On Others", description: "When set, this option get cleared if another option is picked" }
                     }
                 }
             },

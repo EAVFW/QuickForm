@@ -36,18 +36,26 @@ export const DropdownOptionsList: React.FC<{
     </>
 );
 
+export type SelectOptions = {
+    [key: string]: string | { value: number, label: string, clearOthers?: boolean, clearOnOthers?: boolean }
+    
+}
+
 interface DropdownOptionsParams {
     key: string;
+    options: SelectOptions,
     selectedOptions: string[];
     maxItems: number;
     minItems: number;
     onOutputChange: (logicalName: string, output:any) => void;
     loggingEnabled?: boolean;
+    
 }
 
 export const handleDropdownOptionClick = ({
     key,
     selectedOptions,
+    options,
     maxItems,
     minItems,
     onOutputChange,
@@ -57,10 +65,15 @@ export const handleDropdownOptionClick = ({
 
     log('--- handleDropdownOptionClick ---', { key, maxItems, minItems });
 
-    let updatedOptions: string[]=[];
-    if(selectedOptions.includes(key)){
+    let option = options[key];
+
+    let updatedOptions: string[] = [];
+    
+    if (selectedOptions.includes(key)) {
         // Remove allready selected key
-        updatedOptions = selectedOptions.filter(option => option !== key)
+        updatedOptions = selectedOptions.filter(option => option !== key);
+    } else if (typeof option !== "string" && option.clearOthers) {
+        updatedOptions = [key];
     } else if (selectedOptions.length < maxItems){
         // Add new key to selected options
         updatedOptions = [...selectedOptions, key];
@@ -68,6 +81,14 @@ export const handleDropdownOptionClick = ({
         // Replace last key with newly clicked key
         updatedOptions = [...selectedOptions.slice(1), key];
     }
+
+    for (let [k, option] of Object.entries(options).filter(([k, option]) => typeof (option) !== "string" && option.clearOnOthers)) {
+        if (updatedOptions.some(x => x !== k)) {
+         
+            updatedOptions = updatedOptions.filter(option => option !== k);
+        }
+    }
+
 
     log('Updated options:', updatedOptions);
     return updatedOptions;
