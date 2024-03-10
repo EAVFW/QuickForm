@@ -7,7 +7,16 @@ export const findQuestionByKey = (questionKey: string, questions: QuestionModel[
 
 export const isSlideAnswered = (slide: SlideModel): boolean => (slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.answered));
 
-export const getAllQuestions = (slides: SlideModel[]): QuestionModel[][] => (slides.map(slide => slide.questions));
+export const getAllQuestions = (slides: SlideModel[]): QuestionModel[] => (slides.map(slide => slide.questions).flat());
+
+
+type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
+
+function hasVisibilityRule(question: QuestionModel): question is WithRequired<QuestionModel, 'visible'> {
+    return question.visible && question.visible?.engine && question.visible?.rule;
+}
+export const getAllQuestionsWithVisibilityRule = (slides: SlideModel[]) => getAllQuestions(slides).filter(hasVisibilityRule);
+
 
 export const allQuestionsMap = (slides: SlideModel[]): { [key: string]: QuestionModel } => slides
     .map(s => s.questions)
