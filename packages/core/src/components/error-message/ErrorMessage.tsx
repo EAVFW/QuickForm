@@ -12,13 +12,20 @@ export const ErrorMessage: React.FC<ErrorProps> = ({ message }: ErrorProps) => {
     const [isVisible, setIsVisible] = useState(false);
     const { dispatch, state } = useQuickForm();
 
-    const resetErrorMessage = () => {
-        if (state.errorMsg !== "") {
-            dispatch({ type: "SET_ERROR_MSG", msg: "" })
-        }
-    }
+    /**
+     *  DISCUSS - What cases is there for resetting error and can it be handled in reducer all alone?. 
+     *  When an error is shown, upon next answer it can be cleared.
+     * Possible a dissmis button - but i dont think it should automatically just remove when clicked.
+     */
 
-    useDelayedClickListener(resetErrorMessage);
+
+    //const resetErrorMessage = () => {
+    //    if (state.errorMsg !== "") {
+    //        dispatch({ type: "SET_ERROR_MSG", msg: "" })
+    //    }
+    //}
+
+   // useDelayedClickListener(resetErrorMessage);
 
     useEffect(() => {
         if (message) {
