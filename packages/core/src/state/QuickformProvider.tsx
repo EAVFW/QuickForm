@@ -36,11 +36,19 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
 
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => {
-        if (isSlideAnswered(getCurrentSlide())) {
-            dispatch({ type: 'NEXT_SLIDE' });
-        } else {
-            dispatch({ type: "SET_ERROR_MSG", msg: "All questions must be answered" });
-        }
+
+        dispatch({ type: 'ANSWER_INTERMEDIATE_QUESTION'});
+
+        //DISCUSS - we cant have logic here as the state is updated
+        //The logic should then be in the NEXT_SLIDE _ACTION ?
+
+        //if (isSlideAnswered(getCurrentSlide())) {
+        //    dispatch({ type: 'NEXT_SLIDE' });
+        //} else {
+        //    dispatch({ type: "SET_ERROR_MSG", msg: "All questions must be answered" });
+        //}
+
+        dispatch({ type: 'NEXT_SLIDE' }); //Moved EROR CHECK INTO NEXT_SLIDE
     };
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
     const answerQuestion = (logicalName: string, output: any, intermediate=false) => {

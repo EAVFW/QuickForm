@@ -1,11 +1,13 @@
 import { SubmitStatus } from "../model/SubmitStatus";
 
 export type QuickformAnswerQuestionAction = { type: 'ANSWER_QUESTION'; logicalName: string; output: string, intermediate?: boolean };
+export type QuickformAnswerIntermediateQuestions = { type: 'ANSWER_INTERMEDIATE_QUESTION' };
 export type QuickformAction =
     | { type: 'SET_INDEX'; index: number }
     | { type: 'NEXT_SLIDE' }
     | { type: 'PREV_SLIDE' }
     | { type: 'SET_ERROR_MSG'; msg: string }
+    | QuickformAnswerIntermediateQuestions
     | QuickformAnswerQuestionAction
    // | { type: 'ANSWER_QUESTION_AUTO_NAVIGATE'; logicalName: string; output: string }
     | { type: 'COMPUTE_PROGRESS' }

@@ -1,4 +1,4 @@
-import { isSlideAnswered } from "../../utils/quickformUtils";
+import { getCurrentSlide, isSlideAnswered } from "../../utils/quickformUtils";
 import { QuickformState } from "../../state/QuickformState";
 import { resolveQuickFormService } from "../../services";
 
@@ -14,7 +14,7 @@ export class NavigationActionHandler {
         let newIdx = currIdx;
         while (newIdx < slides.length && newIdx >= 0 && (newIdx === currIdx || !state.slides[newIdx].questions.some(x => x.visible?.isVisible ?? true))) {
             logger.log("handle slide change: {currentIdx} -> {newIdx}: Visible Questions:{hasVisibleQuestions}", currIdx, newIdx,
-                state.slides[newIdx].questions.some(x => x.visible?.isVisible ?? true));
+                state.slides[newIdx].questions.some(x => x.visible?.isVisible ?? true), slides.length);
 
             if (direction === 'next' && newIdx < slides.length - 1) {
                 newIdx = newIdx + 1;
@@ -46,7 +46,16 @@ export class NavigationActionHandler {
     }
 
     static handleNextSlideAction = (state: QuickformState) => {
-        return this.computeProgress(NavigationActionHandler.handleSlideChange(state, 'next'));
+
+        if (isSlideAnswered(getCurrentSlide(state))) {
+            return this.computeProgress(NavigationActionHandler.handleSlideChange(state, 'next'));
+        } else {
+            return { ...state, errorMsg: "All questions must be answered" };
+
+        }
+
+
+        
     }
 
     static handlePrevSlideAction = (state: QuickformState) => {
