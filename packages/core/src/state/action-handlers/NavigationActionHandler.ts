@@ -1,16 +1,28 @@
 import { isSlideAnswered } from "../../utils/quickformUtils";
 import { QuickformState } from "../../state/QuickformState";
+import { resolveQuickFormService } from "../../services";
 
 export class NavigationActionHandler {
     private static handleSlideChange = (state: QuickformState, direction: 'next' | 'prev') => {
+        const logger = resolveQuickFormService("logger");
+
         const currIdx = state.currIdx;
         const slides = state.slides;
 
+        logger.log("handle slide change: {currentIdx}", currIdx);
+
         let newIdx = currIdx;
-        if (direction === 'next' && currIdx < slides.length - 1) {
-            newIdx = currIdx + 1;
-        } else if (direction === 'prev' && currIdx > 0) {
-            newIdx = currIdx - 1;
+        while (newIdx < slides.length && newIdx >= 0 && (newIdx === currIdx || !state.slides[newIdx].questions.some(x => x.visible?.isVisible ?? true))) {
+            logger.log("handle slide change: {currentIdx} -> {newIdx}: Visible Questions:{hasVisibleQuestions}", currIdx, newIdx,
+                state.slides[newIdx].questions.some(x => x.visible?.isVisible ?? true));
+
+            if (direction === 'next' && newIdx < slides.length - 1) {
+                newIdx = newIdx + 1;
+            } else if (direction === 'prev' && newIdx > 0) {
+                newIdx = newIdx - 1;
+            } else {
+                break;
+            }
         }
 
         return {
