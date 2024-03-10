@@ -1,18 +1,17 @@
 {
   "version": "1.0.0",
-  "name": "@eavfw/quickform-core",
+  "name": "@eavfw/quickform-querybuilder",
   "dependencies": {
-    "classnames": "^2.5.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "peerDependencies": {
-    "@griffel/react": "1.5.20"
+
+    "react-querybuilder": "7.0.1",
+    "@react-querybuilder/fluent": "7.0.1",
+    "@fluentui/react-components": "9.46.8"
   },
   "devDependencies": {
-    "react-icons": "^4.11.0",
-    "@types/classnames": "^2.3.1",
-    "html-webpack-plugin": "^5.6.0"
   },
   "license": "MIT",
   "files": [

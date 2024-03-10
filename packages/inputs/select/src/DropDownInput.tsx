@@ -91,6 +91,15 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 
 DropDownInput.quickform = {
     label: "Select",
+    field: {
+        //  type: undefined,
+        typeProvider: (a) => a.maxItems === 1 ? "select" : "multiselect",
+        listValuesProvider: (a) => Object.entries(a.options ?? {}).map(([okey, o]) => (typeof (o) === "string" ?
+            {
+                label: o,
+                name: okey
+            } : { label: o.label, name: o.value }))
+    },
     uiSchema: {
         paragraph: {
             "ui:widget": "textarea"

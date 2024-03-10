@@ -25,7 +25,7 @@ import { SettingsRegular, EditSettingsRegular } from "@fluentui/react-icons"
 import { removeNonAlphanumeric } from "@eavfw/utils";
 import { QuickFormQuestionsDefinition } from "@eavfw/quickform-core/src/model/json-definitions/QuickFormQuestionsDefinition";
 import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
-
+import { VisibilityQueryField } from "@eavfw/quickform-querybuilder";
 
 const useStyles = makeStyles({
     content: {
@@ -103,6 +103,7 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                             </Field>
                            
                             }
+                            <VisibilityQueryField />
                             <Field label="Visible Rule">
                                 <Input value={questions[activeQuestion!]?.visible?.rule ?? ''} required type="text" id={"question-schema-name"} onChange={(e, d) => updateQuickFormPayload(old => { old.questions[activeQuestion!].visible = { engine : "JsEval", rule: d.value }; return { ...old }; })} />
                             </Field>

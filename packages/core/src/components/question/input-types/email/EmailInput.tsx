@@ -30,6 +30,9 @@ EmailInput.quickform = {
                 type: "string"
             }
         }
+    },
+    field: {
+        type: "text",
     }
 }
 registerInputComponent("email", EmailInput);

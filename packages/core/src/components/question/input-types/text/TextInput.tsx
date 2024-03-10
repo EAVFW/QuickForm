@@ -86,6 +86,8 @@ TextInput.quickform = {
                 type: "string"
             }
         }
+    }, field: {
+        type: "text",
     }
 }
 registerInputComponent("text", TextInput);
