@@ -57,6 +57,8 @@ export const defaultData: QuickFormModel = {
         buttonText: "Submit",
         submitFields: [
             {
+                intermediate: false,
+                visited:false,
                 questionKey: "question1",
                 logicalName: "question1",
                 inputType: "text",
@@ -68,6 +70,8 @@ export const defaultData: QuickFormModel = {
                 output: {}
             },
             {
+                intermediate: false,
+                visited:false,   
                 questionKey: "question1",
                 logicalName: "question2",
                 inputType: "email",
