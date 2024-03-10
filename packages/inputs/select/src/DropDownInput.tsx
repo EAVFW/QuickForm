@@ -53,7 +53,7 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
         setSelectedOptions(prev => newOptions);
 
         if (newOptionsLength >= minItemsLength) {
-            const mapper = (x: string) => { const o = rawOptions[x]; return typeof o === "string" ? x : o.value };
+            const mapper = (x: string) => { const o = rawOptions[x]; return typeof o === "string" || o.value==='' ? x : o.value ?? x };
             answerQuestion(questionModel?.logicalName!, maxItems === 1 ? newOptions.map(mapper)[0] :  newOptions.map(mapper), true);//  newOptions.join(","));
             
         } else {

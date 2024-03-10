@@ -37,7 +37,7 @@ export const DropdownOptionsList: React.FC<{
 );
 
 export type SelectOptions = {
-    [key: string]: string | { value: number, label: string, clearOthers?: boolean, clearOnOthers?: boolean }
+    [key: string]: string | { value: string|number, label: string, clearOthers?: boolean, clearOnOthers?: boolean }
     
 }
 
