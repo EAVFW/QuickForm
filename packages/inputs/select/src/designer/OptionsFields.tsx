@@ -1,5 +1,5 @@
 
-import { Button, Dialog, DialogActions, DialogBody, DialogContent, DialogSurface, DialogTitle, DialogTrigger, Field, Input, TableColumnSizingOptions, Textarea, Toolbar, ToolbarButton, ToolbarDivider, ToolbarToggleButton, Tooltip, makeStyles, useTableColumnSizing_unstable } from "@fluentui/react-components";
+import { Button, Dialog, DialogActions, DialogBody, DialogContent, DialogSurface, DialogTitle, DialogTrigger, Field, Input, TableColumnSizingOptions, Textarea, Toolbar, ToolbarButton, ToolbarDivider, ToolbarToggleButton, Tooltip, makeStyles, shorthands, useTableColumnSizing_unstable } from "@fluentui/react-components";
 import { FieldProps, ObjectFieldTemplatePropertyType, ObjectFieldTemplateProps, WidgetProps, getUiOptions } from "@rjsf/utils";
 import {
     PresenceBadgeStatus,
@@ -52,7 +52,8 @@ const useStyles = makeStyles({
         rowGap: "10px",
     },
     toolbar: {
-        justifyContent: "end"
+        justifyContent: "end",
+        ...shorthands.gap("8px")
     }
 });
 
@@ -152,7 +153,7 @@ export const OptionsFields: React.FC<FieldProps<{ [key: string]: {} }>> = ({ uiS
         if (optionsSchema === true) {
             onChange({ ...formData, [optionKey]: optionLabel });
         } else {
-            onChange({ ...formData, [optionValue.key]: { value:optionValue.value, label: optionValue.label } });
+            onChange({ ...formData, [optionValue.key]: { ...optionValue } } );
         }
         
         setOpen(false);
@@ -216,12 +217,31 @@ export const OptionsFields: React.FC<FieldProps<{ [key: string]: {} }>> = ({ uiS
         </Dialog>
         <Toolbar aria-label="Table Toolbar" size="small" className={styles.toolbar}>
             <ToolbarDivider />
-            <Tooltip
-                content="Add another option"
+            {selectedRows.size === 2 && <Tooltip
+                content="Swap options"
                 relationship="description"
                 withArrow
             >
-                <ToolbarButton appearance="primary" onClick={() => { setOptionValue(rows.find(x => x.selected)?.item ?? { key: '', value: '', label: '' });  setOpen(true); }}>{selectedRows.size === 0 ? 'Add' : 'Edit'}</ToolbarButton>
+                <ToolbarButton
+                    appearance="primary"
+                    onClick={() => {
+                        let [a, b] = rows.filter(x => x.selected);
+
+                        onChange(Object.fromEntries(Object.entries({ ...formData, [b.item.key]: { ...a.item, key: b.item.key }, [a.item.key]: { ...b.item, key: a.item.key } }).sort((a, b) => a[0].localeCompare(b[0]))));
+                    }}>
+                    Swap
+                </ToolbarButton>
+            </Tooltip>}
+            <Tooltip
+                content={selectedRows.size === 0 ? 'Add another option' : 'Edit existing'}
+                relationship="description"
+                withArrow
+            >
+                <ToolbarButton
+                    appearance="primary"
+                    onClick={() => { setOptionValue(rows.find(x => x.selected)?.item ?? { key: '', value: '', label: '' }); setOpen(true); }}>
+                    {selectedRows.size === 0 ? 'Add' : 'Edit'}
+                </ToolbarButton>
             </Tooltip>
 
         </Toolbar>
