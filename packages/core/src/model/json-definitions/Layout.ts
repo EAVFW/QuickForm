@@ -12,6 +12,18 @@ export const defaultQuickFormTokens = {
     background: '#ffffff',
     surface: '#c9c9c9',
 
+    error: 'var(--surface)',
+    onError: '#ff0000',
+    onErrorDarker100: 'color-mix(in srgb, var(--on-error) 90%, black)',
+    onErrorDarker200: 'color-mix(in srgb, var(--on-error) 80%, black)',
+    onErrorDarker300: 'color-mix(in srgb, var(--on-error) 70%, black)',
+    onErrorDarker400: 'color-mix(in srgb, var(--on-error) 60%, black)',
+    onErrorDarker500: 'color-mix(in srgb, var(--on-error) 50%, black)',
+    onErrorDarker600: 'color-mix(in srgb, var(--on-error) 40%, black)',
+    onErrorDarker700: 'color-mix(in srgb, var(--on-error) 30%, black)',
+    onErrorDarker800: 'color-mix(in srgb, var(--on-error) 20%, black)',
+    onErrorDarker900: 'color-mix(in srgb, var(--on-error) 10%, black)',
+
     onPrimary: '#ffffff',
     onSecondary: '#000000',
     onBackground: '#000000',
