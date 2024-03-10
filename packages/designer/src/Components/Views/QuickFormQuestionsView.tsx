@@ -45,7 +45,7 @@ export const QuickFormQuestionsView: React.FC<{
             console.log("onOptionSelect", [e, d]);
         }
 
-        const { label, schema, uiSchema } = question.inputType ? schemas[question.inputType] : {} as InputComponentMetadata;
+        const { label, schema, uiSchema } = question.inputType ? schemas[question.inputType] : {} as InputComponentMetadata<any>;
         if (uiSchema) {
             uiSchema["text"] = { "ui:widget": "hidden" };
         }
@@ -80,7 +80,7 @@ export const QuickFormQuestionsView: React.FC<{
 
                                     old.__designer.activeQuestion = logicalName;
                                 } else {
-                                    old.questions[currentQuestion].text = data.value;
+                                    old.questions[currentQuestion] = { ...question, text: data.value }; 
                                 }
                                 return { ...old };
                             });
