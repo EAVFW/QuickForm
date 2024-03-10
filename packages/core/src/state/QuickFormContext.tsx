@@ -10,7 +10,7 @@ interface IQuickFormContext {
     goToSlide: (idx: number) => void;
     goToNextSlide: () => void;
     goToPrevSlide: () => void;
-    answerQuestion: (logicalName: string, output: any) => void;
+    answerQuestion: (logicalName: string, output: any, intermediate?: boolean) => void;
     setIntroVisited: () => void;
     setErrorMsg: (msg: string) => void;
     isFirstQuestionInCurrentSlide: (questionLogicalName: string) => boolean;

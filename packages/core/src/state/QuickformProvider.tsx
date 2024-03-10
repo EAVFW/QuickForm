@@ -43,12 +43,12 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
         }
     };
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
-    const answerQuestion = (logicalName: string, output: any) => {
-        if (state.autoAdvanceSlides) {
-            dispatch({ type: 'ANSWER_QUESTION_AUTO_NAVIGATE', logicalName: logicalName, output: output });
-        } else {
-            dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output });
-        }
+    const answerQuestion = (logicalName: string, output: any, intermediate=false) => {
+      //  if (state.autoAdvanceSlides) {
+       //     dispatch({ type: 'ANSWER_QUESTION_AUTO_NAVIGATE', logicalName: logicalName, output: output });
+       // } else {
+        dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output, intermediate });
+        //}
     };
     const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
     const setErrorMsg = (msg: string) => {
