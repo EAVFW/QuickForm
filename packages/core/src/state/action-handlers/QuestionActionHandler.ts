@@ -62,11 +62,15 @@ export class QuestionActionHandler {
 
     static answerQuestion = (state: QuickformState, { logicalName, output, intermediate }: QuickformAnswerQuestionAction) => {
 
-        const progressUpdated = this.updateQuestionProperty(this.updateQuestionProperty(state, logicalName, 'answered', output !== undefined), logicalName, 'output', output);
-        const updateVisibleState = VisibilityHandler.updateVisibleState(progressUpdated);
+        state = this.updateQuestionProperty(state, logicalName, 'answered', output !== undefined && output !== '' && !intermediate);
+        state = this.updateQuestionProperty(state, logicalName, 'intermediate', intermediate);
+        state = this.updateQuestionProperty(state, logicalName, 'visited', true);
+        state =this.updateQuestionProperty(state, logicalName, 'output', output);
+
+        state = VisibilityHandler.updateVisibleState(state);
 
         //DISCUSS, should answer clear error message ?
-        updateVisibleState.errorMsg = '';
-        return updateVisibleState;
+        state.errorMsg = '';
+        return state;
     };
 }

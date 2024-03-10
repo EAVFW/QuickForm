@@ -39,10 +39,20 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
             resize();
         }
     }, [ref]);
-
+    useEffect(() => {
+        const onfocusOut = (e: FocusEvent) => {
+            if (ref.current) {
+                answerQuestion(questionModel.logicalName, ref.current.value);
+            }
+        };
+        document.addEventListener('focusout', onfocusOut);
+        return () => {
+            document.removeEventListener("focusout", onfocusOut);
+        }
+    }, [ref, questionModel.logicalName])
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setText(() => event.target.value);
-        answerQuestion(questionModel.logicalName, event.target.value);
+        answerQuestion(questionModel.logicalName, event.target.value,true);
         resize();
     }
 

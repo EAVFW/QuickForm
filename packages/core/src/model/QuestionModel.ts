@@ -1,7 +1,23 @@
 import { InputPropertiesTypes, InputTypeMap } from "./InputType";
 
 export type QuestionModel<TProps = InputPropertiesTypes> = {
+    /**
+     * is true when the question has been answered with a valid input
+     */
     answered: boolean;
+
+    /**
+     * is true if the field have been visited - have had focus - and can be triggered by answering with a empty string
+     */
+    visited: boolean;
+
+    /**
+     * is true if the output is set with a value but not yet validated. This is when answer is given (output filled) but it is marked with intermediate.
+     * When a answer from a different question or next slide is requested, then all intermediate answers are marked as answered.
+     * This is for onChange on keystroke, multiselects where its not known if the user is done adding input. 
+     */
+    intermediate: boolean
+
     dataType: "string" | "number" | "boolean";
     inputProperties?: TProps;
 
