@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useQuickForm } from '../../../state/QuickFormContext';
 import { Button } from '../../button/Button';
 import { useHandleEnterKeypress } from '../../../hooks';
 import { Slide } from '../../slide/Slide';
 import { Checkmark } from '../../icons';
 import { quickformtokens } from '../../../style/quickformtokens';
+import { mergeClasses } from '@griffel/react';
 
 
 
@@ -16,8 +17,24 @@ export const SlideRenderer: React.FC = () => {
     const enterKeyDisabled = currentSlide.questions.some(q => q.inputType === "multilinetext");
     useHandleEnterKeypress("slide", enterKeyDisabled, goToNextSlide);
 
+    const [className, setClassName] = useState(state.classes.slide);
+    let nextAllowedEffectTime = useRef(new Date().getTime());
+    useEffect(() => {
+        console.log("SLIDERENDER", state.currIdx);
+        const timeout = setTimeout(() => {
+
+            setClassName(mergeClasses(state.classes.slide, state.classes.slideIsIn));
+
+        }, Math.max(150, nextAllowedEffectTime.current - new Date().getTime() + 150));
+
+        return () => {
+            clearTimeout(timeout);
+            setClassName(mergeClasses(state.classes.slide, state.classes.slideIsOut));
+            nextAllowedEffectTime.current = new Date().getTime() + 10;
+        }
+    }, [state.currIdx])
     return (
-        <div id="SlideRenderer" style={slideStyling}        >
+        <div className={className} id="SlideRenderer" style={slideStyling}        >
             <Slide model={currentSlide} />
             <Button
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}

@@ -1,3 +1,4 @@
+import { QuickformClassNames } from "../../state/QuickformState";
 
 export const defaultQuickFormTokens = {
 
@@ -58,6 +59,7 @@ export const defaultQuickFormTokens = {
 }
 
 export type LayoutDefinition = {
+    classes?: Partial<QuickformClassNames>,
     style?: React.CSSProperties;
     tokens?: Partial<typeof defaultQuickFormTokens>;
     autoAdvanceSlides?: boolean;

@@ -2,6 +2,7 @@ import { SubmitStatus } from "../model/SubmitStatus";
 import { SlideModel } from "../model/SlideModel";
 import { LayoutDefinition, QuickFormModel } from "../model";
 
+export type QuickformClassNames = { slide: string, slideIsIn: string, slideIsOut: string };
 export type QuickformState = {
     autoAdvanceSlides?: boolean;
     currIdx: number;
@@ -18,11 +19,13 @@ export type QuickformState = {
     slides: SlideModel[];
     submitStatus: SubmitStatus;
     totalSteps: number;
+    classes: Partial<QuickformClassNames>,
 }
 
 export const defaultState = (data: QuickFormModel = defaultData, layout?: LayoutDefinition): QuickformState => {
     const defState = {
         autoAdvanceSlides: layout?.autoAdvanceSlides ?? false,
+        classes: layout?.classes ?? {},
         currIdx: 0,
         currStep: data.slides.length > 0 ? 1 : 0,
         data: data,
