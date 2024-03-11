@@ -40,7 +40,13 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
         }
     }, [ref]);
     useEffect(() => {
+        /**
+         * This is not fired on chrome, edge on IOS. TODO
+         * https://support.google.com/chrome/thread/170808931/ios-software-keyboard-done-button-doesn-t-work-in-input-on-overlays?hl=en     
+         * 
+         */
         const onfocusOut = (e: FocusEvent) => {
+            
             if (ref.current) {
                 answerQuestion(questionModel.logicalName, ref.current.value);
             }
