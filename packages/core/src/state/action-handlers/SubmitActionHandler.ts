@@ -2,22 +2,31 @@ import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { QuickformAction, QuickformState } from "../index";
 
 export class SubmitActionHandler {
-    static submit = async (state: QuickformState, dispatch: React.Dispatch<QuickformAction>) => {
+    static submit = async (state: QuickformState, dispatch: React.Dispatch<QuickformAction>, onSubmitAsync?: (data:any)=>Promise<string>) => {
 
         try {
+            const body = this.generatePayload(state);
 
-            let rsp = await fetch(state.data.submit.submitUrl, {
-                method: state.data.submit.submitMethod,
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(this.generatePayload(state)),
-                credentials: "include"
-            });
-            if (rsp.ok) {
-                dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitSuccess: true, isSubmitting: false, isSubmitError: false } });
-                dispatch({ type: 'GO_TO_ENDING' });
+            if (onSubmitAsync) {
+                const rsp = await onSubmitAsync(body);
+            } else {
+
+                let rsp = await fetch(state.data.submit.submitUrl, {
+                    method: state.data.submit.submitMethod,
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                    credentials: "include"
+                });
+                if (!rsp.ok) {
+                    throw new Error("Failed to submit:" + await rsp.text());
+                }
             }
+
+            dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitSuccess: true, isSubmitting: false, isSubmitError: false } });
+            dispatch({ type: 'GO_TO_ENDING' });
+
         } catch (error: any) {
             console.error(error.message);
             dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true, isSubmitSuccess: false } });

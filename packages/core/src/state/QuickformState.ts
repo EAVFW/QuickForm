@@ -19,7 +19,7 @@ export type QuickformState = {
     slides: SlideModel[];
     submitStatus: SubmitStatus;
     totalSteps: number;
-    classes: Partial<QuickformClassNames>,
+    classes: Partial<QuickformClassNames>
 }
 
 export const defaultState = (data: QuickFormModel = defaultData, layout?: LayoutDefinition): QuickformState => {

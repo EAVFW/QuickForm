@@ -15,7 +15,8 @@ type QuickFormProviderProps = {
     definition: QuickFormDefinition;
     tokens?: Partial<typeof defaultQuickFormTokens>;
     payload: any;
-    asContainer?: boolean
+    asContainer?: boolean,
+    onSubmitAsync?: (formdata: any) => Promise<string>,
 }
 
 function defineVariables<T extends {}>(obj: T) {
@@ -28,7 +29,7 @@ export const defineQuickFormTokens = (...tokens: Array<Partial<typeof defaultQui
     return defineVariables(tokens.reduceRight((n, o) => ({ ...o, ...n }), {}) as typeof defaultQuickFormTokens);
 }
 
-export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload, tokens, asContainer }) => {
+export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload, tokens, asContainer, onSubmitAsync = async (data) => { return "" } }) => {
 
     const transform = resolveQuickFormService("modeltransformer");
     const defaultStateObj = useMemo(() => { return defaultState(transform(definition, payload), definition.layout) }, []);
@@ -80,7 +81,8 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
             setIntroVisited,
             setErrorMsg,
             isFirstQuestionInCurrentSlide,
-            getCurrentSlide
+            getCurrentSlide,
+            onSubmitAsync: onSubmitAsync
         }}>
             {asContainer ? (
                 <QuickFormContainer style={variables}>
