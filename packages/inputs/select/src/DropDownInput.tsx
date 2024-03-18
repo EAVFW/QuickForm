@@ -1,5 +1,5 @@
 "use client"
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useKeyPressHandler, useQuickForm, resolveQuickFormService, InputComponentType, registerInputComponent } from '@eavfw/quickform-core';
 
@@ -24,16 +24,17 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 
     const logger = resolveQuickFormService("logger");
 
-    const { answerQuestion } = useQuickForm();
+    const { answerQuestion, state: { autoAdvanceSlides } } = useQuickForm();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(questionModel.answered ? [questionModel.output] : []);
     const remainingChoices = Math.max(0, minItems - selectedOptions.length);
 
     logger.log("Dropdown Input: {@options} {@selectedOptions}", rawOptions, selectedOptions);
 
     const options = useMemo(() => Object.fromEntries(Object.entries(rawOptions).map(([k, v]) => [k, typeof v === "string" ? v : v.label])), [rawOptions]);
-
+    const timer = useRef(0);
     /* Refactored this large function outside of component due to async state errors.. change loggingEnabled to false if no need for excessive console logs. */
     const onClickHandler = React.useCallback((key: string) => {
+        clearTimeout(timer.current);
         const newOptions = handleDropdownOptionClick({
             key: key,
             selectedOptions: selectedOptions,
@@ -54,7 +55,15 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 
         if (newOptionsLength >= minItemsLength) {
             const mapper = (x: string) => { const o = rawOptions[x]; return typeof o === "string" || o.value==='' ? x : o.value ?? x };
-            answerQuestion(questionModel?.logicalName!, maxItems === 1 ? newOptions.map(mapper)[0] :  newOptions.map(mapper), true);//  newOptions.join(","));
+            answerQuestion(questionModel?.logicalName!, maxItems === 1 ? newOptions.map(mapper)[0] : newOptions.map(mapper), true);//  newOptions.join(","));
+
+            if (newOptionsLength === maxItems && autoAdvanceSlides) {
+
+                timer.current = window.setTimeout(() => {
+                    answerQuestion(questionModel?.logicalName!, maxItems === 1 ? newOptions.map(mapper)[0] : newOptions.map(mapper));
+
+                }, 1000);
+            }
             
         } else {
             answerQuestion(questionModel?.logicalName!, undefined, false);//  newOptions.join(","));
