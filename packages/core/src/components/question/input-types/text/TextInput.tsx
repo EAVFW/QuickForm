@@ -39,10 +39,26 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
             resize();
         }
     }, [ref]);
-
+    useEffect(() => {
+        /**
+         * This is not fired on chrome, edge on IOS. TODO
+         * https://support.google.com/chrome/thread/170808931/ios-software-keyboard-done-button-doesn-t-work-in-input-on-overlays?hl=en     
+         * 
+         */
+        const onfocusOut = (e: FocusEvent) => {
+            
+            if (ref.current) {
+                answerQuestion(questionModel.logicalName, ref.current.value);
+            }
+        };
+        document.addEventListener('focusout', onfocusOut);
+        return () => {
+            document.removeEventListener("focusout", onfocusOut);
+        }
+    }, [ref, questionModel.logicalName])
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setText(() => event.target.value);
-        answerQuestion(questionModel.logicalName, event.target.value);
+        answerQuestion(questionModel.logicalName, event.target.value,true);
         resize();
     }
 
@@ -86,6 +102,8 @@ TextInput.quickform = {
                 type: "string"
             }
         }
+    }, field: {
+        type: "text",
     }
 }
 registerInputComponent("text", TextInput);

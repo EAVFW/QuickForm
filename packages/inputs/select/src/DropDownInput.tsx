@@ -1,11 +1,11 @@
 "use client"
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useKeyPressHandler, useQuickForm, resolveQuickFormService, InputComponentType, registerInputComponent } from '@eavfw/quickform-core';
 
 import styles from './DropDownInput.module.css';
 
-import { DropdownOptionsList, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
+import { DropdownOptionsList, SelectOptions, handleDropdownOptionClick } from './dropdown-options-list/DropDownOptionsList';
 
 
 
@@ -15,10 +15,7 @@ export type DropDownProperties = {
     inputType: typeof SelectInputType;
     maxItems?: number;
     minItems?: number;
-    options: {
-        [key: string]: string | {value:number, label:string}
-;
-    }
+    options: SelectOptions
 }
 
 
@@ -27,19 +24,21 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 
     const logger = resolveQuickFormService("logger");
 
-    const { answerQuestion } = useQuickForm();
+    const { answerQuestion, state: { autoAdvanceSlides } } = useQuickForm();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(questionModel.answered ? [questionModel.output] : []);
-    const remainingChoices = minItems - selectedOptions.length;
+    const remainingChoices = Math.max(0, minItems - selectedOptions.length);
 
     logger.log("Dropdown Input: {@options} {@selectedOptions}", rawOptions, selectedOptions);
 
     const options = useMemo(() => Object.fromEntries(Object.entries(rawOptions).map(([k, v]) => [k, typeof v === "string" ? v : v.label])), [rawOptions]);
-
+    const timer = useRef(0);
     /* Refactored this large function outside of component due to async state errors.. change loggingEnabled to false if no need for excessive console logs. */
     const onClickHandler = React.useCallback((key: string) => {
+        clearTimeout(timer.current);
         const newOptions = handleDropdownOptionClick({
             key: key,
             selectedOptions: selectedOptions,
+            options: rawOptions,
             maxItems: maxItems!,
             minItems: minItems!,
             onOutputChange: answerQuestion,
@@ -50,14 +49,24 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
         const minItemsLength = typeof minItems !== "number" ? minItems : minItems;
 
         logger.log("Dropdown Clicked: {key}, isFinished={isFinished}, minItemsLength={minItemsLength}, Result={result},selectedOptions={@selectedOptions},options={@options}",
-            key, newOptionsLength === minItemsLength, minItemsLength, newOptions.join(","), selectedOptions, options);
+            key, newOptionsLength >= minItemsLength, minItemsLength, newOptions.join(","), selectedOptions, options);
 
         setSelectedOptions(prev => newOptions);
 
-        if (newOptionsLength > minItemsLength) { 
-            setTimeout(() => {
-                answerQuestion(questionModel?.logicalName!, newOptions.join(","));
-            }, 1000);
+        if (newOptionsLength >= minItemsLength) {
+            const mapper = (x: string) => { const o = rawOptions[x]; return typeof o === "string" || o.value==='' ? x : o.value ?? x };
+            answerQuestion(questionModel?.logicalName!, maxItems === 1 ? newOptions.map(mapper)[0] : newOptions.map(mapper), true);//  newOptions.join(","));
+
+            if (newOptionsLength === maxItems && autoAdvanceSlides) {
+
+                timer.current = window.setTimeout(() => {
+                    answerQuestion(questionModel?.logicalName!, maxItems === 1 ? newOptions.map(mapper)[0] : newOptions.map(mapper));
+
+                }, 1000);
+            }
+            
+        } else {
+            answerQuestion(questionModel?.logicalName!, undefined, false);//  newOptions.join(","));
         }
 
     }, [selectedOptions, maxItems, minItems]);
@@ -91,6 +100,15 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 
 DropDownInput.quickform = {
     label: "Select",
+    field: {
+        //  type: undefined,
+        typeProvider: (a) => a.maxItems === 1 ? "select" : "multiselect",
+        listValuesProvider: (a) => Object.entries(a.options ?? {}).map(([okey, o]) => (typeof (o) === "string" ?
+            {
+                label: o,
+                name: okey
+            } : { label: o.label, name: o.value }))
+    },
     uiSchema: {
         paragraph: {
             "ui:widget": "textarea"
@@ -120,10 +138,13 @@ DropDownInput.quickform = {
                 type: "object",
                 additionalProperties: {
                     "type": "object",
+                    required:["key","label"],
                     properties: {
                         key: { "type": "string", title: "Key", description: "The key used for the option, this is also the keyboard key used to select this option" },
                         label: { "type": "string", title: "Label", description:"The label shown to the end users" },
-                        value: { "type": "number", title: "Value", description:"Used in calculations when this option is picked" }
+                        value: { "type": "number", title: "Value", description: "Used in calculations when this option is picked" },
+                        clearOthers: { type: "boolean", "title": "Clear Others", description: "When set, this options clears other options already picked" },
+                        clearOnOthers: { type: "boolean", "title": "Clear On Others", description: "When set, this option get cleared if another option is picked" }
                     }
                 }
             },

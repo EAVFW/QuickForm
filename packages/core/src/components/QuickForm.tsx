@@ -21,8 +21,8 @@ export const QuickForm: React.FC = () => {
     }
 
     return (
-        <div className="slide-container">
-            <SlideRenderer />
+        <div className="slide-container" >
+            <SlideRenderer key={state.currIdx} />
         </div>
     );
 }

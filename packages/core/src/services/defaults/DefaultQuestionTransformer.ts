@@ -13,6 +13,8 @@ function mapJsonQuestionToModelQuestion(questionKey: string, question: QuestionJ
 
     return {
         answered: typeof (value) !== "undefined" && value !== '' && value !== null,
+        intermediate: false,
+        visited:false,
         dataType: question.dataType ?? "string",
         inputProperties: parseInputProperties(question),
         inputType: question.inputType ?? "text",

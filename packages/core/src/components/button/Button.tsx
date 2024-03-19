@@ -2,6 +2,7 @@
 import React, { PropsWithChildren } from "react";
 import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
 import { quickformtokens } from "../../style/quickformtokens";
+import { makeStyles, shorthands } from "@griffel/react";
 
 type BtnContainerProps = {
     readonly className?: string;
@@ -13,13 +14,37 @@ type BtnContainerProps = {
     visible?: boolean;
 };
 
+const useButtonStyles = makeStyles({
+    container: {
+        display: 'flex',
+        alignItems: 'center',
+        ...shorthands.gap( '12.5px'),
+
+        marginTop: '30px',
+    },
+    button: {
+        color: quickformtokens.onSurface,
+        backgroundColor: quickformtokens.primary,
+        ...shorthands.border('thin','solid',quickformtokens.primary),
+        ...shorthands.borderRadius('8px'),
+        cursor: 'pointer',
+        fontSize: '2rem',
+        fontWeight: 700,
+        ...shorthands.padding('10px', '14px'),
+        ':hover': {
+            color: quickformtokens.white,
+            backgroundColor: quickformtokens.primaryLighter
+        }
+    }
+})
+
 export const Button: React.FC<PropsWithChildren< BtnContainerProps>> = ({ children, showPressEnter, onClick, disabled, visible, style }) => {
-    const [hover, setHover] = useState<boolean>(false);
+   
 
     if (typeof visible !== "undefined" && visible === false) {
         return (<></>);
     }
-
+    const styles = useButtonStyles();
     const [isOnMobile, setIsOnMobile] = useState(false);
     useEffect(() => {
         if (navigator?.userAgent.toLowerCase().includes("mobile")) {
@@ -37,14 +62,14 @@ export const Button: React.FC<PropsWithChildren< BtnContainerProps>> = ({ childr
     }, []);
 
     return (
-        <div style={{ ...btnContainerStyle }}>
+        <div className={styles.container}>
             <button
-                style={{ ...buttonStyle, ...style, ...hover ? hoverStyle : {} }}
+                className={styles.button}
+                style={style}
                 disabled={disabled}
                 type="button"
                 onClick={onClick}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
+               
             >
                 {children}
 
@@ -58,27 +83,7 @@ export const Button: React.FC<PropsWithChildren< BtnContainerProps>> = ({ childr
     );
 }
 
-const btnContainerStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12.5px',
-
-    marginTop: '30px',
-    //marginTop: '16px',
-
-};
-
-const buttonStyle = {
-    color: quickformtokens.onSurface,
-    backgroundColor: quickformtokens.primary,
-    border: `thin solid ${quickformtokens.primary}`,
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontSize: '2rem',
-    fontWeight: 700,
-    padding: '10px 14px',
-};
-
+ 
 const spanStyle = {
     color: quickformtokens.onSurface,
     fontSize: '1.25rem',
@@ -88,8 +93,4 @@ const strongStyle = {
     fontWeight: 'bolder',
     letterSpacing: '0.04em',
 };
-
-const hoverStyle: React.CSSProperties = {
-    color: quickformtokens.white,
-    backgroundColor: quickformtokens.primaryLighter
-}
+ 

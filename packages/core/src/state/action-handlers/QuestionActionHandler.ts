@@ -1,5 +1,6 @@
 import { QuestionModel } from "../../model/QuestionModel";
 import { resolveQuickFormService } from "../../services/QuickFormServices";
+import { QuickformAnswerQuestionAction } from "../QuickformAction";
 import { QuickformState } from "../QuickformState";
 import { VisibilityHandler } from "./VisibilityHandler";
 
@@ -59,9 +60,17 @@ export class QuestionActionHandler {
         return newState;
     };
 
-    static answerQuestion = (state: QuickformState, logicalName: string, output: any) => {
-        const progressUpdated = this.updateQuestionProperty(this.updateQuestionProperty(state, logicalName, 'answered', true), logicalName, 'output', output);
-        const updateVisibleState = VisibilityHandler.updateVisibleState(progressUpdated);
-        return updateVisibleState;
+    static answerQuestion = (state: QuickformState, { logicalName, output, intermediate }: QuickformAnswerQuestionAction) => {
+
+        state = this.updateQuestionProperty(state, logicalName, 'answered', output !== undefined && output !== '' && !intermediate);
+        state = this.updateQuestionProperty(state, logicalName, 'intermediate', intermediate);
+        state = this.updateQuestionProperty(state, logicalName, 'visited', true);
+        state =this.updateQuestionProperty(state, logicalName, 'output', output);
+
+        state = VisibilityHandler.updateVisibleState(state);
+
+        //DISCUSS, should answer clear error message ?
+        state.errorMsg = '';
+        return state;
     };
 }

@@ -15,7 +15,8 @@ type QuickFormProviderProps = {
     definition: QuickFormDefinition;
     tokens?: Partial<typeof defaultQuickFormTokens>;
     payload: any;
-    asContainer?: boolean
+    asContainer?: boolean,
+    onSubmitAsync?: (formdata: any) => Promise<string>,
 }
 
 function defineVariables<T extends {}>(obj: T) {
@@ -28,7 +29,7 @@ export const defineQuickFormTokens = (...tokens: Array<Partial<typeof defaultQui
     return defineVariables(tokens.reduceRight((n, o) => ({ ...o, ...n }), {}) as typeof defaultQuickFormTokens);
 }
 
-export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload, tokens, asContainer }) => {
+export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload, tokens, asContainer, onSubmitAsync = async (data) => { return "" } }) => {
 
     const transform = resolveQuickFormService("modeltransformer");
     const defaultStateObj = useMemo(() => { return defaultState(transform(definition, payload), definition.layout) }, []);
@@ -36,19 +37,27 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
 
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => {
-        if (isSlideAnswered(getCurrentSlide())) {
-            dispatch({ type: 'NEXT_SLIDE' });
-        } else {
-            dispatch({ type: "SET_ERROR_MSG", msg: "All questions must be answered" });
-        }
+
+        dispatch({ type: 'ANSWER_INTERMEDIATE_QUESTION'});
+
+        //DISCUSS - we cant have logic here as the state is updated
+        //The logic should then be in the NEXT_SLIDE _ACTION ?
+
+        //if (isSlideAnswered(getCurrentSlide())) {
+        //    dispatch({ type: 'NEXT_SLIDE' });
+        //} else {
+        //    dispatch({ type: "SET_ERROR_MSG", msg: "All questions must be answered" });
+        //}
+
+        dispatch({ type: 'NEXT_SLIDE' }); //Moved EROR CHECK INTO NEXT_SLIDE
     };
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
-    const answerQuestion = (logicalName: string, output: any) => {
-        if (state.autoAdvanceSlides) {
-            dispatch({ type: 'ANSWER_QUESTION_AUTO_NAVIGATE', logicalName: logicalName, output: output });
-        } else {
-            dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output });
-        }
+    const answerQuestion = (logicalName: string, output: any, intermediate=false) => {
+      //  if (state.autoAdvanceSlides) {
+       //     dispatch({ type: 'ANSWER_QUESTION_AUTO_NAVIGATE', logicalName: logicalName, output: output });
+       // } else {
+        dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output, intermediate });
+        //}
     };
     const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
     const setErrorMsg = (msg: string) => {
@@ -72,7 +81,8 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
             setIntroVisited,
             setErrorMsg,
             isFirstQuestionInCurrentSlide,
-            getCurrentSlide
+            getCurrentSlide,
+            onSubmitAsync: onSubmitAsync
         }}>
             {asContainer ? (
                 <QuickFormContainer style={variables}>

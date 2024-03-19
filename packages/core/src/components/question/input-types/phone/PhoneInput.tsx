@@ -30,6 +30,8 @@ PhoneInput.quickform = {
                 type: "string"
             }
         }
+    }, field: {
+        type: "text",
     }
 }
 registerInputComponent("phone", PhoneInput);

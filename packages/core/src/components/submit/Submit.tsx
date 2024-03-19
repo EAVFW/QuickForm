@@ -9,7 +9,7 @@ type SubmitProps = {
 }
 
 export const Submit: React.FC<SubmitProps> = ({ model }) => {
-    const { state, dispatch } = useQuickForm();
+    const { state, dispatch, onSubmitAsync } = useQuickForm();
     const { text, paragraph, buttonText, submitFields = [] } = model;
 
     if (state.submitStatus.isSubmitting) {
@@ -17,10 +17,12 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
     }
 
     const handleSubmit = async () => {
+
+
         dispatch({ type: "SET_SUBMIT_STATUS", status: { ...state.submitStatus, isSubmitting: true } });
 
         try {
-            await SubmitActionHandler.submit(state, dispatch);
+            await SubmitActionHandler.submit(state, dispatch, onSubmitAsync);
         } catch (error) {
             dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true, isSubmitSuccess: false } });
         }

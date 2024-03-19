@@ -1,5 +1,5 @@
 import { FC } from "react";
-import {  RadioProperties, SliderProperties, ButtonsProperties, InputPropertiesTypes, InputProps } from "../../model";
+import { RadioProperties, SliderProperties, ButtonsProperties, InputPropertiesTypes, InputProps, QuestionModel } from "../../model";
 import { QuestionJsonModel } from "../../model/json-definitions/JsonDataModels";
 import { registerQuickFormService } from "../QuickFormServices";
 //import { TextInput, MultilineInput, DropDownInput } from "../../components/question/input-types/index";
@@ -15,7 +15,7 @@ function getDefaultValue(schema: JSONSchema7Definition) {
 function parseInputProperties(questionJsonModel: QuestionJsonModel): InputPropertiesTypes {
     if (!questionJsonModel.inputType)
         return {};
-  
+
     const comp = resolveInputComponent(questionJsonModel.inputType)?.quickform?.schema?.properties;
     if (comp) {
         return Object.fromEntries(Object.entries(comp)
@@ -27,7 +27,7 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): InputProper
 
 
     switch (questionJsonModel.inputType) {
-       
+
         case "buttons":
             inputProperties = {
                 inputType: questionJsonModel.inputType,
@@ -65,7 +65,7 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): InputProper
 
 
             inputProperties = {}
-;
+                ;
     }
 
     return inputProperties
@@ -75,8 +75,41 @@ registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties)
 
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-export type InputComponentMetadata = { label: string, uiSchema: any, schema: JSONSchema7 };
-export type InputComponentType<T = InputPropertiesTypes> = FC<InputProps<T> & T> & { quickform?: InputComponentMetadata };
+
+/**
+ * Field Metadata for @eavfw/quickform-querybuilder
+ * 
+ * https://github.com/ukrbublik/react-awesome-query-builder/blob/master/CONFIG.adoc
+ */
+type InputComponentFieldMetadataDefault<T> = {
+    type: | 'text'
+    | 'checkbox'
+    | 'radio'
+    | 'textarea'
+    | 'date'
+    | 'datetime-local'
+    | 'time'
+    | null;
+
+}
+export type InputComponentSelectFieldMetadata<T> = {
+    type: "select" | "multiselect",
+    listValuesProvider: (question: T) => Array<{ name: string | number, label: string }>
+}
+type InputComponentFieldMetadataNone<T> = {
+    //type: undefined,
+    listValuesProvider: (question: T) => Array<{ name: string | number, label: string }>
+    typeProvider: (question: T) => "select" | "multiselect"
+}
+export type InputComponentFieldMetadata<T> = InputComponentFieldMetadataDefault<T> | InputComponentSelectFieldMetadata<T> | InputComponentFieldMetadataNone<T>;
+export type FieldTypes<T> = (InputComponentFieldMetadataDefault<T> | InputComponentSelectFieldMetadata<T>)["type"];
+export type InputComponentMetadata<T> = {
+    label: string,
+    uiSchema: any,
+    field?: InputComponentFieldMetadata<T>,
+    schema: JSONSchema7
+};
+export type InputComponentType<T = InputPropertiesTypes> = FC<InputProps<T> & T> & { quickform?: InputComponentMetadata<T> };
 
 export type InputComponentDictionary = {
 
@@ -103,9 +136,9 @@ export const resolveInputComponent = <T extends InputPropertiesTypes = InputProp
 export const resolveInputComponentSchemas = () => {
 
     const result = Object.fromEntries(Object.keys(inputComponents).filter(x => "quickform" in inputComponents[x]).map(k => [k, inputComponents[k].quickform]));
-    console.log("resolveInputComponentSchemas", [result, Object.keys(inputComponents).filter(x => "quickform" in inputComponents[x]), Object.keys( inputComponents)]);
+    console.log("resolveInputComponentSchemas", [result, Object.keys(inputComponents).filter(x => "quickform" in inputComponents[x]), Object.keys(inputComponents)]);
     return result as {
-        [k: string]: InputComponentMetadata
+        [k: string]: InputComponentMetadata<any>
     };
 }
 // registerQuickFormService("registerInputTypeComponent", RegisterComponent);

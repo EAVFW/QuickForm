@@ -1,15 +1,21 @@
-import React from 'react';
+"use client";
+import React, { useMemo } from 'react';
 import { SlideModel } from "../../model";
 import { RowRenderer } from '../renderers/row-renderer/RowRenderer';
+import { makeStyles, shorthands } from '@griffel/react';
+import { useQuickForm } from '../../state';
 
 type SlideProps = {
     model: SlideModel;
+    className?:string
 }
 
-export const Slide: React.FC<SlideProps> = ({ model }: SlideProps) => {
+export const Slide: React.FC<SlideProps> = ({ model, className }: SlideProps) => {
+
+  //  const { state: { classes: { slide, slideIsIn } } } = useQuickForm();
 
     return (
-        <div id="Slide" style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className={className} id="Slide" style={{ display: 'flex', flexDirection: 'column' }}>
             {
                 model.rows.map((row, rowIndex) => (
                     <div key={rowIndex} style={rowContainerStyling}>

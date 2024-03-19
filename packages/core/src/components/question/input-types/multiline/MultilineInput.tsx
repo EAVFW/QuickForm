@@ -94,6 +94,9 @@ MultilineInput.quickform = {
                 type: "string"
             }
         }
+    },
+    field: {
+        type: "text",
     }
 }
 
