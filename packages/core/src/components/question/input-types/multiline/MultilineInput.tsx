@@ -6,6 +6,7 @@ import { useQuickForm } from "../../../../state/QuickFormContext";
 import React from "react";
 import { MultilineProperties } from "../../../../model/index";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import { multilineInputSchema } from "./MultilineInputSchema";
 
 export const MultilineInput: InputComponentType<MultilineProperties> = ({ questionModel }) => {
     const { isFirstQuestionInCurrentSlide, answerQuestion } = useQuickForm();
@@ -71,33 +72,6 @@ const QuestionTextArea = forwardRef(
 
 QuestionTextArea.displayName = "QuestionTextArea";
 
-MultilineInput.quickform = {
-    label: "Multiline Text",
-    uiSchema: {
-        paragraph: {
-            "ui:widget": "textarea"
-        }
-    },
-    schema: {
-        type: "object",
-        properties: {
-            text: {
-                title: "Text",
-                type: "string"
-            },
-            placeholder: {
-                title: "Placeholder",
-                type: "string"
-            },
-            paragraph: {
-                title: "Paragraph",
-                type: "string"
-            }
-        }
-    },
-    field: {
-        type: "text",
-    }
-}
-
+/* This property assignment grants QuickformDesigner metadata information about which properties the inputcomponent needs */
+MultilineInput.inputSchema = multilineInputSchema;
 registerInputComponent("multilinetext", MultilineInput);

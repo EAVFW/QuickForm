@@ -16,7 +16,7 @@ function parseInputProperties(questionJsonModel: QuestionJsonModel): InputProper
     if (!questionJsonModel.inputType)
         return {};
 
-    const comp = resolveInputComponent(questionJsonModel.inputType)?.quickform?.schema?.properties;
+    const comp = resolveInputComponent(questionJsonModel.inputType)?.inputSchema?.schema?.properties;
     if (comp) {
         return Object.fromEntries(Object.entries(comp)
             .filter(([k, _]) => !(k === "text" || k === "paragraph" || k === "placeholder"))
@@ -109,7 +109,7 @@ export type InputComponentMetadata<T> = {
     field?: InputComponentFieldMetadata<T>,
     schema: JSONSchema7
 };
-export type InputComponentType<T = InputPropertiesTypes> = FC<InputProps<T> & T> & { quickform?: InputComponentMetadata<T> };
+export type InputComponentType<T = InputPropertiesTypes> = FC<InputProps<T> & T> & { inputSchema?: InputComponentMetadata<T> };
 
 export type InputComponentDictionary = {
 
@@ -135,7 +135,7 @@ export const resolveInputComponent = <T extends InputPropertiesTypes = InputProp
 
 export const resolveInputComponentSchemas = () => {
 
-    const result = Object.fromEntries(Object.keys(inputComponents).filter(x => "quickform" in inputComponents[x]).map(k => [k, inputComponents[k].quickform]));
+    const result = Object.fromEntries(Object.keys(inputComponents).filter(x => "quickform" in inputComponents[x]).map(k => [k, inputComponents[k].inputSchema]));
     console.log("resolveInputComponentSchemas", [result, Object.keys(inputComponents).filter(x => "quickform" in inputComponents[x]), Object.keys(inputComponents)]);
     return result as {
         [k: string]: InputComponentMetadata<any>
