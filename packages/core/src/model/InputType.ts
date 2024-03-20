@@ -14,10 +14,11 @@ const Radio = "radio";
 const Slider = "slider";
 const Text = "text";
 const Buttons = "buttons";
+const Phone = "phone";
 
 export interface InputTypeMap {
     [Buttons]: ButtonsProperties;
-    
+    [Phone]: PhoneProperties;
     [Email]: EmailProperties;
     [Multilinetext]: MultilineProperties;
     [Radio]: RadioProperties;
@@ -27,12 +28,12 @@ export interface InputTypeMap {
 
 export type InputPropertiesTypes =
     ButtonsProperties |
-  
     EmailProperties |
     MultilineProperties |
     RadioProperties |
     SliderProperties |
     TextProperties |
+    PhoneProperties |
     {};
 
 export type ButtonsProperties = {
@@ -42,7 +43,10 @@ export type ButtonsProperties = {
     }
 }
 
- 
+
+export type PhoneProperties = {
+    inputType: typeof Phone;
+}
 
 export type EmailProperties = {
     inputType: typeof Email;

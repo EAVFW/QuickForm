@@ -8,7 +8,7 @@ import { QuickFormSettingsView } from "./QuickFormSettingsView"
 import { QuickFormSubmitSettingsView } from "./QuickFormSubmitSettingsView"
 
 
-export const DesignerViews = ( ) => {
+export const DesignerViews = () => {
 
     const { updateQuickFormPayload, quickformpayload, activeQuestion, activeSlide, view } = useQuickFormDefinition();
 

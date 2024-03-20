@@ -8,6 +8,7 @@ import { TextProperties } from "../../../../model/InputType";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
 import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
 import { QuestionModel } from "../../../../model";
+import { textInputSchema } from "./EmailInputSchema";
 
 export const BaseInputComponent = ({ questionModel, className, style, type }: { type: InputHTMLAttributes<HTMLInputElement>["type"], questionModel: QuestionModel, className?: string, style?: CSSProperties }) => {
 
@@ -46,7 +47,7 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
          * 
          */
         const onfocusOut = (e: FocusEvent) => {
-            
+
             if (ref.current) {
                 answerQuestion(questionModel.logicalName, ref.current.value);
             }
@@ -58,7 +59,7 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
     }, [ref, questionModel.logicalName])
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setText(() => event.target.value);
-        answerQuestion(questionModel.logicalName, event.target.value,true);
+        answerQuestion(questionModel.logicalName, event.target.value, true);
         resize();
     }
 
@@ -78,33 +79,6 @@ export const TextInput: InputComponentType<TextProperties> = (props) => {
     return <BaseInputComponent type="text" {...props} />
 }
 
-TextInput.quickform = {
-    label: "Text",
-    uiSchema: {
-        paragraph: {
-            "ui:widget": "textarea"
-        }
-    },
-    schema: {
-        type: "object",
-
-        properties: {
-            text: {
-                title: "Text",
-                type: "string"
-            },
-            placeholder: {
-                title: "Placeholder",
-                type: "string"
-            },
-            paragraph: {
-                title: "Paragraph",
-                type: "string"
-            }
-        }
-    }, field: {
-        type: "text",
-    }
-}
+/* This property assignment grants QuickformDesigner metadata information about which properties the inputcomponent needs */
+TextInput.inputSchema = textInputSchema;
 registerInputComponent("text", TextInput);
-registerInputComponent("email", TextInput);

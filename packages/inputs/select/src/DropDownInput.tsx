@@ -98,7 +98,7 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 }
 
 
-DropDownInput.quickform = {
+DropDownInput.inputSchema = {
     label: "Select",
     field: {
         //  type: undefined,

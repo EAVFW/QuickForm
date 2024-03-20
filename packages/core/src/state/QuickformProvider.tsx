@@ -8,7 +8,6 @@ import { QuickFormDefinition, defaultQuickFormTokens } from "../model";
 import React from "react";
 import "../services"
 import { resolveQuickFormService } from "../services/QuickFormServices";
-import { isSlideAnswered } from "../utils/quickformUtils";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
@@ -38,7 +37,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => {
 
-        dispatch({ type: 'ANSWER_INTERMEDIATE_QUESTION'});
+        dispatch({ type: 'ANSWER_INTERMEDIATE_QUESTION' });
 
         //DISCUSS - we cant have logic here as the state is updated
         //The logic should then be in the NEXT_SLIDE _ACTION ?
@@ -52,17 +51,11 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
         dispatch({ type: 'NEXT_SLIDE' }); //Moved EROR CHECK INTO NEXT_SLIDE
     };
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
-    const answerQuestion = (logicalName: string, output: any, intermediate=false) => {
-      //  if (state.autoAdvanceSlides) {
-       //     dispatch({ type: 'ANSWER_QUESTION_AUTO_NAVIGATE', logicalName: logicalName, output: output });
-       // } else {
+    const answerQuestion = (logicalName: string, output: any, intermediate = false) => {
         dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output, intermediate });
-        //}
     };
     const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
-    const setErrorMsg = (msg: string) => {
-        dispatch({ type: "SET_ERROR_MSG", msg: msg })
-    };
+    const setErrorMsg = (msg: string) => { dispatch({ type: "SET_ERROR_MSG", msg: msg }) };
     const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => {
         const currSlide = state.slides[state.currIdx];
         return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName

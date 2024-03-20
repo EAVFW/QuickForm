@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuickForm } from '../../../../core/src/state/QuickFormContext';
+import { isSlideAnswered } from '@eavfw/quickform-core/src/utils/quickformUtils';
 
 export const OverviewList = () => {
     const { state, goToSlide } = useQuickForm();
@@ -23,7 +24,7 @@ export const OverviewList = () => {
                         <span style={linkStyle}>
                             {slideIndex + 1}. {slide.displayName}
                         </span>
-                        {slide.isAnswered && (
+                        {isSlideAnswered(slide) && (
                             <span style={{ ...checkIconStyle, opacity: 1 }}>✔</span>
                         )}
                     </li>

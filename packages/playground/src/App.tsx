@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import { QuickFormDefinition } from '../../core/src/model';
 import carp from "./data/carp.json";
-import clean from "./data/clean.json";
 import { QuickFormProvider } from '../../core/src/state';
 import { Editor } from '@monaco-editor/react';
 import { Button, QuickForm } from '../../core/src/components';
@@ -21,8 +20,6 @@ export const App = () => {
         setSelectedTemplate(() => JSON.parse(editorValue));
         setHackToChangeQuickForm(() => hackToChangeQuickForm + 1);
     }
-
-
 
     return (
         <div id="Container" style={containerStyling}>

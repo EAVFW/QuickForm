@@ -1,37 +1,12 @@
 "use client";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
 import { BaseInputComponent } from "../text/TextInput";
+import { phoneInputSchema } from "./PhoneInputSchema";
 
 export const PhoneInput: InputComponentType = (props) => {
     return <BaseInputComponent type="tel" {...props} />
 }
 
-PhoneInput.quickform = {
-    label: "Phone",
-    uiSchema: {
-        paragraph: {
-            "ui:widget": "textarea"
-        }
-    },
-    schema: {
-        type: "object",
-
-        properties: {
-            text: {
-                title: "Text",
-                type: "string"
-            },
-            placeholder: {
-                title: "Placeholder",
-                type: "string"
-            },
-            paragraph: {
-                title: "Paragraph",
-                type: "string"
-            }
-        }
-    }, field: {
-        type: "text",
-    }
-}
+/* This property assignment grants QuickformDesigner metadata information about which properties the inputcomponent needs */
+PhoneInput.inputSchema = phoneInputSchema;
 registerInputComponent("phone", PhoneInput);
