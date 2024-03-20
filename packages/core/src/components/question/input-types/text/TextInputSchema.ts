@@ -1,7 +1,7 @@
-import { TextProperties } from "../../../../model";
+import { InputPropertiesTypes } from "../../../../model";
 import { InputComponentMetadata } from "./../../../../services/defaults/DefaultInputTypeResolver";
 
-export const textInputSchema: InputComponentMetadata<TextProperties> = {
+export const textInputSchema: InputComponentMetadata<InputPropertiesTypes> = {
     label: "Text",
     uiSchema: {
         paragraph: {

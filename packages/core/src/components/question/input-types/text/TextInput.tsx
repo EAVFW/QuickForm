@@ -8,7 +8,7 @@ import { TextProperties } from "../../../../model/InputType";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
 import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
 import { QuestionModel } from "../../../../model";
-import { textInputSchema } from "./EmailInputSchema";
+import { textInputSchema } from "./TextInputSchema";
 
 export const BaseInputComponent = ({ questionModel, className, style, type }: { type: InputHTMLAttributes<HTMLInputElement>["type"], questionModel: QuestionModel, className?: string, style?: CSSProperties }) => {
 
