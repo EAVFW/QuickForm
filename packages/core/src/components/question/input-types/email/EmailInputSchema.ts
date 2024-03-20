@@ -1,5 +1,5 @@
-import { EmailProperties } from "src/model";
-import { InputComponentMetadata } from "src/services/defaults/DefaultInputTypeResolver";
+import { EmailProperties } from "../../../../model";
+import { InputComponentMetadata } from "./../../../../services/defaults/DefaultInputTypeResolver";
 
 export const emailInputSchema: InputComponentMetadata<EmailProperties> = {
     label: "Email",

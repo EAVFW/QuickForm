@@ -1,5 +1,5 @@
-import { PhoneProperties } from "src/model";
-import { InputComponentMetadata } from "src/services/defaults/DefaultInputTypeResolver";
+import { PhoneProperties } from "../../../../model";
+import { InputComponentMetadata } from "./../../../../services/defaults/DefaultInputTypeResolver";
 
 export const phoneInputSchema: InputComponentMetadata<PhoneProperties> = {
     label: "Phone",

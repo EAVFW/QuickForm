@@ -1,5 +1,5 @@
-import { MultilineProperties } from "src/model";
-import { InputComponentMetadata } from "src/services/defaults/DefaultInputTypeResolver";
+import { MultilineProperties } from "../../../../model";
+import { InputComponentMetadata } from "./../../../../services/defaults/DefaultInputTypeResolver";
 
 export const multilineInputSchema: InputComponentMetadata<MultilineProperties> = {
     label: "Multiline Text",
