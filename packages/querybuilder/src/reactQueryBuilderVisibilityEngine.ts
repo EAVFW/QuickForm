@@ -15,7 +15,7 @@ function isArrayType<T>(obj: T | T[], isArray: boolean): obj is Array<T> {
 function evalRule(rule: RuleType, context: QuickformState & { questions: { [logicalName: string]: QuestionModel } }): boolean {
     const value = rule.value;
     const question = context.questions[rule.field];
-    const metadata = resolveInputComponent(question.inputType).quickform!;
+    const metadata = resolveInputComponent(question.inputType).inputSchema!;
     const type = "type" in metadata.field! ? metadata.field.type : metadata.field!.typeProvider(question.inputProperties!);
     const isArray = type === "select" || type === "multiselect";
     const isMultiArray = type === "multiselect";

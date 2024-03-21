@@ -1,7 +1,7 @@
-import { MultilineProperties } from "../../../../model";
+import { InputPropertiesTypes } from "../../../../model";
 import { InputComponentMetadata } from "./../../../../services/defaults/DefaultInputTypeResolver";
 
-export const multilineInputSchema: InputComponentMetadata<MultilineProperties> = {
+export const multilineInputSchema: InputComponentMetadata<InputPropertiesTypes> = {
     label: "Multiline Text",
     uiSchema: {
         paragraph: {

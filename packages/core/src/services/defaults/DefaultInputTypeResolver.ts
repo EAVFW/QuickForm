@@ -111,10 +111,8 @@ export type InputComponentMetadata<T> = {
 };
 export type InputComponentType<T = InputPropertiesTypes> = FC<InputProps<T> & T> & { inputSchema?: InputComponentMetadata<T> };
 
-export type InputComponentDictionary = {
+export type InputComponentDictionary = { [key: string]: InputComponentType<any>; };
 
-    [key: string]: InputComponentType<any>;
-};
 const ThrowIfUsed: InputComponentType = (props) => { throw new Error("Not registered: " + props.questionModel.inputType) }
 const inputComponents: InputComponentDictionary = {
     text: ThrowIfUsed,
