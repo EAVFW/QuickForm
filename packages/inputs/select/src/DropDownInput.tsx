@@ -100,5 +100,4 @@ export const DropDownInput: InputComponentType<DropDownProperties> = ({ question
 
 
 DropDownInput.inputSchema =DropDownInputSchema
-
 registerInputComponent("dropdown", DropDownInput);
