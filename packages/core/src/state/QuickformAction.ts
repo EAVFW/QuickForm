@@ -9,7 +9,6 @@ export type QuickformAction =
     | { type: 'SET_ERROR_MSG'; msg: string }
     | QuickformAnswerIntermediateQuestions
     | QuickformAnswerQuestionAction
-   // | { type: 'ANSWER_QUESTION_AUTO_NAVIGATE'; logicalName: string; output: string }
     | { type: 'COMPUTE_PROGRESS' }
     | { type: 'SET_SUBMIT_STATUS', status: SubmitStatus }
     | { type: 'SUBMIT', dispatch: React.Dispatch<QuickformAction>, id: string }

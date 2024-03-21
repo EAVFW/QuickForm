@@ -47,17 +47,12 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
         //     } else {
         //         return { ...state, errorMsg: "All questions must be answered." }
         //     }
-        case 'NEXT_SLIDE': {
-            return NavigationActionHandler.handleNextSlideAction(state);
-           
-
-        }
+        case 'NEXT_SLIDE': return NavigationActionHandler.handleNextSlideAction(state);
         case 'PREV_SLIDE': return NavigationActionHandler.handlePrevSlideAction(state);
 
         /* Deals with progress, overview and submit */
         case 'COMPUTE_PROGRESS': return NavigationActionHandler.computeProgress(state);
         case 'SET_SUBMIT_STATUS': return { ...state, submitStatus: { ...state.submitStatus, ...action.status }, };
-        // case "SUBMIT": return SubmitActionHandler.submit(state, action.dispatch);
         case "SET_ERROR_MSG": return { ...state, errorMsg: action.msg };
         case "SET_INTRO_VISITED": return { ...state, isIntroSlide: false };
         case "GO_TO_ENDING": return { ...state, isSubmitSlide: false, isEndingSlide: true }

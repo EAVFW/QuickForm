@@ -1,14 +1,12 @@
 "use client";
 import { ReactNode } from "react";
 import React from "react";
-import { Paragraph, Heading } from "..";
+import { Paragraph, Heading, ErrorMessage } from "..";
 import { QuestionModel } from "../../model/QuestionModel";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { resolveInputComponent } from "../../services";
 import { quickformtokens } from "../../style/quickformtokens";
-
-
 
 type QuestionProps = {
     model: QuestionModel;
@@ -61,6 +59,7 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
                 questionModel={model}
                 {...model.inputProperties ?? {}}
             />
+            {model.errorMsg !== "" && <ErrorMessage message={model.errorMsg} />}
         </div>
     );
 }

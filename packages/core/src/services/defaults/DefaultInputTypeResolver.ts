@@ -1,75 +1,44 @@
 import { FC } from "react";
-import { RadioProperties, SliderProperties, ButtonsProperties, InputPropertiesTypes, InputProps, QuestionModel } from "../../model";
+import { RadioProperties, SliderProperties, ButtonsProperties, InputPropertiesTypes, InputProps } from "../../model";
 import { QuestionJsonModel } from "../../model/json-definitions/JsonDataModels";
 import { registerQuickFormService } from "../QuickFormServices";
-//import { TextInput, MultilineInput, DropDownInput } from "../../components/question/input-types/index";
 
-function getDefaultValue(schema: JSONSchema7Definition) {
-    if (typeof schema === "boolean")
-        return undefined;
-    if (typeof schema === "string")
-        return undefined;
-    if (typeof schema === "object")
-        return schema.default;
-}
-function parseInputProperties(questionJsonModel: QuestionJsonModel): InputPropertiesTypes {
-    if (!questionJsonModel.inputType)
-        return {};
+const getDefaultValue = (schema: JSONSchema7Definition): any => {
+    if (typeof schema !== 'object' || schema === null) return undefined;
+    return 'default' in schema ? schema.default : undefined;
+};
 
-    const comp = resolveInputComponent(questionJsonModel.inputType)?.inputSchema?.schema?.properties;
-    if (comp) {
-        return Object.fromEntries(Object.entries(comp)
-            .filter(([k, _]) => !(k === "text" || k === "paragraph" || k === "placeholder"))
-            .map(([k, schema]) => [k, questionJsonModel[k as keyof (QuestionJsonModel)] ?? getDefaultValue(schema)])) as InputPropertiesTypes;
+const parseInputProperties = (questionJsonModel: QuestionJsonModel): InputPropertiesTypes => {
+    const inputType = questionJsonModel.inputType;
+    if (!inputType) return {};
+
+    const componentSchema = resolveInputComponent(inputType)?.inputSchema?.schema?.properties;
+    if (componentSchema) {
+        return Object.fromEntries(Object.entries(componentSchema)
+            .filter(([key]) => !['text', 'paragraph', 'placeholder'].includes(key))
+            .map(([key, schema]) => [key, questionJsonModel[key as keyof QuestionJsonModel] ?? getDefaultValue(schema)])) as InputPropertiesTypes;
     }
 
-    let inputProperties: InputPropertiesTypes;
+    const inputTypePropertiesMap: { [key: string]: () => InputPropertiesTypes } = {
+        buttons: () => ({
+            inputType,
+            options: (questionJsonModel as QuestionJsonModel & ButtonsProperties).options
+        }),
+        radio: () => ({
+            inputType,
+            options: (questionJsonModel as QuestionJsonModel & RadioProperties).options,
+            direction: (questionJsonModel as QuestionJsonModel & RadioProperties).direction
+        }),
+        slider: () => ({
+            inputType,
+            min: (questionJsonModel as QuestionJsonModel & SliderProperties).min,
+            max: (questionJsonModel as QuestionJsonModel & SliderProperties).max,
+            step: (questionJsonModel as QuestionJsonModel & SliderProperties).step
+        }),
+    };
 
-
-    switch (questionJsonModel.inputType) {
-
-        case "buttons":
-            inputProperties = {
-                inputType: questionJsonModel.inputType,
-                options: (questionJsonModel as (QuestionJsonModel & ButtonsProperties)).options
-            };
-            break;
-
-        //case "dropdown":
-        //    inputProperties = {
-        //        inputType: questionJsonModel.inputType,
-        //        options: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).options,
-        //        minItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).minItems ?? 1,
-        //        maxItems: (questionJsonModel as (QuestionJsonModel & DropDownProperties)).maxItems ?? 1,
-        //    };
-        //    break;
-
-        case "radio":
-            inputProperties = {
-                inputType: questionJsonModel.inputType,
-                options: (questionJsonModel as (QuestionJsonModel & RadioProperties)).options,
-                direction: (questionJsonModel as (QuestionJsonModel & RadioProperties)).direction
-            };
-            break;
-
-        case "slider":
-            inputProperties = {
-                inputType: questionJsonModel.inputType,
-                min: (questionJsonModel as (QuestionJsonModel & SliderProperties)).min,
-                max: (questionJsonModel as (QuestionJsonModel & SliderProperties)).max,
-                step: (questionJsonModel as (QuestionJsonModel & SliderProperties)).step,
-            };
-            break;
-
-        default:
-
-
-            inputProperties = {}
-                ;
-    }
-
-    return inputProperties
-}
+    return inputType in inputTypePropertiesMap ? inputTypePropertiesMap[inputType]() : {};
+};
 
 registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);
 
@@ -78,7 +47,6 @@ import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 
 /**
  * Field Metadata for @eavfw/quickform-querybuilder
- * 
  * https://github.com/ukrbublik/react-awesome-query-builder/blob/master/CONFIG.adoc
  */
 type InputComponentFieldMetadataDefault<T> = {
@@ -139,4 +107,3 @@ export const resolveInputComponentSchemas = () => {
         [k: string]: InputComponentMetadata<any>
     };
 }
-// registerQuickFormService("registerInputTypeComponent", RegisterComponent);

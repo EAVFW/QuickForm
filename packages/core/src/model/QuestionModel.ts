@@ -2,53 +2,82 @@ import { InputPropertiesTypes, InputTypeMap } from "./InputType";
 
 export type QuestionModel<TProps = InputPropertiesTypes> = {
     /**
-     * is true when the question has been answered with a valid input
+     * Indicates whether the question has been answered with a valid response. 
+     * This flag becomes true only when the input satisfies all validation criteria.
      */
     answered: boolean;
 
     /**
-     * is true if the field have been visited - have had focus - and can be triggered by answering with a empty string
+     * Defines the type of data expected for the question's answer, such as 'string', 'number', or 'boolean'.
+     */
+    dataType: "string" | "number" | "boolean";
+
+    /**
+     * Displays an error message adjacent to the question or input component, 
+     * informing the user of validation issues with their input.
+     */
+    errorMsg: string;
+
+    /**
+     * Optional properties related to the input, defined by the generic type TProps.
+     */
+    inputProperties?: TProps;
+
+    /**
+     * Specifies the input field's type. Can be a predefined type in InputTypeMap or a string for custom types not known to QuickForm but registered as custom question components.
+     * TODO: Finalize naming for documentation purposes. Options include "Input Components", "Question Components", etc.
+     */
+    inputType: keyof InputTypeMap | string;
+
+    /**
+     * True when an input value is present but hasn't passed validation checks. 
+     * Useful for real-time feedback mechanisms, like keystroke detection in text fields or multi-select inputs, where completion isn't clearly defined. 
+     * Marks answers as intermediate until they are validated or until input for a subsequent question is initiated.
+     */
+    intermediate: boolean
+
+    /**
+     * A unique identifier used in payloads and serialization to reference the question. Essential for data processing and analytics.
+     */
+    logicalName: string;
+
+    /**
+     * Supplementary text providing additional context to the main question. Optional and may be omitted if undefined.
+     */
+    paragraph?: string;
+
+    /**
+     * A brief hint that describes the expected value of the input field. It is displayed in the input field before the user enters a value.
+     */
+    placeholder: string;
+
+    /**
+     * The current value of the question's response. Can hold any type of data based on the question's requirements.
+     */
+    output: any;
+
+    /**
+     * Identifies the question within the JSON model and is used as a reference in the layout configuration. It is essential for dynamically rendering questions based on the model.
+     */
+    questionKey: string,
+
+    /**
+     * The primary text of the question, presented to the user.
+     */
+    text: string;
+
+    /**
+     * Denotes if the question's input field has been interacted with (focused). 
+     * This state is activated even if the input is left empty, highlighting that the user has visited but not necessarily answered the question.
      */
     visited: boolean;
 
     /**
-     * is true if the output is set with a value but not yet validated. This is when answer is given (output filled) but it is marked with intermediate.
-     * When a answer from a different question or next slide is requested, then all intermediate answers are marked as answered.
-     * This is for onChange on keystroke, multiselects where its not known if the user is done adding input. 
+     * Optional visibility controls for the question, governed by a set of rules and an evaluation engine. Determines whether the question should be displayed.
      */
-    intermediate: boolean
-
-    dataType: "string" | "number" | "boolean";
-    inputProperties?: TProps;
-
-    /**
-     * The inputType can be any of the known input types, 
-     * a string for types unkonwn to quickform but registered as custom question components. 
-     * 
-     * TODO - decide what we call the components. "Input Components", "Question Components" ect. What is a good name for documentation.
-     */
-    inputType: keyof InputTypeMap | string;
-    /**
-     * The logical name is the name used in payloads and serialization
-    */
-    logicalName: string;
-    output: any;
-
-    /**
-    * The paragraph text that is used to render addition context to the question text <see>text</see> 
-    * This can be optional and not rended when undefined.
-    */
-    paragraph?: string;
-   
-    placeholder: string;
-    /**
-     * The question key is the key used in the json model, its the key that is used from layout to reference a given question. 
-     */
-    questionKey: string,
-    text: string;
     visible?: {
         rule: any;
         engine: string;
-        isVisible: boolean;
+        isVisible: boolean,
     }
 }

@@ -1,3 +1,4 @@
+import { findQuestionByKey, getAllQuestions } from "../../utils/quickformUtils";
 import { QuestionModel } from "../../model/QuestionModel";
 import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { QuickformAnswerQuestionAction } from "../QuickformAction";
@@ -62,15 +63,21 @@ export class QuestionActionHandler {
 
     static answerQuestion = (state: QuickformState, { logicalName, output, intermediate }: QuickformAnswerQuestionAction) => {
 
-        state = this.updateQuestionProperty(state, logicalName, 'answered', output !== undefined && output !== '' && !intermediate);
+        const inputValidator = resolveQuickFormService("inputValidator");
+        const questionRef = findQuestionByKey(logicalName, getAllQuestions(state.slides));
+        const questionValidationResult = inputValidator(questionRef);
+        // state = this.updateQuestionProperty(state, logicalName, 'answered', output !== undefined && output !== '' && !intermediate);
+        state = this.updateQuestionProperty(state, logicalName, 'answered', questionValidationResult.isValid);
+        state = this.updateQuestionProperty(state, logicalName, 'errorMsg', questionValidationResult.message);
         state = this.updateQuestionProperty(state, logicalName, 'intermediate', intermediate);
         state = this.updateQuestionProperty(state, logicalName, 'visited', true);
-        state =this.updateQuestionProperty(state, logicalName, 'output', output);
+        state = this.updateQuestionProperty(state, logicalName, 'output', output);
 
         state = VisibilityHandler.updateVisibleState(state);
 
         //DISCUSS, should answer clear error message ?
-        state.errorMsg = '';
+        // This is currently undergoing changes since we have decided to move errorMsg to both questionModel and globally.
+        // state.errorMsg = '';
         return state;
     };
 }
