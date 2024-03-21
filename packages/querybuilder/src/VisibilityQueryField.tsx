@@ -79,7 +79,7 @@ export const VisibilityQueryField = () => {
         query: questions[activeQuestion!].visible?.engine === "react-querybuilder" && questions[activeQuestion!].visible?.rule ? questions[activeQuestion!].visible?.rule : { combinator: 'and', rules: [] },
         fields: Object.entries(questions)
             .filter(hasInputType)
-            .map(([qkey, q]) => [qkey, q, resolveInputComponent(q.inputType)?.quickform] as [string, typeof q, InputComponentMetadata<any>])
+            .map(([qkey, q]) => [qkey, q, resolveInputComponent(q.inputType)?.inputSchema] as [string, typeof q, InputComponentMetadata<any>])
             .filter(hasFieldMetadata)
             .map(([qkey, q, metadata]) => {
                 const type = "type" in metadata.field ? metadata.field.type : metadata.field.typeProvider(q);
