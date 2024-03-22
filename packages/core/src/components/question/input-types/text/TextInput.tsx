@@ -1,6 +1,6 @@
 "use client";
 import React, { CSSProperties, InputHTMLAttributes } from "react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import classNames from "classnames";
 import styles from "./TextInput.module.css";
 import { useQuickForm } from "../../../../state/QuickFormContext";
@@ -9,6 +9,7 @@ import { InputComponentType, registerInputComponent } from "../../../../services
 import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
 import { QuestionModel } from "../../../../model";
 import { textInputSchema } from "./TextInputSchema";
+import { useFocusOutHandler } from "src/hooks/useFocusOutHandler";
 
 export const BaseInputComponent = ({ questionModel, className, style, type }: { type: InputHTMLAttributes<HTMLInputElement>["type"], questionModel: QuestionModel, className?: string, style?: CSSProperties }) => {
 
@@ -35,28 +36,9 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
         }
     }
 
-    useEffect(() => {
-        if (ref.current) {
-            resize();
-        }
-    }, [ref]);
-    useEffect(() => {
-        /**
-         * This is not fired on chrome, edge on IOS. TODO
-         * https://support.google.com/chrome/thread/170808931/ios-software-keyboard-done-button-doesn-t-work-in-input-on-overlays?hl=en     
-         * 
-         */
-        const onfocusOut = (e: FocusEvent) => {
+    /* @pks - I added a quick hook to attempt adressing iOS focus issues - please test if this works as expected */
+    useFocusOutHandler(ref, (value) => answerQuestion(questionModel.logicalName, value));
 
-            if (ref.current) {
-                answerQuestion(questionModel.logicalName, ref.current.value);
-            }
-        };
-        document.addEventListener('focusout', onfocusOut);
-        return () => {
-            document.removeEventListener("focusout", onfocusOut);
-        }
-    }, [ref, questionModel.logicalName])
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setText(() => event.target.value);
         answerQuestion(questionModel.logicalName, event.target.value, true);
@@ -73,7 +55,6 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
             onChange={handleChange}
         />
     );
-
 }
 export const TextInput: InputComponentType<TextProperties> = (props) => {
     return <BaseInputComponent type="text" {...props} />

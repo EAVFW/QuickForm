@@ -34,3 +34,7 @@ export const allQuestionsMap = (slides: SlideModel[]): { [key: string]: Question
         acc[question.logicalName] = question;
         return acc;
     }, {} as { [key: string]: QuestionModel });
+
+export const isIOS = () => {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+};
