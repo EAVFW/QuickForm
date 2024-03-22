@@ -1,4 +1,5 @@
 import { InputPropertiesTypes, InputTypeMap } from "./InputType";
+import { ValidationResult } from "./ValidationResult";
 
 export type QuestionModel<TProps = InputPropertiesTypes> = {
     /**
@@ -34,12 +35,17 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
      * Useful for real-time feedback mechanisms, like keystroke detection in text fields or multi-select inputs, where completion isn't clearly defined. 
      * Marks answers as intermediate until they are validated or until input for a subsequent question is initiated.
      */
-    intermediate: boolean
+    intermediate: boolean;
 
     /**
      * A unique identifier used in payloads and serialization to reference the question. Essential for data processing and analytics.
      */
     logicalName: string;
+
+    /**
+     * The current value of the question's response. Can hold any type of data based on the question's requirements.
+     */
+    output: any;
 
     /**
      * Supplementary text providing additional context to the main question. Optional and may be omitted if undefined.
@@ -52,14 +58,9 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
     placeholder: string;
 
     /**
-     * The current value of the question's response. Can hold any type of data based on the question's requirements.
-     */
-    output: any;
-
-    /**
      * Identifies the question within the JSON model and is used as a reference in the layout configuration. It is essential for dynamically rendering questions based on the model.
      */
-    questionKey: string,
+    questionKey: string;
 
     /**
      * The primary text of the question, presented to the user.
@@ -79,5 +80,12 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
         rule: any;
         engine: string;
         isVisible: boolean,
-    }
+    };
+
+    /**
+     * The result of validating the question's output. It keeps track of whether the current output is valid, 
+     * the validation message, and the validated output if applicable. This property is crucial for maintaining 
+     * the state of validation and providing feedback to the user.
+     */
+    validationResult?: ValidationResult;
 }

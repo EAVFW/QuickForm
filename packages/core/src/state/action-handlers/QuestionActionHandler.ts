@@ -4,12 +4,14 @@ import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { QuickformAnswerQuestionAction } from "../QuickformAction";
 import { QuickformState } from "../QuickformState";
 import { VisibilityHandler } from "./VisibilityHandler";
+import { ValidationResult } from "../../model/ValidationResult";
 
 export class QuestionActionHandler {
+    private static inputValidator = resolveQuickFormService("inputValidator");
+
     static findSlideIdxAndQuestionIdx = (state: QuickformState, logicalName: string): { slideIndex: number; questionIndex: number } => {
         if (state.isSubmitSlide)
             return { slideIndex: -1, questionIndex: state.data.submit.submitFields.findIndex(x => x.logicalName === logicalName) };
-
 
         for (let slideIndex = 0; slideIndex < state.slides.length; slideIndex++) {
             const questionIndex: number = state.slides[slideIndex].questions.findIndex((q: QuestionModel) => q.logicalName === logicalName);
@@ -35,7 +37,6 @@ export class QuestionActionHandler {
 
             state.data.submit.submitFields = updatedQuestions;
             return { ...state };
-
         }
 
         if (slideIndex === -1 || questionIndex === -1) {
@@ -61,23 +62,24 @@ export class QuestionActionHandler {
         return newState;
     };
 
-    static answerQuestion = (state: QuickformState, { logicalName, output, intermediate }: QuickformAnswerQuestionAction) => {
+    static answerQuestion = (state: QuickformState, { logicalName, output, intermediate, validationResult }: QuickformAnswerQuestionAction) => {
 
-        const inputValidator = resolveQuickFormService("inputValidator");
-        const questionRef = findQuestionByKey(logicalName, getAllQuestions(state.slides));
-        const questionValidationResult = inputValidator(questionRef);
-        // state = this.updateQuestionProperty(state, logicalName, 'answered', output !== undefined && output !== '' && !intermediate);
-        state = this.updateQuestionProperty(state, logicalName, 'answered', questionValidationResult.isValid);
-        state = this.updateQuestionProperty(state, logicalName, 'errorMsg', questionValidationResult.message);
+        state = this.updateQuestionProperty(state, logicalName, 'answered', output !== undefined && output !== '' && !intermediate);
         state = this.updateQuestionProperty(state, logicalName, 'intermediate', intermediate);
         state = this.updateQuestionProperty(state, logicalName, 'visited', true);
         state = this.updateQuestionProperty(state, logicalName, 'output', output);
-
+        state = this.updateQuestionProperty(state, logicalName, 'validationResult', validationResult);
+        state = this.updateQuestionProperty(state, logicalName, 'errorMsg', validationResult?.message);
         state = VisibilityHandler.updateVisibleState(state);
 
-        //DISCUSS, should answer clear error message ?
+        // DISCUSS, should answer clear error message ?
         // This is currently undergoing changes since we have decided to move errorMsg to both questionModel and globally.
         // state.errorMsg = '';
         return state;
     };
+
+    static async validateInput(state: QuickformState, logicalName: string): Promise<ValidationResult> {
+        const questionRef = findQuestionByKey(logicalName, getAllQuestions(state.slides));
+        return await QuestionActionHandler.inputValidator(questionRef);
+    }
 }

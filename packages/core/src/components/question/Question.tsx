@@ -54,8 +54,15 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
                 {model.paragraph}
             </Paragraph>
 
-            <InputType style={{ marginTop: quickformtokens.questionInputGap, fontSize: quickformtokens.questionInputFontSize, fontFamily: quickformtokens.fontFamily }}
-                key={"input" + model.logicalName}
+            <InputType
+                key={"input-" + model.logicalName}
+                style={
+                    {
+                        marginTop: quickformtokens.questionInputGap,
+                        fontSize: quickformtokens.questionInputFontSize,
+                        fontFamily: quickformtokens.fontFamily
+                    }
+                }
                 questionModel={model}
                 {...model.inputProperties ?? {}}
             />

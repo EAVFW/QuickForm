@@ -15,7 +15,7 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
 
     const [text, setText] = useState<string>(questionModel!.output);
     const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
-    const { answerQuestion } = useQuickForm();
+    const { answerQuestion, validateAndAnswerQuestion } = useQuickForm();
 
     const resize = () => {
         const input = ref.current;
@@ -37,11 +37,13 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
     }
 
     /* @pks - I added a quick hook to attempt adressing iOS focus issues - please test if this works as expected */
-    useFocusOutHandler(ref, (value) => answerQuestion(questionModel.logicalName, value));
+    useFocusOutHandler(ref, async (value) => await validateAndAnswerQuestion(questionModel.logicalName, value));
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value === "")
+            questionModel.errorMsg = "";
         setText(() => event.target.value);
-        answerQuestion(questionModel.logicalName, event.target.value, true);
+        answerQuestion(questionModel.logicalName, event.target.value);
         resize();
     }
 

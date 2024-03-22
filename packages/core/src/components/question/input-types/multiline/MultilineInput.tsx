@@ -7,9 +7,10 @@ import React from "react";
 import { MultilineProperties } from "../../../../model/index";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
 import { multilineInputSchema } from "./MultilineInputSchema";
+import { useFocusOutHandler } from "../../../../hooks/useFocusOutHandler";
 
 export const MultilineInput: InputComponentType<MultilineProperties> = ({ questionModel }) => {
-    const { isFirstQuestionInCurrentSlide, answerQuestion } = useQuickForm();
+    const { isFirstQuestionInCurrentSlide, validateAndAnswerQuestion, answerQuestion } = useQuickForm();
     const { placeholder, output } = questionModel;
     const [text, setText] = useState<string>(output);
 
@@ -25,6 +26,9 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
             ref.current.focus();
         }
     }, [ref]);
+
+    /* @pks - I added a quick hook to attempt adressing iOS focus issues - please test if this works as expected */
+    useFocusOutHandler(ref, async (value) => await validateAndAnswerQuestion(questionModel.logicalName, value));
 
     return (
         <QuestionTextArea
@@ -49,7 +53,7 @@ type MultilineInputProps = {
 
 const QuestionTextArea = forwardRef(
     (
-        { placeholder, className, value, onChange, width, focus = true, maxLength }: MultilineInputProps,
+        { placeholder, className, value, onChange, width, maxLength }: MultilineInputProps,
         passedRef: ForwardedRef<HTMLTextAreaElement>
     ) => {
         const textareaRef = (passedRef as RefObject<HTMLTextAreaElement>) ?? useRef<HTMLTextAreaElement>(null);

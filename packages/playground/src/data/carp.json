@@ -137,7 +137,7 @@
             "lang": "DA"
         },
         "impregnateTiles": {
-            "inputType": "text",
+            "inputType": "multilinetext",
             "text": "Skal fliserne imprægneres?",
             "paragraph": "Vælg 'Ja', hvis fliserne skal imprægneres, ellers vælg 'Nej'.",
             "options": {
@@ -154,14 +154,14 @@
             "lang": "DA"
         },
         "phone": {
-            "inputType": "text",
+            "inputType": "phone",
             "text": "Hvad er dit telefonnummer?",
             "paragraph": "Indtast venligst dit telefonnummer til kontaktformål.",
             "placeholder": "Indtast dit telefonnummer",
             "lang": "DA"
         },
         "email": {
-            "inputType": "text",
+            "inputType": "email",
             "text": "Hvad er din e-mailadresse?",
             "paragraph": "Indtast venligst din e-mail for at modtage tilbuddet.",
             "placeholder": "Indtast din e-mail",

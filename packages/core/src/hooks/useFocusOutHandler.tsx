@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { isIOS } from '../utils/quickformUtils';
 
 export const useFocusOutHandler = (
-    ref: React.RefObject<HTMLInputElement>,
+    ref: React.RefObject<HTMLInputElement | HTMLTextAreaElement>,
     onAnswer: (value: string) => void
 ): void => {
     useEffect(() => {
