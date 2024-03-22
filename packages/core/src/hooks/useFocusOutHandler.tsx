@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
-import { isIOS } from 'src/utils/quickformUtils';
+import { isIOS } from '../utils/quickformUtils';
 
-export const useFocusOutHandler = (ref, onAnswer) => {
+export const useFocusOutHandler = (
+    ref: React.RefObject<HTMLInputElement>,
+    onAnswer: (value: string) => void
+): void => {
     useEffect(() => {
-        const onfocusOut = (e) => {
+        const onfocusOut = (e: FocusEvent) => {
             if (ref.current) {
                 onAnswer(ref.current.value);
             }
@@ -12,7 +15,7 @@ export const useFocusOutHandler = (ref, onAnswer) => {
         const handleIOSFocusOut = () => {
             if (ref.current) {
                 setTimeout(() => {
-                    if (document.activeElement.tagName !== 'INPUT') {
+                    if (document.activeElement && document.activeElement.tagName !== 'INPUT') {
                         onAnswer(ref.current.value);
                     }
                 }, 100);

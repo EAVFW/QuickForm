@@ -9,7 +9,7 @@ import { InputComponentType, registerInputComponent } from "../../../../services
 import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
 import { QuestionModel } from "../../../../model";
 import { textInputSchema } from "./TextInputSchema";
-import { useFocusOutHandler } from "src/hooks/useFocusOutHandler";
+import { useFocusOutHandler } from "../../../../hooks/useFocusOutHandler";
 
 export const BaseInputComponent = ({ questionModel, className, style, type }: { type: InputHTMLAttributes<HTMLInputElement>["type"], questionModel: QuestionModel, className?: string, style?: CSSProperties }) => {
 
