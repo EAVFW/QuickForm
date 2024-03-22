@@ -5,11 +5,11 @@ import { quickformtokens } from "../../style/quickformtokens";
 
 
 type ParagraphProps = {
-  readonly children: ReactNode;
-  style?: React.CSSProperties;
+    readonly children: ReactNode;
+    style?: React.CSSProperties;
 };
 
-export function Paragraph({ style, children }: ParagraphProps) {
+export const Paragraph: React.FC<ParagraphProps> = ({ style, children }: ParagraphProps) => {
 
     const paragraphStyles = {
         fontSize: quickformtokens.questionParagraphFontSize, //'1.5rem',
