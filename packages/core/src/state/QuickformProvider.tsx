@@ -3,7 +3,7 @@ import { useMemo, useReducer } from "react";
 import { quickformReducer } from "./QuickformReducer";
 import { defaultState } from "./QuickformState";
 import { QuickFormContext } from "./QuickFormContext";
-import { ErrorMessage, QuickFormContainer } from "../components";
+import { ErrorPopup, QuickFormContainer } from "../components";
 import { QuickFormDefinition, defaultQuickFormTokens } from "../model";
 import React from "react";
 import "../services"
@@ -71,12 +71,12 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
         }}>
             {asContainer ? (
                 <QuickFormContainer style={variables}>
-                    <ErrorMessage message={state.errorMsg} />
+                    <ErrorPopup message={state.errorMsg} />
                     {children}
                 </QuickFormContainer>
             ) : (
                 <div style={variables}>
-                    <ErrorMessage message={state.errorMsg} />
+                    <ErrorPopup message={state.errorMsg} />
                     {children}
                 </div>
             )

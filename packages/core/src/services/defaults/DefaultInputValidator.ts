@@ -4,7 +4,7 @@ import { registerQuickFormService } from "../QuickFormServices";
 
 const validateText = (output: any): ValidationResult => {
     const text = typeof output === 'string' ? output.trim() : '';
-    const minLength = 1; // Minimum length requirement can be adjusted
+    const minLength = 1;
     const valid = text.length >= minLength;
     return {
         isValid: valid,
@@ -15,8 +15,8 @@ const validateText = (output: any): ValidationResult => {
 
 const validateMultilineText = (output: any): ValidationResult => {
     const text = typeof output === 'string' ? output.trim() : '';
-    const minLength = 1; // This can be adjusted based on requirements
-    const maxLength = 500; // Example max length
+    const minLength = 1;
+    const maxLength = 500;
     const valid = text.length >= minLength && text.length <= maxLength;
     return {
         isValid: valid,
