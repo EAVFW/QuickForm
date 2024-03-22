@@ -2,6 +2,29 @@ import { ValidationResult } from "../../model/ValidationResult";
 import { InputPropertiesTypes, QuestionModel, SliderProperties } from "../../model";
 import { registerQuickFormService } from "../QuickFormServices";
 
+const validateText = (output: any): ValidationResult => {
+    const text = typeof output === 'string' ? output.trim() : '';
+    const minLength = 1; // Minimum length requirement can be adjusted
+    const valid = text.length >= minLength;
+    return {
+        isValid: valid,
+        message: valid ? "" : `Text must be at least ${minLength} characters long.`,
+        validatedOutput: output,
+    };
+};
+
+const validateMultilineText = (output: any): ValidationResult => {
+    const text = typeof output === 'string' ? output.trim() : '';
+    const minLength = 1; // This can be adjusted based on requirements
+    const maxLength = 500; // Example max length
+    const valid = text.length >= minLength && text.length <= maxLength;
+    return {
+        isValid: valid,
+        message: valid ? "" : `Text must be between ${minLength} and ${maxLength} characters long.`,
+        validatedOutput: output,
+    };
+};
+
 const validateEmail = (output: any): ValidationResult => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const valid = typeof output === 'string' && emailRegex.test(output);
@@ -44,6 +67,8 @@ const validatorMap: ValidatorMap = {
     email: (output: any) => Promise.resolve(validateEmail(output)),
     phone: (output: any) => Promise.resolve(validatePhone(output)),
     slider: (output: any, properties: SliderProperties) => Promise.resolve(validateSlider(output, properties)),
+    text: (output: any) => Promise.resolve(validateText(output)),
+    multilinetext: (output: any) => Promise.resolve(validateMultilineText(output))
 };
 
 const validateQuestionOutput = async <TProps extends InputPropertiesTypes>(questionModel: QuestionModel<TProps>): Promise<ValidationResult> => {
