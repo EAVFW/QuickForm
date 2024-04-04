@@ -50,13 +50,8 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
             <div style={{ marginTop: '10px' }}>
                 <ul>
                     {submitFields.map((sf, idx) => {
-                        if (sf.visible && sf.visible?.rule) {
-                            return (
-                                <Question key={sf.logicalName} model={sf} />
-                            )
-                        }
                         return (
-                            <Question key={sf.logicalName} model={sf} />
+                            <Question key={sf.logicalName + idx} model={sf} />
                         )
                     })}
                 </ul>
