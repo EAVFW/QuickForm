@@ -1,9 +1,8 @@
-import { findQuestionByKey, getAllQuestions } from "../../utils/quickformUtils";
+import { findQuestionByKey, findQuestionByLogicalName, getAllQuestions } from "../../utils/quickformUtils";
 import { QuestionModel } from "../../model/QuestionModel";
 import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { QuickformAnswerQuestionAction } from "../QuickformAction";
 import { QuickformState } from "../QuickformState";
-import { VisibilityHandler } from "./VisibilityHandler";
 import { ValidationResult } from "../../model/ValidationResult";
 
 export class QuestionActionHandler {
@@ -22,61 +21,72 @@ export class QuestionActionHandler {
         return { slideIndex: -1, questionIndex: -1 };
     };
 
-    static updateQuestionProperty = (state: QuickformState, logicalName: string, propertyName: string, propertyValue: any): QuickformState => {
+    static updateQuestionProperties = (state: QuickformState, logicalName: string, propertiesToUpdate: any): QuickformState => {
         const { slideIndex, questionIndex } = this.findSlideIdxAndQuestionIdx(state, logicalName);
-        const logger = resolveQuickFormService("logger");
-
-        logger.log("Updating Question: {logicalName}.{propertyName} = {propertyValue}.  slideIndex: {slideIndex}, questionIndex: {questionIndex}", logicalName, propertyName, propertyValue, slideIndex, questionIndex);
-
-        if (state.isSubmitSlide) {
-            const questions = state.data.submit.submitFields;
-
-            const updatedQuestions = questions.map((question: QuestionModel, idx: number) =>
-                idx === questionIndex ? { ...question, [propertyName]: propertyValue } : question
-            );
-
-            state.data.submit.submitFields = updatedQuestions;
-            return { ...state };
-        }
 
         if (slideIndex === -1 || questionIndex === -1) {
             return state;
         }
 
-        const newState = { ...state, slides: [...state.slides] };
-        const originalSlide = newState.slides[slideIndex];
+        const newState = { ...state };
+        const targetQuestion = state.isSubmitSlide ?
+            newState.data.submit.submitFields[questionIndex] :
+            newState.slides[slideIndex].questions[questionIndex];
 
-        const updatedQuestions = originalSlide.questions.map((question: QuestionModel, idx: number) =>
-            idx === questionIndex ? { ...question, [propertyName]: propertyValue } : question
-        );
+        Object.entries(propertiesToUpdate).forEach(([key, value]) => {
+            if (targetQuestion.hasOwnProperty(key) && typeof value === 'object' && !Array.isArray(value) && value !== null) {
 
-        const updatedSlide = {
-            ...originalSlide,
-            questions: updatedQuestions,
-            isAnswered: updatedQuestions.length > 0 && updatedQuestions.every(q => q.answered),
-            addQuestion: originalSlide.addQuestion,
-        };
+                (targetQuestion as any)[key] = { ...(targetQuestion as any)[key], ...value };
+            } else {
+                (targetQuestion as any)[key] = value;
+            }
+        });
 
-        newState.slides[slideIndex] = updatedSlide;
+        if (state.isSubmitSlide) {
+            newState.data.submit.submitFields[questionIndex] = targetQuestion;
+        } else {
+            newState.slides[slideIndex].questions[questionIndex] = targetQuestion;
+        }
 
         return newState;
     };
 
     static answerQuestion = (state: QuickformState, { logicalName, output, intermediate, validationResult }: QuickformAnswerQuestionAction) => {
-
-        state = this.updateQuestionProperty(state, logicalName, 'answered', output !== undefined && output !== '' && !intermediate);
-        state = this.updateQuestionProperty(state, logicalName, 'intermediate', intermediate);
-        state = this.updateQuestionProperty(state, logicalName, 'visited', true);
-        state = this.updateQuestionProperty(state, logicalName, 'output', output);
-        state = this.updateQuestionProperty(state, logicalName, 'validationResult', validationResult);
-        state = this.updateQuestionProperty(state, logicalName, 'errorMsg', validationResult?.message);
-        state = VisibilityHandler.updateVisibleState(state);
+        const propertiesToUpdate = {
+            answered: output !== undefined && output !== '' && !intermediate,
+            intermediate: intermediate,
+            visited: true,
+            output: output,
+            errorMsg: validationResult?.message,
+        };
 
         // DISCUSS, should answer clear error message ?
         // This is currently undergoing changes since we have decided to move errorMsg to both questionModel and globally.
         // state.errorMsg = '';
-        return state;
+
+        return this.updateQuestionProperties(state, logicalName, propertiesToUpdate);
     };
+
+    static startQuestionValidation = (state: QuickformState, logicalName: string, timestamp: number) => {
+        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides)).validationResult;
+        console.log("QuickForm Reducer {currentValidationResult}", [logicalName, currentValidationResult]);
+
+        return this.updateQuestionProperties(state, logicalName, {
+            validationResult: { ...currentValidationResult, timestamp: timestamp, isValidating: true, isValid: false }
+        });
+    };
+
+    static updateQuestionValidation = (state: QuickformState, logicalName: string, validationResult: ValidationResult, timestamp: number) => {
+        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides)).validationResult;
+        // debugger
+        console.log("timestamps", [currentValidationResult.timestamp, timestamp]);
+        if (currentValidationResult.timestamp !== timestamp) {
+            return state;
+        }
+        return this.updateQuestionProperties(state, logicalName, {
+            validationResult: { ...currentValidationResult, ...validationResult, isValidating: false }
+        });
+    }
 
     static async validateInput(state: QuickformState, logicalName: string): Promise<ValidationResult> {
         const questionRef = findQuestionByKey(logicalName, getAllQuestions(state.slides));

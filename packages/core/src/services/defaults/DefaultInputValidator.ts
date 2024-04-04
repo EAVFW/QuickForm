@@ -74,7 +74,15 @@ const validatorMap: ValidatorMap = {
 const validateQuestionOutput = async <TProps extends InputPropertiesTypes>(questionModel: QuestionModel<TProps>): Promise<ValidationResult> => {
     const validator = validatorMap[questionModel.inputType];
     if (!validator) {
-        return Promise.resolve({ isValid: false, message: `No validator available for inputType: ${questionModel.inputType}`, validatedOutput: questionModel.output });
+        // This is to support if no validation is created for inputtype.. defaults to validated..
+        return Promise.resolve({
+            isValid: true,
+            message: "",
+            validatedOutput: questionModel.output,
+            isValidating: false,
+            timestamp: new Date().getTime()
+        });
+        // return Promise.resolve({ isValid: false, message: `No validator available for inputType: ${questionModel.inputType}`, validatedOutput: questionModel.output });
     }
 
     return await validator(questionModel.output, questionModel.inputProperties);

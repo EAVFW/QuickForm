@@ -35,16 +35,18 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
 
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => {
-        dispatch({ type: 'ANSWER_INTERMEDIATE_QUESTION' });
+        dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch });
         dispatch({ type: 'NEXT_SLIDE' });
     };
-    const validateAndAnswerQuestion = async (logicalName: string, output: any) => {
-        const validationResult = await QuestionActionHandler.validateInput(state, logicalName);
-        console.log("ValResult", validationResult);
-        dispatch({ type: 'ANSWER_QUESTION', logicalName, output, intermediate: false, validationResult })
-    }
+    // const validateAndAnswerQuestion = async (logicalName: string, output: any) => {
+    //     const validationResult = await QuestionActionHandler.validateInput(state, logicalName);
+    //     dispatch({ type: 'ANSWER_QUESTION', logicalName, output, dispatch, intermediate: false, validationResult })
+    // }
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
-    const answerQuestion = (logicalName: string, output: any, intermediate = false) => dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output, intermediate });
+    const answerQuestion = (logicalName: string, output: any, intermediate = false) => {
+        dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch, logicalName });
+        dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output, dispatch, intermediate });
+    }
     const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
     const setErrorMsg = (msg: string) => { dispatch({ type: "SET_ERROR_MSG", msg: msg }) };
     const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => {
@@ -67,7 +69,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
             isFirstQuestionInCurrentSlide,
             getCurrentSlide,
             onSubmitAsync,
-            validateAndAnswerQuestion
+            // validateAndAnswerQuestion
         }}>
             {asContainer ? (
                 <QuickFormContainer style={variables}>

@@ -6,6 +6,8 @@ export type ValidationResult = {
      * For invalid cases, it can either hold the original output or a modified version that represents a 
      * corrected value based on the validation logic. This facilitates not just flagging invalid inputs but also
      * guiding towards correction.
-     */
+    */
     validatedOutput: any;
+    isValidating?: boolean;
+    timestamp?: number;
 };

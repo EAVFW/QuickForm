@@ -11,7 +11,7 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
 
     const [text, setText] = useState<string>(questionModel!.output);
     const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
-    const { answerQuestion, validateAndAnswerQuestion } = useQuickForm();
+    const { answerQuestion } = useQuickForm();
 
     const resize = () => {
         const input = ref.current;
