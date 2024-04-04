@@ -1,23 +1,21 @@
 "use client";
-import { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef, useState } from "react";
-import styles from "./MultilineInput.module.css";
 import classNames from "classnames";
-import { useQuickForm } from "../../../../state/QuickFormContext";
-import React from "react";
-import { MultilineProperties } from "../../../../model/index";
-import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import styles from "./MultilineInput.module.css";
 import { multilineInputSchema } from "./MultilineInputSchema";
-import { useFocusOutHandler } from "../../../../hooks/useFocusOutHandler";
+import { MultilineProperties } from "../../../../model/index";
+import { useQuickForm } from "../../../../state/QuickFormContext";
+import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import React, { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef, useState } from "react";
 
 export const MultilineInput: InputComponentType<MultilineProperties> = ({ questionModel }) => {
-    const { isFirstQuestionInCurrentSlide, validateAndAnswerQuestion, answerQuestion } = useQuickForm();
+    const { isFirstQuestionInCurrentSlide, answerQuestion } = useQuickForm();
     const { placeholder, output } = questionModel;
     const [text, setText] = useState<string>(output);
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value.replace(/\r?\n/g, '\n'); // Normalize newline characters
         setText(() => newValue);
-        answerQuestion(questionModel.logicalName, newValue);
+        answerQuestion(questionModel.logicalName, newValue, true);
     };
 
     const ref = useRef<HTMLTextAreaElement>(null);
@@ -27,16 +25,12 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
         }
     }, [ref]);
 
-    /* @pks - I added a quick hook to attempt adressing iOS focus issues - please test if this works as expected */
-    useFocusOutHandler(ref, async (value) => await validateAndAnswerQuestion(questionModel.logicalName, value));
-
     return (
         <QuestionTextArea
             ref={ref}
             placeholder={placeholder}
             value={text}
             onChange={handleChange}
-            className=""
         />
     );
 }

@@ -100,7 +100,6 @@ export const resolveInputComponent = <T extends InputPropertiesTypes = InputProp
 }
 
 export const resolveInputComponentSchemas = () => {
-
     const result = Object.fromEntries(Object.keys(inputComponents).filter(x => "inputSchema" in inputComponents[x]).map(k => [k, inputComponents[k].inputSchema]));
     console.log("resolveInputComponentSchemas", [result, Object.keys(inputComponents).filter(x => "inputSchema" in inputComponents[x]), Object.keys(inputComponents)]);
     return result as {
