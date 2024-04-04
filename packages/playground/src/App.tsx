@@ -1,16 +1,20 @@
 import React from 'react';
 import { useState } from 'react';
 import { QuickFormDefinition } from '../../core/src/model';
-import carp from "./data/carp.json";
+import testdata from "./data/allInputControlsTest.json";
 import { QuickFormProvider } from '../../core/src/state';
 import { Editor } from '@monaco-editor/react';
 import { Button, QuickForm } from '../../core/src/components';
-import "./components/slider/SliderInput";
+// import "./components/slider/SliderInput";
+import "./components/buttons-input/ButtonsInput";
+import "./components/checkbox-input/CheckboxInput";
+import "./components/radio-input/RadioInput";
+import "./components/slider-input/SliderInput";
 
 export const App = () => {
-    const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(carp as QuickFormDefinition);
+    const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(testdata as QuickFormDefinition);
     const [hackToChangeQuickForm, setHackToChangeQuickForm] = useState(0);
-    const [editorValue, setEditorValue] = useState<string>(JSON.stringify(carp));
+    const [editorValue, setEditorValue] = useState<string>(JSON.stringify(testdata));
 
     const onChangeEditorValue = (value: string) => {
         setEditorValue(value);
@@ -40,13 +44,13 @@ export const App = () => {
             </div>
 
             <div id="QuickForm" style={quickformStyling}>
-                <h1 style={{ fontWeight: '800', whiteSpace: 'nowrap' }}>
+                {/* <h1 style={{ fontWeight: '800', whiteSpace: 'nowrap' }}>
                     BEREGN PRISEN FOR RENSNING AF FLISER
                 </h1>
                 <h2>
                     Få prisen med det samme
 
-                </h2>
+                </h2> */}
                 <QuickFormProvider key={hackToChangeQuickForm} definition={selectedTemplate} payload={{}} >
                     <QuickForm />
                 </QuickFormProvider>

@@ -1,8 +1,9 @@
 {
     "layout": {
+        "autoAdvanceSlides": false,
         "slides": {
             "slide1": {
-                "title": "Beregn prisen for rengøring af fliser",
+                "title": "Test titel",
                 "rows": {
                     "row1": {
                         "columns": {
@@ -10,48 +11,35 @@
                                 "rows": {
                                     "row1_1": {
                                         "type": "question",
-                                        "ref": "areaToClean"
+                                        "ref": "textTest"
                                     },
                                     "row1_2": {
                                         "type": "question",
-                                        "ref": "removeAlgae"
+                                        "ref": "multilineTest"
                                     },
                                     "row1_3": {
                                         "type": "question",
-                                        "ref": "impregnateTiles",
-                                        "visible": {
-                                            "type": "JSEval",
-                                            "rule": "getCurrentSlide().questions.find(q => q.logicalName === 'removeAlgae').output === 'hest'"
-                                        }
+                                        "ref": "emailTest"
                                     },
                                     "row1_4": {
                                         "type": "question",
-                                        "ref": "testPhone"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "slide2": {
-                "title": "Indtast dine oplysninger",
-                "rows": {
-                    "row2": {
-                        "columns": {
-                            "col1": {
-                                "rows": {
-                                    "row2_1": {
-                                        "type": "question",
-                                        "ref": "name"
+                                        "ref": "phoneTest"
                                     },
-                                    "row2_2": {
+                                    "row1_5": {
                                         "type": "question",
-                                        "ref": "phone"
+                                        "ref": "sliderTest"
                                     },
-                                    "row2_3": {
+                                    "row1_6": {
                                         "type": "question",
-                                        "ref": "email"
+                                        "ref": "radioTest"
+                                    },
+                                    "row1_7": {
+                                        "type": "question",
+                                        "ref": "buttonsTest"
+                                    },
+                                    "row1_8": {
+                                        "type": "question",
+                                        "ref": "checkboxTest"
                                     }
                                 }
                             }
@@ -91,21 +79,23 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "title": "Navn"
+                        "title": "Navn",
+                        "inputType": "text"
                     },
                     "phone": {
                         "type": "string",
                         "format": "tel",
-                        "title": "Telefon"
+                        "title": "Telefon",
+                        "inputType": "phone"
                     },
                     "email": {
                         "type": "string",
                         "format": "email",
-                        "title": "E-mail"
+                        "title": "E-mail",
+                        "inputType": "email"
                     }
                 },
                 "required": [
-                    "areaToClean",
                     "name",
                     "phone",
                     "email"
@@ -119,61 +109,68 @@
         "paragraph": "Vi vil kontakte dig snarest med dit tilbud."
     },
     "questions": {
-        "areaToClean": {
+        "sliderTest": {
             "inputType": "slider",
-            "text": "Hvor mange kvadratmeter skal renses?",
-            "paragraph": "",
-            "placeholder": "20 m2",
+            "text": "Slider test",
+            "paragraph": "Test af slider",
+            "placeholder": "1",
             "min": 1,
             "max": 200,
             "step": 10,
             "type": "number",
             "lang": "DA"
         },
-        "removeAlgae": {
-            "inputType": "text",
-            "text": "Skal alger fjernes?",
-            "paragraph": "Vælg 'Ja', hvis der er behov for fjernelse af alger, ellers vælg 'Nej'.",
+        "checkboxTest": {
+            "inputType": "checkbox",
+            "text": "Checkbox test",
+            "paragraph": "Test af checkbox",
+            "type": "boolean",
+            "lang": "DA"
+        },
+        "radioTest": {
+            "inputType": "radio",
+            "text": "Radio test",
+            "paragraph": "Test af radio",
             "options": {
                 "yes": "Ja",
                 "no": "Nej"
             },
             "lang": "DA"
         },
-        "impregnateTiles": {
+        "buttonsTest": {
+            "inputType": "buttons",
+            "text": "Buttons test",
+            "paragraph": "Test af buttons",
+            "options": {
+                "yes": "Ja",
+                "no": "Nej"
+            },
+            "lang": "DA"
+        },
+        "multilineTest": {
             "inputType": "multilinetext",
-            "text": "Skal fliserne imprægneres?",
-            "paragraph": "Vælg 'Ja', hvis fliserne skal imprægneres, ellers vælg 'Nej'.",
-            "options": {
-                "yes": "Ja",
-                "no": "Nej"
-            },
+            "text": "Multilinetext test",
+            "paragraph": "Test af multilinetext",
             "lang": "DA"
         },
-        "testPhone": {
-            "inputType": "phone",
-            "text": "Indtast telefonnummer",
-            "paragraph": "Skal være et gyldigt dansk telefonnummer",
-            "lang": "DA"
-        },
-        "name": {
+        "nameTest": {
             "inputType": "text",
-            "text": "Hvad er dit navn?",
-            "paragraph": "Indtast venligst dit fulde navn.",
-            "placeholder": "Indtast dit navn",
+            "text": "Text test",
+            "paragraph": "Test af text",
+            "placeholder": "Skriv noget..",
             "lang": "DA"
         },
-        "phone": {
+        "phoneTest": {
             "inputType": "phone",
-            "text": "Hvad er dit telefonnummer?",
-            "paragraph": "Indtast venligst dit telefonnummer til kontaktformål.",
-            "placeholder": "Indtast dit telefonnummer",
+            "text": "Phone test",
+            "paragraph": "Test af phone",
+            "placeholder": "Skriv nogle tal..",
             "lang": "DA"
         },
-        "email": {
+        "emailTest": {
             "inputType": "email",
-            "text": "Hvad er din e-mailadresse?",
-            "paragraph": "Indtast venligst din e-mail for at modtage tilbuddet.",
+            "text": "Email test",
+            "paragraph": "Test af email",
             "placeholder": "Indtast din e-mail",
             "lang": "DA"
         }

@@ -1,12 +1,11 @@
 "use client";
-import { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef, useState } from "react";
-import styles from "./MultilineInput.module.css";
 import classNames from "classnames";
-import { useQuickForm } from "../../../../state/QuickFormContext";
-import React from "react";
-import { MultilineProperties } from "../../../../model/index";
-import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import styles from "./MultilineInput.module.css";
 import { multilineInputSchema } from "./MultilineInputSchema";
+import { MultilineProperties } from "../../../../model/index";
+import { useQuickForm } from "../../../../state/QuickFormContext";
+import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import React, { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef, useState } from "react";
 
 export const MultilineInput: InputComponentType<MultilineProperties> = ({ questionModel }) => {
     const { isFirstQuestionInCurrentSlide, answerQuestion } = useQuickForm();
@@ -16,7 +15,7 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value.replace(/\r?\n/g, '\n'); // Normalize newline characters
         setText(() => newValue);
-        answerQuestion(questionModel.logicalName, newValue);
+        answerQuestion(questionModel.logicalName, newValue, true);
     };
 
     const ref = useRef<HTMLTextAreaElement>(null);
@@ -32,7 +31,6 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
             placeholder={placeholder}
             value={text}
             onChange={handleChange}
-            className=""
         />
     );
 }
@@ -49,7 +47,7 @@ type MultilineInputProps = {
 
 const QuestionTextArea = forwardRef(
     (
-        { placeholder, className, value, onChange, width, focus = true, maxLength }: MultilineInputProps,
+        { placeholder, className, value, onChange, width, maxLength }: MultilineInputProps,
         passedRef: ForwardedRef<HTMLTextAreaElement>
     ) => {
         const textareaRef = (passedRef as RefObject<HTMLTextAreaElement>) ?? useRef<HTMLTextAreaElement>(null);

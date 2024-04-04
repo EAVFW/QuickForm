@@ -1,6 +1,6 @@
 "use client";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
-import { BaseInputComponent } from "../text/TextInput";
+import { BaseInputComponent } from "../baseinput/BaseInputComponent";
 import { emailInputSchema } from "./EmailInputSchema";
 
 export const EmailInput: InputComponentType = (props) => {

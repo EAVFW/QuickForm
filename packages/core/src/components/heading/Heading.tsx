@@ -13,7 +13,7 @@ type HeadingProps = {
     readonly label?: string;
 };
 
-export function Heading({ children, label, style = {} }: HeadingProps) {
+export const Heading: React.FC<HeadingProps> = ({ children, label, style = {} }: HeadingProps) => {
 
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
 
@@ -29,7 +29,7 @@ export function Heading({ children, label, style = {} }: HeadingProps) {
             {shouldDisplayNumber && <span style={{ //TODO - if mobile left 0, top:-2.4rem,justifycontext start
                 display: 'inline-flex', alignItems: 'center', gap: quickformtokens.gap1, position: "absolute", width: "100px", left: "-100px", justifyContent: "end",
                 fontSize: quickformtokens.questionQuestionNumberFontSiez,
-                height:"100%",
+                height: "100%",
                 paddingRight: quickformtokens.gap2
             }}>
 

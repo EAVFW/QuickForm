@@ -5,7 +5,7 @@ type ProgressBarProps = {
   readonly width?: number;
 };
 
-export function ProgressBar({ width }: ProgressBarProps) {
+export const ProgressBar: React.FC<ProgressBarProps> = ({ width }: ProgressBarProps) => {
   return (
     <div className={styles["progress-bar__path"]}>
       <div

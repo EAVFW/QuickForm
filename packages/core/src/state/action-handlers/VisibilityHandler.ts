@@ -1,6 +1,5 @@
-import { log } from "console";
 import { resolveQuickFormService } from "../../services";
-import { allQuestionsMap, getAllQuestions, getAllQuestionsWithVisibilityRule } from "../../utils/quickformUtils";
+import { allQuestionsMap, getAllQuestionsWithVisibilityRule } from "../../utils/quickformUtils";
 import { QuickformState } from "../QuickformState";
 
 const engines = {} as any;
@@ -37,11 +36,9 @@ export class VisibilityHandler {
                 try {
 
                     if (question.visible.engine in engines) {
-
                         result = engines[question.visible.engine](question.visible.rule, context)
                     } else {
                         result = functionInScope(question.visible?.rule, context);
-
                     }
                     logger.log("[visibility handler] Result for {question} is {result}", question.logicalName, result);
 
@@ -50,10 +47,6 @@ export class VisibilityHandler {
                 }
                 hasChanges = hasChanges || question.visible.isVisible !== result;
                 question.visible.isVisible = result;
-
-                
-
-
             }
         }
         return state;
