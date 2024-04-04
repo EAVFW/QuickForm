@@ -1,6 +1,6 @@
 "use client";
 import classNames from "classnames";
-import styles from "./TextInput.module.css";
+import styles from "./BaseInput.module.css";
 import { ChangeEvent, useState } from "react";
 import { QuestionModel } from "../../../../model";
 import React, { CSSProperties, InputHTMLAttributes } from "react";
