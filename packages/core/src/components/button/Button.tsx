@@ -1,7 +1,7 @@
 "use client";
 import React, { PropsWithChildren } from "react";
 import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
-import { quickformtokens } from "../../style/QuickFormTokensDefinition";
+import { quickformtokens } from "../../style/quickFormTokensDefinition";
 import { makeStyles, shorthands } from "@griffel/react";
 
 type BtnContainerProps = {

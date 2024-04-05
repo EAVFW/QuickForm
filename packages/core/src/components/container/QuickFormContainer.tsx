@@ -2,11 +2,12 @@
 
 import { makeStaticStyles, makeStyles, mergeClasses, shorthands } from "@griffel/react"
 import { CSSProperties, PropsWithChildren } from "react";
-import { quickformtokens } from "../../style/QuickFormTokensDefinition";
+import { quickformtokens } from "../../style/quickFormTokensDefinition";
 
 const useQuickFormContainerStyles = makeStyles({
     root: {
-        
+        '--font-family': 'Monaco',
+        fontFamily: 'var(--font-family)',
         maxWidth: '72rem',
         width: '100%',
         '@media screen and (max-width: 599px)': { ...shorthands.padding(0, quickformtokens.gap4) },
@@ -17,10 +18,10 @@ const useQuickFormContainerStyles = makeStyles({
 export const QuickFormContainer: React.FC<PropsWithChildren<{ style?: CSSProperties }>> = ({ children, style }) => {
 
     const styles = useQuickFormContainerStyles();
-    
+
     return (
-        <div className={styles.root} style = { style } >
-            {children }
+        <div className={styles.root} style={style} >
+            {children}
         </div>
     )
 }

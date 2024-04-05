@@ -1,4 +1,4 @@
-import { QuickFormTokens } from "../../style/QuickFormTokensDefinition";
+import { QuickFormTokens } from "../../style/quickFormTokensDefinition";
 import { QuickformClassNames } from "../../state/QuickformState";
 
 export type LayoutDefinition = {

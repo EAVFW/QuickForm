@@ -3,7 +3,7 @@ import "../services";
 import React, { useMemo, useReducer } from "react";
 import { quickformReducer, QuickFormContext, defaultState } from "../state";
 import { ErrorPopup, QuickFormContainer } from "../components";
-import { QuickFormTokens, defineQuickFormTokens } from "../style/QuickFormTokensDefinition";
+import { QuickFormTokens, defineQuickFormTokens } from "../style/quickFormTokensDefinition";
 import { QuickFormDefinition } from "../model";
 import { resolveQuickFormService } from "../services/QuickFormServices";
 
@@ -66,7 +66,11 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
             getCurrentSlide,
             onSubmitAsync,
         }}>
-            {asContainer ? (
+            <QuickFormContainer style={cssVariables}>
+                <ErrorPopup message={state.errorMsg} />
+                {children}
+            </QuickFormContainer>
+            {/* {asContainer ? (
                 <QuickFormContainer style={cssVariables}>
                     <ErrorPopup message={state.errorMsg} />
                     {children}
@@ -77,7 +81,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
                     {children}
                 </div>
             )
-            }
+            } */}
         </QuickFormContext.Provider>
     );
 }

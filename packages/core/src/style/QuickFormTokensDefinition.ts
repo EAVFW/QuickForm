@@ -11,28 +11,24 @@ type QuickFormTokensBase = {
     /* Pure colors */
     white: Color,
     black: Color,
-    warning: Color;
-    success: Color;
-    info: Color;
+    warning: Color,
+    success: Color,
+    info: Color,
     questionPlaceholderColor: Color,
 
     /* Structured colors */
     primary: Color,
     onPrimary: Color,
-
     secondary: Color,
     onSecondary: Color,
-
     background: Color,
     onBackground: Color,
-
     surface: Color,
     onSurface: Color,
-
-    error: string,
+    error: Color,
     onError: Color,
 
-    /* Font-sizes and family */
+    /* Typography */
     fontFamily: string,
     btnFontSize: FontSize,
     questionTextFontSize: FontSize,
@@ -45,7 +41,7 @@ type QuickFormTokensBase = {
     gap1: Gap,
     gap2: Gap,
     gap4: Gap,
-    borderColor: string
+    borderColor: string,
 };
 
 export type QuickFormTokens = QuickFormTokensBase & {

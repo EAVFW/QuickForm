@@ -1,6 +1,6 @@
 import React from "react";
 import { IconProps } from "./iconProps";
-import { quickformtokens } from "../../style/QuickFormTokensDefinition";
+import { quickformtokens } from "../../style/quickFormTokensDefinition";
 
 export const ImArrowRightIcon: React.FC<IconProps> = ({ size = '20px' }) => {
     return (
