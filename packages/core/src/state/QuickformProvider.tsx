@@ -1,34 +1,27 @@
 "use client";
+import "../services";
+import React from "react";
 import { useMemo, useReducer } from "react";
-import { quickformReducer } from "./QuickformReducer";
 import { defaultState } from "./QuickformState";
+import { quickformReducer } from "./QuickformReducer";
 import { QuickFormContext } from "./QuickFormContext";
 import { ErrorPopup, QuickFormContainer } from "../components";
-import { QuickFormDefinition, defaultQuickFormTokens } from "../model";
-import React from "react";
-import "../services"
+import { QuickFormTokens, defineQuickFormTokens } from "../style/quickformtokens";
+import { QuickFormDefinition } from "../model";
 import { resolveQuickFormService } from "../services/QuickFormServices";
-import { QuestionActionHandler } from "./action-handlers/QuestionActionHandler";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
     definition: QuickFormDefinition;
-    tokens?: Partial<typeof defaultQuickFormTokens>;
+    tokens?: Partial<QuickFormTokens>;
     payload: any;
     asContainer?: boolean,
     onSubmitAsync?: (formdata: any) => Promise<string>,
 }
 
-function defineVariables<T extends {}>(obj: T) {
-    return Object.fromEntries(Object.entries(obj)
-        .map(([k, value]) =>
-            [`--${k.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`, value]).filter(([k, v]) => v !== `var(${k})`)) as { [key: string]: string }
-};
-
-export const defineQuickFormTokens = (...tokens: Array<Partial<typeof defaultQuickFormTokens>>) => defineVariables(tokens.reduceRight((n, o) => ({ ...o, ...n }), {}) as typeof defaultQuickFormTokens);
-
 export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload, tokens, asContainer, onSubmitAsync = async (data) => { return "" } }) => {
 
+    const cssVariables = defineQuickFormTokens(tokens ?? {}, definition?.layout?.tokens ?? {});
     const transform = resolveQuickFormService("modeltransformer");
     const defaultStateObj = useMemo(() => { return defaultState(transform(definition, payload), definition.layout) }, []);
     const [state, dispatch] = useReducer(quickformReducer, defaultStateObj);
@@ -38,10 +31,6 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
         dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch });
         dispatch({ type: 'NEXT_SLIDE' });
     };
-    // const validateAndAnswerQuestion = async (logicalName: string, output: any) => {
-    //     const validationResult = await QuestionActionHandler.validateInput(state, logicalName);
-    //     dispatch({ type: 'ANSWER_QUESTION', logicalName, output, dispatch, intermediate: false, validationResult })
-    // }
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
     const answerQuestion = (logicalName: string, output: any, intermediate = false) => {
         dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch, logicalName });
@@ -54,7 +43,6 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
         return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName;
     }
     const getCurrentSlide = () => (state.slides[state.currIdx]);
-    const variables = defineQuickFormTokens(defaultQuickFormTokens, tokens ?? {}, definition?.layout?.tokens ?? {});
 
     return (
         <QuickFormContext.Provider value={{
@@ -69,15 +57,14 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
             isFirstQuestionInCurrentSlide,
             getCurrentSlide,
             onSubmitAsync,
-            // validateAndAnswerQuestion
         }}>
             {asContainer ? (
-                <QuickFormContainer style={variables}>
+                <QuickFormContainer style={cssVariables}>
                     <ErrorPopup message={state.errorMsg} />
                     {children}
                 </QuickFormContainer>
             ) : (
-                <div style={variables}>
+                <div style={cssVariables}>
                     <ErrorPopup message={state.errorMsg} />
                     {children}
                 </div>

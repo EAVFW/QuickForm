@@ -37,3 +37,17 @@ export const allQuestionsMap = (slides: SlideModel[]): { [key: string]: Question
 export const isIOS = () => {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 };
+
+/**
+ * Converts camelCase object keys to kebab-case.
+ */
+export function camelToKebabCase<T extends {}>(obj: T) {
+    return Object.fromEntries(Object.entries(obj).map(([k, value]) =>
+        [k, `var(--${k.replace(/[A-Z]/g, m => "-" + m.toLowerCase())})`])) as { [P in keyof T]: string }
+};
+
+export function defineVariables<T extends {}>(obj: T) {
+    return Object.fromEntries(Object.entries(obj)
+        .map(([k, value]) =>
+            [`--${k.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`, value]).filter(([k, v]) => v !== `var(${k})`)) as { [key: string]: string }
+};

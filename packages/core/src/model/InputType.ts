@@ -7,7 +7,6 @@ export type InputProps<TProps = InputPropertiesTypes> = {
     questionModel: QuestionModel<TProps>;
 }
 
-//const Dropdown = "dropdown";
 const Email = "email";
 const Multilinetext = "multilinetext";
 const Radio = "radio";
