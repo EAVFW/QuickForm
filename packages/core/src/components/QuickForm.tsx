@@ -1,9 +1,7 @@
-"use client"
+"use client";
 import React from "react";
 import { useQuickForm } from "../state/QuickFormContext";
-import { Ending, Submit } from "./index";
-import { Intro } from "./intro/Intro";
-import { SlideRenderer } from "./renderers/slide-renderer/SlideRenderer";
+import { Ending, Submit, Intro, SlideRenderer } from "./index";
 
 export const QuickForm: React.FC = () => {
     const { state, setIntroVisited } = useQuickForm();

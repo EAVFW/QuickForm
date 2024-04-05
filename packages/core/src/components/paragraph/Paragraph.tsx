@@ -1,7 +1,20 @@
 import { ReactNode } from "react";
-import styles from "./Paragraph.module.css";
 import React from "react";
 import { quickformtokens } from "../../style/quickFormTokensDefinition";
+import { makeStyles } from "@griffel/react";
+
+
+const useParagraphStyles = makeStyles({
+    para: {
+        color: quickformtokens.onSurface,
+        fontSize: quickformtokens.paragraphFontSize,
+        fontWeight: 'unset',
+        lineHeight: '1.4em',
+        marginTop: quickformtokens.gap1,
+        '@media screen and (max-width: 599px)': { fontSize: quickformtokens.paragraphMobileFontSize },
+    },
+
+});
 
 
 type ParagraphProps = {
@@ -10,17 +23,18 @@ type ParagraphProps = {
 };
 
 export const Paragraph: React.FC<ParagraphProps> = ({ style, children }: ParagraphProps) => {
+    const styles = useParagraphStyles();
 
-    const paragraphStyles = {
-        fontSize: quickformtokens.questionParagraphFontSize, //'1.5rem',
-        marginTop: quickformtokens.gap2,
-        ...style ?? {}
+    if (typeof (children) === "string") {
+
+        return (
+            <p
+                className={styles.para}
+                style={style}
+                dangerouslySetInnerHTML={{ __html: children.replace(/(?:\r\n|\r|\n)/g, '<br/>') }}
+            />)
+            ;
     }
 
-    if (typeof (children) === "string")
-        return <p className={styles["para"]}
-            style={paragraphStyles}
-            dangerouslySetInnerHTML={{ __html: children.replace(/(?:\r\n|\r|\n)/g, '<br/>') }} />;
-
-    return <p className={styles["para"]} style={paragraphStyles}>{children}</p>;
+    return <p className={styles.para} style={style}>{children}</p>;
 }

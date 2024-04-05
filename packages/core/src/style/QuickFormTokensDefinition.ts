@@ -1,3 +1,5 @@
+/* Color-scheme is inspired by Material Design (https://m2.material.io/design/color/the-color-system.html#color-theme-creation) */
+
 import { camelToKebabCase, defineVariables } from "../utils/quickformUtils";
 import { defaultQuickFormTokens } from "./defaultQuickFormTokens";
 
@@ -30,10 +32,16 @@ type QuickFormTokensBase = {
 
     /* Typography */
     fontFamily: string,
+    paragraphFontSize: FontSize;
+    paragraphMobileFontSize: FontSize;
     btnFontSize: FontSize,
+    btnEnterKeyTextFontSize: FontSize,
+    btnFontWeight: number,
+    multilineTextFontSize: FontSize,
+    multilineTextMobileFontSize: FontSize,
     questionTextFontSize: FontSize,
     questionParagraphFontSize: FontSize,
-    questionQuestionNumberFontSize: FontSize,
+    questionNumberFontSize: FontSize,
     questionInputFontSize: FontSize,
 
     /* Structural properties */
@@ -41,7 +49,11 @@ type QuickFormTokensBase = {
     gap1: Gap,
     gap2: Gap,
     gap4: Gap,
-    borderColor: string,
+    disabledOpacity: number;
+    dividerOpacity: number;
+    lowEmphasisOpacity: number;
+    mediumEmphasisOpacity: number;
+    highEmphasisOpacity: number;
 };
 
 export type QuickFormTokens = QuickFormTokensBase & {
@@ -60,8 +72,8 @@ export type QuickFormTokens = QuickFormTokensBase & {
 export const defineQuickFormTokens = (...tokens: Array<Partial<QuickFormTokens>>) => {
     // Merges and overrides default tokens with provided ones in reverse order for precedence.
     const mergedTokens = tokens.reduceRight((newTokens, currentToken) => ({
-        ...currentToken,
         ...newTokens,
+        ...currentToken,
     }), defaultQuickFormTokens);
 
     // Ensures merged tokens are camelCase CSS variables that React.CSSProperties can use and return.

@@ -69,7 +69,6 @@ export class QuestionActionHandler {
 
     static startQuestionValidation = (state: QuickformState, logicalName: string, timestamp: number) => {
         const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides)).validationResult;
-        console.log("QuickForm Reducer {currentValidationResult}", [logicalName, currentValidationResult]);
 
         return this.updateQuestionProperties(state, logicalName, {
             validationResult: { ...currentValidationResult, timestamp: timestamp, isValidating: true, isValid: false }
@@ -78,8 +77,6 @@ export class QuestionActionHandler {
 
     static updateQuestionValidation = (state: QuickformState, logicalName: string, validationResult: ValidationResult, timestamp: number) => {
         const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides)).validationResult;
-        // debugger
-        console.log("timestamps", [currentValidationResult.timestamp, timestamp]);
         if (currentValidationResult.timestamp !== timestamp) {
             return state;
         }

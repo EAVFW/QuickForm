@@ -52,7 +52,6 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
             if (typeof allIntermediateQuestions !== "undefined" && allIntermediateQuestions.length > 0) {
                 const timestamp = new Date().getTime();
                 for (var intermediateQuestion of allIntermediateQuestions) {
-                    console.log("IntermediateQ before", intermediateQuestion);
                     state = QuestionActionHandler.updateQuestionProperties(state, intermediateQuestion.logicalName,
                         {
                             answered: true,
@@ -60,7 +59,6 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
                             validationResult: { ...intermediateQuestion.validationResult, timestamp: timestamp, isValidating: true, isValid: false }
                         }
                     );
-                    console.log("IntermediateQ after", getAllQuestions(state.slides).find(q => q.logicalName === intermediateQuestion.logicalName));
 
                     QuestionActionHandler.validateInput(state, intermediateQuestion.logicalName).then(result => {
                         action.dispatch({ type: 'SET_VALIDATION_RESULT', logicalName: intermediateQuestion.logicalName, validationResult: result, timestamp: timestamp })

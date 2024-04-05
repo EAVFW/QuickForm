@@ -16,9 +16,9 @@ export const Heading: React.FC<HeadingProps> = ({ children, label, style = {} }:
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
 
     const headingStyles: React.CSSProperties = {
-        fontSize: quickformtokens.questionTextFontSize, //'1.5rem',
+        fontSize: quickformtokens.questionTextFontSize,
         fontWeight: 'unset',
-        color: 'var(--on-surface)',
+        color: quickformtokens.onSurface,
         position: "relative"
     }
 
@@ -26,7 +26,7 @@ export const Heading: React.FC<HeadingProps> = ({ children, label, style = {} }:
         <h1 style={{ ...style, ...headingStyles }}>
             {shouldDisplayNumber && <span style={{ //TODO - if mobile left 0, top:-2.4rem,justifycontext start
                 display: 'inline-flex', alignItems: 'center', gap: quickformtokens.gap1, position: "absolute", width: "100px", left: "-100px", justifyContent: "end",
-                fontSize: quickformtokens.questionQuestionNumberFontSize,
+                fontSize: quickformtokens.questionNumberFontSize,
                 height: "100%",
                 paddingRight: quickformtokens.gap2
             }}>

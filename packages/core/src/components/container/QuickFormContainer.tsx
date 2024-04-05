@@ -1,13 +1,10 @@
-"use client"
-
-import { makeStaticStyles, makeStyles, mergeClasses, shorthands } from "@griffel/react"
+"use client";
+import { makeStyles, shorthands } from "@griffel/react"
 import { CSSProperties, PropsWithChildren } from "react";
 import { quickformtokens } from "../../style/quickFormTokensDefinition";
 
 const useQuickFormContainerStyles = makeStyles({
     root: {
-        '--font-family': 'Monaco',
-        fontFamily: 'var(--font-family)',
         maxWidth: '72rem',
         width: '100%',
         '@media screen and (max-width: 599px)': { ...shorthands.padding(0, quickformtokens.gap4) },

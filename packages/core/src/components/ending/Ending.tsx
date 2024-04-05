@@ -4,6 +4,7 @@ import { Heading, Paragraph } from "../index";
 import { ErrorIcon, Checkmark } from "../icons/index";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { EndingModel } from "../../model";
+import { quickformtokens } from "../../style/quickFormTokensDefinition";
 
 type EndingProps = {
     model: EndingModel;
@@ -24,13 +25,13 @@ export const Ending: React.FC<EndingProps> = ({ model }) => {
         <div style={endingStyles}>
             {submitStatus.isSubmitError &&
                 <>
-                    <ErrorIcon color={'var(--on-surface)'} />
+                    <ErrorIcon color={quickformtokens.onSurface} />
                     <Heading>Der skete en fejl, prøv igen</Heading>
                 </>
             }
             {submitStatus.isSubmitSuccess &&
                 <>
-                    <Checkmark color={'var(--on-surface)'} />
+                    <Checkmark color={quickformtokens.onSurface} />
                     {text &&
                         <Heading style={{ marginTop: '10px' }}>
                             {text}

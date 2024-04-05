@@ -1,20 +1,55 @@
 "use client";
-import classNames from "classnames";
-import styles from "./MultilineInput.module.css";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import { makeStyles, shorthands } from "@griffel/react";
+import { quickformtokens } from "../../../../style/quickFormTokensDefinition";
 import { multilineInputSchema } from "./MultilineInputSchema";
 import { MultilineProperties } from "../../../../model/index";
 import { useQuickForm } from "../../../../state/QuickFormContext";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
-import React, { ChangeEvent, ChangeEventHandler, ForwardedRef, forwardRef, RefObject, useEffect, useRef, useState } from "react";
+
+const useInputTextStyles = makeStyles({
+    inputText: {
+        backgroundColor: 'transparent',
+        ...shorthands.border(`1px solid ${quickformtokens.onSurface}`),
+        ...shorthands.borderRadius('5px'),
+        color: quickformtokens.onSurface,
+        fontSize: quickformtokens.multilineTextFontSize,
+        marginTop: '15px',
+        paddingBottom: '9px',
+        width: '100%',
+        maxHeight: '8rem', // Set maximum height for three lines
+        height: '8rem',
+        resize: 'vertical',
+        ...shorthands.overflow('auto'),
+        '&:focus-visible': {
+            ...shorthands.borderBottom(`2px solid ${quickformtokens.onSurface}`),
+            ...shorthands.outline('none'),
+            paddingBottom: '8px'
+        },
+        '&::placeholder': {
+            color: quickformtokens.onSurface,
+            opacity: quickformtokens.mediumEmphasisOpacity,
+        },
+        '&::-ms-input-placeholder': {
+            color: quickformtokens.onSurface,
+            opacity: quickformtokens.mediumEmphasisOpacity,
+        },
+        '@media screen and (max-width: 599px)': {
+            fontSize: quickformtokens.multilineTextMobileFontSize,
+            marginTop: '32px',
+        },
+    },
+});
 
 export const MultilineInput: InputComponentType<MultilineProperties> = ({ questionModel }) => {
+    const styles = useInputTextStyles();
     const { isFirstQuestionInCurrentSlide, answerQuestion } = useQuickForm();
     const { placeholder, output } = questionModel;
-    const [text, setText] = useState<string>(output);
+    const [text, setText] = useState<string>(output || '');
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value.replace(/\r?\n/g, '\n'); // Normalize newline characters
-        setText(() => newValue);
+        setText(newValue);
         answerQuestion(questionModel.logicalName, newValue, true);
     };
 
@@ -23,53 +58,19 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
         if (ref.current && isFirstQuestionInCurrentSlide(questionModel.logicalName)) {
             ref.current.focus();
         }
-    }, [ref]);
+    }, [ref, isFirstQuestionInCurrentSlide, questionModel.logicalName]);
 
     return (
-        <QuestionTextArea
+        <textarea
             ref={ref}
+            className={styles.inputText}
             placeholder={placeholder}
             value={text}
             onChange={handleChange}
+            style={{ width: '100%' }}
         />
     );
-}
+};
 
-type MultilineInputProps = {
-    readonly placeholder?: string;
-    readonly className?: string;
-    readonly value?: string;
-    readonly onChange?: ChangeEventHandler<HTMLTextAreaElement>;
-    readonly width?: string;
-    readonly focus?: boolean;
-    readonly maxLength?: number;
-}
-
-const QuestionTextArea = forwardRef(
-    (
-        { placeholder, className, value, onChange, width, maxLength }: MultilineInputProps,
-        passedRef: ForwardedRef<HTMLTextAreaElement>
-    ) => {
-        const textareaRef = (passedRef as RefObject<HTMLTextAreaElement>) ?? useRef<HTMLTextAreaElement>(null);
-
-        return (
-            <textarea style={{ width: width }}
-                ref={passedRef ?? textareaRef}
-                className={classNames(
-                    styles["input__text"],
-                    className
-                )}
-                placeholder={placeholder}
-                value={value}
-                onChange={onChange}
-                maxLength={maxLength}
-            />
-        );
-    }
-);
-
-QuestionTextArea.displayName = "QuestionTextArea";
-
-/* This property assignment grants QuickformDesigner metadata information about which properties the inputcomponent needs */
 MultilineInput.inputSchema = multilineInputSchema;
 registerInputComponent("multilinetext", MultilineInput);

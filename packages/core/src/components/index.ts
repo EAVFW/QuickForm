@@ -13,5 +13,7 @@ export { Slide } from "./slide/Slide";
 export { Submit } from "./submit/Submit";
 export { QuickForm } from "./QuickForm";
 export { Spinner } from "./spinner/Spinner";
+export { Intro } from "./intro/Intro";
 export { QuickFormContainer } from "./container/QuickFormContainer";
+export { SlideRenderer } from "./renderers/slide-renderer/SlideRenderer";
 import "./question/input-types";

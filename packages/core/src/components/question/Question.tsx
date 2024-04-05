@@ -16,7 +16,6 @@ const questionStyling: React.CSSProperties = {
     transition: "transform 0.3s ease-out",
     minHeight: '100px',
     color: quickformtokens.onSurface
-    //  margin: '20px'
 }
 
 export const Question: React.FC<QuestionProps> = ({ model, style }) => {
@@ -56,7 +55,8 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
                     {
                         marginTop: quickformtokens.questionInputGap,
                         fontSize: quickformtokens.questionInputFontSize,
-                        fontFamily: quickformtokens.fontFamily
+                        // KBA - This should be defined at a global level...
+                        // fontFamily: quickformtokens.fontFamily
                     }
                 }
                 questionModel={model}

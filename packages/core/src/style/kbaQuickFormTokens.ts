@@ -1,18 +1,19 @@
 import { QuickFormTokens } from "./quickFormTokensDefinition";
 
-export const defaultQuickFormTokens: QuickFormTokens = {
-    white: '#ffffff',
-    black: '#000',
-    warning: '#FFCA28',
-    success: '#0F9D58',
-    info: '#4285F4',
+export const kbaQuickFormTokens: QuickFormTokens = {
+    white: '#FFFFFF',
+    black: '#000000',
+    warning: '#FFA000',
+    success: '#4CAF50',
+    info: '#2196F3',
 
-    primary: '#154068',
-    primaryLighter: 'color-mix(in srgb, var(--primary) 90%, white)',
-    secondary: '#24517b',
+    primary: '#1565C0',
+    primaryLighter: 'color-mix(in srgb, var(--primary) 80%, white)',
+    secondary: '#1E88E5',
 
-    background: '#ffffff',
-    onBackground: '#000000',
+    background: '#FAFAFA',
+    onBackground: '#212121',
+
     onBackgroundDarker100: 'color-mix(in srgb, var(--on-background) 90%, black)',
     onBackgroundDarker200: 'color-mix(in srgb, var(--on-background) 80%, black)',
     onBackgroundDarker300: 'color-mix(in srgb, var(--on-background) 70%, black)',
@@ -24,11 +25,11 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     onBackgroundDarker900: 'color-mix(in srgb, var(--on-background) 10%, black)',
     onBackgroundLighter: 'color-mix(in srgb, var(--on-background) 80%, white)',
 
-    surface: '#c9c9c9',
-    onSurface: '#000000',
+    surface: '#EEEEEE',
+    onSurface: '#212121',
 
-    error: 'var(--surface)',
-    onError: '#ff0000',
+    error: '#D32F2F',
+    onError: '#FFFFFF',
     onErrorDarker100: 'color-mix(in srgb, var(--on-error) 90%, black)',
     onErrorDarker200: 'color-mix(in srgb, var(--on-error) 80%, black)',
     onErrorDarker300: 'color-mix(in srgb, var(--on-error) 70%, black)',
@@ -39,24 +40,25 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     onErrorDarker800: 'color-mix(in srgb, var(--on-error) 20%, black)',
     onErrorDarker900: 'color-mix(in srgb, var(--on-error) 10%, black)',
 
-    onPrimary: '#ffffff',
-    onSecondary: '#000000',
+    onPrimary: '#FFFFFF',
+    onSecondary: '#FFFFFF',
 
-    fontFamily: 'var(--chivo), Monaco, Consolas',
+    fontFamily: 'Monaco, "Lucida Console", monospace',
 
-    paragraphFontSize: '1.3rem',
-    paragraphMobileFontSize: '1.9rem',
-    btnFontSize: '2rem',
-    btnFontWeight: 700,
-    btnEnterKeyTextFontSize: '1.25rem',
-    multilineTextFontSize: '2rem',
-    multilineTextMobileFontSize: '2.9rem',
-    questionTextFontSize: '2.4rem',
-    questionParagraphFontSize: '2rem',
-    questionNumberFontSize: '1.6rem',
-    questionInputFontSize: "3rem",
-    questionInputGap: "3.6rem",
-    questionPlaceholderColor: 'color-mix(in srgb, var(--on-surface) 80%, black)',
+
+    paragraphFontSize: '1rem',
+    paragraphMobileFontSize: '1rem',
+    btnFontSize: '1.1rem',
+    btnFontWeight: 600,
+    btnEnterKeyTextFontSize: '1rem',
+    multilineTextFontSize: '1.1rem',
+    multilineTextMobileFontSize: '1rem',
+    questionTextFontSize: '1.4rem',
+    questionParagraphFontSize: '1.2rem',
+    questionNumberFontSize: '1.2rem',
+    questionInputFontSize: "1.3rem",
+    questionInputGap: "1.5rem",
+    questionPlaceholderColor: '#757575',
 
     gap1: '0.5rem',
     gap2: '1rem',

@@ -6,6 +6,7 @@ import { ErrorPopup, QuickFormContainer } from "../components";
 import { QuickFormTokens, defineQuickFormTokens } from "../style/quickFormTokensDefinition";
 import { QuickFormDefinition } from "../model";
 import { resolveQuickFormService } from "../services/QuickFormServices";
+import { kbaQuickFormTokens } from "../style/kbaQuickFormTokens";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
@@ -21,7 +22,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
         children,
         definition,
         payload,
-        tokens,
+        tokens = kbaQuickFormTokens,
         asContainer,
         onSubmitAsync = async (data) => { return "" }
     }
@@ -48,7 +49,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
     const setErrorMsg = (msg: string) => { dispatch({ type: "SET_ERROR_MSG", msg: msg }) };
     const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => {
         const currSlide = state.slides[state.currIdx];
-        return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName;
+        return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName && currSlide.questions[0].visited !== true;
     }
     const getCurrentSlide = () => (state.slides[state.currIdx]);
 
@@ -66,11 +67,8 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
             getCurrentSlide,
             onSubmitAsync,
         }}>
-            <QuickFormContainer style={cssVariables}>
-                <ErrorPopup message={state.errorMsg} />
-                {children}
-            </QuickFormContainer>
-            {/* {asContainer ? (
+
+            {asContainer ? (
                 <QuickFormContainer style={cssVariables}>
                     <ErrorPopup message={state.errorMsg} />
                     {children}
@@ -81,7 +79,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
                     {children}
                 </div>
             )
-            } */}
+            }
         </QuickFormContext.Provider>
     );
 }
