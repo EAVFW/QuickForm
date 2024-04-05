@@ -3,7 +3,7 @@ import React from 'react';
 import { useQuickForm } from '../../state/QuickFormContext';
 import { ArrowUpIcon } from '../icons/ArrowUpIcon';
 import { ArrowDownIcon } from '../icons/ArrowDownIcon';
-import { quickformtokens } from '../../style/quickformtokens';
+import { quickformtokens } from '../../style/QuickFormTokensDefinition';
 import { makeStyles, mergeClasses } from "@griffel/react";
 
 type NavigationButtonProps = {

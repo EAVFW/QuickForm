@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { ImArrowRightIcon } from "../../components/icons";
 import { useQuickForm } from "../../state/QuickFormContext";
-import { quickformtokens } from "../../style/quickformtokens";
+import { quickformtokens } from "../../style/QuickFormTokensDefinition";
 import { HeadingNumberDisplayProvider, registerQuickFormService, resolveQuickFormService } from "../../services/QuickFormServices";
 
 type HeadingProps = {

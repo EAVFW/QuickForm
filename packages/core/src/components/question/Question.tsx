@@ -4,7 +4,7 @@ import { Paragraph, Heading, ErrorMessage } from "..";
 import { QuestionModel } from "../../model/QuestionModel";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { resolveInputComponent, resolveQuickFormService } from "../../services";
-import { quickformtokens } from "../../style/quickformtokens";
+import { quickformtokens } from "../../style/QuickFormTokensDefinition";
 
 type QuestionProps = {
     model: QuestionModel;

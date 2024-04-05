@@ -3,7 +3,7 @@ import "../services";
 import React, { useMemo, useReducer } from "react";
 import { quickformReducer, QuickFormContext, defaultState } from "../state";
 import { ErrorPopup, QuickFormContainer } from "../components";
-import { QuickFormTokens, defineQuickFormTokens } from "../style/quickformtokens";
+import { QuickFormTokens, defineQuickFormTokens } from "../style/QuickFormTokensDefinition";
 import { QuickFormDefinition } from "../model";
 import { resolveQuickFormService } from "../services/QuickFormServices";
 

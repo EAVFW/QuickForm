@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDelayedClickListener } from "../../hooks";
 import { useQuickForm } from "../../state/QuickFormContext";
-import { quickformtokens } from '../../style/quickformtokens';
+import { quickformtokens } from '../../style/QuickFormTokensDefinition';
 
 type ErrorPopupProps = {
     readonly message: string;

@@ -4,7 +4,7 @@ import { Button } from '../../button/Button';
 import { useHandleEnterKeypress } from '../../../hooks';
 import { Slide } from '../../slide/Slide';
 import { Checkmark } from '../../icons';
-import { quickformtokens } from '../../../style/quickformtokens';
+import { quickformtokens } from '../../../style/QuickFormTokensDefinition';
 import { mergeClasses } from '@griffel/react';
 
 

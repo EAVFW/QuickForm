@@ -2,7 +2,7 @@
 
 import { makeStaticStyles, makeStyles, mergeClasses, shorthands } from "@griffel/react"
 import { CSSProperties, PropsWithChildren } from "react";
-import { quickformtokens } from "../../style/quickformtokens";
+import { quickformtokens } from "../../style/QuickFormTokensDefinition";
 
 const useQuickFormContainerStyles = makeStyles({
     root: {

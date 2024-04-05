@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import styles from "./Paragraph.module.css";
 import React from "react";
-import { quickformtokens } from "../../style/quickformtokens";
+import { quickformtokens } from "../../style/QuickFormTokensDefinition";
 
 
 type ParagraphProps = {
