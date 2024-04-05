@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuickForm } from '../../state/QuickFormContext';
 import { ArrowUpIcon } from '../icons/ArrowUpIcon';
 import { ArrowDownIcon } from '../icons/ArrowDownIcon';
 import { quickformtokens } from '../../style/quickformtokens';
 import { makeStyles, mergeClasses } from "@griffel/react";
-interface Props {
+
+type NavigationButtonProps = {
     className?: string;
     style?: React.CSSProperties;
 }
@@ -14,7 +15,8 @@ const useNavigationStyles = makeStyles({
 
     button: {
         ':hover': {
-            stroke: quickformtokens.onBackgroundDarker300
+            // stroke: quickformtokens.onBackgroundDarker300
+            stroke: quickformtokens.onBackground
         },
         stroke: quickformtokens.onBackground
     },
@@ -22,10 +24,11 @@ const useNavigationStyles = makeStyles({
 
     },
     disabled: {
-        stroke: quickformtokens.onBackgroundDarker800
+        // stroke: quickformtokens.onBackgroundDarker800
+        stroke: quickformtokens.onBackground
     }
 });
-export const NavigationButton: React.FC<Props> = ({ className, style }) => {
+export const NavigationButton: React.FC<NavigationButtonProps> = ({ className, style }) => {
     const styles = useNavigationStyles();
 
     const { goToNextSlide, goToPrevSlide, state } = useQuickForm();
