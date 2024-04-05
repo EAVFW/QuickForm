@@ -46,6 +46,9 @@ type QuickFormTokensBase = {
     questionInputFontSize: FontSize,
 
     /* Structural properties */
+    questionTopMargin: string;
+    questionBorderRadius: string;
+    questionPadding: string;
     questionInputGap: Gap,
     gap1: Gap,
     gap2: Gap,

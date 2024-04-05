@@ -2,7 +2,7 @@ import React from 'react';
 import { QuickFormDefinition } from '../../core/src/model';
 import testdata from "./data/allInputControlsMultipleSlidesTest2.json";
 import { QuickFormProvider } from '../../core/src/state';
-import { QuickForm } from '../../core/src/components';
+import { NavigationButton, QuickForm } from '../../core/src/components';
 import "./components/buttons-input/ButtonsInput";
 import "./components/checkbox-input/CheckboxInput";
 import "./components/radio-input/RadioInput";
@@ -13,6 +13,10 @@ export const App = () => {
         <div style={containerStyling}>
             <QuickFormProvider definition={testdata as QuickFormDefinition} payload={{}} >
                 <QuickForm />
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+                    <NavigationButton />
+                </div>
             </QuickFormProvider>
         </div>
     );

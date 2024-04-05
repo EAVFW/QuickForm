@@ -43,7 +43,7 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     onSecondary: '#000000',
 
     fontFamily: 'var(--chivo), Monaco, Consolas',
-    headlineFontSize:'2rem',
+    headlineFontSize: '2rem',
     paragraphFontSize: '1.3rem',
     paragraphMobileFontSize: '1.9rem',
     btnFontSize: '2rem',
@@ -58,6 +58,9 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     questionInputGap: "3.6rem",
     questionPlaceholderColor: 'color-mix(in srgb, var(--on-surface) 80%, black)',
 
+    questionTopMargin: '15px',
+    questionBorderRadius: '15px',
+    questionPadding: '10px',
     gap1: '0.5rem',
     gap2: '1rem',
     gap4: '2rem',

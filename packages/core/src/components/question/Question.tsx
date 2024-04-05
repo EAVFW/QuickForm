@@ -12,10 +12,13 @@ type QuestionProps = {
 }
 
 const questionStyling: React.CSSProperties = {
+    marginTop: quickformtokens.questionTopMargin,
     maxWidth: '72rem',
     transition: "transform 0.3s ease-out",
     minHeight: '100px',
-    color: quickformtokens.onSurface
+    color: quickformtokens.onSurface,
+    borderRadius: quickformtokens.questionBorderRadius,
+    padding: quickformtokens.questionPadding
 }
 
 export const Question: React.FC<QuestionProps> = ({ model, style }) => {
