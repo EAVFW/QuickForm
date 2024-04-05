@@ -1,10 +1,7 @@
 "use client";
 import "../services";
-import React from "react";
-import { useMemo, useReducer } from "react";
-import { defaultState } from "./QuickformState";
-import { quickformReducer } from "./QuickformReducer";
-import { QuickFormContext } from "./QuickFormContext";
+import React, { useMemo, useReducer } from "react";
+import { quickformReducer, QuickFormContext, defaultState } from "../state";
 import { ErrorPopup, QuickFormContainer } from "../components";
 import { QuickFormTokens, defineQuickFormTokens } from "../style/quickformtokens";
 import { QuickFormDefinition } from "../model";
@@ -19,9 +16,20 @@ type QuickFormProviderProps = {
     onSubmitAsync?: (formdata: any) => Promise<string>,
 }
 
-export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload, tokens, asContainer, onSubmitAsync = async (data) => { return "" } }) => {
+export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
+    {
+        children,
+        definition,
+        payload,
+        tokens,
+        asContainer,
+        onSubmitAsync = async (data) => { return "" }
+    }
+) => {
 
+    const logger = resolveQuickFormService("logger");
     const cssVariables = defineQuickFormTokens(tokens ?? {}, definition?.layout?.tokens ?? {});
+    logger.log("cssVariables", cssVariables);
     const transform = resolveQuickFormService("modeltransformer");
     const defaultStateObj = useMemo(() => { return defaultState(transform(definition, payload), definition.layout) }, []);
     const [state, dispatch] = useReducer(quickformReducer, defaultStateObj);
