@@ -41,7 +41,7 @@ export const ErrorPopup: React.FC<ErrorPopupProps> = ({ message }: ErrorPopupPro
     const errorStyle: React.CSSProperties = {
         alignItems: 'flex-end',
         animation: isVisible ? 'slide-up 0.35s linear 1 forwards' : '',
-        backgroundColor: quickformtokens.surface,
+        backgroundColor: quickformtokens.error,
         borderRadius: '3px',
         color: quickformtokens.onError,
         display: 'flex',

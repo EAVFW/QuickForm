@@ -32,6 +32,7 @@ type QuickFormTokensBase = {
 
     /* Typography */
     fontFamily: string,
+    headlineFontSize: FontSize;
     paragraphFontSize: FontSize;
     paragraphMobileFontSize: FontSize;
     btnFontSize: FontSize,

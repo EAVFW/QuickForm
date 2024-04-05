@@ -1,6 +1,6 @@
 import React from 'react';
 import { QuickFormDefinition } from '../../core/src/model';
-import testdata from "./data/allInputControlsTest.json";
+import testdata from "./data/allInputControlsMultipleSlidesTest2.json";
 import { QuickFormProvider } from '../../core/src/state';
 import { QuickForm } from '../../core/src/components';
 import "./components/buttons-input/ButtonsInput";
@@ -10,21 +10,10 @@ import "./components/slider-input/SliderInput";
 
 export const App = () => {
     return (
-        <div id="Container" style={containerStyling}>
-
-            <div id="QuickForm" style={quickformStyling}>
-                {/* <h1 style={{ fontWeight: '800', whiteSpace: 'nowrap' }}>
-                    BEREGN PRISEN FOR RENSNING AF FLISER
-                </h1>
-                <h2>
-                    Få prisen med det samme
-
-                </h2> */}
-                <QuickFormProvider definition={testdata as QuickFormDefinition} payload={{}} >
-                    <QuickForm />
-                </QuickFormProvider>
-            </div>
-
+        <div style={containerStyling}>
+            <QuickFormProvider definition={testdata as QuickFormDefinition} payload={{}} >
+                <QuickForm />
+            </QuickFormProvider>
         </div>
     );
 };

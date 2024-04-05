@@ -43,7 +43,7 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     onSecondary: '#000000',
 
     fontFamily: 'var(--chivo), Monaco, Consolas',
-
+    headlineFontSize:'2rem',
     paragraphFontSize: '1.3rem',
     paragraphMobileFontSize: '1.9rem',
     btnFontSize: '2rem',

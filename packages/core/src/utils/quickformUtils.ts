@@ -6,7 +6,9 @@ export const findQuestionByLogicalName = (logicalName: string, questions: Questi
 
 export const findQuestionByKey = (questionKey: string, questions: QuestionModel[]): QuestionModel | undefined => { return questions.find(q => q.questionKey === questionKey); };
 
-export const isSlideAnswered = (slide: SlideModel, acceptIntermediateAnswers = false): boolean => (slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.answered || (acceptIntermediateAnswers && q.output !== undefined && q.output !== '' && q.validationResult?.isValid)));
+export const isSlideAnswered = (slide: SlideModel, acceptIntermediateAnswers = false): boolean => {
+    return slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.answered || (acceptIntermediateAnswers && q.output !== undefined && q.output !== '' && q.validationResult?.isValid))
+};
 
 export const isSlideVisited = (slide: SlideModel): boolean => (slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.visited));
 

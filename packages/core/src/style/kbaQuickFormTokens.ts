@@ -7,9 +7,9 @@ export const kbaQuickFormTokens: QuickFormTokens = {
     success: '#4CAF50',
     info: '#2196F3',
 
-    primary: '#1565C0',
+    primary: '#008000',
     primaryLighter: 'color-mix(in srgb, var(--primary) 80%, white)',
-    secondary: '#1E88E5',
+    secondary: '#008000',
 
     background: '#FAFAFA',
     onBackground: '#212121',
@@ -45,7 +45,7 @@ export const kbaQuickFormTokens: QuickFormTokens = {
 
     fontFamily: 'Monaco, "Lucida Console", monospace',
 
-
+    headlineFontSize: '2rem',
     paragraphFontSize: '1rem',
     paragraphMobileFontSize: '1rem',
     btnFontSize: '1.1rem',

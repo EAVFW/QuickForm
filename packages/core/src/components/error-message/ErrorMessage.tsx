@@ -11,8 +11,8 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
         color: 'red',
         textDecoration: 'underline',
         marginTop: '4px',
-        fontSize: '0.875rem',
-        fontWeight: 'normal',
+        fontSize: '1rem',
+        fontWeight: 'bold',
     };
 
     return (

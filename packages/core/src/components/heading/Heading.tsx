@@ -16,8 +16,8 @@ export const Heading: React.FC<HeadingProps> = ({ children, label, style = {} }:
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
 
     const headingStyles: React.CSSProperties = {
-        fontSize: quickformtokens.questionTextFontSize,
-        fontWeight: 'unset',
+        fontSize: quickformtokens.headlineFontSize,
+        fontWeight: 'bold',
         color: quickformtokens.onSurface,
         position: "relative"
     }
