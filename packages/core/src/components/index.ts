@@ -1,6 +1,7 @@
 export { Button } from "./button/Button";
 export { Divider } from "./divider/Divider";
 export { Ending } from "./ending/Ending";
+export { ErrorPopup } from "./error-popup/ErrorPopup";
 export { ErrorMessage } from "./error-message/ErrorMessage";
 export { Heading } from "./heading/Heading";
 export { NavigationButton } from "./navigation-button/NavigationButton";

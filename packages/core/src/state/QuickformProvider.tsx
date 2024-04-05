@@ -3,11 +3,12 @@ import { useMemo, useReducer } from "react";
 import { quickformReducer } from "./QuickformReducer";
 import { defaultState } from "./QuickformState";
 import { QuickFormContext } from "./QuickFormContext";
-import { ErrorMessage, QuickFormContainer } from "../components";
+import { ErrorPopup, QuickFormContainer } from "../components";
 import { QuickFormDefinition, defaultQuickFormTokens } from "../model";
 import React from "react";
 import "../services"
 import { resolveQuickFormService } from "../services/QuickFormServices";
+import { QuestionActionHandler } from "./action-handlers/QuestionActionHandler";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
@@ -24,9 +25,7 @@ function defineVariables<T extends {}>(obj: T) {
             [`--${k.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`, value]).filter(([k, v]) => v !== `var(${k})`)) as { [key: string]: string }
 };
 
-export const defineQuickFormTokens = (...tokens: Array<Partial<typeof defaultQuickFormTokens>>) => {
-    return defineVariables(tokens.reduceRight((n, o) => ({ ...o, ...n }), {}) as typeof defaultQuickFormTokens);
-}
+export const defineQuickFormTokens = (...tokens: Array<Partial<typeof defaultQuickFormTokens>>) => defineVariables(tokens.reduceRight((n, o) => ({ ...o, ...n }), {}) as typeof defaultQuickFormTokens);
 
 export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload, tokens, asContainer, onSubmitAsync = async (data) => { return "" } }) => {
 
@@ -36,29 +35,23 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
 
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => {
-
-        dispatch({ type: 'ANSWER_INTERMEDIATE_QUESTION' });
-
-        //DISCUSS - we cant have logic here as the state is updated
-        //The logic should then be in the NEXT_SLIDE _ACTION ?
-
-        //if (isSlideAnswered(getCurrentSlide())) {
-        //    dispatch({ type: 'NEXT_SLIDE' });
-        //} else {
-        //    dispatch({ type: "SET_ERROR_MSG", msg: "All questions must be answered" });
-        //}
-
-        dispatch({ type: 'NEXT_SLIDE' }); //Moved EROR CHECK INTO NEXT_SLIDE
+        dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch });
+        dispatch({ type: 'NEXT_SLIDE' });
     };
+    // const validateAndAnswerQuestion = async (logicalName: string, output: any) => {
+    //     const validationResult = await QuestionActionHandler.validateInput(state, logicalName);
+    //     dispatch({ type: 'ANSWER_QUESTION', logicalName, output, dispatch, intermediate: false, validationResult })
+    // }
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
     const answerQuestion = (logicalName: string, output: any, intermediate = false) => {
-        dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output, intermediate });
-    };
+        dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch, logicalName });
+        dispatch({ type: 'ANSWER_QUESTION', logicalName: logicalName, output: output, dispatch, intermediate });
+    }
     const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
     const setErrorMsg = (msg: string) => { dispatch({ type: "SET_ERROR_MSG", msg: msg }) };
     const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => {
         const currSlide = state.slides[state.currIdx];
-        return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName
+        return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName;
     }
     const getCurrentSlide = () => (state.slides[state.currIdx]);
     const variables = defineQuickFormTokens(defaultQuickFormTokens, tokens ?? {}, definition?.layout?.tokens ?? {});
@@ -75,16 +68,17 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
             setErrorMsg,
             isFirstQuestionInCurrentSlide,
             getCurrentSlide,
-            onSubmitAsync: onSubmitAsync
+            onSubmitAsync,
+            // validateAndAnswerQuestion
         }}>
             {asContainer ? (
                 <QuickFormContainer style={variables}>
-                    <ErrorMessage message={state.errorMsg} />
+                    <ErrorPopup message={state.errorMsg} />
                     {children}
                 </QuickFormContainer>
             ) : (
                 <div style={variables}>
-                    <ErrorMessage message={state.errorMsg} />
+                    <ErrorPopup message={state.errorMsg} />
                     {children}
                 </div>
             )

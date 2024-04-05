@@ -1,9 +1,7 @@
 import { IQuickFormLogger, registerQuickFormService } from "../QuickFormServices";
 
-
 class DefaultLogger implements IQuickFormLogger {
-
-
+    
     private replaceLiteral(body: string, ...args: any[]) {
         var iterLiteral = "{(.*?)}";
         let i = 0;

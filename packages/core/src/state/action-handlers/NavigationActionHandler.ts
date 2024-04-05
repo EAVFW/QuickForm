@@ -5,10 +5,8 @@ import { resolveQuickFormService } from "../../services";
 export class NavigationActionHandler {
     private static handleSlideChange = (state: QuickformState, direction: 'next' | 'prev') => {
         const logger = resolveQuickFormService("logger");
-
         const currIdx = state.currIdx;
         const slides = state.slides;
-
         logger.log("handle slide change: {currentIdx}", currIdx);
 
         let newIdx = currIdx;
@@ -48,19 +46,15 @@ export class NavigationActionHandler {
     static handleNextSlideAction = (state: QuickformState) => {
 
         if (isSlideAnswered(getCurrentSlide(state))) {
-            return this.computeProgress(NavigationActionHandler.handleSlideChange(state, 'next'));
+            return this.computeProgress(NavigationActionHandler.handleSlideChange({ ...state, errorMsg: "" }, 'next'));
         } else {
             return { ...state, errorMsg: "All questions must be answered" };
-
         }
-
-
-        
     }
 
-    static handlePrevSlideAction = (state: QuickformState) => {
-        return NavigationActionHandler.handleSlideChange(state, 'prev');
-    }
+    static handlePrevSlideAction = (state: QuickformState) => NavigationActionHandler.handleSlideChange(state, 'prev');
+
+
     static handleSetIndexAction = (state: QuickformState, newIndex: number): QuickformState => {
         if (newIndex >= 0 && newIndex < state.slides.length) {
             return {
