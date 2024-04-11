@@ -4,7 +4,7 @@ import { Button } from '../../button/Button';
 import { useHandleEnterKeypress } from '../../../hooks';
 import { Slide } from '../../slide/Slide';
 import { Checkmark } from '../../icons';
-import { quickformtokens } from '../../../style/quickformtokens';
+import { quickformtokens } from '../../../style/quickFormTokensDefinition';
 import { mergeClasses } from '@griffel/react';
 
 
@@ -20,7 +20,6 @@ export const SlideRenderer: React.FC = () => {
     const [className, setClassName] = useState(state.classes.slide);
     let nextAllowedEffectTime = useRef(new Date().getTime());
     useEffect(() => {
-        console.log("SLIDERENDER", state.currIdx);
         const timeout = setTimeout(() => {
 
             setClassName(mergeClasses(state.classes.slide, state.classes.slideIsIn));
@@ -40,7 +39,7 @@ export const SlideRenderer: React.FC = () => {
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}
                 onClick={goToNextSlide}
                 showPressEnter={!enterKeyDisabled}
-                children={<>OK<Checkmark style={{ marginLeft: quickformtokens.gap1 }} color={quickformtokens.onSurface} size={24} /></>} />
+                children={<>OK<Checkmark style={{ height: '100%', marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={24} /></>} />
         </div>
     );
 };

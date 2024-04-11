@@ -1,61 +1,23 @@
 import React from 'react';
-import { useState } from 'react';
 import { QuickFormDefinition } from '../../core/src/model';
-import testdata from "./data/allInputControlsTest.json";
+import testdata from "./data/allInputControlsMultipleSlidesTest2.json";
 import { QuickFormProvider } from '../../core/src/state';
-import { Editor } from '@monaco-editor/react';
-import { Button, QuickForm } from '../../core/src/components';
-// import "./components/slider/SliderInput";
+import { NavigationButton, QuickForm } from '../../core/src/components';
 import "./components/buttons-input/ButtonsInput";
 import "./components/checkbox-input/CheckboxInput";
 import "./components/radio-input/RadioInput";
 import "./components/slider-input/SliderInput";
 
 export const App = () => {
-    const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(testdata as QuickFormDefinition);
-    const [hackToChangeQuickForm, setHackToChangeQuickForm] = useState(0);
-    const [editorValue, setEditorValue] = useState<string>(JSON.stringify(testdata));
-
-    const onChangeEditorValue = (value: string) => {
-        setEditorValue(value);
-    }
-
-    const updateQuickForm = () => {
-        setSelectedTemplate(() => JSON.parse(editorValue));
-        setHackToChangeQuickForm(() => hackToChangeQuickForm + 1);
-    }
-
     return (
-        <div id="Container" style={containerStyling}>
+        <div style={containerStyling}>
+            <QuickFormProvider definition={testdata as QuickFormDefinition} payload={{}} >
+                <QuickForm />
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 
-            <div id="Editor" style={editorStyling}>
-                <Editor
-                    defaultLanguage='json'
-                    defaultValue={JSON.stringify(selectedTemplate)}
-                    onChange={onChangeEditorValue}
-                    options={{
-                    }}
-                    onMount={async (editor) => {
-                        setTimeout(() => editor.getAction('editor.action.formatDocument').run(), 100);
-                    }}
-                    theme="vs-dark"
-                />
-                <Button onClick={updateQuickForm} style={{ margin: 'auto' }} > Opdater QuickForm </Button>
-            </div>
-
-            <div id="QuickForm" style={quickformStyling}>
-                {/* <h1 style={{ fontWeight: '800', whiteSpace: 'nowrap' }}>
-                    BEREGN PRISEN FOR RENSNING AF FLISER
-                </h1>
-                <h2>
-                    Få prisen med det samme
-
-                </h2> */}
-                <QuickFormProvider key={hackToChangeQuickForm} definition={selectedTemplate} payload={{}} >
-                    <QuickForm />
-                </QuickFormProvider>
-            </div>
-
+                    <NavigationButton />
+                </div>
+            </QuickFormProvider>
         </div>
     );
 };
@@ -65,19 +27,13 @@ const containerStyling: React.CSSProperties = {
     minHeight: '1200px',
     padding: '10px',
     display: 'flex',
-}
-
-const editorStyling: React.CSSProperties = {
-    margin: 'auto',
-    width: '50%',
-    height: '80vh'
+    justifyContent: 'center',
+    alignItems: 'center',
 }
 
 const quickformStyling: React.CSSProperties = {
     display: 'flex',
     flexDirection: "column",
     marginTop: '20px',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '50%'
+
 }

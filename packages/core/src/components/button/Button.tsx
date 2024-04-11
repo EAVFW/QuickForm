@@ -1,13 +1,12 @@
 "use client";
 import React, { PropsWithChildren } from "react";
-import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
-import { quickformtokens } from "../../style/quickformtokens";
+import { MouseEventHandler, useEffect, useState } from "react";
+import { quickformtokens } from "../../style/quickFormTokensDefinition";
 import { makeStyles, shorthands } from "@griffel/react";
 
 type BtnContainerProps = {
     readonly className?: string;
     readonly style?: React.CSSProperties;
-   
     readonly disabled?: boolean;
     readonly showPressEnter?: boolean;
     readonly onClick?: MouseEventHandler;
@@ -18,28 +17,26 @@ const useButtonStyles = makeStyles({
     container: {
         display: 'flex',
         alignItems: 'center',
-        ...shorthands.gap( '12.5px'),
-
+        ...shorthands.gap(quickformtokens.gap1),
         marginTop: '30px',
     },
     button: {
-        color: quickformtokens.onSurface,
+        color: quickformtokens.onPrimary,
         backgroundColor: quickformtokens.primary,
-        ...shorthands.border('thin','solid',quickformtokens.primary),
+        ...shorthands.border('thin', 'solid', quickformtokens.primary),
         ...shorthands.borderRadius('8px'),
         cursor: 'pointer',
-        fontSize: '2rem',
-        fontWeight: 700,
+        fontSize: quickformtokens.btnFontSize,
+        fontWeight: quickformtokens.btnFontWeight,
         ...shorthands.padding('10px', '14px'),
         ':hover': {
-            color: quickformtokens.white,
+            color: quickformtokens.onPrimary,
             backgroundColor: quickformtokens.primaryLighter
         }
     }
 })
 
-export const Button: React.FC<PropsWithChildren< BtnContainerProps>> = ({ children, showPressEnter, onClick, disabled, visible, style }) => {
-   
+export const Button: React.FC<PropsWithChildren<BtnContainerProps>> = ({ children, showPressEnter, onClick, disabled, visible, style }) => {
 
     if (typeof visible !== "undefined" && visible === false) {
         return (<></>);
@@ -69,28 +66,16 @@ export const Button: React.FC<PropsWithChildren< BtnContainerProps>> = ({ childr
                 disabled={disabled}
                 type="button"
                 onClick={onClick}
-               
+
             >
                 {children}
 
             </button>
             {!disabled && !isOnMobile && showPressEnter && (
-                <span style={spanStyle}>
-                    <>Tryk <strong style={strongStyle}>Enter ↵</strong></>
+                <span style={{ color: quickformtokens.onPrimary, fontSize: quickformtokens.btnEnterKeyTextFontSize }}>
+                    <>Tryk <strong style={{ fontWeight: 'bolder', letterSpacing: '0.04em', }}>Enter ↵</strong></>
                 </span>
             )}
         </div>
     );
 }
-
- 
-const spanStyle = {
-    color: quickformtokens.onSurface,
-    fontSize: '1.25rem',
-};
-
-const strongStyle = {
-    fontWeight: 'bolder',
-    letterSpacing: '0.04em',
-};
- 

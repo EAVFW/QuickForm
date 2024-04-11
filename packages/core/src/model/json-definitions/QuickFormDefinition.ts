@@ -4,7 +4,6 @@ import { QuickFormQuestionsDefinition } from "./QuickFormQuestionsDefinition";
 import { QuickFormSubmitDefinition } from "./QuickFormSubmitDefinition";
 import { LayoutDefinition } from "./Layout";
 
-
 export type QuickFormDefinition = {
     intro?: IntroModel;
     questions: QuickFormQuestionsDefinition,
@@ -12,5 +11,3 @@ export type QuickFormDefinition = {
     ending: EndingModel;
     layout?: LayoutDefinition;
 }
-
-

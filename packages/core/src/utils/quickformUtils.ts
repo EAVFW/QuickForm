@@ -6,7 +6,9 @@ export const findQuestionByLogicalName = (logicalName: string, questions: Questi
 
 export const findQuestionByKey = (questionKey: string, questions: QuestionModel[]): QuestionModel | undefined => { return questions.find(q => q.questionKey === questionKey); };
 
-export const isSlideAnswered = (slide: SlideModel, acceptIntermediateAnswers = false): boolean => (slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.answered || (acceptIntermediateAnswers && q.output !== undefined && q.output !== '' && q.validationResult?.isValid)));
+export const isSlideAnswered = (slide: SlideModel, acceptIntermediateAnswers = false): boolean => {
+    return slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.answered || (acceptIntermediateAnswers && q.output !== undefined && q.output !== '' && q.validationResult?.isValid))
+};
 
 export const isSlideVisited = (slide: SlideModel): boolean => (slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.visited));
 
@@ -36,4 +38,18 @@ export const allQuestionsMap = (slides: SlideModel[]): { [key: string]: Question
 
 export const isIOS = () => {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+};
+
+/**
+ * Converts camelCase object keys to kebab-case.
+ */
+export function camelToKebabCase<T extends {}>(obj: T) {
+    return Object.fromEntries(Object.entries(obj).map(([k, value]) =>
+        [k, `var(--${k.replace(/[A-Z]/g, m => "-" + m.toLowerCase())})`])) as { [P in keyof T]: string }
+};
+
+export function defineVariables<T extends {}>(obj: T) {
+    return Object.fromEntries(Object.entries(obj)
+        .map(([k, value]) =>
+            [`--${k.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`, value]).filter(([k, v]) => v !== `var(${k})`)) as { [key: string]: string }
 };

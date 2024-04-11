@@ -7,7 +7,6 @@ export type InputProps<TProps = InputPropertiesTypes> = {
     questionModel: QuestionModel<TProps>;
 }
 
-//const Dropdown = "dropdown";
 const Email = "email";
 const Multilinetext = "multilinetext";
 const Radio = "radio";
@@ -39,21 +38,26 @@ export type InputPropertiesTypes =
 export type ButtonsProperties = {
     inputType: typeof Buttons;
     options: {
-        [key: string]: string;
+        key: string | undefined;
+        label: string;
     }
+    defaultValue?: string;
 }
 
 
 export type PhoneProperties = {
     inputType: typeof Phone;
+    defaultValue?: number;
 }
 
 export type EmailProperties = {
     inputType: typeof Email;
+    defaultValue?: string;
 }
 
 export type MultilineProperties = {
     inputType: typeof Multilinetext;
+    defaultValue?: string;
 }
 
 export type RadioProperties = {
@@ -61,6 +65,7 @@ export type RadioProperties = {
     options: {
         [key: string]: string;
     }
+    defaultValue?: boolean;
     direction?: "horizontal" | "vertical";
 }
 
@@ -69,8 +74,10 @@ export type SliderProperties = {
     min: number;
     max: number;
     step: number;
+    defaultValue?: number;
 }
 
 export type TextProperties = {
     inputType: typeof Text;
+    defaultValue?: string;
 }

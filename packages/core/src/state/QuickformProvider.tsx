@@ -1,34 +1,36 @@
 "use client";
-import { useMemo, useReducer } from "react";
-import { quickformReducer } from "./QuickformReducer";
-import { defaultState } from "./QuickformState";
-import { QuickFormContext } from "./QuickFormContext";
+import "../services";
+import React, { useMemo, useReducer } from "react";
+import { quickformReducer, QuickFormContext, defaultState } from "../state";
 import { ErrorPopup, QuickFormContainer } from "../components";
-import { QuickFormDefinition, defaultQuickFormTokens } from "../model";
-import React from "react";
-import "../services"
+import { QuickFormTokens, defineQuickFormTokens } from "../style/quickFormTokensDefinition";
+import { QuickFormDefinition } from "../model";
 import { resolveQuickFormService } from "../services/QuickFormServices";
-import { QuestionActionHandler } from "./action-handlers/QuestionActionHandler";
+import { kbaQuickFormTokens } from "../style/kbaQuickFormTokens";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
     definition: QuickFormDefinition;
-    tokens?: Partial<typeof defaultQuickFormTokens>;
+    tokens?: Partial<QuickFormTokens>;
     payload: any;
     asContainer?: boolean,
     onSubmitAsync?: (formdata: any) => Promise<string>,
 }
 
-function defineVariables<T extends {}>(obj: T) {
-    return Object.fromEntries(Object.entries(obj)
-        .map(([k, value]) =>
-            [`--${k.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}`, value]).filter(([k, v]) => v !== `var(${k})`)) as { [key: string]: string }
-};
+export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
+    {
+        children,
+        definition,
+        payload,
+        tokens = kbaQuickFormTokens,
+        asContainer,
+        onSubmitAsync = async (data) => { return "" }
+    }
+) => {
 
-export const defineQuickFormTokens = (...tokens: Array<Partial<typeof defaultQuickFormTokens>>) => defineVariables(tokens.reduceRight((n, o) => ({ ...o, ...n }), {}) as typeof defaultQuickFormTokens);
-
-export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, definition, payload, tokens, asContainer, onSubmitAsync = async (data) => { return "" } }) => {
-
+    const logger = resolveQuickFormService("logger");
+    const cssVariables = defineQuickFormTokens(tokens ?? {}, definition?.layout?.tokens ?? {});
+    logger.log("cssVariables", cssVariables);
     const transform = resolveQuickFormService("modeltransformer");
     const defaultStateObj = useMemo(() => { return defaultState(transform(definition, payload), definition.layout) }, []);
     const [state, dispatch] = useReducer(quickformReducer, defaultStateObj);
@@ -38,10 +40,6 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
         dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch });
         dispatch({ type: 'NEXT_SLIDE' });
     };
-    // const validateAndAnswerQuestion = async (logicalName: string, output: any) => {
-    //     const validationResult = await QuestionActionHandler.validateInput(state, logicalName);
-    //     dispatch({ type: 'ANSWER_QUESTION', logicalName, output, dispatch, intermediate: false, validationResult })
-    // }
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };
     const answerQuestion = (logicalName: string, output: any, intermediate = false) => {
         dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch, logicalName });
@@ -51,10 +49,9 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
     const setErrorMsg = (msg: string) => { dispatch({ type: "SET_ERROR_MSG", msg: msg }) };
     const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => {
         const currSlide = state.slides[state.currIdx];
-        return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName;
+        return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName && currSlide.questions[0].visited !== true;
     }
     const getCurrentSlide = () => (state.slides[state.currIdx]);
-    const variables = defineQuickFormTokens(defaultQuickFormTokens, tokens ?? {}, definition?.layout?.tokens ?? {});
 
     return (
         <QuickFormContext.Provider value={{
@@ -69,15 +66,15 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = ({ children, 
             isFirstQuestionInCurrentSlide,
             getCurrentSlide,
             onSubmitAsync,
-            // validateAndAnswerQuestion
         }}>
+
             {asContainer ? (
-                <QuickFormContainer style={variables}>
+                <QuickFormContainer style={cssVariables}>
                     <ErrorPopup message={state.errorMsg} />
                     {children}
                 </QuickFormContainer>
             ) : (
-                <div style={variables}>
+                <div style={cssVariables}>
                     <ErrorPopup message={state.errorMsg} />
                     {children}
                 </div>

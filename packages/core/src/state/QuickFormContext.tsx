@@ -16,7 +16,6 @@ interface IQuickFormContext {
     isFirstQuestionInCurrentSlide: (questionLogicalName: string) => boolean;
     getCurrentSlide: () => SlideModel;
     onSubmitAsync: (formdata: any) => Promise<string>;
-    // validateAndAnswerQuestion: (logicalName: string, output: any) => Promise<void>;
 }
 
 export const QuickFormContext = React.createContext<IQuickFormContext>(
@@ -34,7 +33,6 @@ export const QuickFormContext = React.createContext<IQuickFormContext>(
             { questions: [], rows: [], isAnswered: false, addQuestion: () => ({ type: "question", ref: "" }) }
         ),
         onSubmitAsync: async (formdata) => { return "" },
-        // validateAndAnswerQuestion: async (logicalName, output) => { }
     }
 );
 

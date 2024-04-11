@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDelayedClickListener } from "../../hooks";
 import { useQuickForm } from "../../state/QuickFormContext";
-import { quickformtokens } from '../../style/quickformtokens';
+import { quickformtokens } from '../../style/quickFormTokensDefinition';
 
 type ErrorPopupProps = {
     readonly message: string;
@@ -25,7 +25,7 @@ export const ErrorPopup: React.FC<ErrorPopupProps> = ({ message }: ErrorPopupPro
     //    }
     //}
 
-   // useDelayedClickListener(resetErrorMessage);
+    // useDelayedClickListener(resetErrorMessage);
 
     useEffect(() => {
         if (message) {
@@ -41,7 +41,7 @@ export const ErrorPopup: React.FC<ErrorPopupProps> = ({ message }: ErrorPopupPro
     const errorStyle: React.CSSProperties = {
         alignItems: 'flex-end',
         animation: isVisible ? 'slide-up 0.35s linear 1 forwards' : '',
-        backgroundColor: 'var(--surface)',
+        backgroundColor: quickformtokens.error,
         borderRadius: '3px',
         color: quickformtokens.onError,
         display: 'flex',

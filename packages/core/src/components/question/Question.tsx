@@ -4,7 +4,7 @@ import { Paragraph, Heading, ErrorMessage } from "..";
 import { QuestionModel } from "../../model/QuestionModel";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { resolveInputComponent, resolveQuickFormService } from "../../services";
-import { quickformtokens } from "../../style/quickformtokens";
+import { quickformtokens } from "../../style/quickFormTokensDefinition";
 
 type QuestionProps = {
     model: QuestionModel;
@@ -12,11 +12,13 @@ type QuestionProps = {
 }
 
 const questionStyling: React.CSSProperties = {
+    marginTop: quickformtokens.questionTopMargin,
     maxWidth: '72rem',
     transition: "transform 0.3s ease-out",
     minHeight: '100px',
-    color: quickformtokens.onSurface
-    //  margin: '20px'
+    color: quickformtokens.onSurface,
+    borderRadius: quickformtokens.questionBorderRadius,
+    padding: quickformtokens.questionPadding
 }
 
 export const Question: React.FC<QuestionProps> = ({ model, style }) => {
@@ -56,7 +58,8 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
                     {
                         marginTop: quickformtokens.questionInputGap,
                         fontSize: quickformtokens.questionInputFontSize,
-                        fontFamily: quickformtokens.fontFamily
+                        // KBA - This should be defined at a global level...
+                        // fontFamily: quickformtokens.fontFamily
                     }
                 }
                 questionModel={model}
