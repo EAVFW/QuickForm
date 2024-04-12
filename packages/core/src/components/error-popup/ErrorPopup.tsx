@@ -1,6 +1,4 @@
-"use client";
 import React, { useState, useEffect } from 'react';
-import { useDelayedClickListener } from "../../hooks";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { quickformtokens } from '../../style/quickFormTokensDefinition';
 
@@ -8,65 +6,68 @@ type ErrorPopupProps = {
     readonly message: string;
 };
 
-export const ErrorPopup: React.FC<ErrorPopupProps> = ({ message }: ErrorPopupProps) => {
+export const ErrorPopup: React.FC<ErrorPopupProps> = ({ message }) => {
     const [isVisible, setIsVisible] = useState(false);
-    const { dispatch, state } = useQuickForm();
+    const [opacity, setOpacity] = useState(0);
+    const { dispatch } = useQuickForm();
 
-    /**
-     *  DISCUSS - What cases is there for resetting error and can it be handled in reducer all alone?. 
-     *  When an error is shown, upon next answer it can be cleared.
-     * Possible a dissmis button - but i dont think it should automatically just remove when clicked.
-     */
-
-
-    //const resetErrorMessage = () => {
-    //    if (state.errorMsg !== "") {
-    //        dispatch({ type: "SET_ERROR_MSG", msg: "" })
-    //    }
-    //}
-
-    // useDelayedClickListener(resetErrorMessage);
-
-    useEffect(() => {
-        if (message) {
-            setIsVisible(true);
-            setTimeout(() => setIsVisible(false), 350);
-        }
-    }, [message]);
-
-    if (message === "") {
-        return <></>;
+    const resetErrorPopup = () => {
+        dispatch({ type: 'SET_ERROR_MSG', msg: "" });
+        setIsVisible(false);
+        setOpacity(0);
     }
 
-    const errorStyle: React.CSSProperties = {
-        alignItems: 'flex-end',
-        animation: isVisible ? 'slide-up 0.35s linear 1 forwards' : '',
-        backgroundColor: quickformtokens.error,
-        borderRadius: '3px',
-        color: quickformtokens.onError,
-        display: 'flex',
-        fontSize: '1.5rem',
-        marginTop: '15px',
-        padding: '8px 12px',
-        width: 'max-content',
-    };
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (message) {
+            setIsVisible(true);
+            setOpacity(0);
+            setTimeout(() => setOpacity(1), 10);
 
-    const mobileErrorStyle: React.CSSProperties = {
-        ...errorStyle,
-        fontSize: '1.75rem',
-        marginTop: '22px',
+            timer = setTimeout(() => {
+                resetErrorPopup();
+            }, 3000);
+        } else {
+            resetErrorPopup();
+        }
+
+        return () => {
+            clearTimeout(timer);
+            setOpacity(0);
+        };
+    }, [message]);
+
+    if (!isVisible) return null;
+
+    const backdropStyle: React.CSSProperties = {
+        position: 'fixed',
+        top: 0,
+        left: 0,
         width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
     };
 
-    const imgStyle: React.CSSProperties = {
-        marginRight: '4px',
+    const toastStyle: React.CSSProperties = {
+        padding: '20px',
+        borderRadius: '10px',
+        backgroundColor: quickformtokens.error,
+        color: quickformtokens.onError,
+        fontSize: '16px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        opacity: opacity,
+        transition: 'opacity 0.5s ease-in',
     };
 
     return (
-        <div style={window.innerWidth <= 599 ? mobileErrorStyle : errorStyle}>
-            {/* If there's an image you want to include inside the error message */}
-            {/* <img src="path_to_your_image" alt="Error" style={imgStyle} /> */}
-            {message}
+        <div style={backdropStyle} onClick={resetErrorPopup}>
+            <div style={toastStyle} onClick={(e) => e.stopPropagation()}>
+                {message}
+            </div>
         </div>
     );
 };
