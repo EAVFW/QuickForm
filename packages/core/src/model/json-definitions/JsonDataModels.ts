@@ -1,4 +1,4 @@
-import { ButtonsProperties, EmailProperties, MultilineProperties, RadioProperties, SliderProperties, TextProperties } from "../InputType";
+import { EmailProperties, MultilineProperties, TextProperties } from "../InputType";
 
 type QuickFormQuestionDefinition = {
 
@@ -49,7 +49,7 @@ type QuickFormQuestionDefinition = {
 
     /**
      * All questions support conditional rendering, allowing one to specify a rule and a engine to execute it.
-     * TODO: the rule should be of type any, because its the engine (type) that knows its data type.
+     * The rule is of type any, because its the engine (type) that knows its data type.
      */
     visible?: {
         engine: string;
@@ -68,12 +68,7 @@ type QuickFormQuestionDefinition = {
  * 
  * TODO - need to be able to extend this in a meaning full way.
  */
-export type QuestionJsonModel =
-    QuickFormQuestionDefinition |
-    QuickFormQuestionDefinition & ButtonsProperties |
-    //  QuickFormQuestionDefinition & DropDownProperties |
-    QuickFormQuestionDefinition & EmailProperties |
-    QuickFormQuestionDefinition & MultilineProperties |
-    QuickFormQuestionDefinition & RadioProperties |
-    QuickFormQuestionDefinition & SliderProperties |
-    QuickFormQuestionDefinition & TextProperties;
+export type QuestionJsonModel = QuickFormQuestionDefinition
+    | QuickFormQuestionDefinition & EmailProperties
+    | QuickFormQuestionDefinition & MultilineProperties
+    | QuickFormQuestionDefinition & TextProperties;

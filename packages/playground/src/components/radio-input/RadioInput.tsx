@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { InputComponentType, registerInputComponent, useQuickForm } from "@eavfw/quickform-core";
-import { RadioProperties } from "@eavfw/quickform-core/src/model";
 import { radioInputSchema } from "./RadioInputSchema";
 
+type RadioProperties = {
+    inputType: "radio";
+    options: {
+        [key: string]: string;
+    }
+    direction?: "horizontal" | "vertical";
+}
 
 export const RadioInput: InputComponentType<RadioProperties> = ({ questionModel, options, direction, }) => {
     const { answerQuestion } = useQuickForm();

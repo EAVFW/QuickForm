@@ -68,7 +68,7 @@ export class QuestionActionHandler {
     };
 
     static startQuestionValidation = (state: QuickformState, logicalName: string, timestamp: number) => {
-        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides)).validationResult;
+        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides))?.validationResult;
 
         return this.updateQuestionProperties(state, logicalName, {
             validationResult: { ...currentValidationResult, timestamp: timestamp, isValidating: true, isValid: false }
@@ -76,8 +76,8 @@ export class QuestionActionHandler {
     };
 
     static updateQuestionValidation = (state: QuickformState, logicalName: string, validationResult: ValidationResult, timestamp: number) => {
-        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides)).validationResult;
-        if (currentValidationResult.timestamp !== timestamp) {
+        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides))?.validationResult;
+        if (currentValidationResult?.timestamp !== timestamp) {
             return state;
         }
         return this.updateQuestionProperties(state, logicalName, {
@@ -87,6 +87,13 @@ export class QuestionActionHandler {
 
     static async validateInput(state: QuickformState, logicalName: string): Promise<ValidationResult> {
         const questionRef = findQuestionByKey(logicalName, getAllQuestions(state.slides));
-        return await QuestionActionHandler.inputValidator(questionRef);
+        if (!questionRef) {
+            return {
+                isValid: false,
+                message: 'Question not valid',
+                validatedOutput: ''
+            }
+        }
+        return await QuestionActionHandler.inputValidator(questionRef, state);
     }
 }

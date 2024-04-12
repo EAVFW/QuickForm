@@ -2,9 +2,9 @@ import { MouseEventHandler, ReactNode } from "react";
 import classNames from "classnames";
 import styles from "./DropdownSelectOption.module.css";
 import { makeStyles, mergeClasses } from "@griffel/react";
-import { quickformtokens } from "@eavfw/quickform-core/src/style/quickformtokens";
 import { Checkmark } from "@eavfw/quickform-core/src/components/icons";
 import { shorthands } from "@fluentui/react-components";
+import { quickformtokens } from "@eavfw/quickform-core/src/style/quickFormTokensDefinition";
 
 type DropdownSelectOptionProps = {
     readonly isSelected?: boolean;
@@ -35,7 +35,7 @@ const useDropDownSelectOptionStyles = makeStyles({
         color: quickformtokens.onSurface,
         backgroundColor: 'transparent',
 
-        ...shorthands.border('1px', 'solid', quickformtokens.borderColor),
+        ...shorthands.border('1px', 'solid', quickformtokens.primary),
         ...shorthands.borderRadius('5px'),
         ':hover': {
             color: quickformtokens.onSurface,

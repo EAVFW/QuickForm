@@ -7,6 +7,7 @@ import { QuickFormTokens, defineQuickFormTokens } from "../style/quickFormTokens
 import { QuickFormDefinition } from "../model";
 import { resolveQuickFormService } from "../services/QuickFormServices";
 import { kbaQuickFormTokens } from "../style/kbaQuickFormTokens";
+import { isFirstQInCurrentSlide } from "../utils/isFirstQuestionInSlide";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
@@ -47,10 +48,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
     }
     const setIntroVisited = () => { dispatch({ type: 'SET_INTRO_VISITED' }) };
     const setErrorMsg = (msg: string) => { dispatch({ type: "SET_ERROR_MSG", msg: msg }) };
-    const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => {
-        const currSlide = state.slides[state.currIdx];
-        return currSlide.questions && currSlide.questions.length > 0 && currSlide.questions[0].logicalName === questionLogicalName && currSlide.questions[0].visited !== true;
-    }
+    const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => { return isFirstQInCurrentSlide(questionLogicalName, state); }
     const getCurrentSlide = () => (state.slides[state.currIdx]);
 
     return (
