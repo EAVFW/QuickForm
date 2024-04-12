@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { RadioProperties, SliderProperties, ButtonsProperties, InputPropertiesTypes, InputProps } from "../../model";
+import { InputPropertiesTypes, InputProps } from "../../model";
 import { QuestionJsonModel } from "../../model/json-definitions/JsonDataModels";
 import { registerQuickFormService } from "../QuickFormServices";
 
@@ -19,23 +19,7 @@ const parseInputProperties = (questionJsonModel: QuestionJsonModel): InputProper
             .map(([key, schema]) => [key, questionJsonModel[key as keyof QuestionJsonModel] ?? getDefaultValue(schema)])) as InputPropertiesTypes;
     }
 
-    const inputTypePropertiesMap: { [key: string]: () => InputPropertiesTypes } = {
-        buttons: () => ({
-            inputType,
-            options: (questionJsonModel as QuestionJsonModel & ButtonsProperties).options
-        }),
-        radio: () => ({
-            inputType,
-            options: (questionJsonModel as QuestionJsonModel & RadioProperties).options,
-            direction: (questionJsonModel as QuestionJsonModel & RadioProperties).direction
-        }),
-        slider: () => ({
-            inputType,
-            min: (questionJsonModel as QuestionJsonModel & SliderProperties).min,
-            max: (questionJsonModel as QuestionJsonModel & SliderProperties).max,
-            step: (questionJsonModel as QuestionJsonModel & SliderProperties).step
-        }),
-    };
+    const inputTypePropertiesMap: { [key: string]: () => InputPropertiesTypes } = {};
 
     return inputType in inputTypePropertiesMap ? inputTypePropertiesMap[inputType]() : {};
 };
@@ -85,9 +69,6 @@ const ThrowIfUsed: InputComponentType = (props) => { throw new Error("Not regist
 const inputComponents: InputComponentDictionary = {
     text: ThrowIfUsed,
     none: ThrowIfUsed,
-    dropdown: ThrowIfUsed,
-    slider: ThrowIfUsed,
-    toggle: ThrowIfUsed,
     multilinetext: ThrowIfUsed
 };
 

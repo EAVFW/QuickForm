@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useQuickForm } from "../state";
 
 
@@ -10,8 +10,8 @@ export const useFocusableQuestion = <T extends HTMLElement>(questionkey: string,
         if (ref.current && isFirstQuestionInCurrentSlide(questionkey)) {
             ref.current.focus(options);
         }
-    }, [ref,questionkey]);
-   
+    }, [ref, questionkey]);
+
 
     return ref;
 }

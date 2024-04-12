@@ -1,4 +1,4 @@
-import { EndingModel, IntroModel, QuestionModel, SlideModel, SubmitModel } from "./index";
+import { EndingModel, IntroModel, SlideModel, SubmitModel } from "./index";
 
 export type QuickFormModel = {
     intro?: IntroModel;

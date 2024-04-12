@@ -1,7 +1,14 @@
 import React, { ChangeEvent, useState } from "react";
 import { InputComponentType, registerInputComponent, useQuickForm } from "@eavfw/quickform-core";
-import { SliderProperties } from "@eavfw/quickform-core/src/model";
 import { sliderInputSchema } from "./SliderInputSchema";
+
+type SliderProperties = {
+    inputType: "slider";
+    min: number;
+    max: number;
+    step: number;
+    defaultValue?: number;
+}
 
 export const SliderInput: InputComponentType<SliderProperties> = ({ questionModel, max = 100, min = 0, step = 1, }) => {
     const { answerQuestion } = useQuickForm();

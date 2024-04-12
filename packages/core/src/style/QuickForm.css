@@ -1,6 +1,0 @@
-:root {
-    /* Font family */
-    --font-family: 'var(--chivo), Monaco, Consolas';
-    --font-family: 'Nunito', sans-serif;
-    font-family: var(--font-family);
-}

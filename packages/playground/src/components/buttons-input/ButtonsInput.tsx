@@ -1,14 +1,26 @@
 "use client";
 import { useState } from "react";
 import { InputComponentType, registerInputComponent, useQuickForm } from "@eavfw/quickform-core";
-import { RadioProperties } from "@eavfw/quickform-core/src/model";
 import { buttonsInputSchema } from "./ButtonsInputSchema";
 
-export const ButtonsInput: InputComponentType<RadioProperties> = ({ questionModel, options }) => {
-    const { answerQuestion } = useQuickForm();
-    const [selectedValue, setSelectedValue] = useState<string>(questionModel.output);
+type buttonProps = { key: string, label: string };
 
-    const handleChange = (value: string) => {
+type ButtonsProperties = {
+    inputType: "buttons";
+    options: {
+        [key: string]: {
+            key: string;
+            label: string;
+        }
+    }
+    defaultValue?: string;
+}
+
+export const ButtonsInput: InputComponentType<ButtonsProperties> = ({ questionModel, options }) => {
+    const { answerQuestion } = useQuickForm();
+    const [selectedValue, setSelectedValue] = useState<buttonProps>(questionModel.output);
+
+    const handleChange = (value: buttonProps) => {
         setSelectedValue(value);
         answerQuestion(questionModel.logicalName, value);
     };

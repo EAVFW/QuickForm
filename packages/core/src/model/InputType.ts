@@ -9,41 +9,22 @@ export type InputProps<TProps = InputPropertiesTypes> = {
 
 const Email = "email";
 const Multilinetext = "multilinetext";
-const Radio = "radio";
-const Slider = "slider";
 const Text = "text";
-const Buttons = "buttons";
 const Phone = "phone";
 
 export interface InputTypeMap {
-    [Buttons]: ButtonsProperties;
     [Phone]: PhoneProperties;
     [Email]: EmailProperties;
     [Multilinetext]: MultilineProperties;
-    [Radio]: RadioProperties;
-    [Slider]: SliderProperties;
     [Text]: TextProperties;
 }
 
 export type InputPropertiesTypes =
-    ButtonsProperties |
     EmailProperties |
     MultilineProperties |
-    RadioProperties |
-    SliderProperties |
     TextProperties |
     PhoneProperties |
     {};
-
-export type ButtonsProperties = {
-    inputType: typeof Buttons;
-    options: {
-        key: string | undefined;
-        label: string;
-    }
-    defaultValue?: string;
-}
-
 
 export type PhoneProperties = {
     inputType: typeof Phone;
@@ -58,23 +39,6 @@ export type EmailProperties = {
 export type MultilineProperties = {
     inputType: typeof Multilinetext;
     defaultValue?: string;
-}
-
-export type RadioProperties = {
-    inputType: typeof Radio;
-    options: {
-        [key: string]: string;
-    }
-    defaultValue?: boolean;
-    direction?: "horizontal" | "vertical";
-}
-
-export type SliderProperties = {
-    inputType: typeof Slider;
-    min: number;
-    max: number;
-    step: number;
-    defaultValue?: number;
 }
 
 export type TextProperties = {
