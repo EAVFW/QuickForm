@@ -1,6 +1,7 @@
 import { ValidationResult } from "../../model/ValidationResult";
 import { InputPropertiesTypes, QuestionModel } from "../../model";
 import { registerQuickFormService } from "../QuickFormServices";
+import { QuickformState } from "../../state";
 
 const validateText = (output: any): ValidationResult => {
     const text = typeof output === 'string' ? output.trim() : '';
@@ -50,7 +51,7 @@ const validatePhone = async (output: any): Promise<ValidationResult> => {
 };
 
 type ValidatorMap = {
-    [inputType: string]: (output: any, properties?: any) => Promise<ValidationResult>;
+    [inputType: string]: ValidatorFunction<any, any, QuestionModel<any>, QuickformState>;
 };
 
 const validatorMap: ValidatorMap = {
@@ -60,7 +61,7 @@ const validatorMap: ValidatorMap = {
     multilinetext: (output: any) => Promise.resolve(validateMultilineText(output))
 };
 
-const validateQuestionOutput = async <TProps extends InputPropertiesTypes>(questionModel: QuestionModel<TProps>): Promise<ValidationResult> => {
+const validateQuestionOutput = async <TProps extends InputPropertiesTypes>(questionModel: QuestionModel<TProps>, state: QuickformState): Promise<ValidationResult> => {
     const validator = validatorMap[questionModel.inputType];
     if (!validator) {
         // This is to support if no validation is created for inputtype.. defaults to validated..
@@ -73,11 +74,13 @@ const validateQuestionOutput = async <TProps extends InputPropertiesTypes>(quest
         });
     }
 
-    return await validator(questionModel.output, questionModel.inputProperties);
+    return await validator(questionModel.output, questionModel.inputProperties, questionModel,state);
 };
 
-export const registerInputTypeValidator = (key: string, validator: (output: any, properties?: any) => Promise<ValidationResult>) => {
-    validatorMap[key] = validator;
+export type ValidatorFunction<TAnswer, TInputProps, TQuestionModel extends QuestionModel<TInputProps>, TQuickFormState extends QuickformState> = (output: TAnswer, properties: TInputProps, questionModel: TQuestionModel, state: TQuickFormState) => Promise<ValidationResult>;
+
+export const registerInputTypeValidator = <TAnswer, TInputProps, TQuestionModel extends QuestionModel<TInputProps>, TQuickFormState extends QuickformState>(key: string, validator: ValidatorFunction<TAnswer, TInputProps, TQuestionModel, TQuickFormState>) => {
+    validatorMap[key] = validator as ValidatorFunction<any, any, QuestionModel<any>, QuickformState>;
 };
 
 registerQuickFormService("inputValidator", validateQuestionOutput);

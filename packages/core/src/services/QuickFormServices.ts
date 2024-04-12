@@ -4,13 +4,14 @@ import { InputPropertiesTypes, QuestionModel, QuickFormModel } from "../model";
 import { QuickFormDefinition } from "../model";
 import { QuestionJsonModel } from "../model/json-definitions/JsonDataModels";
 import { InputComponentType } from "./defaults/DefaultInputTypeResolver";
+import { QuickformState } from "../state";
 
 export type HeadingNumberDisplayProvider = () => boolean;
 export type QuickFormModelTransformer = (data: QuickFormDefinition, payload: any) => QuickFormModel;
 export type QuestionTransformer = (key: string, question: QuestionJsonModel, value?: any, visible?: { type: string; rule: string; }) => QuestionModel;
 export type InputTypePropertiesTransformer = (questionJsonModel: QuestionJsonModel) => InputPropertiesTypes | undefined;
 export type RegisterInputTypeComponent = (key: string, component: InputComponentType) => void;
-export type InputValidator = <TProps extends InputPropertiesTypes>(questionModel: QuestionModel<TProps>) => Promise<ValidationResult>;
+export type InputValidator = <TProps extends InputPropertiesTypes>(questionModel: QuestionModel<TProps>, state: QuickformState) => Promise<ValidationResult>;
 export interface IQuickFormLogger {
     log(body: string, ...args: any[]): void;
     warn(body: string, ...args: any[]): void;
