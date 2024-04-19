@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef, useState } from 'react';
 import { useQuickForm } from '../../../state/QuickFormContext';
 import { Button } from '../../button/Button';

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import { useQuickForm } from "../../state/QuickFormContext";
 import { quickformtokens } from '../../style/quickFormTokensDefinition';
