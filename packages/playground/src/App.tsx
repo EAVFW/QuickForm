@@ -11,10 +11,9 @@ import "./components/slider-input/SliderInput";
 export const App = () => {
     return (
         <div style={containerStyling}>
-            <QuickFormProvider definition={testdata as QuickFormDefinition} payload={{}} >
+            <QuickFormProvider definition={testdata as QuickFormDefinition} payload={{}} asContainer={true} >
                 <QuickForm />
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-
                     <NavigationButton />
                 </div>
             </QuickFormProvider>

@@ -1,17 +1,53 @@
 "use client";
-import classNames from "classnames";
-import styles from "./BaseInput.module.css";
 import { ChangeEvent, useState } from "react";
 import { QuestionModel } from "../../../../model";
+import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
 import React, { CSSProperties, InputHTMLAttributes } from "react";
 import { useQuickForm } from "../../../../state/QuickFormContext";
 import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
+import { quickformtokens } from "../../../../style/quickFormTokensDefinition";
+
+const useInputTextStyles = makeStyles({
+    inputContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        position: 'relative',
+        backgroundColor: 'transparent',
+        color: 'var(--on-surface)',
+        width: '100%',
+        ...shorthands.borderTop('none'),
+        ...shorthands.borderLeft('none'),
+        ...shorthands.borderRight('none'),
+        ...shorthands.borderBottom("1px", "solid", `${quickformtokens.questionPlaceholderColor}`),
+
+        ':focus': {
+            ...shorthands.borderBottom("1px", "solid", `${quickformtokens.primary}`),
+            paddingBottom: '8px',
+        },
+    },
+    inputText: {
+        color: 'var(--on-surface)',
+        backgroundColor: 'transparent',
+        fontSize: quickformtokens.questionInputFontSize,
+        marginTop: '8px',
+        paddingBottom: '9px',
+        width: '100%',
+        ...shorthands.border('none'),
+
+        '@media screen and (max-width: 599px)': {
+            fontSize: quickformtokens.questionInputFontSize,
+            marginTop: '32px',
+        },
+
+    },
+});
 
 export const BaseInputComponent = ({ questionModel, className, style, type }: { type: InputHTMLAttributes<HTMLInputElement>["type"], questionModel: QuestionModel, className?: string, style?: CSSProperties }) => {
 
     const [text, setText] = useState<string>(questionModel!.output);
     const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
     const { answerQuestion } = useQuickForm();
+    const styles = useInputTextStyles();
 
     const resize = () => {
         const input = ref.current;
@@ -40,14 +76,18 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
         resize();
     }
 
+
     return (
-        <input style={style}
-            ref={ref}
-            type={type}
-            className={classNames(styles.input__text, className)}
-            placeholder={questionModel.placeholder}
-            value={text}
-            onChange={handleChange}
-        />
+        <div className={mergeClasses(styles.inputContainer, className)} style={style}>
+            <input
+                style={{ outline: 'none', }}
+                ref={ref}
+                type={type}
+                className={styles.inputText}
+                placeholder={questionModel.placeholder}
+                value={text}
+                onChange={handleChange}
+            />
+        </div>
     );
 }
