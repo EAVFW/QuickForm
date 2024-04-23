@@ -27,7 +27,7 @@ export const ErrorPopup: React.FC<ErrorPopupProps> = ({ message }) => {
 
             timer = setTimeout(() => {
                 resetErrorPopup();
-            }, 3000);
+            }, 30000);
         } else {
             resetErrorPopup();
         }
@@ -48,26 +48,54 @@ export const ErrorPopup: React.FC<ErrorPopupProps> = ({ message }) => {
         height: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'center',
         zIndex: 1000,
     };
 
     const toastStyle: React.CSSProperties = {
-        padding: '20px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
         borderRadius: '10px',
         backgroundColor: quickformtokens.error,
         color: quickformtokens.onError,
         fontSize: '16px',
+        padding: '15px',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         opacity: opacity,
         transition: 'opacity 0.5s ease-in',
     };
 
+    const buttonContainerStyle: React.CSSProperties = {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        width: '100%',
+        marginRight: '5px',
+        marginBottom: '20px'
+    }
+
+    const buttonStyle: React.CSSProperties = {
+        cursor: 'pointer',
+        border: 'none',
+        background: 'none',
+        fontSize: '16px',
+        color: 'inherit'
+
+    }
+
     return (
-        <div style={backdropStyle} onClick={resetErrorPopup}>
+        <div style={backdropStyle}>
             <div style={toastStyle} onClick={(e) => e.stopPropagation()}>
-                {message}
+                <div style={buttonContainerStyle}>
+                    <button style={buttonStyle} onClick={resetErrorPopup}>X</button>
+                </div>
+                <div style={{
+                    padding: '0px 20px 20px 20px'
+                }}>
+                    {message}
+                </div>
             </div>
         </div>
     );
