@@ -6,7 +6,6 @@ import React, { CSSProperties, InputHTMLAttributes } from "react";
 import { useQuickForm } from "../../../../state/QuickFormContext";
 import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
 import { quickformtokens } from "../../../../style/quickFormTokensDefinition";
-import { TelephoneIcon } from "../../../../components/icons/TelephoneIcon";
 
 const useInputTextStyles = makeStyles({
     inputContainer: {
@@ -40,19 +39,6 @@ const useInputTextStyles = makeStyles({
             marginTop: '32px',
         },
 
-    },
-
-    inputIcon: {
-        marginTop: '8px',
-        paddingBottom: '9px',
-    },
-    iconLeft: {
-        left: '0',
-        paddingRight: '15px'
-    },
-    iconRight: {
-        right: '0',
-        paddingLeft: '15px'
     },
 });
 
@@ -93,7 +79,6 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
 
     return (
         <div className={mergeClasses(styles.inputContainer, className)} style={style}>
-            <TelephoneIcon className={mergeClasses(styles.inputIcon, styles.iconLeft)} size={18} color={quickformtokens.primary} />
             <input
                 style={{ outline: 'none', }}
                 ref={ref}
@@ -103,7 +88,6 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
                 value={text}
                 onChange={handleChange}
             />
-            <TelephoneIcon className={mergeClasses(styles.inputIcon, styles.iconRight)} size={18} color={quickformtokens.primary} />
         </div>
     );
 }

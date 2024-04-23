@@ -19,32 +19,25 @@ export const Heading: React.FC<HeadingProps> = ({ children, label, style = {} }:
         fontSize: quickformtokens.headlineFontSize,
         fontWeight: 'bold',
         color: quickformtokens.onSurface,
-        position: "relative"
-    }
+        position: "relative",
+        display: 'flex',
+        alignItems: 'center'
+    };
 
     return (
         <h1 style={{ ...style, ...headingStyles }}>
-            {shouldDisplayNumber && <span style={{ //TODO - if mobile left 0, top:-2.4rem,justifycontext start
-                display: 'inline-flex', alignItems: 'center', gap: quickformtokens.gap1, position: "absolute", width: "100px", left: "-100px", justifyContent: "end",
-                fontSize: quickformtokens.questionNumberFontSize,
-                height: "100%",
-                paddingRight: quickformtokens.gap2
-            }}>
-
-                <span>{label}</span>
+            {shouldDisplayNumber && <span style={{ marginRight: quickformtokens.gap1, fontSize: quickformtokens.questionNumberFontSize, }}>
+                <span style={{ marginRight: '5px' }}>{label}</span>
                 <ImArrowRightIcon size="12px" />
-
-            </span>
-            }
+            </span>}
             {children}
         </h1>
     );
-
-
 }
 
 const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
     let { state } = useQuickForm();
     return !(state.isEndingSlide || state.isIntroSlide || state.isSubmitSlide)
 }
+
 registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);
