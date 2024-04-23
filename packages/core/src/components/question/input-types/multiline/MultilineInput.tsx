@@ -22,7 +22,7 @@ const useInputTextStyles = makeStyles({
         resize: 'vertical',
         ...shorthands.overflow('auto'),
         '&:focus-visible': {
-            ...shorthands.borderBottom(`2px solid ${quickformtokens.onSurface}`),
+            ...shorthands.borderBottom("2px", "solid", `${quickformtokens.onSurface}`),
             ...shorthands.outline('none'),
             paddingBottom: '8px'
         },
