@@ -10,7 +10,7 @@ import { kbaQuickFormTokens } from "../style/kbaQuickFormTokens";
 import { isFirstQInCurrentSlide } from "../utils/isFirstQuestionInSlide";
 
 type QuickFormProviderProps = {
-    className?:string,
+    className?: string,
     children: React.ReactNode;
     definition: QuickFormDefinition;
     tokens?: Partial<QuickFormTokens>;
@@ -52,7 +52,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
     const setErrorMsg = (msg: string) => { dispatch({ type: "SET_ERROR_MSG", msg: msg }) };
     const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => { return isFirstQInCurrentSlide(questionLogicalName, state); }
     const getCurrentSlide = () => (state.slides[state.currIdx]);
-    console.log("children", children);
+
     return (
         <QuickFormContext.Provider value={{
             state,
@@ -75,8 +75,8 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
                     {children}
                 </QuickFormContainer>
             ) : (
-                     children 
-                    
+                children
+
             )
             }
         </QuickFormContext.Provider>
