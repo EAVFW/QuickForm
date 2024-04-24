@@ -1,6 +1,7 @@
 import { getCurrentSlide, isSlideAnswered } from "../../utils/quickformUtils";
 import { QuickformState } from "../../state/QuickformState";
 import { resolveQuickFormService } from "../../services";
+import { QuestionModel } from "src/model";
 
 export class NavigationActionHandler {
     private static handleSlideChange = (state: QuickformState, direction: 'next' | 'prev') => {
@@ -44,13 +45,36 @@ export class NavigationActionHandler {
     }
 
     static handleNextSlideAction = (state: QuickformState) => {
+        // Filter out questions that are explicitly not visible
+        const visibleQuestions = state.slides[state.currIdx].questions.filter(question => question.visible?.isVisible !== false);
 
-        if (isSlideAnswered(getCurrentSlide(state))) {
+        if (visibleQuestions.length === 0) {
+            return { ...state, errorMsg: "No visible questions to answer." };
+        }
+
+        // Check all visible questions for answered and validity
+        const validationResult = this.validateQuestions(visibleQuestions);
+        if (validationResult.isValid) {
             return this.computeProgress(NavigationActionHandler.handleSlideChange({ ...state, errorMsg: "" }, 'next'));
         } else {
-            return { ...state, errorMsg: "All questions must be answered" };
+            return { ...state, errorMsg: validationResult.errorMsg };
         }
-    }
+    };
+
+    static validateQuestions = (questions: QuestionModel[]) => {
+        if (questions.some((q: { answered: boolean; }) => q.answered === false)) {
+            return { isValid: false, errorMsg: "Not all questions have been answered." };
+        }
+        if (questions.some((q: { output: any; }) => q.output === '' || typeof q.output === "undefined")) {
+            return { isValid: false, errorMsg: "Some questions are missing outputs." };
+        }
+        if (questions.some(q => !q.validationResult || q.validationResult?.isValid === false)) {
+            return { isValid: false, errorMsg: "Some questions have failed validation." };
+        }
+
+        return { isValid: true, errorMsg: "" };
+    };
+
 
     static handlePrevSlideAction = (state: QuickformState) => NavigationActionHandler.handleSlideChange(state, 'prev');
 
