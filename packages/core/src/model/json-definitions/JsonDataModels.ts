@@ -48,6 +48,11 @@ type QuickFormQuestionDefinition = {
     dataType?: "string" | "number" | "boolean";
 
     /**
+     * Provides the option to set a default value for the inputcontrol question
+     */
+    defaultValue?: any;
+
+    /**
      * All questions support conditional rendering, allowing one to specify a rule and a engine to execute it.
      * The rule is of type any, because its the engine (type) that knows its data type.
      */
