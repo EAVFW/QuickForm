@@ -48,7 +48,9 @@ type QuickFormQuestionDefinition = {
     dataType?: "string" | "number" | "boolean";
 
     /**
-     * Provides the option to set a default value for the inputcontrol question
+     * Provides the option to set a default value for the inputcontrol question.
+     * Be aware that providing a defaultValue automatically sets the question.answered and question.visited to true
+     * Also provides a validationResult object with isValid property set to true.
      */
     defaultValue?: any;
 
