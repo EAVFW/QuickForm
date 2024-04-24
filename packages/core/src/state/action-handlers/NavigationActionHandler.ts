@@ -1,7 +1,7 @@
 import { getCurrentSlide, isSlideAnswered } from "../../utils/quickformUtils";
 import { QuickformState } from "../../state/QuickformState";
 import { resolveQuickFormService } from "../../services";
-import { QuestionModel } from "src/model";
+import { QuestionModel } from "../../model";
 
 export class NavigationActionHandler {
     private static handleSlideChange = (state: QuickformState, direction: 'next' | 'prev') => {
