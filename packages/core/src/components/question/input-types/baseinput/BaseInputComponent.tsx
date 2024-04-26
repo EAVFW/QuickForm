@@ -17,24 +17,24 @@ const useInputTextStyles = makeStyles({
         ...shorthands.borderTop('none'),
         ...shorthands.borderLeft('none'),
         ...shorthands.borderRight('none'),
-        ...shorthands.borderBottom("1px", "solid", `${quickformtokens.questionPlaceholderColor}`),
+        ...shorthands.borderBottom("1px", "solid", `${quickformtokens?.questionPlaceholderColor || "black"}`),
 
         ':focus': {
-            ...shorthands.borderBottom("1px", "solid", `${quickformtokens.primary}`),
+            ...shorthands.borderBottom("1px", "solid", `${quickformtokens?.primary || "blue"}`),
             paddingBottom: '8px',
         },
     },
     inputText: {
         color: 'var(--on-surface)',
         backgroundColor: 'transparent',
-        fontSize: quickformtokens.questionInputFontSize,
+        fontSize: quickformtokens?.questionInputFontSize || "16px",
         marginTop: '8px',
         paddingBottom: '9px',
         width: '100%',
         ...shorthands.border('none'),
 
         '@media screen and (max-width: 599px)': {
-            fontSize: quickformtokens.questionInputFontSize,
+            fontSize: quickformtokens?.questionInputFontSize || "16px",
             marginTop: '32px',
         },
 
