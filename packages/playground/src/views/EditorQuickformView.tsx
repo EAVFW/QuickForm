@@ -2,16 +2,16 @@
 import React from 'react'
 import { useState } from 'react';
 import { QuickFormDefinition } from '../../../core/src/model';
-import carp from "./../data/carp.json";
+import testdata from "./../data/allInputControlsTest.json";
 import { QuickFormProvider } from '../../../core/src/state';
 import { Editor } from '@monaco-editor/react';
 import { Button, QuickForm } from '../../../core/src/components';
 import "./components/slider/SliderInput";
 
 export default function EditorQuickformView() {
-    const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(carp as QuickFormDefinition);
+    const [selectedTemplate, setSelectedTemplate] = useState<QuickFormDefinition>(testdata as QuickFormDefinition);
     const [hackToChangeQuickForm, setHackToChangeQuickForm] = useState(0);
-    const [editorValue, setEditorValue] = useState<string>(JSON.stringify(carp));
+    const [editorValue, setEditorValue] = useState<string>(JSON.stringify(testdata));
 
     const onChangeEditorValue = (value: string) => {
         setEditorValue(value);

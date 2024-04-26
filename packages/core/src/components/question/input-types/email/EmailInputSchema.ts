@@ -1,5 +1,5 @@
-import { InputPropertiesTypes } from "../../../../model";
-import { InputComponentMetadata } from "./../../../../services/defaults/DefaultInputTypeResolver";
+import { InputComponentMetadata } from "@eavfw/quickform-core";
+import { InputPropertiesTypes } from "@eavfw/quickform-core/src/model";
 
 export const emailInputSchema: InputComponentMetadata<InputPropertiesTypes> = {
     label: "Email",
@@ -23,6 +23,32 @@ export const emailInputSchema: InputComponentMetadata<InputPropertiesTypes> = {
             paragraph: {
                 title: "Paragraph",
                 type: "string"
+            },
+            beforeIcon: {
+                enum: [
+                    "Phone",
+                    "Email",
+                    "User"
+                ],
+                // @ts-ignore
+                "enumNames": [
+                    "Phone",
+                    "Email",
+                    "User"
+                ]
+            },
+            afterIcon: {
+                enum: [
+                    "Phone",
+                    "Email",
+                    "User"
+                ],
+                // @ts-ignore
+                "enumNames": [
+                    "Phone",
+                    "Email",
+                    "User"
+                ]
             }
         }
     },

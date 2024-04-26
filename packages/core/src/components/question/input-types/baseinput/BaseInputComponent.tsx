@@ -1,11 +1,10 @@
 "use client";
-import { ChangeEvent, useState } from "react";
-import { QuestionModel } from "../../../../model";
+import { quickformtokens, useQuickForm } from "@eavfw/quickform-core";
+import { useFocusableQuestion } from "@eavfw/quickform-core/src/hooks/useFocusableQuestion";
+import { CSSProperties, ChangeEvent, InputHTMLAttributes, useState } from "react";
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
-import React, { CSSProperties, InputHTMLAttributes } from "react";
-import { useQuickForm } from "../../../../state/QuickFormContext";
-import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
-import { quickformtokens } from "../../../../style/quickFormTokensDefinition";
+import { QuestionModel } from "@eavfw/quickform-core/src/model";
+import { IconResolver, IconType } from "../../../icons/IconResolver";
 
 const useInputTextStyles = makeStyles({
     inputContainer: {
@@ -40,9 +39,31 @@ const useInputTextStyles = makeStyles({
         },
 
     },
+
+    inputIcon: {
+        marginTop: '8px',
+        paddingBottom: '9px',
+    },
+    iconLeft: {
+        left: '0',
+        paddingRight: '15px'
+    },
+    iconRight: {
+        right: '0',
+        paddingLeft: '15px'
+    },
 });
 
-export const BaseInputComponent = ({ questionModel, className, style, type }: { type: InputHTMLAttributes<HTMLInputElement>["type"], questionModel: QuestionModel, className?: string, style?: CSSProperties }) => {
+type BaseInputComponentProps = {
+    type: InputHTMLAttributes<HTMLInputElement>["type"],
+    questionModel: QuestionModel,
+    beforeIcon?: IconType;
+    afterIcon?: IconType
+    style?: CSSProperties
+    className?: string,
+}
+
+export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ questionModel, className, style, type, beforeIcon, afterIcon }) => {
 
     const [text, setText] = useState<string>(questionModel!.output);
     const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
@@ -79,6 +100,14 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
 
     return (
         <div className={mergeClasses(styles.inputContainer, className)} style={style}>
+            {beforeIcon &&
+                <IconResolver
+                    type={beforeIcon}
+                    className={mergeClasses(styles.inputIcon, styles.iconLeft)}
+                    size={18}
+                    color={quickformtokens.primary}
+                />
+            }
             <input
                 style={{ outline: 'none', }}
                 ref={ref}
@@ -88,6 +117,14 @@ export const BaseInputComponent = ({ questionModel, className, style, type }: { 
                 value={text}
                 onChange={handleChange}
             />
+            {afterIcon &&
+                <IconResolver
+                    type={afterIcon}
+                    className={mergeClasses(styles.inputIcon, styles.iconRight)}
+                    size={18}
+                    color={quickformtokens.primary}
+                />
+            }
         </div>
     );
 }

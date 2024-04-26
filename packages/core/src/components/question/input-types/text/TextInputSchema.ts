@@ -23,6 +23,32 @@ export const textInputSchema: InputComponentMetadata<InputPropertiesTypes> = {
             paragraph: {
                 title: "Paragraph",
                 type: "string"
+            },
+            beforeIcon: {
+                enum: [
+                    "Phone",
+                    "Email",
+                    "User"
+                ],
+                // @ts-ignore
+                "enumNames": [
+                    "Phone",
+                    "Email",
+                    "User"
+                ]
+            },
+            afterIcon: {
+                enum: [
+                    "Phone",
+                    "Email",
+                    "User"
+                ],
+                // @ts-ignore
+                "enumNames": [
+                    "Phone",
+                    "Email",
+                    "User"
+                ]
             }
         }
     }, field: {
