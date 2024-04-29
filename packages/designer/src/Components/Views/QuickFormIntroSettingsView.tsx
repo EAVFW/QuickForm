@@ -4,8 +4,7 @@ import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
-import { Button, Label, ToggleButton, mergeClasses } from "@fluentui/react-components";
-import { JSONSchema7 } from "json-schema";
+import { Button, mergeClasses } from "@fluentui/react-components";
 import { useEffect, useState } from "react";
 
 
@@ -71,9 +70,7 @@ export const QuickFormIntroSettingsView = () => {
     return (
         <div className={mergeClasses(styles.section, styles.sectionSlim)}>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "end", marginTop: "10px" }}>
-                {/* <Label content={enableIntro ? "Disable Intro" : "Enable Intro"} > */}
                 <Button style={{ marginLeft: 'auto' }} onClick={handleToggleIntroClicked} > {enableIntro ? "Disable intro" : "Enable intro"} </Button>
-                {/* </Label> */}
             </div>
             {enableIntro && (
                 <Form

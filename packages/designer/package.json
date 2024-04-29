@@ -12,11 +12,11 @@
     "@eavfw/forms": "^1.2.0-vnext.5",
     "@eavfw/utils": "^1.0.3-vnext.3",
     "@eavfw/designer-core": "^1.1.1",
+    "@eavfw/designer-nodes": "^1.1.1",
+    
     "@fluentui/react-components": "^9.46.1",
     "pako": "^2.0.4",
     "@craftjs/core": "^0.2.4",
-
-    "@eavfw/designer-nodes": "^1.1.1",
 
     "@rjsf/core": "^5.17.1",
     "@rjsf/fluentui-rc": "^5.17.1",
