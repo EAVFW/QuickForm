@@ -1,6 +1,6 @@
 
 import { Button, Dialog, DialogActions, DialogBody, DialogContent, DialogSurface, DialogTitle, DialogTrigger, Field, Input, makeStyles } from "@fluentui/react-components"
-import { useCallback, useState } from 'react';
+import { PropsWithChildren, useCallback, useState } from 'react';
 
 import { useQuickFormDefinition } from "@eavfw/quickform-designer";
 import { QueryBuilderFluent } from '@react-querybuilder/fluent';
@@ -18,7 +18,7 @@ import React from "react";
 
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
 
-const QueryBuilderFluentFix = QueryBuilderFluent as React.FC;
+const QueryBuilderFluentFix = QueryBuilderFluent as React.FC<PropsWithChildren>;
 
 function hasInputType(entry: [string, QuestionJsonModel]): entry is [string, WithRequired<QuestionJsonModel, 'inputType'>] {
     return !!entry[1].inputType;
@@ -35,24 +35,24 @@ const useVisibilityQueryFieldStyles = makeStyles({
 
 type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
-function isSelectField<T>(field: WithRequired<InputComponentMetadata<T>, 'field'>, type: FieldTypes<T>): field is Overwrite<WithRequired<InputComponentMetadata<T>,'field'>, { field: InputComponentSelectFieldMetadata<T> }> {
+function isSelectField<T>(field: WithRequired<InputComponentMetadata<T>, 'field'>, type: FieldTypes<T>): field is Overwrite<WithRequired<InputComponentMetadata<T>, 'field'>, { field: InputComponentSelectFieldMetadata<T> }> {
     return type === "select" || type === "multiselect";
 }
 
 class ErrorBoundary extends React.Component<{ children: React.ReactNode, resetRule: () => void }, { hasError: boolean }> {
-    constructor(props:any) {
+    constructor(props: any) {
         super(props);
         this.state = { hasError: false };
     }
 
-    static getDerivedStateFromError(error:any) {
+    static getDerivedStateFromError(error: any) {
         // Update state so the next render will show the fallback UI.
         return { hasError: true };
     }
 
-    componentDidCatch(error:any, errorInfo:any) {
+    componentDidCatch(error: any, errorInfo: any) {
         // You can also log the error to an error reporting service
-        console.log("ERROR",error, errorInfo);
+        console.log("ERROR", error, errorInfo);
     }
 
     render() {
@@ -73,7 +73,7 @@ export const VisibilityQueryField = () => {
     const { view, activeQuestion, activeSlide, quickformpayload: { layout, questions }, updateQuickFormPayload } = useQuickFormDefinition();
 
 
-    const [{ isOpen, value, query, fields }, setState] = useState(()=>({
+    const [{ isOpen, value, query, fields }, setState] = useState(() => ({
         isOpen: false,
         value: formatQuery(questions[activeQuestion!].visible?.engine === "react-querybuilder" && questions[activeQuestion!].visible?.rule ? questions[activeQuestion!].visible?.rule : { combinator: 'and', rules: [] }, 'cel'),
         query: questions[activeQuestion!].visible?.engine === "react-querybuilder" && questions[activeQuestion!].visible?.rule ? questions[activeQuestion!].visible?.rule : { combinator: 'and', rules: [] },
@@ -86,8 +86,8 @@ export const VisibilityQueryField = () => {
                 return ({
                     name: q.logicalName!,
                     label: q.schemaName!,
-                    valueEditorType: type ,
-                    ...(isSelectField(metadata,type) ? { values: metadata.field.listValuesProvider(q) } : {})
+                    valueEditorType: type,
+                    ...(isSelectField(metadata, type) ? { values: metadata.field.listValuesProvider(q) } : {})
                     // label2: `Question ${q.schemaName}`,
                     // tooltip: q.text,
                     // fieldSettings: {
@@ -128,52 +128,52 @@ export const VisibilityQueryField = () => {
     const setOpen = (open: boolean) => setState(old => { old.isOpen = open; return { ...old }; });
 
     return (<>
-        <ErrorBoundary resetRule={() => setState(old => { old.query = { combinator: 'and', rules: [] };  return { ...old } })}>
-        <Dialog open={isOpen} onOpenChange={(event, data) => setOpen(data.open)}>
+        <ErrorBoundary resetRule={() => setState(old => { old.query = { combinator: 'and', rules: [] }; return { ...old } })}>
+            <Dialog open={isOpen} onOpenChange={(event, data) => setOpen(data.open)}>
 
-            <DialogSurface className={styles.dialog}>
-                <DialogBody>
-                    <DialogTitle>Dialog title</DialogTitle>
-                    <DialogContent>
-                        <QueryBuilderFluentFix>
-                            <QueryBuilder
-                                addRuleToNewGroups
+                <DialogSurface className={styles.dialog}>
+                    <DialogBody>
+                        <DialogTitle>Dialog title</DialogTitle>
+                        <DialogContent>
+                            <QueryBuilderFluentFix>
+                                <QueryBuilder
+                                    addRuleToNewGroups
                                     listsAsArrays
                                     parseNumbers
-                                showNotToggle
-                                validator={defaultValidator}
-                                operators={[...defaultOperators, { name: "is-visible", value: "is-visible", label: "is visible", arity: "unary" }]}
-                                controlClassnames={{ queryBuilder: 'queryBuilder-branches' }}
-                                fields={fields}
-                                query={query} onQueryChange={(q) => {
-                                    setState(old => { old.query = q; old.value = formatQuery(q, { format:'cel', parseNumbers: true }); return { ...old }; });
-                                    const json = formatQuery(q, { format: 'json', parseNumbers: true });
+                                    showNotToggle
+                                    validator={defaultValidator}
+                                    operators={[...defaultOperators, { name: "is-visible", value: "is-visible", label: "is visible", arity: "unary" }]}
+                                    controlClassnames={{ queryBuilder: 'queryBuilder-branches' }}
+                                    fields={fields}
+                                    query={query} onQueryChange={(q) => {
+                                        setState(old => { old.query = q; old.value = formatQuery(q, { format: 'cel', parseNumbers: true }); return { ...old }; });
+                                        const json = formatQuery(q, { format: 'json', parseNumbers: true });
 
-                                    updateQuickFormPayload((old) => {
-                                        old.questions[activeQuestion!].visible = {
-                                            engine: "react-querybuilder",
-                                            rule: JSON.parse(json)
-                                        };
+                                        updateQuickFormPayload((old) => {
+                                            old.questions[activeQuestion!].visible = {
+                                                engine: "react-querybuilder",
+                                                rule: JSON.parse(json)
+                                            };
 
-                                        return { ...old };
-                                    });
-                                }
-                                } />
-                      
-                        </QueryBuilderFluentFix>
+                                            return { ...old };
+                                        });
+                                    }
+                                    } />
 
-                    </DialogContent>
-                    <DialogActions>
-                        <DialogTrigger disableButtonEnhancement>
-                            <Button appearance="secondary">Close</Button>
-                        </DialogTrigger>
-                        <Button appearance="primary">Do Something</Button>
-                    </DialogActions>
-                </DialogBody>
-            </DialogSurface>
-        </Dialog>
-        <Field label="Visibility">
-            <Input readOnly value={value} contentAfter={<Button onClick={() => setOpen(true)} size="small" appearance="transparent" icon={<EditRegular />}></Button>}></Input>
+                            </QueryBuilderFluentFix>
+
+                        </DialogContent>
+                        <DialogActions>
+                            <DialogTrigger disableButtonEnhancement>
+                                <Button appearance="secondary">Close</Button>
+                            </DialogTrigger>
+                            <Button appearance="primary">Do Something</Button>
+                        </DialogActions>
+                    </DialogBody>
+                </DialogSurface>
+            </Dialog>
+            <Field label="Visibility">
+                <Input readOnly value={value} contentAfter={<Button onClick={() => setOpen(true)} size="small" appearance="transparent" icon={<EditRegular />}></Button>}></Input>
             </Field>
         </ErrorBoundary>
     </>

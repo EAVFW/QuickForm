@@ -64,21 +64,23 @@ export function BaseInputTemplate<
     return (
         <>
 
-            <Field label={{
-                // Setting children to a render function allows you to replace the entire slot.
-                // The first param is the component for the slot (Label), which we're ignoring to use InfoLabel instead.
-                // The second param are the props for the slot, which need to be passed to the InfoLabel.
-                children: (_: unknown, slotProps: LabelProps) => (
-                    <InfoLabel {...slotProps} info={description }>
-                        {labelValue(
-                            <Label htmlFor={id} required={required} disabled={disabled} className={classes.label}>
-                                {label}
-                            </Label>,
-                            hideLabel
-                        )}
-                    </InfoLabel>
-                )
-            }}  >
+            <Field
+                //@ts-ignore
+                label={{
+                    // Setting children to a render function allows you to replace the entire slot.
+                    // The first param is the component for the slot (Label), which we're ignoring to use InfoLabel instead.
+                    // The second param are the props for the slot, which need to be passed to the InfoLabel.
+                    children: (_: unknown, slotProps: LabelProps) => (
+                        <InfoLabel {...slotProps} info={description}>
+                            {labelValue(
+                                <Label htmlFor={id} required={required} disabled={disabled} className={classes.label}>
+                                    {label}
+                                </Label>,
+                                hideLabel
+                            )}
+                        </InfoLabel>
+                    )
+                }}  >
                 <Input
                     id={id}
                     name={id}

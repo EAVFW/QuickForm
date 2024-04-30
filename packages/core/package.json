@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.0-vnext.36",
   "name": "@eavfw/quickform-core",
   "dependencies": {
     "classnames": "^2.5.1",
