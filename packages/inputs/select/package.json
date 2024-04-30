@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.0-vnext.15",
   "name": "@eavfw/quickform-input-select",
   "dependencies": {},
   "peerDependencies": {

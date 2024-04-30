@@ -1,6 +1,6 @@
 import React from 'react';
 import { QuickFormDefinition } from '../../core/src/model';
-import testdata from "./data/allInputControlsMultipleSlidesTest2.json";
+import testdata from "./data/allInputControlsTest.json";
 import { QuickFormProvider } from '../../core/src/state';
 import { NavigationButton, QuickForm } from '../../core/src/components';
 import "./components/buttons-input/ButtonsInput";
@@ -11,7 +11,11 @@ import "./components/slider-input/SliderInput";
 export const App = () => {
     return (
         <div style={containerStyling}>
-            <QuickFormProvider definition={testdata as QuickFormDefinition} payload={{}} asContainer={true} >
+            <QuickFormProvider
+                definition={testdata as QuickFormDefinition}
+                payload={{}}
+                asContainer={true}
+            >
                 <QuickForm />
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <NavigationButton />
@@ -28,11 +32,4 @@ const containerStyling: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-}
-
-const quickformStyling: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: "column",
-    marginTop: '20px',
-
 }

@@ -4,8 +4,9 @@ import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
-import { mergeClasses } from "@fluentui/react-components";
-import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+import { Button, mergeClasses } from "@fluentui/react-components";
+import { useEffect, useState } from "react";
+
 
 const introSlideSchema = {
     label: "Intro Settings",
@@ -20,12 +21,11 @@ const introSlideSchema = {
     schema: {
         type: "object",
         required: ["text"],
-        properties: {            
+        properties: {
             text: {
                 title: "Text",
-                description:"The headline displayed to the end user when first loading the form",
+                description: "The headline displayed to the end user when first loading the form",
                 type: "string"
-              
             },
             paragraph: {
                 title: "Paragraph",
@@ -38,33 +38,54 @@ const introSlideSchema = {
             },
         }
     }
-} as { label: string, uiSchema: any, schema: JSONSchema7 };
-
+};
 
 export const QuickFormIntroSettingsView = () => {
-
-    const { quickformpayload: { intro }, updateQuickFormPayload:dispatch } = useQuickFormDefinition();
+    const { quickformpayload: { intro }, updateQuickFormPayload: dispatch } = useQuickFormDefinition();
     const styles = useViewStyles();
-     
+    const [enableIntro, setEnableIntro] = useState(intro != null);
+
+    const handleToggleIntroClicked = () => {
+        const currentEnableIntro = enableIntro;
+        setEnableIntro(!enableIntro);
+        dispatch(old => {
+            if (old.intro && currentEnableIntro === true) {
+                delete old.intro;
+            }
+
+            return { ...old }
+
+        })
+    }
+
+    useEffect(() => {
+        dispatch(old => {
+            if (!enableIntro) {
+                delete old.intro;
+            }
+            return { ...old };
+        });
+    }, [enableIntro, dispatch]);
+
     return (
         <div className={mergeClasses(styles.section, styles.sectionSlim)}>
-        <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
-            validator={validator}
-            {...introSlideSchema}
-            formData={intro}
-            onChange={(a, b) => {
-                console.log("change", [a, b]);
-
-                dispatch(old => {
-                    old.intro = {...old.intro, ...a.formData }
-                    return { ...old };
-                });
-            }}
-        >
-            <>
-            </>
-            </Form>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "end", marginTop: "10px" }}>
+                <Button style={{ marginLeft: 'auto' }} onClick={handleToggleIntroClicked} > {enableIntro ? "Disable intro" : "Enable intro"} </Button>
+            </div>
+            {enableIntro && (
+                <Form
+                    templates={{ FieldTemplate, BaseInputTemplate }}
+                    validator={validator}
+                    {...introSlideSchema}
+                    formData={intro}
+                    onChange={(a) => {
+                        dispatch(old => {
+                            return { ...old, intro: { ...old.intro, ...a.formData } };
+                        });
+                    }}
+                >
+                </Form>
+            )}
         </div>
-    )
-   
-}
+    );
+};

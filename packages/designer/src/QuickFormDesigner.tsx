@@ -7,7 +7,6 @@ import { NavDrawer } from "./Components/Drawers/NavDrawer";
 import { QuickFormSettingsViewHeader } from "./Components/Header/QuickFormSettingsViewHeader";
 import { QuickFormDesignerProvider } from "./Contexts/QuickFormDefContext";
 import { useQuickFormDesignerStyles } from "./QuickFormDesigner.styles";
-
 import initial from "@eavfw/designer/src/PageDesigner/defaultPageContent";
 import { Button, Tooltip } from "@fluentui/react-components";
 import { DesignerViews } from "./Components/Views/DesignerViews";
@@ -16,10 +15,9 @@ import { DesignerViews } from "./Components/Views/DesignerViews";
 
 const QuickFormDesigner = ({ entityName, attributeName, ...props }: PageDesignEditorProps) => {
 
-
     const styles = useQuickFormDesignerStyles();
     const [isOpen, setIsOpen] = useState(true);
-     
+
     return <div className={styles.root}>
         <QuickFormDesignerProvider entityName={entityName} attributeName={attributeName}>
             <CraftEditor  >
@@ -32,7 +30,7 @@ const QuickFormDesigner = ({ entityName, attributeName, ...props }: PageDesignEd
 
                         <QuickFormSettingsViewHeader />
 
-                        <DesignerViews /> 
+                        <DesignerViews />
 
                     </div>
                     {!isOpen && <Tooltip content="Large with calendar icon only" relationship="label">
@@ -45,5 +43,3 @@ const QuickFormDesigner = ({ entityName, attributeName, ...props }: PageDesignEd
     </div>
 }
 RegistereControl("QuickFormDesigner", QuickFormDesigner);
-
-

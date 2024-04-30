@@ -1,9 +1,17 @@
 "use client";
-import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import { InputComponentType, registerInputComponent } from "@eavfw/quickform-core";
 import { BaseInputComponent } from "../baseinput/BaseInputComponent";
 import { emailInputSchema } from "./EmailInputSchema";
+import { IconType } from "../../../icons/IconResolver";
 
-export const EmailInput: InputComponentType = (props) => {
+export type EmailProperties = {
+    inputType: "email";
+    defaultValue?: string;
+    beforeIcon?: IconType;
+    afterIcon?: IconType
+}
+
+export const EmailInput: InputComponentType<EmailProperties> = (props) => {
     return <BaseInputComponent type="email" {...props} />
 }
 
