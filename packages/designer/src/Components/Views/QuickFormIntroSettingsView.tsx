@@ -6,7 +6,8 @@ import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { Button, mergeClasses } from "@fluentui/react-components";
 import { useEffect, useState } from "react";
-
+import { JSONSchema7TypeName, JSONSchema7 } from "json-schema";
+import React from "react";
 
 const introSlideSchema = {
     label: "Intro Settings",
@@ -25,19 +26,19 @@ const introSlideSchema = {
             text: {
                 title: "Text",
                 description: "The headline displayed to the end user when first loading the form",
-                type: "string"
+                type: "string" as JSONSchema7TypeName
             },
             paragraph: {
                 title: "Paragraph",
                 description: "The text displayed to the end user when first loading the form",
-                type: "string"
+                type: "string" as JSONSchema7TypeName
             },
             buttonText: {
                 title: "Start Button Text",
-                type: "string"
+                type: "string" as JSONSchema7TypeName
             },
         }
-    }
+    } as JSONSchema7
 };
 
 export const QuickFormIntroSettingsView = () => {

@@ -10,12 +10,9 @@
     "semantic-release": "^19.0.5",
     "semantic-release-monorepo": "7.0.5",
     "typescript": "5.4.2",
-    "@types/node": "17.0.5",
-    "@types/react": "17.0.75",
-    "@types/react-dom": "17.0.25"
-  },
-  "resolutions": {
-    "@types/react": "17.0.75"
+    "@types/node": "18.11.9",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0"
   },
   "scripts": {
     "link": "concurrently  \"npm:link-*\"",
@@ -23,19 +20,15 @@
     "link-designer": "npm --workspace packages/designer link",
     "link-inputs": "npm run link --workspace packages/inputs",
     "link-querybuilder": "npm --workspace packages/querybuilder link",
-
     "publish": "npm-run-all --continue-on-error publish-*",
     "publish-core": "npm --workspace packages/core publish --access public",
     "publish-designer": "npm --workspace packages/designer publish --access public",
-
     "release": "npm-run-all --continue-on-error release-*",
     "release-core": "npm run release --workspace packages/core",
     "release-designer": "npm run release --workspace packages/designer",
     "release-inputs": "npm run release --workspace packages/inputs",
     "release-querybuilder": "npm run release --workspace packages/querybuilder",
-
     "eavfw-link": "npm link @eavfw/apps @eavfw/next @eavfw/expressions @eavfw/manifest @eavfw/hooks @eavfw/forms @eavfw/utils @eavfw/designer @eavfw/designer-core @eavfw/designer-nodes",
-
     "playground": "npm --workspace packages/playground run dev"
   },
   "config": {
