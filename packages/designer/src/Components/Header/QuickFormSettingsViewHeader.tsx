@@ -10,7 +10,6 @@ import {
     DialogBody,
     DialogTitle,
     DialogContent,
-    Label,
     makeStyles,
     Field,
     Input,
@@ -21,11 +20,11 @@ import {
 import React, { useEffect, useState } from "react";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
-import { SettingsRegular, EditSettingsRegular } from "@fluentui/react-icons"
+import { EditSettingsRegular } from "@fluentui/react-icons"
 import { removeNonAlphanumeric } from "@eavfw/utils";
-import { QuickFormQuestionsDefinition } from "@eavfw/quickform-core/src/model/json-definitions/QuickFormQuestionsDefinition";
 import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
 import { VisibilityQueryField } from "@eavfw/quickform-querybuilder";
+import { Constants } from "../../Utils/constants";
 
 const useStyles = makeStyles({
     content: {
@@ -48,7 +47,7 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
     const [questionKey, setQuestionKey] = useState(activeQuestion ?? '');
     useEffect(() => { setQuestionKey(activeQuestion ?? ''); }, [activeQuestion])
 
-    const segments = ["QuickForm", view, activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
+    const segments = [Constants.TITLE, view, activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
     const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (ev) => {
 
         if (activeQuestion) {
@@ -89,23 +88,23 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                             <Field label="Question Key">
                                 <Input value={questionKey} required type="text" id={"question-schema-name"} onChange={(e, d) => setQuestionKey(d.value)} />
                             </Field>
-                            {activeQuestion && <Field label="Question Order">
-                                <Input
-                                    value={(questions[activeQuestion]?.order ?? Object.keys(questions).indexOf(activeQuestion))?.toString()}
-                                    required type="number" id={"question-order"}
-                                    onChange={(e, d) => updateQuickFormPayload(old => {
-                                        old.questions[activeQuestion].order = parseInt(d.value);
+                            {activeQuestion &&
+                                <Field label="Question Order">
+                                    <Input
+                                        value={(questions[activeQuestion]?.order ?? Object.keys(questions).indexOf(activeQuestion))?.toString()}
+                                        required type="number" id={"question-order"}
+                                        onChange={(e, d) => updateQuickFormPayload(old => {
+                                            old.questions[activeQuestion].order = parseInt(d.value);
 
-                                        old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j))
+                                            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j))
 
-                                        return { ...old }
-                                    })} />
-                            </Field>
-                           
+                                            return { ...old }
+                                        })} />
+                                </Field>
                             }
                             <VisibilityQueryField />
                             <Field label="Visible Rule">
-                                <Input value={questions[activeQuestion!]?.visible?.rule ?? ''} required type="text" id={"question-schema-name"} onChange={(e, d) => updateQuickFormPayload(old => { old.questions[activeQuestion!].visible = { engine : "JsEval", rule: d.value }; return { ...old }; })} />
+                                <Input value={questions[activeQuestion!]?.visible?.rule ?? ''} required type="text" id={"question-schema-name"} onChange={(e, d) => updateQuickFormPayload(old => { old.questions[activeQuestion!].visible = { engine: "JsEval", rule: d.value }; return { ...old }; })} />
                             </Field>
                         </DialogContent>
                         <DialogActions>
@@ -121,14 +120,14 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                 </DialogSurface>
             </Dialog>
             <Breadcrumb
-                aria-label="QuickForm Breadcrums"
+                aria-label={Constants.TITLE + " Breadcrums"}
                 size="large"
             >
                 {segments.map((s, i) => (
-                    <React.Fragment key={s}>
+                    <React.Fragment key={s.capitalize()}>
                         {(i) > 0 && <BreadcrumbDivider />}
                         <BreadcrumbItem>
-                            <BreadcrumbButton>{s}</BreadcrumbButton>
+                            <BreadcrumbButton>{s.capitalize()}</BreadcrumbButton>
                             {(i + 1) === segments.length && activeQuestion && <Button appearance="transparent" icon={<EditSettingsRegular />}{...restoreFocusTargetAttribute} onClick={() => {
                                 // it is the user responsibility to open the dialog
                                 setOpen(true);
