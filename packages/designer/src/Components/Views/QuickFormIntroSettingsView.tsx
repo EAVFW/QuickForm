@@ -13,10 +13,15 @@ const introSlideSchema = {
     label: "Intro Settings",
     uiSchema: {
         text: {
-            "ui:widget": "textarea"
+            "ui:widget": "textarea",
+            "ui:help": "The headline displayed to the end user when first loading the form"
         },
         paragraph: {
-            "ui:widget": "textarea"
+            "ui:widget": "textarea",
+            "ui:help": "The text displayed to the end user when first loading the form"
+        },
+        buttonText: {
+            "ui:widget": "text"
         }
     },
     schema: {
@@ -35,6 +40,7 @@ const introSlideSchema = {
             },
             buttonText: {
                 title: "Start Button Text",
+                description: "The text displayed on the button to start the form",
                 type: "string" as JSONSchema7TypeName
             },
         }
@@ -70,8 +76,8 @@ export const QuickFormIntroSettingsView = () => {
 
     return (
         <div className={mergeClasses(styles.section, styles.sectionSlim)}>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "end", marginTop: "10px" }}>
-                <Button style={{ marginLeft: 'auto' }} onClick={handleToggleIntroClicked} > {enableIntro ? "Disable intro" : "Enable intro"} </Button>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: enableIntro ? "" : "end", marginTop: "10px" }}>
+                <Button style={{ marginLeft: enableIntro ? "auto" : "", marginRight: enableIntro ? "" : "auto", marginBottom: '10px' }} onClick={handleToggleIntroClicked} > {enableIntro ? "Disable intro" : "Enable intro"} </Button>
             </div>
             {enableIntro && (
                 <Form
