@@ -53,7 +53,7 @@ export const kbaQuickFormTokens: QuickFormTokens = {
     btnEnterKeyTextFontSize: '1rem',
     multilineTextFontSize: '1.1rem',
     multilineTextMobileFontSize: '1rem',
-    questionTextFontSize: '1.4rem',
+    questionHeadlineFontSize: '1.4rem',
     questionParagraphFontSize: '1.2rem',
     questionNumberFontSize: '1.2rem',
     questionInputFontSize: "1.3rem",

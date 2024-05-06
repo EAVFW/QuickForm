@@ -1,10 +1,11 @@
 "use client";
 import React from "react";
-import { Paragraph, Heading, ErrorMessage } from "..";
+import { Paragraph, ErrorMessage } from "..";
 import { QuestionModel } from "../../model/QuestionModel";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { resolveInputComponent, resolveQuickFormService } from "../../services";
 import { quickformtokens } from "../../style/quickFormTokensDefinition";
+import { QuestionHeading } from "./components/QuestionHeading";
 
 type QuestionProps = {
     model: QuestionModel;
@@ -43,23 +44,24 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
         <div
             style={{ ...questionStyling, ...style }}
         >
-            <Heading
-                label={label}
-            >
-                {model.text}
-            </Heading>
+            {model.text &&
+                <QuestionHeading label={label} >
+                    {model.text}
+                </QuestionHeading>
+            }
 
-            <Paragraph >
-                {model.paragraph}
-            </Paragraph>
+            {model.paragraph &&
+                <Paragraph >
+                    {model.paragraph}
+                </Paragraph>
+            }
+
             <InputType
                 key={"input-" + model.logicalName}
                 style={
                     {
                         marginTop: quickformtokens.questionInputGap,
                         fontSize: quickformtokens.questionInputFontSize,
-                        // KBA - This should be defined at a global level...
-                        // fontFamily: quickformtokens.fontFamily
                     }
                 }
                 questionModel={model}

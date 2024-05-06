@@ -5,6 +5,7 @@ import { LayoutDefinition, QuickFormModel } from "../model";
 export type QuickformClassNames = { slide: string, slideIsIn: string, slideIsOut: string };
 export type QuickformState = {
     autoAdvanceSlides?: boolean;
+    enableQuestionNumbers?: boolean;
     currIdx: number;
     currStep: number;
     data: QuickFormModel;
@@ -25,6 +26,7 @@ export type QuickformState = {
 export const defaultState = (data: QuickFormModel = defaultData, layout?: LayoutDefinition): QuickformState => {
     const defState = {
         autoAdvanceSlides: layout?.autoAdvanceSlides ?? false,
+        enableQuestionNumbers: layout?.enableQuestionNumbers ?? false,
         classes: layout?.classes ?? {},
         currIdx: 0,
         currStep: data.slides.length > 0 ? 1 : 0,

@@ -51,7 +51,7 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     btnEnterKeyTextFontSize: '1.25rem',
     multilineTextFontSize: '2rem',
     multilineTextMobileFontSize: '2.9rem',
-    questionTextFontSize: '2.4rem',
+    questionHeadlineFontSize: '2.4rem',
     questionParagraphFontSize: '2rem',
     questionNumberFontSize: '1.6rem',
     questionInputFontSize: "3rem",

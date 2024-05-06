@@ -16,4 +16,5 @@ export { Spinner } from "./spinner/Spinner";
 export { Intro } from "./intro/Intro";
 export { QuickFormContainer } from "./container/QuickFormContainer";
 export { SlideRenderer } from "./renderers/slide-renderer/SlideRenderer";
+export { QuestionHeading } from "./question/components/QuestionHeading";
 // import "./question/input-types";
