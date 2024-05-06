@@ -22,19 +22,17 @@ export const ViewTreeItem: React.FC<PropsWithChildren<ViewTreeItemProps>> = ({ v
 
     const handleClick = () => {
         if (childName) {
-            setIsOpen(!isOpen); // Toggle open state
+            setIsOpen(!isOpen);
         } else {
             if (isSelected) {
-                // If the item is selected and currently folded, open it
                 if (!isOpen) {
                     setIsOpen(true);
                 }
-                // Otherwise, navigate to no view and close the tree
                 else {
-                    setIsOpen(false); // Close the tree
+                    setIsOpen(false);
                 }
             } else {
-                setView(viewName); // Navigate to view
+                setView(viewName);
             }
         }
     };
