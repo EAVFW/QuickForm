@@ -11,7 +11,7 @@ type SlideProps = {
 export const Slide: React.FC<SlideProps> = ({ model, className }: SlideProps) => {
 
     return (
-        <div className={className} id="Slide" style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className={className} id="Slide" style={{ display: 'flex', flexDirection: 'column', width: "100%" }}>
             {
                 model.rows.map((row, rowIndex) => (
                     <div key={rowIndex} style={rowContainerStyling}>
@@ -26,5 +26,4 @@ export const Slide: React.FC<SlideProps> = ({ model, className }: SlideProps) =>
 const rowContainerStyling: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
 }

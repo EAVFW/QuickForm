@@ -6,6 +6,7 @@ export type LayoutDefinition = {
     style?: React.CSSProperties;
     tokens?: Partial<QuickFormTokens>;
     autoAdvanceSlides?: boolean;
+    enableQuestionNumbers?: boolean;
     slides?: { [key: string]: SlideLayout };
 }
 

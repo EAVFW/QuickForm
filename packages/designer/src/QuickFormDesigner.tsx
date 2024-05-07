@@ -10,16 +10,21 @@ import { useQuickFormDesignerStyles } from "./QuickFormDesigner.styles";
 import initial from "@eavfw/designer/src/PageDesigner/defaultPageContent";
 import { Button, Tooltip } from "@fluentui/react-components";
 import { DesignerViews } from "./Components/Views/DesignerViews";
+import { Locale } from "./Types/Locale";
 
 
 
-const QuickFormDesigner = ({ entityName, attributeName, ...props }: PageDesignEditorProps) => {
+type QuickFormDesignerProps = PageDesignEditorProps & {
+    designerLocale?: Locale
+}
+
+const QuickFormDesigner = ({ entityName, attributeName, designerLocale, ...props }: QuickFormDesignerProps) => {
 
     const styles = useQuickFormDesignerStyles();
     const [isOpen, setIsOpen] = useState(true);
 
     return <div className={styles.root}>
-        <QuickFormDesignerProvider entityName={entityName} attributeName={attributeName}>
+        <QuickFormDesignerProvider entityName={entityName} attributeName={attributeName} designerLocale={designerLocale}>
             <CraftEditor  >
                 <NavDrawer newSlideNodes={initial} isOpen={isOpen} setIsOpen={setIsOpen} />
                 <div className={styles.content}>

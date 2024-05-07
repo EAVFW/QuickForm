@@ -40,16 +40,14 @@ type QuickFormTokensBase = {
     btnFontWeight: number,
     multilineTextFontSize: FontSize,
     multilineTextMobileFontSize: FontSize,
-    questionTextFontSize: FontSize,
+
+    questionHeadlineFontSize: FontSize,
+    questionHeadlineFontWeight: number,
     questionParagraphFontSize: FontSize,
     questionNumberFontSize: FontSize,
     questionInputFontSize: FontSize,
 
     /* Structural properties */
-    questionTopMargin: string;
-    questionBorderRadius: string;
-    questionPadding: string;
-    questionInputGap: Gap,
     gap1: Gap,
     gap2: Gap,
     gap4: Gap,
@@ -58,6 +56,13 @@ type QuickFormTokensBase = {
     lowEmphasisOpacity: number;
     mediumEmphasisOpacity: number;
     highEmphasisOpacity: number;
+
+    // Question
+    questionBorderRadius: string;
+    questionTopMargin: string;
+    questionBottomMargin:string;
+    questionPadding: string;
+    questionInputGap: Gap,
 };
 
 export type QuickFormTokens = QuickFormTokensBase & {

@@ -8,7 +8,7 @@
   "peerDependencies": {
     "react-querybuilder": "7.0.1",
     "@react-querybuilder/fluent": "7.0.1",
-    "@fluentui/react-components": "9.46.8"
+    "@fluentui/react-components": "=>9.46.0 <9.49.2"
   },
   "devDependencies": {},
   "license": "MIT",

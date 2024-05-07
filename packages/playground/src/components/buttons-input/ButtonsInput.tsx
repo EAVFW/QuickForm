@@ -35,7 +35,7 @@ export const ButtonsInput: InputComponentType<ButtonsProperties> = ({ questionMo
                     style={selectedValue === value ? { ...buttonStyles, ...selectedStyles } : buttonStyles}
                     id={`${questionModel.logicalName}-${key}`}
                 >
-                    {value}
+                    {value.label}
                 </button>
             ))}
         </div>

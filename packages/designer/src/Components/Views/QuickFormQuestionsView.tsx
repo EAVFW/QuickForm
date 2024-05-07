@@ -2,8 +2,7 @@
 import { removeNonAlphanumeric } from "@eavfw/utils";
 import Form from "@rjsf/fluentui-rc";
 import validator from '@rjsf/validator-ajv8';
-import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-import { Dropdown, DropdownProps, Option, shorthands, mergeClasses, Field, Input } from '@fluentui/react-components';
+import { Dropdown, DropdownProps, Option, mergeClasses, Field, Input } from '@fluentui/react-components';
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
 import { FieldProps, ariaDescribedByIds } from "@rjsf/utils";
@@ -13,7 +12,7 @@ import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 import { InputComponentMetadata, resolveInputComponentSchemas } from "@eavfw/quickform-core";
 
 
-const additionalFields = {} as { [key: string]: React.FC<FieldProps> } ;
+const additionalFields = {} as { [key: string]: React.FC<FieldProps> };
 
 export const registerInputControlDesignerField = (field: string, component: React.FC<FieldProps>) => additionalFields[field] = component;
 
@@ -24,15 +23,12 @@ export const QuickFormQuestionsView: React.FC<{
 }> = ({ currentQuestion, questions, dispatch }) => {
 
     const styles = useViewStyles();
-
     const schemas = resolveInputComponentSchemas();
-
-  
 
     console.log("QuickFormQuestionsView", [currentQuestion, questions]);
     if (currentQuestion && currentQuestion in questions) {
         const question = questions[currentQuestion];
-     
+
 
         const _onChange: DropdownProps["onOptionSelect"] = (e, d) => {
             dispatch(old => {
@@ -53,7 +49,6 @@ export const QuickFormQuestionsView: React.FC<{
         return (
             <div className={mergeClasses(styles.section, styles.sectionSlim)}>
 
-
                 <Field
                     label="Question?" hint="The question text"
                     orientation="horizontal"
@@ -63,7 +58,7 @@ export const QuickFormQuestionsView: React.FC<{
                         id="question-field-name"
                         name="question-field-name"
                         className='form-control'
-                        value={question?.text??''}
+                        value={question?.text ?? ''}
                         onChange={(ev, data) => {
                             dispatch(old => {
 
@@ -80,11 +75,11 @@ export const QuickFormQuestionsView: React.FC<{
 
                                     old.__designer.activeQuestion = logicalName;
                                 } else {
-                                    old.questions[currentQuestion] = { ...question, text: data.value }; 
+                                    old.questions[currentQuestion] = { ...question, text: data.value };
                                 }
                                 return { ...old };
                             });
-                        } }
+                        }}
                     />
                 </Field>
 
@@ -95,17 +90,17 @@ export const QuickFormQuestionsView: React.FC<{
                 >
                     <Dropdown
                         id="question-input-type"
-                        name="question-input-type"                        
+                        name="question-input-type"
                         className='form-control'
                         value={question.inputType ? schemas[question.inputType].label : ''}
-                        
+
                         onOptionSelect={_onChange}
-                        selectedOptions={question.inputType ?[question.inputType]:[]}
+                        selectedOptions={question.inputType ? [question.inputType] : []}
                         aria-describedby={ariaDescribedByIds<any>("question-input-type")}
                     >
                         {
-                            Object.entries(schemas).map(([key,type], i) => {
-                               
+                            Object.entries(schemas).map(([key, type], i) => {
+
                                 return (
                                     <Option text={type.label} key={key} value={key} >
                                         {type.label}
@@ -138,7 +133,7 @@ export const QuickFormQuestionsView: React.FC<{
             </div>
         )
 
-        
+
     }
 
     return <div>QuickFormQuestionsView</div>;
