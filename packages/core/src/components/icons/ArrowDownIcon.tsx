@@ -1,11 +1,7 @@
+import React from "react";
+import type { IconProps } from "./iconProps";
 
-import React, { FC } from 'react';
-
-interface ArrowDownProps {
-    className?: string;
-}
-
-export const ArrowDownIcon: FC<ArrowDownProps> = ({ className }) => {
+export const ArrowDownIcon: React.FC<IconProps> = ({ className, color }) => {
     return (
         <div className={className}>
             <svg
@@ -18,7 +14,7 @@ export const ArrowDownIcon: FC<ArrowDownProps> = ({ className }) => {
             >
                 <path
                     d="M6 9L12 15L18 9"
-                    stroke="currentColor"
+                    stroke={color}
                     strokeWidth="1"
                     strokeLinecap="round"
                     strokeLinejoin="round"

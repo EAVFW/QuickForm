@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0-vnext.2",
+  "name": "@eavfw/quickform-querybuilder",
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "peerDependencies": {
+    "react-querybuilder": "7.0.1",
+    "@react-querybuilder/fluent": "7.0.1",
+    "@fluentui/react-components": "=>9.46.0 <9.49.2"
+  },
+  "devDependencies": {},
+  "license": "MIT",
+  "files": [
+    "src"
+  ],
+  "author": "Poul Kjeldager <poul@kjeldager.com>",
+  "type": "module",
+  "main": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EAVFW/QuickForm.git"
+  },
+  "scripts": {
+    "release": "semantic-release -e semantic-release-monorepo"
+  }
+}

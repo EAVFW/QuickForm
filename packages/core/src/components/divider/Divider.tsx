@@ -1,11 +1,11 @@
-import React, { FC, CSSProperties } from 'react';
+import React from "react";
 
 type DividerProps = {
     color: string;
 }
 
-export const Divider: FC<DividerProps> = ({ color }) => {
-    const dividerStyle: CSSProperties = {
+export const Divider: React.FC<DividerProps> = ({ color }) => {
+    const dividerStyle: React.CSSProperties = {
         height: '1px',
         color: color,
         backgroundColor: color,
@@ -13,4 +13,3 @@ export const Divider: FC<DividerProps> = ({ color }) => {
 
     return <hr style={dividerStyle} />;
 };
-

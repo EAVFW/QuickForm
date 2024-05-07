@@ -1,5 +1,5 @@
 export type SubmitStatus = {
     isSubmitError: boolean;
-    isSubmitOK: boolean;
+    isSubmitSuccess: boolean;
     isSubmitting: boolean;
 };

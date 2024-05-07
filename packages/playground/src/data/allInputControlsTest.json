@@ -1,0 +1,185 @@
+{
+    "layout": {
+        "autoAdvanceSlides": false,
+        "slides": {
+            "slide1": {
+                "title": "Test-titel for slide",
+                "rows": {
+                    "row1": {
+                        "columns": {
+                            "col1": {
+                                "rows": {
+                                    "row1_1": {
+                                        "type": "question",
+                                        "ref": "textTest"
+                                    },
+                                    "row1_2": {
+                                        "type": "question",
+                                        "ref": "emailTest"
+                                    },
+                                    "row1_3": {
+                                        "type": "question",
+                                        "ref": "phoneTest"
+                                    },
+                                    "row1_4": {
+                                        "type": "question",
+                                        "ref": "multilineTest"
+                                    },
+                                    "row1_5": {
+                                        "type": "question",
+                                        "ref": "sliderTest"
+                                    },
+                                    "row1_6": {
+                                        "type": "question",
+                                        "ref": "radioTest"
+                                    },
+                                    "row1_7": {
+                                        "type": "question",
+                                        "ref": "buttonsTest"
+                                    },
+                                    "row1_8": {
+                                        "type": "question",
+                                        "ref": "checkboxTest"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "intro": {
+        "text": "Playground Request Form",
+        "paragraph": "Tryk på start for at fortsætte...",
+        "buttonText": "Start"
+    },
+    "submit": {
+        "text": "",
+        "buttonText": "Beregn",
+        "paragraphs": [
+            "Gennemgå venligst dine oplysninger før indsendelse.",
+            "Sørg for, at alle detaljer er korrekte for at modtage et nøjagtigt tilbud."
+        ],
+        "submitUrl": "https://httpbin.org/post",
+        "submitMethod": "POST",
+        "submitFields": {
+            "uiSchema": {
+                "name": {
+                    "ui:placeholder": "Indtast dit navn",
+                    "ui:label": "Navn"
+                },
+                "phone": {
+                    "ui:placeholder": "Indtast dit telefonnummer",
+                    "ui:label": "Telefon"
+                },
+                "email": {
+                    "ui:placeholder": "Indtast din e-mail",
+                    "ui:label": "E-mail"
+                }
+            },
+            "schema": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Navn"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "format": "tel",
+                        "title": "Telefon"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "title": "E-mail"
+                    }
+                },
+                "required": [
+                    "name",
+                    "phone",
+                    "email"
+                ]
+            }
+        }
+    },
+    "ending": {
+        "inputType": "ending",
+        "text": "Tak for at du brugte vores service",
+        "paragraph": "Vi vil kontakte dig snarest."
+    },
+    "questions": {
+        "textTest": {
+            "inputType": "text",
+            "text": "Text test",
+            "paragraph": "Test af text",
+            "placeholder": "Skriv noget..",
+            "lang": "DA",
+            "afterIcon": "User"
+        },
+        "emailTest": {
+            "inputType": "email",
+            "text": "Email test",
+            "paragraph": "Test af email",
+            "placeholder": "Indtast din e-mail",
+            "lang": "DA",
+            "beforeIcon": "Email"
+        },
+        "phoneTest": {
+            "inputType": "phone",
+            "text": "Phone test",
+            "paragraph": "Test af phone",
+            "placeholder": "Skriv nogle tal..",
+            "lang": "DA",
+            "beforeIcon": "Phone"
+        },
+        "sliderTest": {
+            "defaultValue": 100,
+            "inputType": "slider",
+            "text": "Slider test",
+            "paragraph": "Test af slider",
+            "placeholder": "1",
+            "min": 1,
+            "max": 200,
+            "step": 1,
+            "type": "number",
+            "lang": "DA"
+        },
+        "checkboxTest": {
+            "inputType": "checkbox",
+            "text": "Checkbox test",
+            "paragraph": "Test af checkbox",
+            "type": "boolean",
+            "lang": "DA"
+        },
+        "radioTest": {
+            "inputType": "radio",
+            "text": "Radio test",
+            "paragraph": "Test af radio",
+            "options": {
+                "yes": "Ja",
+                "no": "Nej"
+            },
+            "lang": "DA",
+            "direction": "horizontal"
+        },
+        "buttonsTest": {
+            "inputType": "buttons",
+            "text": "Buttons test",
+            "paragraph": "Test af buttons",
+            "options": {
+                "yes": "Ja",
+                "no": "Nej"
+            },
+            "lang": "DA"
+        },
+        "multilineTest": {
+            "inputType": "multilinetext",
+            "text": "Multilinetext test",
+            "paragraph": "Test af multilinetext",
+            "lang": "DA"
+        }
+    }
+}

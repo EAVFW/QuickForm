@@ -1,52 +1,50 @@
-"use client"
-import { Paragraph } from "../paragraph/Paragraph";
-import React, { useEffect } from "react";
-import { Heading } from "..";
-import styles from "./Ending.module.css";
-import classNames from "classnames";
-import { ErrorIcon } from "../icons/ErrorIcon";
-import { Checkmark } from "../icons/Checkmark";
-import { useQuickForm } from "state/QuickFormContext";
+"use client";
+import React from "react";
+import { Heading, Paragraph } from "../index";
+import { ErrorIcon, Checkmark } from "../icons/index";
+import { useQuickForm } from "../../state/QuickFormContext";
+import { EndingModel } from "../../model";
+import { quickformtokens } from "../../style/quickFormTokensDefinition";
 
-export const Ending: React.FC = () => {
-    const { questionState: { submitStatus, currentQuestion: { text, paragraph } } } = useQuickForm();
-    //  const { text, paragraph,  } = questionState?.currentQuestion || {};
-    useEffect(() => {
-        console.log("Ending rendered..", submitStatus, classNames(styles.svgcolor), "test");
+type EndingProps = {
+    model: EndingModel;
+}
 
-    }, [submitStatus]);
+const endingStyles: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column'
+}
 
+export const Ending: React.FC<EndingProps> = ({ model }) => {
+    const { state } = useQuickForm();
+    const { text, paragraph } = model;
+    const submitStatus = state.submitStatus;
 
     return (
-        <>
+        <div style={endingStyles}>
             {submitStatus.isSubmitError &&
                 <>
-                    <ErrorIcon classNames={classNames(styles.endingSvg)} />
+                    <ErrorIcon color={quickformtokens.onSurface} />
                     <Heading>Der skete en fejl, prøv igen</Heading>
                 </>
             }
-            {submitStatus.isSubmitOK &&
+            {submitStatus.isSubmitSuccess &&
                 <>
-                    <Checkmark classNames={classNames(styles.endingSvg)} />
-
-                    <Heading>
-                        Form has been successfully submitted.
-                    </Heading>
-
+                    <Checkmark color={quickformtokens.onSurface} />
                     {text &&
-                        <Paragraph>
-                            <span dangerouslySetInnerHTML={{ __html: text }} ></span>
-                        </Paragraph>
+                        <Heading style={{ marginTop: '10px' }}>
+                            {text}
+                        </Heading>
                     }
 
                     {paragraph &&
-                        <Paragraph  >
-                            <span dangerouslySetInnerHTML={{ __html: paragraph }} ></span>
+                        <Paragraph style={{ marginTop: '10px' }}>
+                            {paragraph}
                         </Paragraph>
                     }
                 </>
             }
-        </>
+        </div>
     );
 }
-

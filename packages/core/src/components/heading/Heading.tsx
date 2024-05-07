@@ -1,41 +1,28 @@
-import { ReactNode } from "react";
-import styles from "./Heading.module.css";
-import classNames from "classnames";
-import { useQuickFormState } from "../../state/QuickFormContext";
-import { HeadingNumberDisplayProvider, registerQuickFormService, resolveQuickFormService } from "../../state/QuickFormServices";
+import React, { ReactNode } from "react";
+import { quickformtokens } from "../../style/quickFormTokensDefinition";
 
 type HeadingProps = {
     readonly children: ReactNode;
-    readonly className?: string;
     readonly style?: React.CSSProperties;
-    questionNum?: number;
+    readonly className?: string;
+    readonly label?: string;
 };
 
-const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => {
-    let { currentStep, totalSteps } = useQuickFormState();
-    console.log("defaultHeadingNumberDisplayProvider", [currentStep, totalSteps])
-    return currentStep > 1 && currentStep <= totalSteps + 1;
-}
+export const Heading: React.FC<HeadingProps> = ({ children, label, style = {} }: HeadingProps) => {
 
-registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);
-
-export function Heading({ children, className, questionNum, style }: HeadingProps) {
-    const { } = useQuickFormState();
-
-
-    const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
+    const headingStyles: React.CSSProperties = {
+        fontSize: quickformtokens.headlineFontSize,
+        fontWeight: 'bold',
+        color: quickformtokens.onSurface,
+        position: "relative",
+        display: 'flex',
+        alignItems: 'center',
+        // CSS-reset from default margin on h1
+        margin: 0
+    };
 
     return (
-        <h1
-            className={classNames(styles["heading"], className, questionNum ? ["num"] : "")}
-            style={style ? style : {}}
-        >
-            {shouldDisplayNumber &&
-                <div className={""}>
-                    {/* TODO - Fix ImArrowRight ICON!! */}
-                    {/* {questionNum}&nbsp;<ImArrowRight size={"12px"}/> */}
-                </div>
-            }
+        <h1 style={{ ...style, ...headingStyles }}>
             {children}
         </h1>
     );

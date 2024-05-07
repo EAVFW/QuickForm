@@ -1,82 +1,91 @@
-import { type } from "os";
-import { JSONSchema7 } from "json-schema";
+import { InputPropertiesTypes, InputTypeMap } from "./InputType";
+import { ValidationResult } from "./ValidationResult";
 
+export type QuestionModel<TProps = InputPropertiesTypes> = {
+    /**
+     * Indicates whether the question has been answered with a valid response. 
+     * This flag becomes true only when the input satisfies all validation criteria.
+     */
+    answered: boolean;
 
-export type BaseQuestionFields = {
-    readonly logicalName?: string;
-    readonly text: string,
-    readonly paragraph?: string;
-    readonly buttonText?: string
-    readonly placeholder?: string;
-    readonly lang?: string;
-}
+    /**
+     * Defines the type of data expected for the question's answer, such as 'string', 'number', or 'boolean'.
+     */
+    dataType: "string" | "number" | "boolean";
 
-export type SubmitProps = {
-    readonly inputType: "submit",
+    /**
+     * Displays an error message adjacent to the question or input component, 
+     * informing the user of validation issues with their input.
+     */
+    errorMsg: string;
 
-    // readonly submitFields?: SubmitFields
-} & BaseQuestionFields
+    /**
+     * Optional properties related to the input, defined by the generic type TProps.
+     */
+    inputProperties?: TProps;
 
-export type DropdownProps = {
-    readonly inputType: "dropdown",
-    readonly maxItems?: string;
-    readonly minItems?: string;
-    readonly options?: {
-        [key: string]: string;
-    }
-} & BaseQuestionFields
+    /**
+     * Specifies the input field's type. Can be a predefined type in InputTypeMap or a string for custom types not known to QuickForm but registered as custom question components.
+     * TODO: Finalize naming for documentation purposes. Options include "Input Components", "Question Components", etc.
+     */
+    inputType: keyof InputTypeMap | string;
 
-type ModelTypeChecker<T extends QuestionModel<QuestionProps>> = (q: QuestionModel<QuestionProps>) => q is T;
-type ModelTypeAsserter<T extends QuestionModel<QuestionProps>> = (q: QuestionModel<QuestionProps>) => T;
+    /**
+     * True when an input value is present but hasn't passed validation checks. 
+     * Useful for real-time feedback mechanisms, like keystroke detection in text fields or multi-select inputs, where completion isn't clearly defined. 
+     * Marks answers as intermediate until they are validated or until input for a subsequent question is initiated.
+     */
+    intermediate: boolean;
 
+    /**
+     * A unique identifier used in payloads and serialization to reference the question. Essential for data processing and analytics.
+     */
+    logicalName: string;
 
-export function isSubmitModel(q: QuestionModel<QuestionProps>): q is QuestionModel<SubmitProps> {
-    return q.inputType === "submit";
-}
-export function isDropDownModel(q: QuestionModel<QuestionProps>): q is QuestionModel<DropdownProps> {
-    return q.inputType === "dropdown";
-}
-
-
-
-function assertModel<T extends QuestionModel<QuestionProps>>(q: QuestionModel<QuestionProps>, checker: ModelTypeChecker<T>) {
-    if (checker(q))
-        return q;
-    throw new Error("Current Question Model is not submit type");
-
-}
-export const assertSubmitModel: ModelTypeAsserter<QuestionModel<SubmitProps>> = (q) => assertModel(q, isSubmitModel);
-export const assertDropDownModel: ModelTypeAsserter<QuestionModel<DropdownProps>> = (q) => assertModel(q, isDropDownModel);
-
-
-export const shouldValidateInputType = (inputType: InputType2) => !(inputType === "intro" || inputType === "ending");
-
-export type QuestionPropsGeneric = {
-    /* Represents what is expected from the JSON input to QuickForm */
-    readonly inputType: "text" | "multilinetext" | "intro" | "ending";
-
-
-
-
-    readonly buttonText?: string;
-} & BaseQuestionFields
-
-export type QuestionProps = QuestionPropsGeneric | SubmitProps | DropdownProps;
-export type InputType2 = QuestionProps["inputType"]
-
-//export type QuestionModel = QuestionProps & {
-
-//    /* Represents the variables that we use internally to represent state in the application. */
-//    output: any;
-//    questionNumber: number;// = 0;
-//    answered?: boolean;
-//}
-
-export type QuestionModel<T extends QuestionProps = QuestionProps> = {
-    /* Represents the variables that we use internally to represent state in the application. */
+    /**
+     * The current value of the question's response. Can hold any type of data based on the question's requirements.
+     */
     output: any;
-    questionNumber: number;// = 0;
-    answered?: boolean;
-} & T
 
+    /**
+     * Supplementary text providing additional context to the main question. Optional and may be omitted if undefined.
+     */
+    paragraph?: string;
 
+    /**
+     * A brief hint that describes the expected value of the input field. It is displayed in the input field before the user enters a value.
+     */
+    placeholder: string;
+
+    /**
+     * Identifies the question within the JSON model and is used as a reference in the layout configuration. It is essential for dynamically rendering questions based on the model.
+     */
+    questionKey: string;
+
+    /**
+     * The primary text of the question, presented to the user.
+     */
+    text: string;
+
+    /**
+     * Denotes if the question's input field has been interacted with (focused). 
+     * This state is activated even if the input is left empty, highlighting that the user has visited but not necessarily answered the question.
+     */
+    visited: boolean;
+
+    /**
+     * Optional visibility controls for the question, governed by a set of rules and an evaluation engine. Determines whether the question should be displayed.
+     */
+    visible?: {
+        rule: any;
+        engine: string;
+        isVisible: boolean,
+    };
+
+    /**
+     * The result of validating the question's output. It keeps track of whether the current output is valid, 
+     * the validation message, and the validated output if applicable. This property is crucial for maintaining 
+     * the state of validation and providing feedback to the user.
+     */
+    validationResult?: ValidationResult;
+}

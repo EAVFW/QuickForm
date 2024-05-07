@@ -1,14 +1,23 @@
-import styles from "./ErrorMessage.module.css";
+import React from 'react';
 
-type ErrorProps = {
-  readonly message: string;
-};
+type ErrorMessageProps = {
+    message: string;
+}
 
-export const ErrorMessage: React.FC<ErrorProps> = ({ message }: ErrorProps) => {
+export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
+    if (!message) return null;
 
-  return (
-    <div className={styles["error"]}>
-      {message}
-    </div>
-  );
+    const errorMessageStyle: React.CSSProperties = {
+        color: 'red',
+        textDecoration: 'underline',
+        marginTop: '4px',
+        fontSize: '1rem',
+        fontWeight: 'bold',
+    };
+
+    return (
+        <div style={errorMessageStyle}>
+            {message}
+        </div>
+    );
 }

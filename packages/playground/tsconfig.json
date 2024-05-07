@@ -1,32 +1,33 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "esnext",
-        "target": "es5",
-        "jsx": "react-jsx",
-        "moduleResolution": "bundler",
-        "allowSyntheticDefaultImports": true,
-        "strictNullChecks": false,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "baseUrl": "./src",
-        "paths": {
-            "@/*": [
-                "./src/*"
-            ],
-            "@styles/*": [
-                "./src/styling/scss/*"
-            ],
-            "@model/*": [
-                "./src/model/*"
-            ],
-            "@components/*": [
-                "./src/components/*"
-            ]
-        },
-    },
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "es5",
+    "lib": [ "dom", "dom.iterable", "esnext" ],
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": "./"
+    // "paths": {
+    //     "@/*": [
+    //         "./src/*"
+    //     ],
+    //     "@styles/*": [
+    //         "./src/styling/scss/*"
+    //     ],
+    //     "@model/*": [
+    //         "./src/model/*"
+    //     ],
+    //     "@components/*": [
+    //         "./src/components/*"
+    //     ]
+    // },
+  },
     "include": [
         "./src/**/*",
         "**/*.ts",
