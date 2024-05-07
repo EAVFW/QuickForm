@@ -1,12 +1,13 @@
 import { useEAVForm } from "@eavfw/forms";
 import { AttributeDefinition, isLookup } from "@eavfw/manifest";
 import { gzip, ungzip } from "pako";
-import { useMemo, useEffect,useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { QuickFormDesignerDefinition } from "../Types/QuickFormDefinition";
 import { useModelDrivenApp } from "@eavfw/apps";
 import { ViewNames } from "../Types/ViewNames";
+import { Locale } from "../Types/Locale";
 
-export const useDocument = (entityName: string, attributeName:string) => {
+export const useDocument = (entityName: string, attributeName: string, designerLocale?: Locale) => {
 
     const app = useModelDrivenApp();
     const entity = app.getEntity(entityName);
@@ -14,10 +15,12 @@ export const useDocument = (entityName: string, attributeName:string) => {
 
     const [formData, { onChange: onFormDataChange }] = useEAVForm((state) => state.formValues);
 
-
+    const quickformLocale = designerLocale ?? {
+        Title: "QuickForm",
+    };
     const old = useMemo(() => {
 
-     
+
         // console.log("Resetting from data", [value, formData, ungzip(atob(value), { to: 'string' })]);
         try {
             return isLookup(column.type) ?
@@ -37,21 +40,16 @@ export const useDocument = (entityName: string, attributeName:string) => {
 
     const [quickformpayload, updateQuickFormPayload] = useState<QuickFormDesignerDefinition>(JSON.parse(old ?? JSON.stringify({
         intro: {
-
         },
         submit: {
-
         },
         ending: {
-
         },
         layout: {
             slides: {
-               
             }
         },
         questions: {
-           
         }
     })));
 
@@ -62,7 +60,6 @@ export const useDocument = (entityName: string, attributeName:string) => {
             console.log("Changing PageDesignEditor Content", [formData, JSON.parse(old ?? "{}"), JSON.parse(json)]);
             // console.log([JSON.parse(old ?? "{}"), JSON.parse(json)]);
             const content = { ... (formData[column.logicalName.slice(0, -2)] ?? { path: "page.json", container: "pages", contenttype: "application/json" }) };
-
 
             content.data = btoa(String.fromCharCode.apply(null, Array.from(gzip(json))));
             onFormDataChange(props => {
@@ -83,7 +80,6 @@ export const useDocument = (entityName: string, attributeName:string) => {
     const setActiveQuestion = (question?: string) => updateQuickFormPayload(old => { if (!old.__designer) { old.__designer = {} }; old.__designer.activeQuestion = question; return { ...old }; });
     const setView = (view?: ViewNames) => updateQuickFormPayload(old => { if (!old.__designer) { old.__designer = {} }; old.__designer.activeView = view; return { ...old }; });
 
-
     useEffect(() => {
         if (view !== "layout" && activeSlide)
             setActiveSlide(undefined);
@@ -93,8 +89,19 @@ export const useDocument = (entityName: string, attributeName:string) => {
             setActiveQuestion(undefined);
     }, [view, activeQuestion]);
 
-    return useMemo(() => ({ quickformpayload, updateQuickFormPayload, view, activeQuestion, activeSlide, setActiveQuestion, setActiveSlide, setView }),
-        [quickformpayload, updateQuickFormPayload]);
-   
-
+    return useMemo(() => (
+        {
+            quickformpayload,
+            updateQuickFormPayload,
+            view,
+            setView,
+            activeQuestion,
+            setActiveQuestion,
+            activeSlide,
+            setActiveSlide,
+            designerLocale: quickformLocale
+        }
+    ),
+        [quickformpayload, updateQuickFormPayload]
+    );
 };

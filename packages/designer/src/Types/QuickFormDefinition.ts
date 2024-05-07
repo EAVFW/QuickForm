@@ -1,3 +1,4 @@
+import { Locale } from "./Locale";
 import { ViewNames } from "./ViewNames";
 import { QuickFormDefinition } from "@eavfw/quickform-core"
 //export type QuickFormElement = {
@@ -33,8 +34,8 @@ export type QuickFormDesignerDefinition = {
         activeView?: ViewNames;
         activeSlide?: string;
         activeQuestion?: string;
-
     },
+    designerLocale?: Locale,
     //intro: {
 
     //},

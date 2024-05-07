@@ -24,7 +24,6 @@ import { EditSettingsRegular } from "@fluentui/react-icons"
 import { removeNonAlphanumeric } from "@eavfw/utils";
 import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
 import { VisibilityQueryField } from "@eavfw/quickform-querybuilder";
-import { Constants } from "../../Utils/constants";
 
 const useStyles = makeStyles({
     content: {
@@ -41,13 +40,12 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
 
 
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
-
-    const { view, activeQuestion, activeSlide, quickformpayload: { layout, questions }, updateQuickFormPayload } = useQuickFormDefinition();
+    const { view, activeQuestion, activeSlide, quickformpayload: { layout, questions }, updateQuickFormPayload, designerLocale } = useQuickFormDefinition();
 
     const [questionKey, setQuestionKey] = useState(activeQuestion ?? '');
     useEffect(() => { setQuestionKey(activeQuestion ?? ''); }, [activeQuestion])
 
-    const segments = [Constants.TITLE, view, activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
+    const segments = [designerLocale.Title, view, activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
     const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (ev) => {
 
         if (activeQuestion) {
@@ -120,7 +118,7 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                 </DialogSurface>
             </Dialog>
             <Breadcrumb
-                aria-label={Constants.TITLE + " Breadcrums"}
+                aria-label={designerLocale.Title + " Breadcrums"}
                 size="large"
             >
                 {segments.map((s, i) => (

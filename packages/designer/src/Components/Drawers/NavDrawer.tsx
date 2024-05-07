@@ -15,7 +15,6 @@ import { SerializedNodes } from "@craftjs/core";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import SlideTreeItem from "./SlideTreeItem";
 import QuestionTreeItem from "./QuestionTreeItem";
-import { Constants } from "../../Utils/constants";
 
 type NavDrawerProps = {
     isOpen: boolean;
@@ -25,7 +24,7 @@ type NavDrawerProps = {
 
 export const NavDrawer = ({ setIsOpen, isOpen, newSlideNodes }: NavDrawerProps) => {
 
-    const { setView, view, setActiveSlide, activeSlide, quickformpayload, updateQuickFormPayload, setActiveQuestion, activeQuestion } = useQuickFormDefinition();
+    const { setView, view, setActiveSlide, activeSlide, quickformpayload, updateQuickFormPayload, setActiveQuestion, activeQuestion, designerLocale } = useQuickFormDefinition();
     const { actions: { history, deserialize } } = useEditorChanges();
 
     return (
@@ -46,7 +45,7 @@ export const NavDrawer = ({ setIsOpen, isOpen, newSlideNodes }: NavDrawerProps) 
                         />
                     }
                 >
-                    {Constants.TITLE}
+                    {designerLocale.Title}
                 </DrawerHeaderTitle>
             </DrawerHeader>
 
