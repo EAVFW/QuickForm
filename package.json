@@ -8,9 +8,9 @@
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.0",
     "concurrently": "7.0.0",
-    "multi-semantic-release": "^2.13.0",
+    "multi-semantic-release": "3.0.2",
     "npm-run-all": "^4.1.5",
-    "semantic-release": "^23.0.8",
+    "semantic-release": "19.0.5",
     "semantic-release-monorepo": "7.0.5",
     "typescript": "5.4.2"
   },
