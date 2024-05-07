@@ -1,4 +1,4 @@
- 
+
 import Form from "@rjsf/fluentui-rc";
 import validator from '@rjsf/validator-ajv8';
 import { FieldTemplate } from "./rjsf/FieldTemplate";
@@ -39,7 +39,7 @@ const inputSlideSchema = {
     }
 } as { label: string, uiSchema: any, schema: JSONSchema7 };
 
-function registerToken(key: keyof typeof defaultQuickFormTokens, title:string, description:string, widget:string) {
+function registerToken(key: keyof typeof defaultQuickFormTokens, title: string, description: string, widget: string) {
 
     const tokensSchema = inputSlideSchema.schema.properties?.quickFormTokens! as JSONSchema7;
     const uiSchema = inputSlideSchema.uiSchema.quickFormTokens;
@@ -74,7 +74,7 @@ registerToken("onPrimary", "On Primary Color", "The color used for text ontop of
 registerToken("error", "Error Color", "The colour used for containers with errors, aka background colour.", "color");
 registerToken("onError", "On Error Color", "The color used for text ontop of error color....", "color");
 
-registerToken("questionTextFontSize", "Question Text Font Size", "The size of question text...", "text");
+registerToken("questionHeadlineFontSize", "Question Headline Font Size", "The size of the question headline...", "text");
 registerToken("questionParagraphFontSize", "Question Paragraph Font Size", "The size of question paragraph...", "text");
 
 export const QuickFormSettingsView = () => {
