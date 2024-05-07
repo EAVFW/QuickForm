@@ -1,25 +1,35 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useQuickForm } from "../state/QuickFormContext";
 import { Ending, Submit, Intro, SlideRenderer } from "./index";
 
 export const QuickForm: React.FC = () => {
     const { state, setIntroVisited } = useQuickForm();
+    const [component, setComponent] = useState<React.ReactNode>(null);
 
-    if (state.isIntroSlide && typeof state.data.intro !== "undefined") {
-        return <Intro model={state.data.intro} onBtnClick={setIntroVisited} />
-    }
+    useEffect(() => {
+        switch (true) {
+            case state.isIntroSlide && typeof state.data.intro !== "undefined":
+                setComponent(<Intro model={state.data.intro} onBtnClick={setIntroVisited} />);
+                break;
 
-    if (state.isSubmitSlide)
-        return <Submit model={state.data.submit} />
+            case state.isSubmitSlide:
+                setComponent(<Submit model={state.data.submit} />);
+                break;
 
-    if (state.isEndingSlide) {
-        return <Ending model={state.data.ending} />
-    }
+            case state.isEndingSlide:
+                setComponent(<Ending model={state.data.ending} />);
+                break;
+
+            default:
+                setComponent(<SlideRenderer key={state.currIdx} />);
+                break;
+        }
+    }, [state, setIntroVisited]); // dependencies array to re-run the effect when state changes
 
     return (
-        <div className="slide-container" >
-            <SlideRenderer key={state.currIdx} />
+        <div style={{ width: "100%" }}>
+            {component}
         </div>
     );
-}
+};

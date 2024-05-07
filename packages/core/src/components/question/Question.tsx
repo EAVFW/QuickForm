@@ -14,6 +14,7 @@ type QuestionProps = {
 
 const questionStyling: React.CSSProperties = {
     marginTop: quickformtokens.questionTopMargin,
+    marginBottom: quickformtokens.questionBottomMargin,
     maxWidth: '72rem',
     transition: "transform 0.3s ease-out",
     minHeight: '100px',

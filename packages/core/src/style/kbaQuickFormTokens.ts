@@ -59,10 +59,11 @@ export const kbaQuickFormTokens: QuickFormTokens = {
     questionInputFontSize: "1.3rem",
     questionInputGap: "1.5rem",
     questionPlaceholderColor: '#757575',
-
+    questionHeadlineFontWeight: 400,
     questionTopMargin: '15px',
+    questionBottomMargin: '15px',
     questionBorderRadius: '15px',
-    questionPadding: '10px',
+    questionPadding: '0px',
     gap1: '0.5rem',
     gap2: '1rem',
     gap4: '2rem',

@@ -42,6 +42,7 @@ type QuickFormTokensBase = {
     multilineTextMobileFontSize: FontSize,
 
     questionHeadlineFontSize: FontSize,
+    questionHeadlineFontWeight: number,
     questionParagraphFontSize: FontSize,
     questionNumberFontSize: FontSize,
     questionInputFontSize: FontSize,
@@ -59,6 +60,7 @@ type QuickFormTokensBase = {
     // Question
     questionBorderRadius: string;
     questionTopMargin: string;
+    questionBottomMargin:string;
     questionPadding: string;
     questionInputGap: Gap,
 };

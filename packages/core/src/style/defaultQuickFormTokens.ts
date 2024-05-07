@@ -57,10 +57,11 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     questionInputFontSize: "3rem",
     questionInputGap: "3.6rem",
     questionPlaceholderColor: 'color-mix(in srgb, var(--on-surface) 80%, black)',
-
+    questionHeadlineFontWeight:400,
+    questionBottomMargin: '15px',
     questionTopMargin: '15px',
     questionBorderRadius: '15px',
-    questionPadding: '10px',
+    questionPadding: '0px',
     gap1: '0.5rem',
     gap2: '1rem',
     gap4: '2rem',

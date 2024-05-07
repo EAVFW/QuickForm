@@ -47,7 +47,8 @@ export const SlideRenderer: React.FC = () => {
 
 const slideStyling: React.CSSProperties = {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width: '100%'
 }
 
 

@@ -17,7 +17,7 @@ export const QuestionHeading: React.FC<QuestionHeadingProps> = ({ children, labe
 
     const headingStyles: React.CSSProperties = {
         fontSize: quickformtokens.questionHeadlineFontSize,
-        fontWeight: 'bold',
+        fontWeight: quickformtokens.questionHeadlineFontWeight,
         color: quickformtokens.onSurface,
         position: "relative",
         display: 'flex',
