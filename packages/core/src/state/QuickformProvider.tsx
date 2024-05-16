@@ -25,7 +25,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
         children,
         definition,
         payload,
-        tokens = kbaQuickFormTokens,
+        tokens,
         asContainer,
         onSubmitAsync = async (data) => { return "" }
     }
