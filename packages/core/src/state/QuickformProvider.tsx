@@ -15,8 +15,8 @@ type QuickFormProviderProps = {
     definition: QuickFormDefinition;
     tokens?: Partial<QuickFormTokens>;
     payload: any;
-    asContainer?: boolean,
-    onSubmitAsync?: (formdata: any) => Promise<string>,
+    asContainer?: boolean;
+    onSubmitAsync?: (formdata: any) => Promise<string>;
 }
 
 export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
@@ -27,12 +27,14 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
         payload,
         tokens,
         asContainer,
-        onSubmitAsync = async (data) => { return "" }
+        onSubmitAsync
     }
 ) => {
 
     const logger = resolveQuickFormService("logger");
     const cssVariables = defineQuickFormTokens(tokens ?? {}, definition?.layout?.tokens ?? {});
+
+    
     logger.log("cssVariables", cssVariables);
     const transform = resolveQuickFormService("modeltransformer");
     const defaultStateObj = useMemo(() => { return defaultState(transform(definition, payload), definition.layout) }, []);

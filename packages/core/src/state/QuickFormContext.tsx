@@ -15,7 +15,7 @@ interface IQuickFormContext {
     setErrorMsg: (msg: string) => void;
     isFirstQuestionInCurrentSlide: (questionLogicalName: string) => boolean;
     getCurrentSlide: () => SlideModel;
-    onSubmitAsync: (formdata: any) => Promise<string>;
+    onSubmitAsync?: (formdata: any) => Promise<string>;
     cssVariables: { [key: string]: string };
 }
 
