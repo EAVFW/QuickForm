@@ -1,3 +1,4 @@
+import { stat } from "fs/promises";
 import { resolveQuickFormService } from "../services";
 import { getAllIntermediateQuestions, getAllQuestions, isSlideVisited } from "../utils/quickformUtils";
 import { QuickformAction } from "./QuickformAction";
@@ -6,12 +7,32 @@ import { NavigationActionHandler } from "./action-handlers/NavigationActionHandl
 import { QuestionActionHandler } from "./action-handlers/QuestionActionHandler";
 import { VisibilityHandler } from "./action-handlers/VisibilityHandler";
 
+import { trace } from "@opentelemetry/api";
+
 export const quickformReducer = (state: QuickformState, action: QuickformAction): QuickformState => {
     const logger = resolveQuickFormService("logger");
     logger.log("QuickForm Reducer {action}", action.type, action);
+
+    const span = trace.getActiveSpan();
+    if (span) {
+        span.addEvent("QuickFormReducer:Triggered", { action: action.type });
+    }
+
     switch (action.type) {
 
         case 'ANSWER_QUESTION': {
+
+            if (span) {
+                span.addEvent("QuickFormReducer:ANSWER_QUESTION", { value: action.output, logicalName: action.logicalName });
+            }
+
+            for (let slide of state.slides) {
+                for (let question of slide.questions) {
+                    question.isActive = question.logicalName === action.logicalName;
+
+                }
+            }
+
             state = QuestionActionHandler.answerQuestion(state, action);
 
             // Validate the question input
@@ -26,6 +47,23 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
             if (state.autoAdvanceSlides && isSlideVisited(state.slides[state.currIdx]) && !action.intermediate) {
                 state = NavigationActionHandler.handleNextSlideAction(state);
             }
+
+            //If a question is answered, we can set the next question to be active.
+
+           
+
+            if (!action.intermediate) {
+               
+                const currentQuestion = state.slides[state.currIdx].questions.find(q => q.logicalName === action.logicalName);
+                currentQuestion.isActive = false;
+                const currentQuestionIdx = state.slides[state.currIdx].questions.indexOf(currentQuestion);
+                const nextQuestion = state.slides[state.currIdx].questions[currentQuestionIdx + 1];
+                if (nextQuestion) {
+                    nextQuestion.isActive = true;
+                   
+                }
+            }
+          
 
             return state;
         }
