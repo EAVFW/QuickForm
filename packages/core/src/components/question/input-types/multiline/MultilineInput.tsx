@@ -61,7 +61,7 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
     }, [ref, isFirstQuestionInCurrentSlide, questionModel.logicalName]);
 
     return (
-        <textarea
+        <textarea onBlur={() => answerQuestion(questionModel.logicalName, text, false)}
             ref={ref}
             className={styles.inputText}
             placeholder={placeholder}

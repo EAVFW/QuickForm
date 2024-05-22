@@ -24,14 +24,15 @@ export class QuestionActionHandler {
     static updateQuestionProperties = (state: QuickformState, logicalName: string, propertiesToUpdate: any): QuickformState => {
         const { slideIndex, questionIndex } = this.findSlideIdxAndQuestionIdx(state, logicalName);
 
-        if (slideIndex === -1 || questionIndex === -1) {
-            return state;
-        }
+        
 
         const newState = { ...state };
         const targetQuestion = state.isSubmitSlide ?
             newState.data.submit.submitFields[questionIndex] :
             newState.slides[slideIndex].questions[questionIndex];
+
+        if (!targetQuestion)
+            return state;
 
         Object.entries(propertiesToUpdate).forEach(([key, value]) => {
             if (targetQuestion.hasOwnProperty(key) && typeof value === 'object' && !Array.isArray(value) && value !== null) {

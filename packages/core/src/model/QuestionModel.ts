@@ -88,4 +88,8 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
      * the state of validation and providing feedback to the user.
      */
     validationResult?: ValidationResult;
+
+
+    /** is true if the question is active. Input controls should set focus if set to active*/
+    isActive?: boolean
 }
