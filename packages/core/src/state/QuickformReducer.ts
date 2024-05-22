@@ -55,12 +55,14 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
             if (!action.intermediate) {
                
                 const currentQuestion = state.slides[state.currIdx].questions.find(q => q.logicalName === action.logicalName);
-                currentQuestion.isActive = false;
-                const currentQuestionIdx = state.slides[state.currIdx].questions.indexOf(currentQuestion);
-                const nextQuestion = state.slides[state.currIdx].questions[currentQuestionIdx + 1];
-                if (nextQuestion) {
-                    nextQuestion.isActive = true;
-                   
+                if (currentQuestion) {
+                    currentQuestion.isActive = false;
+                    const currentQuestionIdx = state.slides[state.currIdx].questions.indexOf(currentQuestion);
+                    const nextQuestion = state.slides[state.currIdx].questions[currentQuestionIdx + 1];
+                    if (nextQuestion) {
+                        nextQuestion.isActive = true;
+
+                    }
                 }
             }
           
