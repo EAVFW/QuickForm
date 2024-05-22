@@ -15,7 +15,7 @@ export const SlideRenderer: React.FC = () => {
     const currentSlide = state.slides[state.currIdx];
 
     /* Listens to enter key pressed */
-    const enterKeyDisabled = currentSlide.questions.some(q => q.inputType === "multilinetext");
+    const enterKeyDisabled = currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive);
     useHandleEnterKeypress("slide", enterKeyDisabled, goToNextSlide);
 
     const [className, setClassName] = useState(state.classes.slide);
