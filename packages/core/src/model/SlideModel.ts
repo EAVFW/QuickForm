@@ -24,6 +24,11 @@ export class SlideModel {
             ref: layout.ref
         } as QuestionLayout;
     }
+
+    /**
+     * When all questions are answered, the slide is considered answered.
+     */
+    public get isAnswered() { return this.questions.every(q => q.answered); }
 }
 
 export type QuestionLayout = {

@@ -4,6 +4,7 @@ import { useQuickForm } from "../../../state/QuickFormContext";
 import { quickformtokens } from "../../../style/quickFormTokensDefinition";
 import { HeadingNumberDisplayProvider, registerQuickFormService, resolveQuickFormService } from "../../../services/QuickFormServices";
 
+
 type QuestionHeadingProps = {
     readonly children: ReactNode;
     readonly style?: React.CSSProperties;
@@ -28,10 +29,19 @@ export const QuestionHeading: React.FC<QuestionHeadingProps> = ({ children, labe
 
     return (
         <h1 style={{ ...style, ...headingStyles }}>
-            {shouldDisplayNumber && <span style={{ marginRight: quickformtokens.gap1, fontSize: quickformtokens.questionNumberFontSize, }}>
-                <span style={{ marginRight: '5px' }}>{label}</span>
+            {shouldDisplayNumber && <div style={{
+                marginRight: quickformtokens.gap1, fontSize: `calc( ${quickformtokens.questionNumberFontSize} * 0.85 )` ,
+                position: 'absolute',
+                left: '0px',
+                translate: '-110px',
+                justifyContent: 'end',
+                width: '100px' ,
+                display: 'flex',
+                alignItems: 'center'   
+            }}>
+                <span style={{ marginRight: quickformtokens.gap1}}>{label}</span>
                 <ImArrowRightIcon size="12px" />
-            </span>}
+            </div>}
             {children}
         </h1>
     );

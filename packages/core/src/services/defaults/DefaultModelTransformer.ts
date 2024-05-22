@@ -145,6 +145,7 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload: any): SubmitMo
 
     const submitFields = Object.fromEntries(
         Object.entries((schema?.properties ?? {}) as { [key: string]: any })
+            .filter(([k, v]) => uiSchema?.[k]?.["ui:widget"] !== "hidden")
             .map(([k, v]) => [k, {
                 inputType: v.type === "string" ? "text" : "dropdown",
                 options: v.type === "string" ? undefined : { "Y": "Yes", "N": "No" },
