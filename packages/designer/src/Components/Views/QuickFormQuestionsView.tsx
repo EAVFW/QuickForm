@@ -25,7 +25,7 @@ export const QuickFormQuestionsView: React.FC<{
     const styles = useViewStyles();
     const schemas = resolveInputComponentSchemas();
 
-    console.log("QuickFormQuestionsView", [currentQuestion, questions, questions[currentQuestion]]);
+    console.log("QuickFormQuestionsView", [currentQuestion, questions, currentQuestion && questions[currentQuestion]]);
     if (currentQuestion && currentQuestion in questions) {
         const question = questions[currentQuestion];
 
