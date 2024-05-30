@@ -82,7 +82,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
         span.addEvent("BaseInputComponent:render");
     }
 
-    
+
 
     const resize = () => {
         const input = ref.current;
@@ -104,7 +104,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log("BaseInputComponent:handleChange", event.target.value);         
+        console.log("BaseInputComponent:handleChange", event.target.value);
         if (span) {
             span.addEvent("BaseInputComponent:handleChange", { 'value': event.target.value });
         }
@@ -119,9 +119,9 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
     }
 
     /**
-     * The input control is responsible of setting it self focus when becoming active.
-     * - We should also listen to input controls being focused and if not active, trigger a reducer that its set active.
-     *   Ultimatly removing active from other questions. This happens right now when an answer is given (intermediate or not), so not critical.
+     * The input control is responsible of setting itself focused when becoming active.
+     * - We should also listen to inputcontrols being focused and if not active, trigger a reducer that sets it to active. Ultimately removing active from other questions. 
+     * This happens right now when an answer is given (intermediate or not), so not critical.
      */
     useEffect(() => {
         if (questionModel.isActive)
@@ -132,7 +132,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
      * While a base input component is active we should answer the question upon enter.
      */
     useHandleEnterKeypress("baseinput", !questionModel.isActive, () => {
-        answerQuestion(questionModel.logicalName, text,false);
+        answerQuestion(questionModel.logicalName, text, false);
     });
 
     return (

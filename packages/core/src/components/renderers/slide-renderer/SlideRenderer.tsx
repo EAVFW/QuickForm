@@ -1,25 +1,31 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
 import { useQuickForm } from '../../../state/QuickFormContext';
-import { Button } from '../../button/Button';
+import { Button, Slide } from '../../index';
 import { useHandleEnterKeypress } from '../../../hooks';
-import { Slide } from '../../slide/Slide';
-import { Checkmark } from '../../icons';
-import { quickformtokens } from '../../../style/quickFormTokensDefinition';
+import { quickformtokens } from "../../../style";
 import { mergeClasses } from '@griffel/react';
-
-
+import { IconResolver } from '../../icons/IconResolver';
+import { SlideModel } from '../../../model';
 
 export const SlideRenderer: React.FC = () => {
+
     const { state, goToNextSlide } = useQuickForm();
-    const currentSlide = state.slides[state.currIdx];
-
-    console.log("SlideRenderer", currentSlide);
-    /* Listens to enter key pressed */
-    const enterKeyDisabled = currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive);
-    useHandleEnterKeypress("slide", enterKeyDisabled, goToNextSlide);
-
     const [className, setClassName] = useState(state.classes.slide);
+
+    const currentSlide: SlideModel = state.slides[state.currIdx];
+    const buttonText: string = currentSlide.buttonText ?? "OK";
+    const showPressEnter: boolean = currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive) === false;
+
+    /* KBA - Leaving this for now - have to get back to it since we never actually set .isActive property on question.. so we cant use it to condition with at the moment.. */
+    // const showPressEnter: boolean = currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive) === false;
+    console.log("showPressEnter", showPressEnter);
+    console.log("showPressEnterCondition", currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive));
+    console.log("showPressEnterCurrentSlide", currentSlide);
+
+    /* Listens to enter key pressed */
+    useHandleEnterKeypress("slide", !showPressEnter, goToNextSlide);
+
     let nextAllowedEffectTime = useRef(new Date().getTime());
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -40,8 +46,13 @@ export const SlideRenderer: React.FC = () => {
             <Button
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}
                 onClick={goToNextSlide}
-                showPressEnter={!enterKeyDisabled}
-                children={<>OK<Checkmark style={{ height: '100%', marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={24} /></>} />
+                showPressEnter={showPressEnter}
+                children={
+                    <>
+                        {buttonText}<IconResolver type={currentSlide.icon} style={{ height: '100%', marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={24} />
+                    </>
+                }
+            />
         </div>
     );
 };
