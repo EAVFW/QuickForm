@@ -87,8 +87,9 @@ export class QuestionActionHandler {
     }
 
     static async validateInput(state: QuickformState, logicalName: string): Promise<ValidationResult> {
-        const questionRef = findQuestionByKey(logicalName, getAllQuestions(state.slides));
+        const questionRef = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides));
         if (!questionRef) {
+            console.log("Question not valid", [logicalName, getAllQuestions(state.slides)])
             return {
                 isValid: false,
                 message: 'Question not valid',

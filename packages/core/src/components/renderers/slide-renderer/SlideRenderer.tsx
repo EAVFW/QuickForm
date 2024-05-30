@@ -14,6 +14,7 @@ export const SlideRenderer: React.FC = () => {
     const { state, goToNextSlide } = useQuickForm();
     const currentSlide = state.slides[state.currIdx];
 
+    console.log("SlideRenderer", currentSlide);
     /* Listens to enter key pressed */
     const enterKeyDisabled = currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive);
     useHandleEnterKeypress("slide", enterKeyDisabled, goToNextSlide);

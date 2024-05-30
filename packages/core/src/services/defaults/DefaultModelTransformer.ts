@@ -22,8 +22,11 @@ function processRows(rowLayouts: SlideElements, slide: SlideModel, questions: Qu
             case "question":
 
                 const question = questions[rowLayout.ref];
-                if (!question)
+                if (!question) {
+
+                    logger.warn("Question missing for row ref {@ref}", rowLayout.ref);
                     return;
+                }
 
                 rows.push(slide.addQuestion(rowLayout, question, payload));
                 break;

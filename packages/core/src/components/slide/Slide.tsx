@@ -9,7 +9,7 @@ type SlideProps = {
 }
 
 export const Slide: React.FC<SlideProps> = ({ model, className }: SlideProps) => {
-
+    console.log("Slide", model);
     return (
         <div className={className} id="Slide" style={{ display: 'flex', flexDirection: 'column', width: "100%" }}>
             {
