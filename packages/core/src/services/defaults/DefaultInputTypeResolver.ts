@@ -18,10 +18,8 @@ const parseInputProperties = (questionJsonModel: QuestionJsonModel): InputProper
             .filter(([key]) => !['text', 'paragraph', 'placeholder'].includes(key))
             .map(([key, schema]) => [key, questionJsonModel[key as keyof QuestionJsonModel] ?? getDefaultValue(schema)])) as InputPropertiesTypes;
     }
-    //This will always return {} , do we know what we are doing here? KBA?
-    const inputTypePropertiesMap: { [key: string]: () => InputPropertiesTypes } = {};
 
-    return inputType in inputTypePropertiesMap ? inputTypePropertiesMap[inputType]() : {};
+    return {};
 };
 
 registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);

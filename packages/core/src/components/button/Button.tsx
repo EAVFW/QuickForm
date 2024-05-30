@@ -72,7 +72,7 @@ export const Button: React.FC<PropsWithChildren<BtnContainerProps>> = ({ childre
 
             </button>
             {!disabled && !isOnMobile && showPressEnter && (
-                <span style={{ color: quickformtokens.onPrimary, fontSize: quickformtokens.btnEnterKeyTextFontSize }}>
+                <span style={{ color: quickformtokens.onSurface, fontSize: quickformtokens.btnEnterKeyTextFontSize }}>
                     <>Tryk <strong style={{ fontWeight: 'bolder', letterSpacing: '0.04em', }}>Enter ↵</strong></>
                 </span>
             )}
