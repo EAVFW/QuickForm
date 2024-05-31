@@ -38,7 +38,7 @@ const validateEmail = (output: any): ValidationResult => {
 
 const validatePhone = async (output: any): Promise<ValidationResult> => {
     // Wait for 2 seconds to demo
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // await new Promise(resolve => setTimeout(resolve, 2000));
 
     const phoneRegex = /^[0-9]{8,}$/;
     const valid = typeof output === 'string' && phoneRegex.test(output);

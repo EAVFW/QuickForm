@@ -1,11 +1,9 @@
 "use client";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { makeStyles, shorthands } from "@griffel/react";
-import { quickformtokens } from "../../../../style/quickFormTokensDefinition";
+import {  useQuickForm, InputComponentType, registerInputComponent, quickformtokens } from "@eavfw/quickform-core";
 import { multilineInputSchema } from "./MultilineInputSchema";
-import { MultilineProperties } from "../../../../model/index";
-import { useQuickForm } from "../../../../state/QuickFormContext";
-import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import { MultilineProperties } from "../../../../core/src/model";
 
 const useInputTextStyles = makeStyles({
     inputText: {

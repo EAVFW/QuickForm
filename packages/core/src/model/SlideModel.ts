@@ -1,3 +1,4 @@
+import { IconType } from "../components/icons/IconResolver";
 import { resolveQuickFormService } from "../services/QuickFormServices";
 import { QuestionModel } from "./QuestionModel";
 import { QuestionJsonModel } from "./json-definitions/JsonDataModels";
@@ -5,6 +6,8 @@ import { QuestionRef } from "./json-definitions/Layout";
 
 export class SlideModel {
     displayName?: string;
+    buttonText?: string;
+    icon?: IconType;
     questions: QuestionModel[] = [];
     rows: Row[];
 

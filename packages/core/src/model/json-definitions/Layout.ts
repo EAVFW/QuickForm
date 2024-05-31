@@ -1,5 +1,6 @@
 import { QuickFormTokens } from "../../style/quickFormTokensDefinition";
 import { QuickformClassNames } from "../../state/QuickformState";
+import { IconType } from "../../components/icons/IconResolver";
 
 export type LayoutDefinition = {
     classes?: Partial<QuickformClassNames>,
@@ -19,7 +20,9 @@ export type SlideLayout = {
     style?: React.CSSProperties;
     rows?: SlideElements;
     schemaName?: string;
-    logicalName?: string
+    logicalName?: string;
+    buttonText?: string;
+    icon?: IconType;
 }
 
 /**

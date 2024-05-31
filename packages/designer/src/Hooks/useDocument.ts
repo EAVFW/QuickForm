@@ -73,7 +73,7 @@ export const useDocument = (entityName: string, attributeName: string, designerL
         }
     }, [quickformpayload, old, formData, column.logicalName]);
 
-    const view = quickformpayload.__designer?.activeView ?? "settings";
+    const view = quickformpayload.__designer?.activeView ?? "intro";
     const activeQuestion = quickformpayload.__designer?.activeQuestion;
     const activeSlide = quickformpayload.__designer?.activeSlide;
     const setActiveSlide = (slide?: string) => updateQuickFormPayload(old => { if (!old.__designer) { old.__designer = {} }; old.__designer.activeSlide = slide; return { ...old }; });

@@ -6,11 +6,9 @@ import { ErrorPopup, QuickFormContainer } from "../components";
 import { QuickFormTokens, defineQuickFormTokens } from "../style/quickFormTokensDefinition";
 import { QuickFormDefinition } from "../model";
 import { resolveQuickFormService } from "../services/QuickFormServices";
-import { kbaQuickFormTokens } from "../style/kbaQuickFormTokens";
 import { isFirstQInCurrentSlide } from "../utils/isFirstQuestionInSlide";
 
 type QuickFormProviderProps = {
-    className?: string,
     children: React.ReactNode;
     definition: QuickFormDefinition;
     tokens?: Partial<QuickFormTokens>;
@@ -21,7 +19,6 @@ type QuickFormProviderProps = {
 
 export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
     {
-        className,
         children,
         definition,
         payload,
@@ -34,7 +31,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
     const logger = resolveQuickFormService("logger");
     const cssVariables = defineQuickFormTokens(tokens ?? {}, definition?.layout?.tokens ?? {});
 
-    
+
     logger.log("cssVariables", cssVariables);
     const transform = resolveQuickFormService("modeltransformer");
     const defaultStateObj = useMemo(() => { return defaultState(transform(definition, payload), definition.layout) }, []);
