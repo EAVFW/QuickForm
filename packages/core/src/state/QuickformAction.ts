@@ -16,6 +16,6 @@ export type QuickformAction =
     | { type: 'SUBMIT', dispatch: React.Dispatch<QuickformAction>, id: string }
     | { type: 'SET_INTRO_VISITED' }
     | { type: 'GO_TO_ENDING' }
-    | { type: 'ADD_PAYLOAD_AUGMENTER', augmenter }
-    | { type: 'REMOVE_PAYLOAD_AUGMENTER', augmenter }
+    | { type: 'ADD_PAYLOAD_AUGMENTER', augmenter: (payload:any)=>any }
+    | { type: 'REMOVE_PAYLOAD_AUGMENTER', augmenter: (payload: any) => any }
     ;

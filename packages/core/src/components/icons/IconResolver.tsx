@@ -6,7 +6,7 @@ import { Checkmark } from '../icons/Checkmark';
 
 export type IconType = "Email" | "Phone" | "User";
 export type IconResolverProps = {
-    type: IconType,
+    type?: IconType,
 } & IconProps
 
 export const IconResolver: React.FC<IconResolverProps> = ({ type, color, className, size, style }): JSX.Element => {
