@@ -55,6 +55,13 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
     const isFirstQuestionInCurrentSlide = (questionLogicalName: string) => { return isFirstQInCurrentSlide(questionLogicalName, state); }
     const getCurrentSlide = () => (state.slides[state.currIdx]);
 
+    const addPayloadAugmenter = (augmenter: (payload: any) => any) => {
+        dispatch({ type: 'ADD_PAYLOAD_AUGMENTER', augmenter })
+    }
+    const removePayloadAugmenter = (augmenter: (payload: any) => any) => {
+        dispatch({ type: 'REMOVE_PAYLOAD_AUGMENTER', augmenter })
+    }
+
     return (
         <QuickFormContext.Provider value={{
             state,
@@ -68,7 +75,9 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
             isFirstQuestionInCurrentSlide,
             getCurrentSlide,
             onSubmitAsync,
-            cssVariables
+            cssVariables,
+            removePayloadAugmenter,
+            addPayloadAugmenter
         }}>
 
             {asContainer ? (

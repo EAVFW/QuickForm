@@ -20,7 +20,8 @@ export type QuickformState = {
     slides: SlideModel[];
     submitStatus: SubmitStatus;
     totalSteps: number;
-    classes: Partial<QuickformClassNames>
+    classes: Partial<QuickformClassNames>,
+    payloadAugments: Array<(payload: any) => any>
 }
 
 export const defaultState = (data: QuickFormModel = defaultData, layout?: LayoutDefinition): QuickformState => {
@@ -42,6 +43,7 @@ export const defaultState = (data: QuickFormModel = defaultData, layout?: Layout
         slides: data.slides,
         submitStatus: { isSubmitting: false, isSubmitError: false, isSubmitSuccess: false },
         totalSteps: data.slides.length,
+        payloadAugments:[]
     };
 
     return defState;

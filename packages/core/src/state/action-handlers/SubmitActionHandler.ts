@@ -42,7 +42,7 @@ export class SubmitActionHandler {
     static generatePayload = (state: QuickformState): Record<string, any> => {
 
         const logger = resolveQuickFormService("logger");
-        const payload: Record<string, any> = {};
+        let payload: Record<string, any> = {};
         for (var slide of state.slides) {
             slide.questions.forEach(q => {
                 payload[q.logicalName!] = q.output;
@@ -62,6 +62,9 @@ export class SubmitActionHandler {
             }
 
             payload["submitFields"][q.logicalName] = value;
+        }
+        for (let augmenter of state.payloadAugments) {
+            payload = augmenter(payload);
         }
 
         return payload;

@@ -16,6 +16,8 @@ interface IQuickFormContext {
     isFirstQuestionInCurrentSlide: (questionLogicalName: string) => boolean;
     getCurrentSlide: () => SlideModel;
     onSubmitAsync?: (formdata: any) => Promise<string>;
+    addPayloadAugmenter: (augmenter: (payload: any) => any) => void;
+    removePayloadAugmenter: (augmenter: (payload: any) => any) => void;
     cssVariables: { [key: string]: string };
 }
 
@@ -34,6 +36,8 @@ export const QuickFormContext = React.createContext<IQuickFormContext>(
             { questions: [], rows: [], isAnswered: false, addQuestion: () => ({ type: "question", ref: "" }) }
         ),
         onSubmitAsync: async (formdata) => { return "" },
+        addPayloadAugmenter: () => { },
+        removePayloadAugmenter: () => { },
         cssVariables: {}
     }
 );

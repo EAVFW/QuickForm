@@ -20,6 +20,15 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
 
     switch (action.type) {
 
+        case 'ADD_PAYLOAD_AUGMENTER': {
+            state.payloadAugments = [...state.payloadAugments, action.augmenter];
+            return state;
+        }
+        case 'REMOVE_PAYLOAD_AUGMENTER': {
+            state.payloadAugments = state.payloadAugments.filter(augmenter => augmenter !== action.augmenter);
+            return state;
+        }
+
         case 'ANSWER_QUESTION': {
 
             if (span) {
