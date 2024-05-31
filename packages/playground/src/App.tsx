@@ -3,11 +3,8 @@ import { QuickFormDefinition } from '../../core/src/model';
 import testdata from "./data/allInputControlsMultipleSlidesTest.json";
 import { QuickFormProvider } from '../../core/src/state';
 import { NavigationButton, QuickForm } from '../../core/src/components';
-import "./components/buttons-input/ButtonsInput";
-import "./components/checkbox-input/CheckboxInput";
-import "./components/radio-input/RadioInput";
-import "./components/slider-input/SliderInput";
-import { QuickFormContainer } from './components/container/QuickFormContainer';
+import { QuickFormContainer } from './components';
+import "./components/index";
 
 const containerStyling: React.CSSProperties = {
     width: '100%',

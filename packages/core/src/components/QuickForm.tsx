@@ -2,7 +2,6 @@
 import React from 'react';
 import { useQuickForm } from "../state/QuickFormContext";
 import { Ending, Submit, Intro, SlideRenderer } from "./index";
-import "./question/input-types/index";
 
 export const QuickForm: React.FC = () => {
     const { state, setIntroVisited } = useQuickForm();
