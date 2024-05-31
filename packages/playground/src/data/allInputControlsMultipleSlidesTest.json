@@ -3,6 +3,8 @@
         "autoAdvanceSlides": false,
         "slides": {
             "slide1": {
+                "buttonText": "Test1",
+                "icon": "undefined",
                 "title": "Test titel",
                 "rows": {
                     "row1": {
@@ -28,6 +30,8 @@
                 }
             },
             "slide2": {
+                "buttonText": "Test2",
+                "icon": "Email",
                 "rows": {
                     "row1": {
                         "columns": {
@@ -52,6 +56,8 @@
                 }
             },
             "slide3": {
+                "buttonText": "Test3",
+                "icon": "undefined",
                 "rows": {
                     "row1": {
                         "columns": {
@@ -177,7 +183,7 @@
             "paragraph": "Test af multilinetext",
             "lang": "DA"
         },
-        "nameTest": {
+        "textTest": {
             "inputType": "text",
             "text": "Text test",
             "paragraph": "Test af text",
