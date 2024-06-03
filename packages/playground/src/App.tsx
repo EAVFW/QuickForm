@@ -1,6 +1,6 @@
 import React from 'react';
 import { QuickFormDefinition } from '../../core/src/model';
-import testdata from "./data/allInputControlsMultipleSlidesTest.json";
+import testdata from "./data/allInputControlsTest.json";
 import { QuickFormProvider } from '../../core/src/state';
 import { NavigationButton, QuickForm } from '../../core/src/components';
 import { QuickFormContainer } from './components';
