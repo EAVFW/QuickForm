@@ -160,6 +160,26 @@
                 "no": {
                     "key": "no",
                     "label": "Nej"
+                },
+                "maybe": {
+                    "key": "maybe",
+                    "label": "Måske"
+                },
+                "dontKnow": {
+                    "key": "dontKnow",
+                    "label": "Ved ikke"
+                },
+                "dontCare": {
+                    "key": "dontCare",
+                    "label": "Ligeglad"
+                },
+                "other": {
+                    "key": "other",
+                    "label": "Andet"
+                },
+                "other2": {
+                    "key": "other2",
+                    "label": "Andet 2"
                 }
             },
             "lang": "DA"
