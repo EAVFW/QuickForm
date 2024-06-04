@@ -1,27 +1,20 @@
 import React from 'react';
 import { QuickFormDefinition } from '../../core/src/model';
-import testdata from "./data/allInputControlsMultipleSlidesTest.json";
+import testdata from "./data/allInputControlsTest.json";
 import { QuickFormProvider } from '../../core/src/state';
 import { NavigationButton, QuickForm } from '../../core/src/components';
 import { QuickFormContainer } from './components';
 import "./components/index";
-
-const containerStyling: React.CSSProperties = {
-    width: '100%',
-    minHeight: '1200px',
-    padding: '10px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-}
+import { modernQuickFormTokens } from '@eavfw/quickform-core';
 
 export const App = () => {
     return (
-        <div style={containerStyling}>
+        <div>
             <QuickFormProvider
                 definition={testdata as QuickFormDefinition}
                 payload={{}}
-                asContainer={true}
+                asContainer={false}
+                tokens={modernQuickFormTokens}
             >
                 <QuickFormContainer
                     title="Test title"
@@ -30,7 +23,10 @@ export const App = () => {
                     <QuickForm />
                     <div
                         style={
-                            { display: 'flex', justifyContent: 'flex-end' }
+                            {
+                                display: 'flex',
+                                justifyContent: 'flex-end'
+                            }
                         }
                     >
                         <NavigationButton />

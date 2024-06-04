@@ -1,13 +1,13 @@
-import { QuickFormTokens } from "./quickFormTokensDefinition";
+import { QuickFormTokens } from "@eavfw/quickform-core";
 
-export const kbaQuickFormTokens: QuickFormTokens = {
+export const modernQuickFormTokens: QuickFormTokens = {
     white: '#FFFFFF',
     black: '#000000',
     warning: '#FFA000',
     success: '#4CAF50',
     info: '#2196F3',
 
-    primary: '#008000',
+    primary: 'rgb(23, 28, 71)',
     primaryLighter: 'color-mix(in srgb, var(--primary) 80%, white)',
     secondary: '#008000',
 
@@ -43,23 +43,23 @@ export const kbaQuickFormTokens: QuickFormTokens = {
     onPrimary: '#FFFFFF',
     onSecondary: '#FFFFFF',
 
-    fontFamily: 'Monaco, "Lucida Console", monospace',
+    fontFamily: 'Outfit, Monaco, monospace',
 
     headlineFontSize: '2rem',
     paragraphFontSize: '1rem',
     paragraphMobileFontSize: '1rem',
     btnFontSize: '1.1rem',
-    btnFontWeight: 600,
+    btnFontWeight: 300,
     btnEnterKeyTextFontSize: '1rem',
-    multilineTextFontSize: '1.1rem',
+    multilineTextFontSize: '1rem',
     multilineTextMobileFontSize: '1rem',
-    questionHeadlineFontSize: '1.4rem',
+    questionHeadlineFontSize: '1.2em',
+    questionHeadlineFontWeight: 300,
     questionParagraphFontSize: '1.2rem',
     questionNumberFontSize: '1.2rem',
     questionInputFontSize: "1.3rem",
     questionInputGap: "1.5rem",
     questionPlaceholderColor: '#757575',
-    questionHeadlineFontWeight: 400,
     questionTopMargin: '15px',
     questionBottomMargin: '15px',
     questionBorderRadius: '15px',

@@ -39,7 +39,6 @@ const useInputTextStyles = makeStyles({
 
         '@media screen and (max-width: 599px)': {
             fontSize: quickformtokens?.questionInputFontSize || "16px",
-            marginTop: '32px',
         },
 
     },
