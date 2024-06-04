@@ -64,6 +64,7 @@ export const kbaQuickFormTokens: QuickFormTokens = {
     questionBottomMargin: '15px',
     questionBorderRadius: '15px',
     questionPadding: '0px',
+    questionPaddingBottom: '15px',
     gap1: '0.5rem',
     gap2: '1rem',
     gap4: '2rem',

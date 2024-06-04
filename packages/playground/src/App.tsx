@@ -9,13 +9,7 @@ import { modernQuickFormTokens } from '@eavfw/quickform-core';
 
 export const App = () => {
     return (
-        <div
-            style={
-                {
-                    width: '100%',
-                }
-            }
-        >
+        <div>
             <QuickFormProvider
                 definition={testdata as QuickFormDefinition}
                 payload={{}}

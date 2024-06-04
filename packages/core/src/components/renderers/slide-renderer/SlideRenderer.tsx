@@ -41,7 +41,10 @@ export const SlideRenderer: React.FC = () => {
         }
     }, [state.currIdx])
     return (
-        <div className={className} id="SlideRenderer" style={slideStyling}        >
+        <div
+            id="SlideRenderer"
+            className={className}
+        >
             <Slide model={currentSlide} />
             <Button
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}
@@ -56,13 +59,6 @@ export const SlideRenderer: React.FC = () => {
         </div>
     );
 };
-
-const slideStyling: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%'
-}
-
 
 // enum ViewStatus {
 //     InView,
