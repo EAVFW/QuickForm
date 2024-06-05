@@ -25,7 +25,7 @@ const useButtonStyles = makeStyles({
         fontSize: '1rem',
         cursor: 'pointer',
         width: "100%",
-        flexGrow: 1,
+        flexGrow: 0,
         flexBasis: "100%",
 
         /* Extra small devices (phones, 600px and down) */
@@ -50,15 +50,15 @@ const useButtonStyles = makeStyles({
 
         ":nth-child(n+5)": {
             flexGrow: 0,
-            "@media only screen and (min-width: 600px)": {
-                flexBasis: "100%",
-            },
-            "@media only screen and (min-width: 768px)": {
-                flexBasis: "48%",
-            },
-            "@media only screen and (min-width: 992px)": {
-                flexBasis: "23%",
-            },
+            // "@media only screen and (min-width: 600px)": {
+            //     flexBasis: "100%",
+            // },
+            // "@media only screen and (min-width: 768px)": {
+            //     flexBasis: "48%",
+            // },
+            // "@media only screen and (min-width: 992px)": {
+            //     flexBasis: "23%",
+            // },
 
         },
 

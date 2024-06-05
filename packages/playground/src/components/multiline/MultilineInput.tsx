@@ -1,26 +1,26 @@
 "use client";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { makeStyles, shorthands } from "@griffel/react";
-import {  useQuickForm, InputComponentType, registerInputComponent, quickformtokens } from "@eavfw/quickform-core";
+import { useQuickForm, InputComponentType, registerInputComponent, quickformtokens } from "@eavfw/quickform-core";
 import { multilineInputSchema } from "./MultilineInputSchema";
 import { MultilineProperties } from "../../../../core/src/model";
 
 const useInputTextStyles = makeStyles({
     inputText: {
         backgroundColor: 'transparent',
-        ...shorthands.border(`1px solid ${quickformtokens.onSurface}`),
+        ...shorthands.border(`1px solid ${quickformtokens.primary}`),
         ...shorthands.borderRadius('5px'),
         color: quickformtokens.onSurface,
         fontSize: quickformtokens.multilineTextFontSize,
         marginTop: '15px',
         paddingBottom: '9px',
-        width: '100%',
-        maxHeight: '8rem', // Set maximum height for three lines
+        maxHeight: '8rem',
         height: '8rem',
-        resize: 'vertical',
+        width: '100%',
+        boxSizing: 'border-box',
         ...shorthands.overflow('auto'),
         '&:focus-visible': {
-            ...shorthands.borderBottom("2px", "solid", `${quickformtokens.onSurface}`),
+            ...shorthands.borderBottom("2px", "solid", `${quickformtokens.primary}`),
             ...shorthands.outline('none'),
             paddingBottom: '8px'
         },
@@ -38,6 +38,7 @@ const useInputTextStyles = makeStyles({
         },
     },
 });
+
 
 export const MultilineInput: InputComponentType<MultilineProperties> = ({ questionModel }) => {
     const styles = useInputTextStyles();
@@ -69,7 +70,6 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
             placeholder={placeholder}
             value={text}
             onChange={handleChange}
-            style={{ width: '100%' }}
         />
     );
 };

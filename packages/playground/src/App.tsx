@@ -6,10 +6,20 @@ import { NavigationButton, QuickForm } from '../../core/src/components';
 import { QuickFormContainer } from './components';
 import "./components/index";
 import { modernQuickFormTokens } from '@eavfw/quickform-core';
+import { makeStyles, shorthands } from "@griffel/react";
+
+const useAppStyles = makeStyles({
+    container: {
+        ...shorthands.padding("40px"),
+        ...shorthands.margin(0),
+    }
+});
 
 export const App = () => {
+
+    const classes = useAppStyles();
     return (
-        <div>
+        <div className={classes.container}>
             <QuickFormProvider
                 definition={testdata as QuickFormDefinition}
                 payload={{}}
@@ -21,16 +31,16 @@ export const App = () => {
                     subtitle='Test subtitle'
                 >
                     <QuickForm />
-                    <div
-                        style={
-                            {
-                                display: 'flex',
-                                justifyContent: 'flex-end'
-                            }
+                    {/* <div
+                    style={
+                        {
+                            display: 'flex',
+                            justifyContent: 'flex-end'
                         }
-                    >
-                        <NavigationButton />
-                    </div>
+                    }
+                >
+                    <NavigationButton />
+                </div> */}
                 </QuickFormContainer>
             </QuickFormProvider>
         </div>

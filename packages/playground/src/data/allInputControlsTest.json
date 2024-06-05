@@ -4,6 +4,7 @@
         "slides": {
             "slide1": {
                 "title": "Beregn prisen for rengøring af fliser",
+                "buttonText": "Næste",
                 "rows": {
                     "row1": {
                         "columns": {

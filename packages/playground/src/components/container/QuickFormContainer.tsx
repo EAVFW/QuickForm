@@ -1,5 +1,5 @@
 import { ErrorPopup, quickformtokens, useQuickForm } from "@eavfw/quickform-core";
-import { makeStyles, shorthands, mergeClasses } from "@griffel/react";
+import { makeStyles, shorthands } from "@griffel/react";
 import React, { PropsWithChildren } from "react";
 
 const useStyles = makeStyles({
@@ -8,6 +8,7 @@ const useStyles = makeStyles({
         ...shorthands.margin("20px", "0px"),
         ...shorthands.borderRadius("20px"),
         boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+        backgroundColor: quickformtokens.background ?? "white"
     }
 })
 
@@ -23,7 +24,7 @@ export const QuickFormContainer: React.FC<PropsWithChildren<QuickFormContainerPr
     return (
         <div
             id="QuickForm"
-            className={mergeClasses(styles.root/*, outfit.className*/)}
+            className={styles.root}
             style={cssVariables}
         >
             <ErrorPopup
