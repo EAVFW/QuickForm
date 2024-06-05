@@ -3,6 +3,10 @@ import { QuickformClassNames } from "../../state/QuickformState";
 import { IconType } from "../../components/icons/IconResolver";
 
 export type LayoutDefinition = {
+    /**
+     * The default text of next button on slides
+     */
+    defaultNextButtonText?: string;
     classes?: Partial<QuickformClassNames>,
     style?: React.CSSProperties;
     tokens?: Partial<QuickFormTokens>;
