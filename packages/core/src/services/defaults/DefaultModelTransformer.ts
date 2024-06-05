@@ -91,7 +91,7 @@ function handleLayout(layout: LayoutDefinition, questions: QuickFormQuestionsDef
         Object.values(layout.slides).forEach(slide => {
             const slideModel = new SlideModel();
             slideModel.displayName = slide.title;
-            slideModel.buttonText = slide.buttonText;
+            slideModel.buttonText = slide.buttonText ?? layout.defaultNextButtonText;
             slideModel.icon = slide.icon;
 
             if (slide.rows) {
@@ -153,12 +153,15 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload: any): SubmitMo
         Object.entries((schema?.properties ?? {}) as { [key: string]: any })
             .filter(([k, v]) => uiSchema?.[k]?.["ui:widget"] !== "hidden")
             .map(([k, v]) => [k, {
+              
                 inputType: v.type === "string" ? "text" : "dropdown",
                 options: v.type === "string" ? undefined : { "Y": "Yes", "N": "No" },
                 placeholder: uiSchema?.[k]?.["ui:placeholder"],
                 text: (uiSchema?.[k]?.["ui:label"] ?? true) ? v.title : undefined,
                 paragraph: v.description,
-                dataType: v.type
+                dataType: v.type,
+                ...uiSchema?.[k]?.["ui:inputProps"] ?? {}
+               
             } as QuestionJsonModel])
     );
 

@@ -12,10 +12,11 @@ import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 import { InputComponentMetadata, resolveInputComponentSchemas } from "@eavfw/quickform-core";
 
 
-const additionalFields = {} as { [key: string]: React.FC<FieldProps> };
+export const QuickformDesignerFields = {} as { [key: string]: React.FC<FieldProps> };
 
-export const registerInputControlDesignerField = (field: string, component: React.FC<FieldProps>) => additionalFields[field] = component;
-
+export function registerInputControlDesignerField<T = any>(field: string, component: React.FC<FieldProps<T>>) {
+    QuickformDesignerFields[field] = component as React.FC<FieldProps>;
+}
 export const QuickFormQuestionsView: React.FC<{
     dispatch: React.Dispatch<React.SetStateAction<QuickFormDesignerDefinition>>,
     currentQuestion?: string,
@@ -113,7 +114,7 @@ export const QuickFormQuestionsView: React.FC<{
                 {question.inputType &&
                     <Form tagName="div" key={currentQuestion + question.inputType}
                         templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
-                        fields={additionalFields}
+                        fields={QuickformDesignerFields}
                         validator={validator}
                         {...schemas[question.inputType]}
                         formData={questions[currentQuestion]}

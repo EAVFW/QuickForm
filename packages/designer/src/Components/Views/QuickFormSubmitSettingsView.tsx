@@ -11,6 +11,7 @@ import { mergeClasses } from "@fluentui/react-components";
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 import { JsonField, JsonWidget } from "./rjsf/Widgets/JsonWidget";
 import { RegistryFieldsType } from "@rjsf/utils";
+import { QuickformDesignerFields } from "./QuickFormQuestionsView";
 
 const submitSlideSchema = {
     label: "Ending Settings",
@@ -21,10 +22,8 @@ const submitSlideSchema = {
         paragraph: {
             "ui:widget": "textarea"
         },
-        submitFields: {
-            "ui:widget": "jsonWidget",
-         //   "ui:ObjectFieldTemplate": JsonFieldTemplate
-            "ui:field":"jsonField"
+        submitFields: {         
+            "ui:field":"QFSubmitField"
         }
     },
     schema: {
@@ -63,7 +62,9 @@ export const QuickFormSubmitSettingsView = () => {
 
     return (
         <div className={mergeClasses(styles.section, styles.sectionSlim)}>
-            <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }} fields={{ "jsonField": JsonField }} widgets={{ jsonWidget: JsonWidget }}
+            <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
+                fields={{ ...{ "QFSubmitField": JsonField }, ...QuickformDesignerFields }}
+                widgets={{ jsonWidget: JsonWidget }}
                 validator={validator}
                 {...submitSlideSchema}
                 formData={submit}
