@@ -20,6 +20,7 @@ const useButtonStyles = makeStyles({
 
     button: {
         height: "55px",
+        minHeight: "55px",
         backgroundColor: `${quickformtokens?.surface ?? "grey"}`,
         color: `${quickformtokens?.onSurface ?? "white"}`,
         fontSize: '1rem',
@@ -35,31 +36,19 @@ const useButtonStyles = makeStyles({
 
         /* Small devices (portrait tablets and large phones, 600px and up) */
         "@media only screen and (min-width: 600px)": {
-            flexBasis: "50%",
+            // flexBasis: "50%",
+            flexBasis: "calc(50% - 7.5px)"
         },
 
         /* Medium devices (landscape tablets, 768px and up) */
         "@media only screen and (min-width: 768px)": {
-            flexBasis: "33.33%",
+            flexBasis: "calc(33.3333% - 10px)",
         },
 
         /* Large devices (laptops/desktops, 992px and up) */
         "@media only screen and (min-width: 992px)": {
-            flexBasis: "22%",
-        },
-
-        ":nth-child(n+5)": {
-            flexGrow: 0,
-            // "@media only screen and (min-width: 600px)": {
-            //     flexBasis: "100%",
-            // },
-            // "@media only screen and (min-width: 768px)": {
-            //     flexBasis: "48%",
-            // },
-            // "@media only screen and (min-width: 992px)": {
-            //     flexBasis: "23%",
-            // },
-
+            // 4 buttons on a row gives 3 gaps (3x15 px) - this provides the calculation 45px/4 items width = 11.25px
+            flexBasis: "calc(25% - 11.25px)",
         },
 
         boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
@@ -71,12 +60,6 @@ const useButtonStyles = makeStyles({
         ),
         ...shorthands.border("1px", "solid", `${quickformtokens?.primary ?? "grey"}`),
         ...shorthands.borderRadius("5px"),
-        // ...shorthands.padding("0", "25px"),
-        ...shorthands.margin("5px"),
-        // '&:hover': { 
-        //     backgroundColor: `${quickformtokens?.primary || "grey"}`,
-        //     color: `${quickformtokens?.onPrimary || "white"}`,
-        // }
     },
     selected: {
         backgroundColor: `${quickformtokens?.primary ?? "grey"}`,
