@@ -60,9 +60,10 @@ type QuickFormTokensBase = {
     // Question
     questionBorderRadius: string;
     questionTopMargin: string;
-    questionBottomMargin:string;
+    questionBottomMargin: string;
     questionPadding: string;
     questionInputGap: Gap,
+    questionPaddingBottom: string;
 };
 
 export type QuickFormTokens = QuickFormTokensBase & {

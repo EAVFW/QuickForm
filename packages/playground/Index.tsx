@@ -2,4 +2,5 @@ import { App } from './src/App';
 import { createRoot } from 'react-dom/client';
 
 const container = document.getElementById('root');
-createRoot(container).render(<App />);
+container?.style.setProperty('background-color', 'lightgray');
+createRoot(container!).render(<App />);

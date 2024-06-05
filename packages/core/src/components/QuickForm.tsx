@@ -19,7 +19,7 @@ export const QuickForm: React.FC = () => {
     };
 
     return (
-        <div style={{ width: "100%" }}>
+        <div>
             {renderComponent()}
         </div>
     );
