@@ -173,8 +173,8 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload: any): SubmitMo
     });
 
     return {
-        text: schema?.title ?? submit?.text ?? "Submit QuickForm",
-        paragraph: schema?.description,
+        text: uiSchema["ui:label"] === false ? '': schema?.title ?? submit?.text ?? "Submit QuickForm",
+        paragraph: uiSchema["ui:label"] === false ? '' : schema?.description,
         buttonText: submit?.buttonText ?? "Submit",
         submitFields: submitFieldsArray,
         submitUrl: submit.submitUrl,
