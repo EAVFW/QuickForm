@@ -3,6 +3,7 @@ import { SubmitModel } from "../../model";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { Heading, Paragraph, Button, Spinner, Question } from "../index";
 import { SubmitActionHandler } from "../../state/action-handlers/SubmitActionHandler";
+import { useHandleEnterKeypress } from "../../hooks";
 
 type SubmitProps = {
     model: SubmitModel;
@@ -16,9 +17,9 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
         return <Spinner speed="medium" message="Submitting.. Please wait.." />
     }
 
+
+
     const handleSubmit = async () => {
-
-
         dispatch({ type: "SET_SUBMIT_STATUS", status: { ...state.submitStatus, isSubmitting: true } });
 
         try {
@@ -27,6 +28,9 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
             dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true, isSubmitSuccess: false } });
         }
     }
+
+    /* Listens to enter key pressed */
+    useHandleEnterKeypress("submit", false, handleSubmit);
 
     return (
         <div style={submitStyling}>
