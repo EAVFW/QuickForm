@@ -14,13 +14,13 @@ export const SlideRenderer: React.FC = () => {
     const [className, setClassName] = useState(state.classes.slide);
 
     const currentSlide: SlideModel = state.slides[state.currIdx];
-    const buttonText: string = currentSlide.buttonText ?? "OK";
-    const showPressEnter: boolean = currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive) === false;
+    const buttonText: string = currentSlide?.buttonText ?? "OK";
+    const showPressEnter: boolean = currentSlide?.questions?.some(q => q.inputType === "multilinetext" && q.isActive) === false;
 
     /* KBA - Leaving this for now - have to get back to it since we never actually set .isActive property on question.. so we cant use it to condition with at the moment.. */
     // const showPressEnter: boolean = currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive) === false;
     console.log("showPressEnter", showPressEnter);
-    console.log("showPressEnterCondition", currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive));
+    console.log("showPressEnterCondition", currentSlide?.questions?.some(q => q.inputType === "multilinetext" && q.isActive));
     console.log("showPressEnterCurrentSlide", currentSlide);
 
     /* Listens to enter key pressed */
@@ -52,7 +52,7 @@ export const SlideRenderer: React.FC = () => {
                 showPressEnter={showPressEnter}
                 children={
                     <>
-                        {buttonText}<IconResolver type={currentSlide.icon} style={{ height: '100%', marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={24} />
+                        {buttonText}<IconResolver type={currentSlide?.icon} style={{ height: '100%', marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={24} />
                     </>
                 }
             />

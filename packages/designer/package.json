@@ -10,8 +10,8 @@
     "@eavfw/designer-core": "^1.1.1",
     "@eavfw/designer-nodes": "^1.1.2",
     
-    "@eavfw/apps": "^1.4.0-vnext.27",
-    "@eavfw/manifest": "^1.5.0-vnext.10",
+    "@eavfw/apps": "^1.4.0-vnext.32",
+    "@eavfw/manifest": "^1.5.0-vnext.14",
     "@eavfw/forms": "^1.2.0-vnext.8",
     "@eavfw/utils": "^1.1.0-vnext.1",
 

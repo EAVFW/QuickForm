@@ -16,7 +16,7 @@ export const Slide: React.FC<SlideProps> = ({ model, className }: SlideProps) =>
         // style={{ display: 'flex', flexDirection: 'column', width: "100%" }}
         >
             {
-                model.rows.map((row, rowIndex) => (
+                model?.rows?.map((row, rowIndex) => (
                     <div
                         id={"row" + rowIndex}
                         key={rowIndex}

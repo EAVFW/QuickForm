@@ -5,10 +5,10 @@ import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
-import { mergeClasses } from "@fluentui/react-components";
+import { makeStyles, mergeClasses } from "@fluentui/react-components";
 import { JSONSchema7 } from "json-schema";
-import { ModernQuickFormContainer, QuickForm, QuickFormProvider, defaultQuickFormTokens } from "@eavfw/quickform-core";
-import { useState } from "react";
+import { defaultQuickFormTokens } from "@eavfw/quickform-core";
+import { Controls } from "@eavfw/apps";
 
 const inputSlideSchema = {
     label: "QuickForm Feature Flags",
@@ -75,75 +75,48 @@ registerToken("onError", "On Error Color", "The color used for text ontop of err
 registerToken("questionHeadlineFontSize", "Question Headline Font Size", "The size of the question headline...", "text");
 registerToken("questionParagraphFontSize", "Question Paragraph Font Size", "The size of question paragraph...", "text");
 
-type DemoDisplayTypes = "mobile" | "tablet" | "desktop";
-type DemoDisplay = {
-    [key in DemoDisplayTypes]: { width: number, height: number, title: string };
-
-};
-
-const demoDisplays: DemoDisplay = {
-    mobile: {
-        width: 320,
-        height: 568,
-        title: "Mobile"
-
-    },
-    tablet: {
-        width: 768,
-        height: 1024,
-        title: "Tablet"
-    },
-    desktop: {
-        width: 1366,
-        height: 768,
-        title: "Desktop"
+const useQuickformSettingsStyles = makeStyles({
+    container: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: "100%"
     }
+});
 
-};
+
 
 export const QuickFormSettingsView = () => {
 
     const { quickformpayload, updateQuickFormPayload: dispatch } = useQuickFormDefinition();
     const styles = useViewStyles();
-    const [currentDemoDisplay, setCurrentDemoDisplay] = useState<DemoDisplayTypes>("mobile");
-    const tokensSchema = inputSlideSchema.schema.properties?.quickFormTokens! as JSONSchema7;
+    const quickformSettingsStyles = useQuickformSettingsStyles();
+    const PreviewComponent = Controls["QuickFormSettingsViewPreviewComponent"];
 
     return (
-        <div className={mergeClasses(styles.section, styles.sectionSlim)}>
-            <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
-                validator={validator}
-                {...inputSlideSchema}
-                formData={quickformpayload.intro}
-                onChange={(a, b) => {
-                    console.log("change", [a, b]);
+        <div
+            className={mergeClasses(styles.section, quickformSettingsStyles.container)}
+        >
+            <div className={styles.sectionSlim}>
+                <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
+                    validator={validator}
+                    {...inputSlideSchema}
+                    formData={quickformpayload.intro}
+                    onChange={(a, b) => {
+                        console.log("change", [a, b]);
 
-                    dispatch(old => {
-                        if (!old.layout)
-                            old.layout = {};
+                        dispatch(old => {
+                            if (!old.layout)
+                                old.layout = {};
 
-                        old.layout.autoAdvanceSlides = a.formData.autoAdvanceSlides;
-                        return { ...old };
-                    });
-                }}
-            >
-                <QuickFormProvider
-                    // Hack to update the form when the payload changes
-                    key={currentDemoDisplay + JSON.stringify(quickformpayload)}
-                    definition={quickformpayload}
-                    payload={{}}
-                    tokens={tokensSchema.properties}
-                >
-                    <ModernQuickFormContainer
-                        title="QuickForm Settings"
-                        subtitle="Customize the look and feel of your QuickForm"
-                    >
-                        <QuickForm />
-                    </ModernQuickFormContainer>
-
-                </QuickFormProvider>
-                <>
-                </>
-            </Form>
+                            old.layout.autoAdvanceSlides = a.formData.autoAdvanceSlides;
+                            return { ...old };
+                        });
+                    }}
+                />
+            </div>
+            <div>
+                <PreviewComponent />
+            </div>
         </div>
     )
 }
