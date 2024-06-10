@@ -2,7 +2,6 @@
   "version": "1.0.0-vnext.36",
   "name": "@eavfw/quickform-core",
   "dependencies": {
-    "classnames": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -11,9 +10,6 @@
     "@opentelemetry/api": "^1.8.0"
   },
   "devDependencies": {
-    "react-icons": "^4.11.0",
-    "@types/classnames": "^2.3.1",
-    "html-webpack-plugin": "^5.6.0"
   },
   "license": "MIT",
   "files": [
