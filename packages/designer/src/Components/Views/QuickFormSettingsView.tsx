@@ -6,16 +6,14 @@ import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { mergeClasses } from "@fluentui/react-components";
-import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-import { defaultQuickFormTokens } from "@eavfw/quickform-core";
-
-
+import { JSONSchema7 } from "json-schema";
+import { ModernQuickFormContainer, QuickForm, QuickFormProvider, defaultQuickFormTokens } from "@eavfw/quickform-core";
+import { useState } from "react";
 
 const inputSlideSchema = {
     label: "QuickForm Feature Flags",
     uiSchema: {
         quickFormTokens: {
-
         }
     },
     schema: {
@@ -77,17 +75,45 @@ registerToken("onError", "On Error Color", "The color used for text ontop of err
 registerToken("questionHeadlineFontSize", "Question Headline Font Size", "The size of the question headline...", "text");
 registerToken("questionParagraphFontSize", "Question Paragraph Font Size", "The size of question paragraph...", "text");
 
+type DemoDisplayTypes = "mobile" | "tablet" | "desktop";
+type DemoDisplay = {
+    [key in DemoDisplayTypes]: { width: number, height: number, title: string };
+
+};
+
+const demoDisplays: DemoDisplay = {
+    mobile: {
+        width: 320,
+        height: 568,
+        title: "Mobile"
+
+    },
+    tablet: {
+        width: 768,
+        height: 1024,
+        title: "Tablet"
+    },
+    desktop: {
+        width: 1366,
+        height: 768,
+        title: "Desktop"
+    }
+
+};
+
 export const QuickFormSettingsView = () => {
 
-    const { quickformpayload: { intro }, updateQuickFormPayload: dispatch } = useQuickFormDefinition();
+    const { quickformpayload, updateQuickFormPayload: dispatch } = useQuickFormDefinition();
     const styles = useViewStyles();
+    const [currentDemoDisplay, setCurrentDemoDisplay] = useState<DemoDisplayTypes>("mobile");
+    const tokensSchema = inputSlideSchema.schema.properties?.quickFormTokens! as JSONSchema7;
 
     return (
         <div className={mergeClasses(styles.section, styles.sectionSlim)}>
             <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
                 validator={validator}
                 {...inputSlideSchema}
-                formData={intro}
+                formData={quickformpayload.intro}
                 onChange={(a, b) => {
                     console.log("change", [a, b]);
 
@@ -100,10 +126,24 @@ export const QuickFormSettingsView = () => {
                     });
                 }}
             >
+                <QuickFormProvider
+                    // Hack to update the form when the payload changes
+                    key={currentDemoDisplay + JSON.stringify(quickformpayload)}
+                    definition={quickformpayload}
+                    payload={{}}
+                    tokens={tokensSchema.properties}
+                >
+                    <ModernQuickFormContainer
+                        title="QuickForm Settings"
+                        subtitle="Customize the look and feel of your QuickForm"
+                    >
+                        <QuickForm />
+                    </ModernQuickFormContainer>
+
+                </QuickFormProvider>
                 <>
                 </>
             </Form>
         </div>
     )
-
 }
