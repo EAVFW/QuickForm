@@ -1,3 +1,4 @@
+"use client";
 import { ErrorPopup, quickformtokens, useQuickForm } from "../../index";
 import { makeStyles, shorthands } from "@griffel/react";
 import React, { PropsWithChildren } from "react";

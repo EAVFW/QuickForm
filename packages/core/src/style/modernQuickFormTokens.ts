@@ -46,6 +46,7 @@ export const modernQuickFormTokens: QuickFormTokens = {
     fontFamily: 'Outfit, Monaco, monospace',
 
     headlineFontSize: '2rem',
+    subtitleFontSize: '1.5rem',
     paragraphFontSize: '1rem',
     paragraphMobileFontSize: '1rem',
     btnFontSize: '1.1rem',

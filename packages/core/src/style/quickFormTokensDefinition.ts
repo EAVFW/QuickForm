@@ -33,6 +33,7 @@ type QuickFormTokensBase = {
     /* Typography */
     fontFamily: string,
     headlineFontSize: FontSize;
+    subtitleFontSize: FontSize;
     paragraphFontSize: FontSize;
     paragraphMobileFontSize: FontSize;
     btnFontSize: FontSize,
@@ -81,7 +82,7 @@ export type QuickFormTokens = QuickFormTokensBase & {
  */
 export const defineQuickFormTokens = (...tokens: Array<Partial<QuickFormTokens>>) => {
     // Merges and overrides default tokens with provided ones in reverse order for precedence.
-    const mergedTokens = tokens.reduceRight((newTokens, currentToken) => ({
+    const mergedTokens = tokens.reduce((newTokens, currentToken) => ({
         ...newTokens,
         ...currentToken,
     }), defaultQuickFormTokens);

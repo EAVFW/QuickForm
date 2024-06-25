@@ -19,6 +19,5 @@ export const DesignerViews = () => {
         {view === "ending" && <QuickFormEndingSettingsView />}
         {view === "layout" && <QuickFormLayoutView slideId={activeSlide} layout={quickformpayload.layout} dispatch={updateQuickFormPayload} />}
         {view === "questions" && <QuickFormQuestionsView dispatch={updateQuickFormPayload} questions={quickformpayload.questions} currentQuestion={activeQuestion} />}
-
     </>
 }
