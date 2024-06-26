@@ -46,9 +46,9 @@ export class NavigationActionHandler {
 
     static handleNextSlideAction = (state: QuickformState) => {
         // Filter out questions that are explicitly not visible
-        const visibleQuestions = state.slides[state.currIdx].questions.filter(question => question.visible?.isVisible !== false);
+        const visibleQuestions = state.slides[state.currIdx]?.questions?.filter(question => question.visible?.isVisible !== false);
 
-        if (visibleQuestions.length === 0) {
+        if (visibleQuestions?.length === 0) {
             return { ...state, errorMsg: "No visible questions to answer." };
         }
 

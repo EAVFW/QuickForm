@@ -28,7 +28,7 @@
     "release-designer": "npm run release --workspace packages/designer",
     "release-inputs": "npm run release --workspace packages/inputs",
     "release-querybuilder": "npm run release --workspace packages/querybuilder",
-    "eavfw-link": "npm link @eavfw/apps @eavfw/next @eavfw/expressions @eavfw/manifest @eavfw/hooks @eavfw/forms @eavfw/utils @eavfw/designer @eavfw/designer-core @eavfw/designer-nodes",
+   "eavfw-link": "npm link @eavfw/apps @eavfw/next @eavfw/expressions @eavfw/manifest @eavfw/hooks @eavfw/forms @eavfw/utils @eavfw/designer @eavfw/designer-core @eavfw/designer-nodes",
     "playground": "npm --workspace packages/playground run dev"
   },
   "config": {

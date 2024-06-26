@@ -1,11 +1,15 @@
 import { SubmitStatus } from "../model/SubmitStatus";
 import { SlideModel } from "../model/SlideModel";
 import { LayoutDefinition, QuickFormModel } from "../model";
+import { IconType } from "../components/icons/IconResolver";
 
 export type QuickformClassNames = { slide: string, slideIsIn: string, slideIsOut: string };
 export type QuickformState = {
     autoAdvanceSlides?: boolean;
     enableQuestionNumbers?: boolean;
+    showPressEnter?: boolean;
+    defaultNextButtonText?: string;
+    defaultSlideButtonIcon?: IconType;
     currIdx: number;
     currStep: number;
     data: QuickFormModel;
@@ -28,6 +32,9 @@ export const defaultState = (data: QuickFormModel = defaultData, layout?: Layout
     const defState = {
         autoAdvanceSlides: layout?.autoAdvanceSlides ?? false,
         enableQuestionNumbers: layout?.enableQuestionNumbers ?? false,
+        showPressEnter: layout?.showPressEnter ?? undefined,
+        defaultNextButtonText: layout?.defaultNextButtonText ?? "Næste",
+        defaultSlideButtonIcon: layout?.defaultSlideButtonIcon ?? undefined,
         classes: layout?.classes ?? {},
         currIdx: 0,
         currStep: data.slides.length > 0 ? 1 : 0,
@@ -43,7 +50,7 @@ export const defaultState = (data: QuickFormModel = defaultData, layout?: Layout
         slides: data.slides,
         submitStatus: { isSubmitting: false, isSubmitError: false, isSubmitSuccess: false },
         totalSteps: data.slides.length,
-        payloadAugments:[]
+        payloadAugments: []
     };
 
     return defState;
