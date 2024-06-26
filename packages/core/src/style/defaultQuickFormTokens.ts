@@ -42,7 +42,7 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     onPrimary: '#ffffff',
     onSecondary: '#000000',
 
-    fontFamily: 'Outfit, Monaco, Consolas',
+    fontFamily: 'Monaco, Consolas',
     headlineFontSize: '2rem',
     subtitleFontSize: '1.5rem',
     paragraphFontSize: '1.3rem',
