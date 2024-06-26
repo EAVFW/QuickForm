@@ -52,7 +52,7 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode, resetRu
 
     componentDidCatch(error: any, errorInfo: any) {
         // You can also log the error to an error reporting service
-        console.log("ERROR", error, errorInfo);
+        console.error("ERROR", error, errorInfo);
     }
 
     render() {
@@ -126,7 +126,7 @@ export const VisibilityQueryField = () => {
 
 
     const setOpen = (open: boolean) => setState(old => { old.isOpen = open; return { ...old }; });
-
+    console.log("VisibilityQueryField", [isOpen, value, query, fields]);
     return (<>
         <ErrorBoundary resetRule={() => setState(old => { old.query = { combinator: 'and', rules: [] }; return { ...old } })}>
             <Dialog open={isOpen} onOpenChange={(event, data) => setOpen(data.open)}>
@@ -137,7 +137,7 @@ export const VisibilityQueryField = () => {
                         <DialogContent>
                             <QueryBuilderFluentFix>
                                 <QueryBuilder
-                                    addRuleToNewGroups
+                                   // addRuleToNewGroups
                                     listsAsArrays
                                     parseNumbers
                                     showNotToggle
@@ -145,18 +145,19 @@ export const VisibilityQueryField = () => {
                                     operators={[...defaultOperators, { name: "is-visible", value: "is-visible", label: "is visible", arity: "unary" }]}
                                     controlClassnames={{ queryBuilder: 'queryBuilder-branches' }}
                                     fields={fields}
-                                    query={query} onQueryChange={(q) => {
+                                    query={query}
+                                    onQueryChange={(q) => {
                                         setState(old => { old.query = q; old.value = formatQuery(q, { format: 'cel', parseNumbers: true }); return { ...old }; });
-                                        const json = formatQuery(q, { format: 'json', parseNumbers: true });
+                                        //const json = formatQuery(q, { format: 'json', parseNumbers: true });
 
-                                        updateQuickFormPayload((old) => {
-                                            old.questions[activeQuestion!].visible = {
-                                                engine: "react-querybuilder",
-                                                rule: JSON.parse(json)
-                                            };
+                                        //updateQuickFormPayload((old) => {
+                                        //    old.questions[activeQuestion!].visible = {
+                                        //        engine: "react-querybuilder",
+                                        //        rule: JSON.parse(json)
+                                        //    };
 
-                                            return { ...old };
-                                        });
+                                        //    return { ...old };
+                                        //});
                                     }
                                     } />
 
@@ -165,9 +166,22 @@ export const VisibilityQueryField = () => {
                         </DialogContent>
                         <DialogActions>
                             <DialogTrigger disableButtonEnhancement>
-                                <Button appearance="secondary">Close</Button>
+                                <Button appearance="secondary" onClick={() => { setOpen(false); } }>Discard</Button>
                             </DialogTrigger>
-                            <Button appearance="primary">Do Something</Button>
+                            <Button appearance="primary" onClick={() => {
+
+                                const json = formatQuery(query, { format: 'json', parseNumbers: true });
+
+                                updateQuickFormPayload((old) => {
+                                    old.questions[activeQuestion!].visible = {
+                                        engine: "react-querybuilder",
+                                        rule: JSON.parse(json)
+                                    };
+
+                                    return { ...old };
+                                });
+                                setOpen(false);
+                            }}>Update</Button>
                         </DialogActions>
                     </DialogBody>
                 </DialogSurface>

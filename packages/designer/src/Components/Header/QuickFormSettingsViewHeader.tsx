@@ -107,10 +107,10 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                         </DialogContent>
                         <DialogActions>
                             <DialogTrigger disableButtonEnhancement>
-                                <Button appearance="secondary">Close</Button>
+                                <Button appearance="secondary">Discard</Button>
                             </DialogTrigger>
                             <Button type="submit" appearance="primary" onClick={handleSubmit}>
-                                Submit
+                                Update
                             </Button>
                         </DialogActions>
                     </DialogBody>
