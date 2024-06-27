@@ -10,8 +10,22 @@ export type LayoutDefinition = {
     classes?: Partial<QuickformClassNames>,
     style?: React.CSSProperties;
     tokens?: Partial<QuickFormTokens>;
+    /**
+   * If enabled, when all questions for the slide is filled it auto advances to next slide
+   */
     autoAdvanceSlides?: boolean;
+    /**
+     * If enabled, question numbers are shown in the title
+     */
     enableQuestionNumbers?: boolean;
+    /**
+     * If enabled, the user is shown a message to press enter next to the button on the slide
+     */
+    showPressEnter?: boolean;
+    /**
+     * The icon used for the slide button
+     */
+    defaultSlideButtonIcon?: IconType;
     slides?: { [key: string]: SlideLayout };
 }
 

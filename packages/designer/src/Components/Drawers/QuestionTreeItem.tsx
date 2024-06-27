@@ -119,7 +119,7 @@ const QuestionTreeItem: React.FC<QuestionTreeItemProps> = ({ setView, setActiveQ
                                     icon={<TrashCanIcon />}
                                 />
                             </>
-                        }}>
+                        }}>                       
                         {question.logicalName ? key : question.text}
                     </TreeItemLayout>
                 </TreeItem>

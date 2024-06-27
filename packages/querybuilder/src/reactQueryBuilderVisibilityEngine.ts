@@ -21,6 +21,10 @@ function evalRule(rule: RuleType, context: QuickformState & { questions: { [logi
     const isMultiArray = type === "multiselect";
     const sourceValue = question.output;
 
+    /**
+     * 
+     * OBS == comparison is used to compare values, this is not the same as === in javascript. "1" == 1 is true, "1" === 1 is false
+     */
     switch (rule.operator as operators) {
         case "!=":
             return !(question.answered && isArrayType<string>(sourceValue, isMultiArray) && isArrayType(value, isArray) ? isMultiArray ? sourceValue.every(sv => value.indexOf(sv) !== -1) : sourceValue  === value : value === sourceValue);
@@ -30,8 +34,8 @@ function evalRule(rule: RuleType, context: QuickformState & { questions: { [logi
             console.log("EvalRule", [question, metadata, type, sourceValue, isMultiArray, value, isArray]);
             return question.answered && isArrayType<string>(sourceValue, isMultiArray) && isArrayType(value, isArray) ?
         
-            isMultiArray ? sourceValue.every(sv => value.indexOf(sv) !== -1) : sourceValue === value
-            : value === sourceValue;
+            isMultiArray ? sourceValue.every(sv => value.indexOf(sv) !== -1) : sourceValue == value
+            : value == sourceValue;
         //   case ">": return false;
         //    case ">=": return false;
         //    case "beginsWith": return false;
@@ -61,6 +65,9 @@ function evalRuleGroup(rule: RuleGroupType, context: any): boolean {
 }
 
 registerVisibilityEngine("react-querybuilder", (rule: RuleGroupType, context: any) => {
+    console.log("[visibility handler]", [rule, context]);
+    const result = evalRuleGroup(rule, context);
 
-    return evalRuleGroup(rule, context);
+    console.log("[visibility handler]", [result]);
+    return result;
 });
