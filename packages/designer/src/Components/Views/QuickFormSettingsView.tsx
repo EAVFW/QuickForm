@@ -9,6 +9,7 @@ import { makeStyles, mergeClasses } from "@fluentui/react-components";
 import { JSONSchema7 } from "json-schema";
 import { defaultQuickFormTokens } from "@eavfw/quickform-core";
 import { Controls } from "@eavfw/apps";
+import { IconEnum } from "@eavfw/quickform-core/src/components/icons/IconResolver";
 
 const inputSlideSchema = {
     label: "QuickForm Feature Flags",
@@ -38,7 +39,7 @@ const inputSlideSchema = {
                 title: "Default Slide Button Icon",
                 description: "The icon used for the slide button",
                 type: "string",
-                enum: ["None", "Email", "Phone", "User", "Checkmark"]
+                enum: Object.values(IconEnum),
             },
             tokens: {
                 title: "Tokens (Variables)",
@@ -103,6 +104,7 @@ export const QuickFormSettingsView = () => {
     const quickformSettingsStyles = useQuickformSettingsStyles();
     const PreviewComponent = Controls["QuickFormSettingsViewPreviewComponent"];
     console.log("quickformpayloadV1", JSON.stringify(quickformpayload.layout));
+    console.log("ENUM", Object.values(IconEnum));
     return (
         <div className={mergeClasses(styles.section, quickformSettingsStyles.container)}>
             <div className={mergeClasses(styles.sectionSlim, styles.section)}>

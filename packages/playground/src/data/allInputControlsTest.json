@@ -1,6 +1,7 @@
 {
     "layout": {
         "autoAdvanceSlides": false,
+        "defaultSlideButtonIcon": "ChevronRight",
         "slides": {
             "slide1": {
                 "title": "Beregn prisen for rengøring af fliser",
