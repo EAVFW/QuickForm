@@ -15,6 +15,7 @@ import { SerializedNodes } from "@craftjs/core";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import SlideTreeItem from "./SlideTreeItem";
 import QuestionTreeItem from "./QuestionTreeItem";
+import { CodeIcon } from "../Icons/CodeIcon";
 
 type NavDrawerProps = {
     isOpen: boolean;
@@ -75,6 +76,7 @@ export const NavDrawer = ({ setIsOpen, isOpen, newSlideNodes }: NavDrawerProps) 
                     <ViewTreeItem title="Submit" icon={<SubmitViewIcon />} setView={setView} selectedView={view} viewName="submit" />
                     <ViewTreeItem title="Ending" icon={<EndingViewIcon />} setView={setView} selectedView={view} viewName="ending" />
                     <ViewTreeItem title="Settings" icon={<SettingsViewIcon />} setView={setView} selectedView={view} viewName="settings" />
+                    <ViewTreeItem title="Source view" icon={<CodeIcon />} setView={setView} selectedView={view} viewName="sourceView" />
                 </Tree>
             </DrawerBody>
         </Drawer>
