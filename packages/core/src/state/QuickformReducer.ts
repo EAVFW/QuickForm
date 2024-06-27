@@ -74,9 +74,12 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
                     }
                 }
             }
-          
+
+            if (!action.intermediate)
+                state= VisibilityHandler.updateVisibleState(state);;
 
             return state;
+            
         }
 
         case 'SET_VALIDATION_RESULT': {
@@ -114,7 +117,8 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
                     });
                 }
             }
-
+            return state;
+            //DISCUSS WITH KBA - should we not run this in answer insteaad?
             return VisibilityHandler.updateVisibleState(state);;
         }
 

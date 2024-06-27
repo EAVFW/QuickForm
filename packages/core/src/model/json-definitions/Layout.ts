@@ -66,6 +66,7 @@ export type RowColumnsLayout = {
      * If type is unspecified we know its a set of columns.
      */
     type?: "row";
+    order?: number;
     columns: ColumnsLayoutDefinition;
 }
 
@@ -85,5 +86,6 @@ export type ColumnLayout = {
 export type QuestionRef = {
     style?: React.CSSProperties;
     type: "question";
+    order?: number;
     ref: string;
 }
