@@ -32,7 +32,7 @@ export const allQuestionsMap = (slides: SlideModel[]): { [key: string]: Question
     .map(s => s.questions)
     .flat()
     .reduce((acc, question) => {
-        acc[question.logicalName] = question;
+        acc[question.questionKey] = question;
         return acc;
     }, {} as { [key: string]: QuestionModel });
 

@@ -101,9 +101,9 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                                 </Field>
                             }
                             <VisibilityQueryField />
-                            <Field label="Visible Rule">
-                                <Input value={questions[activeQuestion!]?.visible?.rule ?? ''} required type="text" id={"question-schema-name"} onChange={(e, d) => updateQuickFormPayload(old => { old.questions[activeQuestion!].visible = { engine: "JsEval", rule: d.value }; return { ...old }; })} />
-                            </Field>
+                            {/*<Field label="Visible Rule">*/}
+                            {/*    <Input value={JSON.stringify( questions[activeQuestion!]?.visible?.rule ?? '')} required type="text" id={"question-schema-name"} onChange={(e, d) => updateQuickFormPayload(old => { old.questions[activeQuestion!].visible = { engine: "JsEval", rule: d.value }; return { ...old }; })} />*/}
+                            {/*</Field>*/}
                         </DialogContent>
                         <DialogActions>
                             <DialogTrigger disableButtonEnhancement>
