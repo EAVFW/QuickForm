@@ -34,7 +34,6 @@ const QuickFormDesigner = ({ entityName, attributeName, designerLocale, ...props
                     <div className={styles.contentView}>
 
                         <QuickFormSettingsViewHeader />
-
                         <DesignerViews />
 
                     </div>
