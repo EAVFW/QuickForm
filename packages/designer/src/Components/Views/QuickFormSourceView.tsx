@@ -1,47 +1,30 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import Editor from "@monaco-editor/react";
+import { useState } from "react";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
-import Editor, { OnMount, useMonaco } from "@monaco-editor/react";
-import type { editor } from 'monaco-editor/esm/vs/editor/editor.api';
-import { sourceViewSchema } from "../../Utils/SourceViewSchema";
 
 export const QuickFormSourceView = () => {
     try {
         const { quickformpayload: updateQuickFormPayload } = useQuickFormDefinition();
-        const [height, setHeight] = useState<number>(0);
+        const [editorValue, setEditorValue] = useState<string | undefined>(JSON.stringify(updateQuickFormPayload, null, 4));
 
-        const data = JSON.stringify(updateQuickFormPayload, null, 4);
-        const editorRef = useRef<editor.IStandaloneCodeEditor>();
-        const div = useCallback((node: HTMLDivElement) => { }, []);
-        const handleEditorDidMount: OnMount = (editor, monaco) => {
-            editorRef.current = editor;
-            editor.onDidContentSizeChange(() => {
-                setHeight(Math.max(100, editor.getContentHeight()));
-                editor.layout();
-            });
-        };
-        const monaco = useMonaco();
-        useEffect(() => {
-            if (monaco) {
-                monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-                    validate: true, allowComments: true,
-                    //schemas: sourceViewSchema,
-                    schemaValidation: "error",
-                });
-            }
-        }, [monaco]);
+        const onChangeEditorValue = (value?: string) => {
+            setEditorValue(value);
+        }
 
         return (
-            <div style={{ height: height, width: "100%" }} ref={div}>
-                {data &&
+            <div style={{ height: "80vh", width: "100%" }}>
+                {editorValue &&
                     <Editor
-                        options={{
-                            automaticLayout: true,
-                            scrollBeyondLastLine: false
-                        }}
-                        onMount={handleEditorDidMount}
-                        defaultLanguage="json"
-                        value={data}
-                    />
+                    defaultLanguage='json'
+                    defaultValue={editorValue}
+                    onChange={onChangeEditorValue!}
+                    options={{
+                    }}
+                    onMount={async (editor) => {
+                        setTimeout(() => editor?.getAction('editor.action.formatDocument')?.run(), 100);
+                    }}
+                    theme="vs-dark"
+                />
                 }
             </div>
         );
