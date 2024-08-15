@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
-import Editor, { OnMount, useMonaco } from "@monaco-editor/react";
-import type { editor } from 'monaco-editor/esm/vs/editor/editor.api';
+import Editor, { OnMount, useMonaco, } from "@monaco-editor/react";
+import type { editor } from 'monaco-editor';
 import { sourceViewSchema } from "../../Utils/SourceViewSchema";
 
 export const QuickFormSourceView = () => {

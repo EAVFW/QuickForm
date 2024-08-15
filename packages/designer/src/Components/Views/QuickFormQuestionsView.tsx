@@ -2,7 +2,7 @@
 import { removeNonAlphanumeric } from "@eavfw/utils";
 import Form from "@rjsf/fluentui-rc";
 import validator from '@rjsf/validator-ajv8';
-import { Dropdown, DropdownProps, Option, mergeClasses, Field, Input } from '@fluentui/react-components';
+import { Dropdown, DropdownProps, Option, mergeClasses, Field, Input, MessageBar, MessageBarBody, MessageBarTitle, makeStyles, tokens, shorthands } from '@fluentui/react-components';
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
 import { FieldProps, ariaDescribedByIds } from "@rjsf/utils";
@@ -17,6 +17,12 @@ export const QuickformDesignerFields = {} as { [key: string]: React.FC<FieldProp
 export function registerInputControlDesignerField<T = any>(field: string, component: React.FC<FieldProps<T>>) {
     QuickformDesignerFields[field] = component as React.FC<FieldProps>;
 }
+
+const useQuickFormQuestionsViewStyles = makeStyles({
+    messageBar: {
+        ...shorthands.margin("0.285714rem"),
+    }
+});
 export const QuickFormQuestionsView: React.FC<{
     dispatch: React.Dispatch<React.SetStateAction<QuickFormDesignerDefinition>>,
     currentQuestion?: string,
@@ -24,6 +30,7 @@ export const QuickFormQuestionsView: React.FC<{
 }> = ({ currentQuestion, questions, dispatch }) => {
 
     const styles = useViewStyles();
+    const styles2 = useQuickFormQuestionsViewStyles();
     const schemas = resolveInputComponentSchemas();
 
     console.log("QuickFormQuestionsView", [currentQuestion, questions, currentQuestion && questions[currentQuestion]]);
@@ -47,9 +54,16 @@ export const QuickFormQuestionsView: React.FC<{
             uiSchema["text"] = { "ui:widget": "hidden" };
         }
 
-        return (
-            <div className={mergeClasses(styles.section, styles.sectionSlim)}>
+        return (<>
+            {questions[currentQuestion].generated && <MessageBar className={styles2.messageBar} intent={"warning"}>
+                <MessageBarBody>
+                    <MessageBarTitle>This question is generated</MessageBarTitle>
 
+
+                </MessageBarBody>
+            </MessageBar>}
+            <div className={mergeClasses(styles.section, styles.sectionSlim)}>
+               
                 <Field
                     label="Question?" hint="The question text"
                     orientation="horizontal"
@@ -112,12 +126,13 @@ export const QuickFormQuestionsView: React.FC<{
                 </Field>
 
                 {question.inputType &&
-                    <Form tagName="div" key={currentQuestion + question.inputType}
+                    <Form tagName="div" key={currentQuestion + question.inputType} 
                         templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
                         fields={QuickformDesignerFields}
                         validator={validator}
                         {...schemas[question.inputType]}
                         formData={questions[currentQuestion]}
+                        formContext={{ generated: questions[currentQuestion].generated }}
                         onChange={(a, b) => {
                             console.log("change", [a, b]);
 
@@ -132,6 +147,7 @@ export const QuickFormQuestionsView: React.FC<{
                     </Form>
                 }
             </div>
+        </>
         )
 
 
