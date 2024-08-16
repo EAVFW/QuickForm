@@ -14,18 +14,16 @@ export const SlideRenderer: React.FC = () => {
     const [className, setClassName] = useState(state.classes.slide);
 
     const currentSlide: SlideModel = state.slides[state.currIdx];
-    const buttonText: string = currentSlide?.buttonText ?? "OK";
-    // If not disabled by state.showPressEnter being set to false, and if the slide has questions, and all questions are not multilinetext, show the press enter message
+
+    // Determine whether to show the "Press Enter" message:
+    // 1. Only show if `state.showPressEnter` is not explicitly set to `false`.
+    // 2. The current slide must have questions, and all questions must either:
+    //    a) Not be of type "multilinetext", or
+    //    b) Be inactive.
     const showPressEnter: boolean = (state.showPressEnter === false) ? false : (currentSlide?.questions !== undefined && currentSlide.questions.every(q => q.inputType !== "multilinetext" || !q.isActive));
 
-    /* KBA - Leaving this for now - have to get back to it since we never actually set .isActive property on question.. so we cant use it to condition with at the moment.. */
-    // const showPressEnter: boolean = currentSlide.questions.some(q => q.inputType === "multilinetext" && q.isActive) === false;
-    // console.log("showPressEnter", showPressEnter);
-    // console.log("showPressEnterCondition", currentSlide?.questions?.some(q => q.inputType === "multilinetext" && q.isActive));
-    // console.log("showPressEnterCurrentSlide", currentSlide);
-
     /* Listens to enter key pressed */
-    useHandleEnterKeypress("slide", showPressEnter === false, goToNextSlide);
+    useHandleEnterKeypress(false, goToNextSlide);
 
     let nextAllowedEffectTime = useRef(new Date().getTime());
     useEffect(() => {
@@ -53,7 +51,7 @@ export const SlideRenderer: React.FC = () => {
                 showPressEnter={showPressEnter}
                 children={
                     <>
-                        {buttonText}<IconResolver type={currentSlide?.icon ?? state.defaultSlideButtonIcon} style={{ height: '100%', marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={20} />
+                        {currentSlide?.buttonText}<IconResolver type={currentSlide?.icon ?? state.defaultSlideButtonIcon} style={{ height: '100%', marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={20} />
                     </>
                 }
             />
