@@ -130,7 +130,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
     /**
      * While a base input component is active we should answer the question upon enter.
      */
-    useHandleEnterKeypress("baseinput", !questionModel.isActive, () => {
+    useHandleEnterKeypress(!questionModel.isActive, () => {
         answerQuestion(questionModel.logicalName, text, false);
     });
 

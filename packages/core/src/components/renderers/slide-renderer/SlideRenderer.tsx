@@ -25,7 +25,7 @@ export const SlideRenderer: React.FC = () => {
     // console.log("showPressEnterCurrentSlide", currentSlide);
 
     /* Listens to enter key pressed */
-    useHandleEnterKeypress("slide", showPressEnter === false, goToNextSlide);
+    useHandleEnterKeypress(false, goToNextSlide);
 
     let nextAllowedEffectTime = useRef(new Date().getTime());
     useEffect(() => {

@@ -13,7 +13,7 @@ export const Intro: React.FC<IntroProps> = ({ model, onBtnClick }) => {
     const { text, paragraph, buttonText } = model;
 
     /* Listens to enter key pressed */
-    useHandleEnterKeypress("intro", false, onBtnClick);
+    useHandleEnterKeypress(false, onBtnClick);
 
     return (
         <div style={introStyling}>

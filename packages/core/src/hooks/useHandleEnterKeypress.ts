@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 
-export function useHandleEnterKeypress(inputType: "multilinetext" | string, disabled?: boolean, customFunc?: () => void) {
+export function useHandleEnterKeypress(disabled?: boolean, customFunc?: () => void) {
     useEffect(() => {
         function handleKeypress(event: KeyboardEvent) {
             if (event.key === "Enter") {

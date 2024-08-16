@@ -30,7 +30,7 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
     }
 
     /* Listens to enter key pressed */
-    useHandleEnterKeypress("submit", false, handleSubmit);
+    useHandleEnterKeypress(false, handleSubmit);
 
     return (
         <div style={submitStyling}>
