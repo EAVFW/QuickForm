@@ -30,7 +30,7 @@ const useDropDownSelectOptionStyles = makeStyles({
 
         cursor: 'pointer',
         ...shorthands.transition('background-color', '0.3s'),
-        overflowX: 'auto',
+       // overflowX: 'auto',
 
         color: quickformtokens.onSurface,
         backgroundColor: 'transparent',
@@ -62,7 +62,7 @@ export function DropdownSelectOption({
         >
             {children}
             {isSelected && (
-                <Checkmark color={quickformtokens.onSurface} size={24} />)}
+                <Checkmark style={{display:"flex"}} color={quickformtokens.onSurface} size={24} />)}
         </span>
     );
 }

@@ -39,7 +39,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
 
     const goToSlide = (index: number) => { dispatch({ type: 'SET_INDEX', index: index }); };
     const goToNextSlide = () => {
-        dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch });
+        dispatch({ type: 'PROCESS_INTERMEDIATE_QUESTIONS', dispatch }); //Issue, this starts validation, nextslide should wait on validation if processing.
         dispatch({ type: 'NEXT_SLIDE' });
     };
     const goToPrevSlide = () => { dispatch({ type: 'PREV_SLIDE' }); };

@@ -54,6 +54,7 @@ export class NavigationActionHandler {
 
         // Check all visible questions for answered and validity
         const validationResult = this.validateQuestions(visibleQuestions);
+        console.log("reducer validationResult", validationResult)
         if (validationResult.isValid) {
             return this.computeProgress(NavigationActionHandler.handleSlideChange({ ...state, errorMsg: "" }, 'next'));
         } else {
@@ -62,13 +63,19 @@ export class NavigationActionHandler {
     };
 
     static validateQuestions = (questions: QuestionModel[]) => {
+        const logger = resolveQuickFormService("logger");
         if (questions.some((q: { answered: boolean; }) => q.answered === false)) {
             return { isValid: false, errorMsg: "Not all questions have been answered." };
         }
         if (questions.some((q: { output: any; }) => q.output === '' || typeof q.output === "undefined")) {
             return { isValid: false, errorMsg: "Some questions are missing outputs." };
         }
-        if (questions.some(q => !q.validationResult || q.validationResult?.isValid === false)) {
+        if (questions.some(q => !q.validationResult || (!q.validationResult?.isValidating && q.validationResult?.isValid === false))) {
+            //TODO, if its validating, should that block us from moving to next?
+            //For now i decided to allow it to move to next - before submitting we can always go back and error hints can be shown in ui.
+            //I dont think its critical that it allow to move on.  Right now this function is only called when validating if it can go to next slide
+            //it has nothing to do with actually validation of the form.
+            logger.log("Some questions have failed validation. {questions}", [questions, JSON.stringify(questions)]);
             return { isValid: false, errorMsg: "Some questions have failed validation." };
         }
 

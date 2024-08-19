@@ -7,7 +7,7 @@
   },
   "peerDependencies": {
     "@griffel/react": "1.5.23",
-    "@opentelemetry/api": "^1.8.0"
+    "@opentelemetry/api": "^1.8.0"  
   },
   "devDependencies": {
   },

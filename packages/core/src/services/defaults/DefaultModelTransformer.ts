@@ -89,11 +89,10 @@ function handleLayout(layout: LayoutDefinition, questions: QuickFormQuestionsDef
 
     if (layout.slides) {
         Object.values(layout.slides).forEach(slide => {
-            const slideModel = new SlideModel();
-            slideModel.displayName = slide.title;
-            slideModel.buttonText = slide.buttonText ?? layout.defaultNextButtonText;
-            slideModel.icon = slide.icon ?? layout.defaultSlideButtonIcon;
 
+
+            const slideModel = SlideModel.factory(layout, slide);
+          
             if (slide.rows) {
                 slideModel.rows = processRows(slide.rows, slideModel, questions, payload);
             }
@@ -106,7 +105,7 @@ function handleLayout(layout: LayoutDefinition, questions: QuickFormQuestionsDef
     return slides;
 }
 
-function defaultLayout(questions: QuickFormQuestionsDefinition, payload: any): SlideModel[] {
+function defaultLayout(questions: QuickFormQuestionsDefinition, payload: any, layout?: LayoutDefinition): SlideModel[] {
 
     const logger = resolveQuickFormService("logger");
 
@@ -115,7 +114,8 @@ function defaultLayout(questions: QuickFormQuestionsDefinition, payload: any): S
     Object.keys(questions).map((key, index) => [key, index] as [string, number])
         .sort(([q1, i1], [q2, i2]) => (questions[q1].order ?? i1) - (questions[q2].order ?? i2))
         .map(([questionKey]) => {
-            let slide: SlideModel = createSlide({ [questionKey]: questions[questionKey] }, payload);
+            let slide: SlideModel = createSlide({ [questionKey]: questions[questionKey] }, payload,layout);
+
             slides.push(slide);
         });
 
@@ -124,11 +124,13 @@ function defaultLayout(questions: QuickFormQuestionsDefinition, payload: any): S
     return slides;
 }
 
-function createSlide(questions: QuickFormQuestionsDefinition, payload: any): SlideModel {
+function createSlide(questions: QuickFormQuestionsDefinition, payload: any, layout?: LayoutDefinition): SlideModel {
     const logger = resolveQuickFormService("logger");
 
     logger.log("Creating Slides for {@questions}", questions);
-    const slide = new SlideModel();
+  //  const slide = new SlideModel();
+    const slide = SlideModel.factory(layout);
+
     // Create rows from questions, assuming each question corresponds to a separate row
     const rows: Row[] = Object.entries(questions).map(([questionKey, question]) => {
         const questionRef = {
@@ -195,12 +197,14 @@ const transformJSONInput: QuickFormModelTransformer = (definition, payload): Qui
 
     // Transform questions into slides with rows and columns
     if (isDefined(definition.questions)) {
+
+
         if (definition.layout && definition.layout.slides && Object.keys(definition.layout.slides).length > 0) {
             // If layout is defined, assign slides as per layout
             slides = handleLayout(definition.layout!, definition.questions, payload);
         } else {
             // If layout is not defined, assign one question to each slide with only 1 column pr. slide
-            slides = defaultLayout(definition.questions, payload);
+            slides = defaultLayout(definition.questions, payload, definition.layout);
         }
     }
     else {

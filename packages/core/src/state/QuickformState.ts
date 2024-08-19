@@ -32,7 +32,7 @@ export const defaultState = (data: QuickFormModel = defaultData, layout?: Layout
     const defState = {
         autoAdvanceSlides: layout?.autoAdvanceSlides ?? false,
         enableQuestionNumbers: layout?.enableQuestionNumbers ?? false,
-        showPressEnter: layout?.showPressEnter ?? undefined,
+        showPressEnter: layout?.showPressEnter ?? undefined, 
         defaultNextButtonText: layout?.defaultNextButtonText ?? "Næste",
         defaultSlideButtonIcon: layout?.defaultSlideButtonIcon ?? undefined,
         classes: layout?.classes ?? {},

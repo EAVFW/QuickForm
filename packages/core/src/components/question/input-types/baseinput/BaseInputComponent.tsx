@@ -127,12 +127,22 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
             ref.current?.focus();
     }, [questionModel.isActive]);
 
-    /**
-     * While a base input component is active we should answer the question upon enter.
-     */
-    useHandleEnterKeypress(!questionModel.isActive, () => {
+    ///**
+    // * While a base input component is active we should answer the question upon enter.
+    // */
+    //useHandleEnterKeypress(!questionModel.isActive, () => {
+    //    answerQuestion(questionModel.logicalName, text, false);
+    //});
+
+    const handleBlur = () => {
+       
+        if (span) {
+            span.addEvent("BaseInputComponent:handleBlur");
+        }
         answerQuestion(questionModel.logicalName, text, false);
-    });
+        // Add any additional logic you want to execute on blur
+    };
+    
 
     return (
         <div className={mergeClasses(styles.inputContainer, className)} style={style}>
@@ -152,6 +162,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
                 placeholder={questionModel.placeholder}
                 value={text}
                 onChange={handleChange}
+                onBlur={handleBlur}
             />
             {afterIcon &&
                 <IconResolver

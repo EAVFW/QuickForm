@@ -1,10 +1,11 @@
 import React from "react";
 import type { IconProps } from "./iconProps";
 
-export const ArrowDownIcon: React.FC<IconProps> = ({ className, color }) => {
+export const ArrowRightIcon: React.FC<IconProps> = ({ className, color }) => {
     return (
+
         <div className={className}>
-            <svg 
+            <svg transform="matrix(1.8369701987210297e-16,1,1,-1.8369701987210297e-16,0,0)"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
