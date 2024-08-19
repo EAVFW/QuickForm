@@ -3,6 +3,7 @@ import { Button, Heading } from "../index";
 import { Paragraph } from "../../components/paragraph/Paragraph";
 import { IntroModel } from "../../model";
 import { useHandleEnterKeypress } from "../../hooks";
+import { useQuickForm } from "../../state";
 
 type IntroProps = {
     model: IntroModel;
@@ -11,6 +12,7 @@ type IntroProps = {
 
 export const Intro: React.FC<IntroProps> = ({ model, onBtnClick }) => {
     const { text, paragraph, buttonText } = model;
+    const { state } = useQuickForm();
 
     /* Listens to enter key pressed */
     useHandleEnterKeypress(false, onBtnClick);
@@ -25,7 +27,7 @@ export const Intro: React.FC<IntroProps> = ({ model, onBtnClick }) => {
             </Paragraph>
             <Button
                 onClick={() => onBtnClick()}
-                showPressEnter={true}
+                showPressEnter={typeof state.showPressEnter !== "undefined" && state.showPressEnter !== false}
                 style={{
                     fontSize: '1.8rem',
                     fontWeight: '500',
