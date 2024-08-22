@@ -6,10 +6,10 @@ import { sourceViewSchema } from "../../Utils/SourceViewSchema";
 
 export const QuickFormSourceView = () => {
     try {
-        const { quickformpayload: updateQuickFormPayload } = useQuickFormDefinition();
+        const { quickformpayload, updateQuickFormPayload } = useQuickFormDefinition();
         const [height, setHeight] = useState<number>(0);
 
-        const data = JSON.stringify(updateQuickFormPayload, null, 4);
+        const data = JSON.stringify(quickformpayload, null, 4);
         const editorRef = useRef<editor.IStandaloneCodeEditor>();
         const div = useCallback((node: HTMLDivElement) => { }, []);
         const handleEditorDidMount: OnMount = (editor, monaco) => {
@@ -37,7 +37,8 @@ export const QuickFormSourceView = () => {
                         options={{
                             automaticLayout: true,
                             scrollBeyondLastLine: false
-                        }}
+                    }}
+                    onChange={(value) => { updateQuickFormPayload(old => { try { if (!value) return;  return JSON.parse(value); } catch (error) { } }); }}
                         onMount={handleEditorDidMount}
                         defaultLanguage="json"
                         value={data}
