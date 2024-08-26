@@ -19,5 +19,5 @@ export type QuickformAction =
     | { type: 'GO_TO_ENDING' }
     | { type: 'ADD_PAYLOAD_AUGMENTER', augmenter: (payload: any) => any }
     | { type: 'REMOVE_PAYLOAD_AUGMENTER', augmenter: (payload: any) => any }
-    | { type: 'UPDATE_QUICKFORM_DEFINITION', definition: QuickFormDefinition }
+    | { type: 'UPDATE_QUICKFORM_DEFINITION', definition: Partial<QuickFormDefinition> }
     ;
