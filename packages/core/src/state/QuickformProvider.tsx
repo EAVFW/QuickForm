@@ -7,6 +7,7 @@ import { QuickFormTokens, defineQuickFormTokens } from "../style/quickFormTokens
 import { QuickFormDefinition } from "../model";
 import { resolveQuickFormService } from "../services/QuickFormServices";
 import { isFirstQInCurrentSlide } from "../utils/isFirstQuestionInSlide";
+import { ServerActionSubmitHandler } from "./action-handlers/SubmitActionHandler";
 
 type QuickFormProviderProps = {
     children: React.ReactNode;
@@ -14,7 +15,7 @@ type QuickFormProviderProps = {
     tokens?: Partial<QuickFormTokens>;
     payload: any;
     asContainer?: boolean;
-    onSubmitAsync?: (formdata: any) => Promise<string>;
+    onSubmitAsync?: ServerActionSubmitHandler;
 }
 
 export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
