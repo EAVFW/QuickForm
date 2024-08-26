@@ -1,14 +1,19 @@
+import { QuickFormDefinition } from "../../model/json-definitions/QuickFormDefinition";
 import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { QuickformAction, QuickformState } from "../index";
 
+export type ServerActionSubmitHandler = (data: any) => Promise<Partial<QuickFormDefinition>>;
 export class SubmitActionHandler {
-    static submit = async (state: QuickformState, dispatch: React.Dispatch<QuickformAction>, onSubmitAsync?: (data:any)=>Promise<string>) => {
+    static submit = async (state: QuickformState, dispatch: React.Dispatch<QuickformAction>, onSubmitAsync?: ServerActionSubmitHandler) => {
 
         try {
             const body = this.generatePayload(state);
 
             if (onSubmitAsync) {
                 const rsp = await onSubmitAsync(body);
+
+                dispatch({ type: "UPDATE_QUICKFORM_DEFINITION", definition: rsp });
+
             } else {
 
                 let rsp = await fetch(state.data.submit.submitUrl, {
