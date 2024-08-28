@@ -9,6 +9,7 @@ import { resolveQuickFormService } from "../services/QuickFormServices";
 import { isFirstQInCurrentSlide } from "../utils/isFirstQuestionInSlide";
 
 type QuickFormProviderProps = {
+    className?: string;
     children: React.ReactNode;
     definition: QuickFormDefinition;
     tokens?: Partial<QuickFormTokens>;
@@ -24,7 +25,8 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
         payload,
         tokens,
         asContainer,
-        onSubmitAsync
+        onSubmitAsync,
+        className
     }
 ) => {
 
@@ -78,7 +80,7 @@ export const QuickFormProvider: React.FC<QuickFormProviderProps> = (
         }}>
 
             {asContainer ? (
-                <QuickFormContainer style={cssVariables}>
+                <QuickFormContainer className={ className} style={cssVariables}>
                     <ErrorPopup message={state.errorMsg} />
                     {children}
                 </QuickFormContainer>
