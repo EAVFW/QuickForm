@@ -74,4 +74,6 @@ export const modernQuickFormTokens: QuickFormTokens = {
     lowEmphasisOpacity: 0.38,
     mediumEmphasisOpacity: 0.60,
     highEmphasisOpacity: 0.87,
+
+    slideButtonIconSize: '1.5rem',
 };
