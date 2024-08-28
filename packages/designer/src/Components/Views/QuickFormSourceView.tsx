@@ -31,14 +31,14 @@ export const QuickFormSourceView = () => {
         }, [monaco]);
 
         return (
-            <div style={{ height: height, width: "100%" }} ref={div}>
+            <div style={{ height: "100%", width: "100%" }} ref={div}>
                 {data &&
                     <Editor
                         options={{
                             automaticLayout: true,
                             scrollBeyondLastLine: false
                     }}
-                    onChange={(value) => { updateQuickFormPayload(old => { try { if (!value) return;  return JSON.parse(value); } catch (error) { } }); }}
+                    onChange={(value) => { updateQuickFormPayload(old => { try { if (!value) return;  return JSON.parse(value); } catch (error) {  } return old }); }}
                         onMount={handleEditorDidMount}
                         defaultLanguage="json"
                         value={data}

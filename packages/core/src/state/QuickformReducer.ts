@@ -19,7 +19,21 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
     }
 
     switch (action.type) {
+        case 'UPDATE_QUICKFORM_DEFINITION': {
 
+            console.log("Reducer", [state, action.definition]);
+            state = {
+                ...state, data: {
+                    ...state.data,
+                    ending: {
+                        ...state.data.ending,
+                        ...(action.definition.ending ?? {})
+                    },
+                }
+}
+
+            return state;
+        }
         case 'ADD_PAYLOAD_AUGMENTER': {
             state.payloadAugments = [...state.payloadAugments, action.augmenter];
             return state;

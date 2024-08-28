@@ -2,7 +2,8 @@
 import React, { useContext } from "react";
 import { QuickformState, defaultState } from "./QuickformState";
 import { QuickformAction } from "./index";
-import { SlideModel } from "../model";
+import { QuickFormDefinition, SlideModel } from "../model";
+import { ServerActionSubmitHandler } from "./action-handlers/SubmitActionHandler";
 
 interface IQuickFormContext {
     state: QuickformState;
@@ -15,7 +16,7 @@ interface IQuickFormContext {
     setErrorMsg: (msg: string) => void;
     isFirstQuestionInCurrentSlide: (questionLogicalName: string) => boolean;
     getCurrentSlide: () => SlideModel;
-    onSubmitAsync?: (formdata: any) => Promise<string>;
+    onSubmitAsync?: ServerActionSubmitHandler,
     addPayloadAugmenter: (augmenter: (payload: any) => any) => void;
     removePayloadAugmenter: (augmenter: (payload: any) => any) => void;
     cssVariables: { [key: string]: string };
@@ -35,7 +36,9 @@ export const QuickFormContext = React.createContext<IQuickFormContext>(
         getCurrentSlide: () => (
             { questions: [], rows: [], isAnswered: false, addQuestion: () => ({ type: "question", ref: "" }) }
         ),
-        onSubmitAsync: async (formdata) => { return "" },
+        onSubmitAsync: async (formdata) => {
+            return {} as Partial<QuickFormDefinition>
+        },
         addPayloadAugmenter: () => { },
         removePayloadAugmenter: () => { },
         cssVariables: {}
