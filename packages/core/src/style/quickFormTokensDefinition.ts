@@ -67,6 +67,8 @@ type QuickFormTokensBase = {
     questionPadding: string;
     questionInputGap: Gap,
     questionPaddingBottom: string;
+
+    slideButtonIconSize: string;
 };
 
 export type QuickFormTokens = QuickFormTokensBase & {

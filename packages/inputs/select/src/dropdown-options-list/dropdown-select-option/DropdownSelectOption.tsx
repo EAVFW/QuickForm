@@ -62,7 +62,7 @@ export function DropdownSelectOption({
         >
             {children}
             {isSelected && (
-                <Checkmark style={{display:"flex"}} color={quickformtokens.onSurface} size={24} />)}
+                <Checkmark style={{display:"flex"}} color={quickformtokens.onSurface} size={"2rem"} />)}
         </span>
     );
 }

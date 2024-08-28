@@ -51,7 +51,7 @@ export const SlideRenderer: React.FC = () => {
                 showPressEnter={showPressEnter}
                 children={
                     <>
-                        {currentSlide?.buttonText}<IconResolver type={currentSlide?.icon ?? state.defaultSlideButtonIcon} style={{ height: '100%', marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={20} />
+                        {currentSlide?.buttonText}<IconResolver type={currentSlide?.icon ?? state.defaultSlideButtonIcon} style={{ display:"flex", height: quickformtokens.slideButtonIconSize, width: quickformtokens.slideButtonIconSize, marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={"100%"} />
                     </>
                 }
             />
