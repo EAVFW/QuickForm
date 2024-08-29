@@ -26,6 +26,7 @@ const useDropDownSelectOptionStyles = makeStyles({
         marginLeft: '8px',
         marginBottom: '5px',
         fontSize: '2rem',
+        lineHeight: '2rem',
         minHeight: '40px',
 
         cursor: 'pointer',
@@ -54,7 +55,7 @@ export function DropdownSelectOption({
     const selectOptionStyles = useDropDownSelectOptionStyles();
     return (
         <span
-            className={classNames(styles["dropdown-select__option"], className, mergeClasses(selectOptionStyles.option, isSelected && selectOptionStyles.selected), {
+            className={classNames(styles["dropdown-select__option"], mergeClasses(className,selectOptionStyles.option, isSelected && selectOptionStyles.selected), {
                 [styles["animate"]]: isSelected,
                 [styles["selected"]]: isSelected,
             })}

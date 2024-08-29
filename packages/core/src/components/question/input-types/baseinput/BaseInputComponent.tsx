@@ -70,7 +70,7 @@ type BaseInputComponentProps = {
 
 export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ questionModel, className, style, type, beforeIcon, afterIcon }) => {
 
-    const [text, setText] = useState<string>(questionModel!.output);
+   // const [text, setText] = useState<string>(questionModel!.output);
     const ref = useFocusableQuestion<HTMLInputElement>(questionModel.logicalName);
     const { answerQuestion } = useQuickForm();
     const styles = useInputTextStyles();
@@ -112,7 +112,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
             questionModel.errorMsg = "";
 
 
-        setText(() => event.target.value);
+       // setText(() => event.target.value);
         answerQuestion(questionModel.logicalName, event.target.value, true);
         resize();
     }
@@ -139,7 +139,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
         if (span) {
             span.addEvent("BaseInputComponent:handleBlur");
         }
-        answerQuestion(questionModel.logicalName, text, false);
+        answerQuestion(questionModel.logicalName, questionModel!.output, false);
         // Add any additional logic you want to execute on blur
     };
     
@@ -160,7 +160,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
                 type={type}
                 className={styles.inputText}
                 placeholder={questionModel.placeholder}
-                value={text}
+                value={questionModel!.output}
                 onChange={handleChange}
                 onBlur={handleBlur}
             />
