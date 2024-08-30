@@ -19,8 +19,8 @@ export const QuickForm: React.FC = () => {
     };
 
     return (
-        <div>
+         <>
             {renderComponent()}
-        </div>
+        </>
     );
 };
