@@ -8,6 +8,7 @@ import { mergeClasses } from '@griffel/react';
 import { IconResolver } from '../../icons/IconResolver';
 import { SlideModel } from '../../../model';
 
+
 export const SlideRenderer: React.FC = () => {
 
     const { state, goToNextSlide } = useQuickForm();

@@ -4,20 +4,33 @@ import { useQuickForm } from "../../state/QuickFormContext";
 import { Heading, Paragraph, Button, Spinner, Question } from "../index";
 import { SubmitActionHandler } from "../../state/action-handlers/SubmitActionHandler";
 import { useHandleEnterKeypress } from "../../hooks";
+import { makeStyles, mergeClasses } from "@griffel/react";
 
 type SubmitProps = {
     model: SubmitModel;
 }
 
+const useSubmitStyles = makeStyles({
+    submit: {
+        display: 'flex',
+        flexDirection: 'column',
+        maxWidth: '72rem',
+        transition: 'transform 0.3s ease-out',
+        width: '100%',
+    }
+});
+
 export const Submit: React.FC<SubmitProps> = ({ model }) => {
     const { state, dispatch, onSubmitAsync } = useQuickForm();
     const { text, paragraph, buttonText, submitFields = [] } = model;
+
+    const styles = useSubmitStyles();
 
     if (state.submitStatus.isSubmitting) {
         return <Spinner speed="medium" message="Submitting.. Please wait.." />
     }
 
-
+  
 
     const handleSubmit = async () => {
         dispatch({ type: "SET_SUBMIT_STATUS", status: { ...state.submitStatus, isSubmitting: true } });
@@ -33,7 +46,7 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
     useHandleEnterKeypress(false, handleSubmit);
 
     return (
-        <div style={submitStyling}>
+        <div className={mergeClasses(styles.submit, state.classes.submit)}>
             <Heading >
                 {text}
             </Heading>
@@ -72,9 +85,4 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
     )
 };
 
-const submitStyling: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '72rem',
-    transition: 'transform 0.3s ease-out',
-}
+ 
