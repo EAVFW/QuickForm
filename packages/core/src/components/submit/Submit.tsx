@@ -28,10 +28,7 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
 
     const styles = useSubmitStyles();
 
-    if (state.submitStatus.isSubmitting) {
-        return <Spinner speed="medium" message="Submitting.. Please wait.." />
-    }
-
+   
   
 
     const handleSubmit = async () => {
@@ -46,6 +43,11 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
 
     /* Listens to enter key pressed */
     useHandleEnterKeypress(false, handleSubmit);
+
+    if (state.submitStatus.isSubmitting) {
+        return <Spinner speed="medium" message="Submitting.. Please wait.." />
+    }
+
 
     return (
         <div className={mergeClasses(styles.submit, state.classes.submit)}>
