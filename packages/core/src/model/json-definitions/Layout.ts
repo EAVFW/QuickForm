@@ -27,6 +27,12 @@ export type LayoutDefinition = {
      */
     defaultSlideButtonIcon?: IconType;
     slides?: { [key: string]: SlideLayout };
+
+    /**
+     * If enabled, only one question is shown per slide when auto generating slides
+     * Defaults to true
+     */
+    defaultLayoutOneQuestionPerSlide?: boolean;
 }
 
 /**

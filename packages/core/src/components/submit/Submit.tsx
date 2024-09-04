@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { SubmitModel } from "../../model";
 import { useQuickForm } from "../../state/QuickFormContext";
