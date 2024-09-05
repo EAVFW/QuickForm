@@ -36,7 +36,7 @@ const QuestionTreeItem: React.FC<QuestionTreeItemProps> = ({ setView, setActiveQ
     const styles = useNavDrawerStyles();
     const sortedQuestions = useMemo(() => {
 
-        return Object.entries(quickformpayload.questions ?? {}).map(([key, question], index) => [key, question, index] as [string, QuestionJsonModel, number])
+        return Object.entries(quickformpayload.questions ?? {}).map(([key, question], index) => [key, question, index] as [string, typeof question, number])
             .sort(([_, qa, ai], [__, qb, bi]) => (qa.order ?? ai) - (qb.order ?? bi));
 
     }, [quickformpayload])
@@ -119,8 +119,8 @@ const QuestionTreeItem: React.FC<QuestionTreeItemProps> = ({ setView, setActiveQ
                                     icon={<TrashCanIcon />}
                                 />
                             </>
-                        }}>                       
-                        {question.logicalName ? key : question.text}
+                        }}>
+                        {question.displayName ?? question.text}
                     </TreeItemLayout>
                 </TreeItem>
             ))}
