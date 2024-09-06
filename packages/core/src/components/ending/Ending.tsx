@@ -5,24 +5,28 @@ import { ErrorIcon, Checkmark } from "../icons/index";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { EndingModel } from "../../model";
 import { quickformtokens } from "../../style/quickFormTokensDefinition";
+import { makeStyles, mergeClasses } from "@griffel/react";
 
 type EndingProps = {
     model: EndingModel;
 }
-
-const endingStyles: React.CSSProperties = {
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'column'
-}
+ 
+const useEndingStyles = makeStyles({
+    ending: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        width:"100%",
+    }
+});
 
 export const Ending: React.FC<EndingProps> = ({ model }) => {
     const { state } = useQuickForm();
     const { text, paragraph } = model;
     const submitStatus = state.submitStatus;
-
+    const styles = useEndingStyles();
     return (
-        <div style={endingStyles}>
+        <div className={mergeClasses(styles.ending, state.classes.ending)}>
             {submitStatus.isSubmitError &&
                 <>
                     <ErrorIcon color={quickformtokens.onSurface} />

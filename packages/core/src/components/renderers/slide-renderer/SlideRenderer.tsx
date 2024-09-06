@@ -8,6 +8,7 @@ import { mergeClasses } from '@griffel/react';
 import { IconResolver } from '../../icons/IconResolver';
 import { SlideModel } from '../../../model';
 
+ 
 export const SlideRenderer: React.FC = () => {
 
     const { state, goToNextSlide } = useQuickForm();
@@ -46,7 +47,7 @@ export const SlideRenderer: React.FC = () => {
         >
             <Slide model={currentSlide} />
             <Button
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                 onClick={goToNextSlide}
                 showPressEnter={showPressEnter}
                 children={

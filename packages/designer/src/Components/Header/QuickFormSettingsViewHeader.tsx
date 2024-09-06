@@ -43,21 +43,25 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
     const { view, activeQuestion, activeSlide, quickformpayload: { layout, questions }, updateQuickFormPayload, designerLocale } = useQuickFormDefinition();
 
     const [questionKey, setQuestionKey] = useState(activeQuestion ?? '');
+    const [displayName, setDisplayName] = useState(questions[activeQuestion!]?.displayName ?? questions[activeQuestion!]?.text);
+   
+
+
     useEffect(() => { setQuestionKey(activeQuestion ?? ''); }, [activeQuestion])
 
-    const segments = [designerLocale.Title, view, activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
+    const segments = [designerLocale.Title, view, questions[activeQuestion!]?.displayName?? activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
     const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (ev) => {
 
         if (activeQuestion) {
             updateQuickFormPayload(old => {
 
-                let text = questionKey;
+                let text = displayName;
                 let schemaName = removeNonAlphanumeric(text);
                 let logicalName = schemaName.toLowerCase();
 
-                old.questions[text] = { ...old.questions[activeQuestion], schemaName, logicalName };
-                if (text !== activeQuestion)
-                    delete old.questions[activeQuestion];
+                old.questions[activeQuestion] = { ...old.questions[activeQuestion], schemaName, logicalName, displayName  };
+               // if (text !== activeQuestion)
+               //     delete old.questions[activeQuestion];
 
                 if (!old.__designer)
                     old.__designer = {};
@@ -83,8 +87,11 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                     <DialogBody>
                         <DialogTitle>Question Settings</DialogTitle>
                         <DialogContent className={dialogstyles.content}>
-                            <Field label="Question Key">
-                                <Input value={questionKey} required type="text" id={"question-schema-name"} onChange={(e, d) => setQuestionKey(d.value)} />
+                            <Field label="Question Key" aria-readonly>
+                                <Input readOnly value={questionKey} required type="text" id={"question-key"} onChange={(e, d) => setQuestionKey(d.value)} />
+                            </Field>
+                            <Field label="Display Name" aria-readonly>
+                                <Input readOnly value={displayName ?? questions[activeQuestion!]?.text} required type="text" id={"question-display-name"} onChange={(e, d) => setDisplayName(d.value)} />
                             </Field>
                             {activeQuestion &&
                                 <Field label="Question Order">

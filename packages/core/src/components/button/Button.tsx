@@ -17,6 +17,7 @@ const useButtonStyles = makeStyles({
     container: {
         display: 'flex',
         alignItems: 'center',
+        justifyContent:'center',
         ...shorthands.gap(quickformtokens.gap1),
         marginTop: '30px',
     },

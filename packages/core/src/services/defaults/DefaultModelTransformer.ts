@@ -110,15 +110,18 @@ function defaultLayout(questions: QuickFormQuestionsDefinition, payload: any, la
     const logger = resolveQuickFormService("logger");
 
     const slides: SlideModel[] = [];
+    if (layout?.defaultLayoutOneQuestionPerSlide ?? true) {
+        Object.keys(questions).map((key, index) => [key, index] as [string, number])
+            .sort(([q1, i1], [q2, i2]) => (questions[q1].order ?? i1) - (questions[q2].order ?? i2))
+            .map(([questionKey]) => {
+                let slide: SlideModel = createSlide({ [questionKey]: questions[questionKey] }, payload, layout);
 
-    Object.keys(questions).map((key, index) => [key, index] as [string, number])
-        .sort(([q1, i1], [q2, i2]) => (questions[q1].order ?? i1) - (questions[q2].order ?? i2))
-        .map(([questionKey]) => {
-            let slide: SlideModel = createSlide({ [questionKey]: questions[questionKey] }, payload,layout);
-
-            slides.push(slide);
-        });
-
+                slides.push(slide);
+            });
+        //   console.log(slides);
+    } else {
+        slides.push(createSlide(questions, payload, layout))
+    }
     logger.log("Generated {@slides} from layout", slides);
 
     return slides;
@@ -194,6 +197,9 @@ const transformJSONInput: QuickFormModelTransformer = (definition, payload): Qui
 
     const logger = resolveQuickFormService("logger");
     logger.log("Transforming Quickform Def to Model with\n\nlayout:\n{@layout}\nquestions:\n{@questions}\nsubmit:\n{@submit}\npayload:\n{@payload}", definition.layout, definition.questions, definition.submit, payload);
+
+
+    
 
     // Transform questions into slides with rows and columns
     if (isDefined(definition.questions)) {
