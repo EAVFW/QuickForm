@@ -10,7 +10,7 @@ const useParagraphStyles = makeStyles({
         color: quickformtokens.onSurface,
         fontSize: quickformtokens.questionParagraphFontSize,
         fontWeight: 'unset',
-        lineHeight: '1.4em',
+        lineHeight: quickformtokens.questionParagraphFontSize, // '1.4em',
         ...shorthands.margin(0, 0, quickformtokens.gap1, 0),
         '@media screen and (max-width: 599px)': { fontSize: quickformtokens.paragraphMobileFontSize },
     },
