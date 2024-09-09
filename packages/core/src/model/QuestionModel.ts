@@ -14,12 +14,6 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
     dataType: "string" | "number" | "boolean";
 
     /**
-     * Displays an error message adjacent to the question or input component, 
-     * informing the user of validation issues with their input.
-     */
-    errorMsg: string;
-
-    /**
      * Optional properties related to the input, defined by the generic type TProps.
      */
     inputProperties?: TProps;

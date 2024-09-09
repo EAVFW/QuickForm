@@ -57,7 +57,7 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
             }
 
             state = QuestionActionHandler.answerQuestion(state, action);
-
+  
             // Validate the question input
             if (!action.intermediate) {
                 const timestamp = new Date().getTime();

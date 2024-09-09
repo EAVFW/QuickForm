@@ -79,7 +79,6 @@ export const defaultData: QuickFormModel = {
         buttonText: "Submit",
         submitFields: [
             {
-                errorMsg: "",
                 intermediate: false,
                 visited: false,
                 questionKey: "question1",
@@ -93,7 +92,6 @@ export const defaultData: QuickFormModel = {
                 output: {}
             },
             {
-                errorMsg: "",
                 intermediate: false,
                 visited: false,
                 questionKey: "question1",
