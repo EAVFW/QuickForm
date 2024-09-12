@@ -11,7 +11,7 @@ import { defaultQuickFormTokens } from "@eavfw/quickform-core";
 import { Controls } from "@eavfw/apps";
 import { IconEnum } from "@eavfw/quickform-core/src/components/icons/IconResolver";
 
-const inputSlideSchema = {
+const quickformSettingsSchema = {
     label: "QuickForm Feature Flags",
     uiSchema: {
         tokens: {
@@ -52,10 +52,10 @@ const inputSlideSchema = {
     }
 } as { label: string, uiSchema: any, schema: JSONSchema7 };
 
-function registerToken(key: keyof typeof defaultQuickFormTokens, title: string, description: string, widget: string) {
+export function registerToken(key: keyof typeof defaultQuickFormTokens, title: string, description: string, widget: string) {
 
-    const tokensSchema = inputSlideSchema.schema.properties?.tokens! as JSONSchema7;
-    const uiSchema = inputSlideSchema.uiSchema.tokens;
+    const tokensSchema = quickformSettingsSchema.schema.properties?.tokens! as JSONSchema7;
+    const uiSchema = quickformSettingsSchema.uiSchema.tokens;
     if (tokensSchema && tokensSchema.properties) {
         tokensSchema.properties[key] = {
             title,
@@ -113,7 +113,7 @@ export const QuickFormSettingsView = () => {
             <div className={mergeClasses(styles.sectionSlim, styles.section)}>
                 <Form templates={{ FieldTemplate, BaseInputTemplate }}
                     validator={validator}
-                    {...inputSlideSchema}
+                    {...quickformSettingsSchema}
                     formData={quickformpayload.layout}
                     onChange={(a, b) => {
                         console.log("change", [a, b]);
