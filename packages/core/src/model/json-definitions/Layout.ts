@@ -7,6 +7,8 @@ export type LayoutDefinition = {
      * The default text of next button on slides
      */
     defaultNextButtonText?: string;
+
+    defaultEndingSlideIcon?: string;
     classes?: Partial<QuickformClassNames>,
     style?: React.CSSProperties;
     tokens?: Partial<QuickFormTokens>;

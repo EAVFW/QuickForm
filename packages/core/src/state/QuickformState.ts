@@ -13,6 +13,7 @@ export type QuickformClassNames = {
     ending: string
 };
 export type QuickformState = {
+    defaultEndingSlideIcon?: string;
     autoAdvanceSlides?: boolean;
     enableQuestionNumbers?: boolean;
     showPressEnter?: boolean;
@@ -38,6 +39,7 @@ export type QuickformState = {
 
 export const defaultState = (data: QuickFormModel = defaultData, layout?: LayoutDefinition): QuickformState => {
     const defState = {
+        defaultEndingSlideIcon: layout?.defaultEndingSlideIcon ?? "checkmark",
         autoAdvanceSlides: layout?.autoAdvanceSlides ?? false,
         enableQuestionNumbers: layout?.enableQuestionNumbers ?? false,
         showPressEnter: layout?.showPressEnter ?? undefined, 

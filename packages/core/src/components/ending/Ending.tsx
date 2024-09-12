@@ -22,7 +22,9 @@ const useEndingStyles = makeStyles({
 });
 
 export const Ending: React.FC<EndingProps> = ({ model, className }) => {
-    const { state } = useQuickForm();
+    const { state } = useQuickForm(); 
+
+ 
     const { text, paragraph } = model;
     const submitStatus = state.submitStatus;
     const styles = useEndingStyles();
@@ -36,7 +38,7 @@ export const Ending: React.FC<EndingProps> = ({ model, className }) => {
             }
             {submitStatus.isSubmitSuccess &&
                 <>
-                    <Checkmark color={quickformtokens.onSurface} />
+                    {state.defaultEndingSlideIcon !== "none" && <Checkmark color={quickformtokens.onSurface} />}
                     {text &&
                         <Heading style={{ marginTop: '10px' }}>
                             {text}
