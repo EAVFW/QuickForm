@@ -75,6 +75,8 @@ registerToken("headlineFontSize", "Headline Font Size", "The size of the headlin
 registerToken("subtitleFontSize", "Subtitle Font Size", "The size of the subtitle...", "text");
 registerToken("questionHeadlineFontSize", "Question Headline Font Size", "The size of the question headline...", "text");
 registerToken("questionParagraphFontSize", "Question Paragraph Font Size", "The size of question paragraph...", "text");
+registerToken("slideButtonIconSize", "Slide Button Icon Size", "The size of icon on slidebuttons...", "text");
+
 
 // Colors
 registerToken("primary", "Primary Color", "The primary color used. This is the color used for primary buttons and other important elements. Also considered the brand colour", "color");
