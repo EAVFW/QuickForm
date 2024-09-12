@@ -88,8 +88,8 @@ export const defineQuickFormTokens = (...tokens: Array<Partial<QuickFormTokens>>
     const logger = resolveQuickFormService("logger");
     logger.log("Merging Quick Form tokens.", tokens);
     // Merges and overrides default tokens with provided ones in reverse order for precedence.
-    const mergedTokens = tokens.reduceRight((prevTokens, currentTokens) => {
-        logger.log("Merging currentTokens into prevTokens", currentTokens, prevTokens);
+    const mergedTokens = tokens.reduce((prevTokens, currentTokens) => {
+        logger.log("Merging currentTokens into prevTokens", prevTokens, currentTokens);
         return ({
             ...prevTokens,
             ...currentTokens,
