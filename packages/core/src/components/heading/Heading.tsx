@@ -21,6 +21,17 @@ export const Heading: React.FC<HeadingProps> = ({ children, label, style = {} }:
         margin: 0
     };
 
+
+    if (typeof (children) === "string") {
+
+        return (
+            <h1
+                style={{ ...style, ...headingStyles }}
+                dangerouslySetInnerHTML={{ __html: children.replace(/(?:\r\n|\r|\n)/g, '<br/>') }}
+            />
+        );
+    }
+
     return (
         <h1 style={{ ...style, ...headingStyles }}>
             {children}
