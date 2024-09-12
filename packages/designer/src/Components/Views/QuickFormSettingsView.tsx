@@ -75,6 +75,7 @@ registerToken("headlineFontSize", "Headline Font Size", "The size of the headlin
 registerToken("subtitleFontSize", "Subtitle Font Size", "The size of the subtitle...", "text");
 registerToken("questionHeadlineFontSize", "Question Headline Font Size", "The size of the question headline...", "text");
 registerToken("questionParagraphFontSize", "Question Paragraph Font Size", "The size of question paragraph...", "text");
+registerToken("questionInputFontSize", "Question Input Font Size", "The size of the question input fields...", "text");
 registerToken("slideButtonIconSize", "Slide Button Icon Size", "The size of icon on slidebuttons...", "text");
 
 
