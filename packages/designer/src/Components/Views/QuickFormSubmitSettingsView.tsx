@@ -12,15 +12,15 @@ import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 import { JsonField, JsonWidget } from "./rjsf/Widgets/JsonWidget";
 import { RegistryFieldsType } from "@rjsf/utils";
 import { QuickformDesignerFields } from "./QuickFormQuestionsView";
-
+import { RichTextField } from "./rjsf/Widgets/RichTextWidget";
 const submitSlideSchema = {
     label: "Ending Settings",
     uiSchema: {
         text: {
-            "ui:widget": "textarea"
+            "ui:field": "RichTextField"
         },
         paragraph: {
-            "ui:widget": "textarea"
+            "ui:field": "RichTextField"
         },
         submitFields: {         
             "ui:field":"QFSubmitField"
@@ -61,9 +61,9 @@ export const QuickFormSubmitSettingsView = () => {
     const styles = useViewStyles();
 
     return (
-        <div className={mergeClasses(styles.section, styles.sectionSlim)}>
+        <div className={mergeClasses(styles.section)}>
             <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
-                fields={{ ...{ "QFSubmitField": JsonField }, ...QuickformDesignerFields }}
+                fields={{ ...{ "QFSubmitField": JsonField, "RichTextField": RichTextField }, ...QuickformDesignerFields }}
                 widgets={{ jsonWidget: JsonWidget }}
                 validator={validator}
                 {...submitSlideSchema}

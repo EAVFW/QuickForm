@@ -8,16 +8,18 @@ import { Button, mergeClasses } from "@fluentui/react-components";
 import { useEffect, useState } from "react";
 import { JSONSchema7TypeName, JSONSchema7 } from "json-schema";
 import React from "react";
+import { RichTextField } from "./rjsf/Widgets/RichTextWidget";
+import { QuickformDesignerFields } from "./QuickFormQuestionsView";
 
 const introSlideSchema = {
     label: "Intro Settings",
     uiSchema: {
         text: {
-            "ui:widget": "textarea",
+            "ui:field": "RichTextField",
             "ui:help": "The headline displayed to the end user when first loading the form"
         },
         paragraph: {
-            "ui:widget": "textarea",
+            "ui:field": "RichTextField",
             "ui:help": "The text displayed to the end user when first loading the form"
         },
         buttonText: {
@@ -83,6 +85,7 @@ export const QuickFormIntroSettingsView = () => {
                 <Form
                     templates={{ FieldTemplate, BaseInputTemplate }}
                     validator={validator}
+                    fields={{ ...{ "RichTextField": RichTextField }, ...QuickformDesignerFields }}
                     {...introSlideSchema}
                     formData={intro}
                     onChange={(a) => {

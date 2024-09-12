@@ -9,15 +9,18 @@ import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { mergeClasses } from "@fluentui/react-components";
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+import { JsonField } from "./rjsf/Widgets/JsonWidget";
+import { RichTextField } from "./rjsf/Widgets/RichTextWidget";
+import { QuickformDesignerFields } from "./QuickFormQuestionsView";
 
 const endingSlideSchema = {
     label: "Ending Settings",
     uiSchema: {
         text: {
-            "ui:widget": "textarea"
+            "ui:field": "RichTextField"
         },
         paragraph: {
-            "ui:widget": "textarea"
+            "ui:field": "RichTextField"
         }
     },
     schema: {
@@ -46,10 +49,11 @@ export const QuickFormEndingSettingsView = () => {
     const styles = useViewStyles();
 
     return (
-        <div className={mergeClasses(styles.section, styles.sectionSlim)}>
+        <div className={mergeClasses(styles.section)}>
             <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
                 validator={validator}
                 {...endingSlideSchema}
+                fields={{ ...{ "RichTextField": RichTextField }, ...QuickformDesignerFields }}
                 formData={ending}
                 onChange={(a, b) => {
                     console.log("change", [a, b]);

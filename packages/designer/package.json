@@ -11,6 +11,7 @@
     "@eavfw/designer": "^1.1.1",
     "@eavfw/designer-core": "^1.1.1",
     "@eavfw/designer-nodes": "^1.1.2",
+    "@eavfw/rich-text-editor": "1.0.0-vnext.1",
     "@eavfw/forms": "^1.2.0-vnext.8",
     "@eavfw/manifest": "^1.5.0-vnext.15",
     "@eavfw/utils": "^1.1.0-vnext.2",
