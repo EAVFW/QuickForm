@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useQuickForm } from '../../../state/QuickFormContext';
 import { Button, Slide } from '../../index';
 import { useHandleEnterKeypress } from '../../../hooks';
@@ -11,12 +11,15 @@ import { SlideModel } from '../../../model';
 const useSlideRenderStyles = makeStyles({
     button: { display: 'flex', alignItems: 'center', justifyContent: 'center' }
 });
- 
-export const SlideRenderer: React.FC = () => {
+export type SlideRendererProps = {
+    className?: string;
+}
+export const SlideRenderer: React.FC<SlideRendererProps> = ({ className }) => {
 
     const { state, goToNextSlide } = useQuickForm();
-    const [className, setClassName] = useState(state.classes.slide);
+    const [slideEffectClassName, setSlideEffectClassName] = useState<string>();
     const styles = useSlideRenderStyles();
+    const classes = useMemo(() => mergeClasses(className, slideEffectClassName), [className, slideEffectClassName]);
 
     const currentSlide: SlideModel = state.slides[state.currIdx];
 
@@ -34,20 +37,23 @@ export const SlideRenderer: React.FC = () => {
     useEffect(() => {
         const timeout = setTimeout(() => {
 
-            setClassName(mergeClasses(state.classes.slide, state.classes.slideIsIn));
+            setSlideEffectClassName(mergeClasses(state.classes.slideIsIn));
 
         }, Math.max(150, nextAllowedEffectTime.current - new Date().getTime() + 150));
 
         return () => {
             clearTimeout(timeout);
-            setClassName(mergeClasses(state.classes.slide, state.classes.slideIsOut));
+            setSlideEffectClassName(mergeClasses(state.classes.slideIsOut));
             nextAllowedEffectTime.current = new Date().getTime() + 10;
         }
-    }, [state.currIdx])
+    }, [state.currIdx]);
+
+    
+
     return (
         <div
             id="SlideRenderer"
-            className={className}
+            className={classes}
         >
             <Slide model={currentSlide} />
             <Button
@@ -65,6 +71,8 @@ export const SlideRenderer: React.FC = () => {
     );
 };
 
+
+ 
 // enum ViewStatus {
 //     InView,
 //     TransitioningOut,

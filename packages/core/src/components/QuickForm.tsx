@@ -1,20 +1,25 @@
 "use client";
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useQuickForm } from "../state/QuickFormContext";
 import { Ending, Submit, Intro, SlideRenderer } from "./index";
+import { mergeClasses } from '@griffel/react';
 
-export const QuickForm: React.FC = () => {
+export type QuickFormProps = {
+    className?: string;
+}
+export const QuickForm: React.FC<QuickFormProps> = ({ className}) => {
     const { state, setIntroVisited } = useQuickForm();
+    const classes = useMemo(() => mergeClasses(className, state.classes.slide), [className, state.classes?.slide]);
 
     const renderComponent = () => {
         if (state.isIntroSlide && typeof state.data.intro !== "undefined") {
-            return <Intro model={state.data.intro} onBtnClick={setIntroVisited} />;
+            return <Intro className={classes} model={state.data.intro} onBtnClick={setIntroVisited} />;
         } else if (state.isSubmitSlide) {
-            return <Submit model={state.data.submit} />;
+            return <Submit className={classes} model={state.data.submit} />;
         } else if (state.isEndingSlide) {
-            return <Ending model={state.data.ending} />;
+            return <Ending className={classes} model={state.data.ending} />;
         } else {
-            return <SlideRenderer key={state.currIdx} />;
+            return <SlideRenderer className={className} key={state.currIdx} />;
         }
     };
 
@@ -24,3 +29,4 @@ export const QuickForm: React.FC = () => {
         </>
     );
 };
+

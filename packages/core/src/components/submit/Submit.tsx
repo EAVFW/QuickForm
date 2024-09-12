@@ -10,6 +10,7 @@ import { makeStyles, mergeClasses } from "@griffel/react";
 
 type SubmitProps = {
     model: SubmitModel;
+    className?: string;
 }
 
 const useSubmitStyles = makeStyles({
@@ -22,7 +23,7 @@ const useSubmitStyles = makeStyles({
     }
 });
 
-export const Submit: React.FC<SubmitProps> = ({ model }) => {
+export const Submit: React.FC<SubmitProps> = ({ model, className }) => {
     const { state, dispatch, onSubmitAsync } = useQuickForm();
     const { text, paragraph, buttonText, submitFields = [] } = model;
 
@@ -50,7 +51,7 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
 
 
     return (
-        <div className={mergeClasses(styles.submit, state.classes.submit)}>
+        <div className={mergeClasses(className, styles.submit, state.classes.submit)}>
             <Heading >
                 {text}
             </Heading>

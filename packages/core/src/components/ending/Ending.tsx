@@ -9,6 +9,7 @@ import { makeStyles, mergeClasses } from "@griffel/react";
 
 type EndingProps = {
     model: EndingModel;
+    className?: string;
 }
  
 const useEndingStyles = makeStyles({
@@ -20,13 +21,13 @@ const useEndingStyles = makeStyles({
     }
 });
 
-export const Ending: React.FC<EndingProps> = ({ model }) => {
+export const Ending: React.FC<EndingProps> = ({ model, className }) => {
     const { state } = useQuickForm();
     const { text, paragraph } = model;
     const submitStatus = state.submitStatus;
     const styles = useEndingStyles();
     return (
-        <div className={mergeClasses(styles.ending, state.classes.ending)}>
+        <div className={mergeClasses(className, styles.ending, state.classes.ending)}>
             {submitStatus.isSubmitError &&
                 <>
                     <ErrorIcon color={quickformtokens.onSurface} />
