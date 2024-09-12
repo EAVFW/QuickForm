@@ -4,15 +4,19 @@ import { useQuickForm } from '../../../state/QuickFormContext';
 import { Button, Slide } from '../../index';
 import { useHandleEnterKeypress } from '../../../hooks';
 import { quickformtokens } from "../../../style";
-import { mergeClasses } from '@griffel/react';
+import { makeStyles, mergeClasses } from '@griffel/react';
 import { IconResolver } from '../../icons/IconResolver';
 import { SlideModel } from '../../../model';
 
+const useSlideRenderStyles = makeStyles({
+    button: { display: 'flex', alignItems: 'center', justifyContent: 'center' }
+});
  
 export const SlideRenderer: React.FC = () => {
 
     const { state, goToNextSlide } = useQuickForm();
     const [className, setClassName] = useState(state.classes.slide);
+    const styles = useSlideRenderStyles();
 
     const currentSlide: SlideModel = state.slides[state.currIdx];
 
@@ -47,7 +51,8 @@ export const SlideRenderer: React.FC = () => {
         >
             <Slide model={currentSlide} />
             <Button
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                className={state.classes.slideButtonContainer}
+                buttonClassName={mergeClasses(styles.button, state.classes.slideButton)}
                 onClick={goToNextSlide}
                 showPressEnter={showPressEnter}
                 children={

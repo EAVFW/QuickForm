@@ -79,6 +79,8 @@ export const Submit: React.FC<SubmitProps> = ({ model }) => {
             </div>
 
             <Button
+                className={state.classes.slideButtonContainer}
+                buttonClassName={ state.classes.slideButton}
                 showPressEnter={typeof state.showPressEnter !== "undefined" && state.showPressEnter !== false}
                 onClick={handleSubmit}
             >

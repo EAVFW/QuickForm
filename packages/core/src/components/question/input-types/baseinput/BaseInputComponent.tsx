@@ -107,12 +107,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
         if (span) {
             span.addEvent("BaseInputComponent:handleChange", { 'value': event.target.value });
         }
-        //EXPLAIN: WHY IS THIS HERE? If no reason, lets remove.
-        if (event.target.value === "")
-            questionModel.errorMsg = "";
 
-
-       // setText(() => event.target.value);
         answerQuestion(questionModel.logicalName, event.target.value, true);
         resize();
     }

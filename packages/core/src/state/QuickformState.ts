@@ -3,7 +3,15 @@ import { SlideModel } from "../model/SlideModel";
 import { LayoutDefinition, QuickFormModel } from "../model";
 import { IconType } from "../components/icons/IconResolver";
 
-export type QuickformClassNames = { slide: string, slideIsIn: string, slideIsOut: string, submit:string, ending:string };
+export type QuickformClassNames = {
+    slide: string,
+    slideButton: string,
+    slideButtonContainer: string;
+    slideIsIn: string,
+    slideIsOut: string,
+    submit: string,
+    ending: string
+};
 export type QuickformState = {
     autoAdvanceSlides?: boolean;
     enableQuestionNumbers?: boolean;
@@ -71,7 +79,6 @@ export const defaultData: QuickFormModel = {
         buttonText: "Submit",
         submitFields: [
             {
-                errorMsg: "",
                 intermediate: false,
                 visited: false,
                 questionKey: "question1",
@@ -85,7 +92,6 @@ export const defaultData: QuickFormModel = {
                 output: {}
             },
             {
-                errorMsg: "",
                 intermediate: false,
                 visited: false,
                 questionKey: "question1",

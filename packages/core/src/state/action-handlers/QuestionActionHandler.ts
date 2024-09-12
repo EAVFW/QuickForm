@@ -53,17 +53,14 @@ export class QuestionActionHandler {
     };
 
     static answerQuestion = (state: QuickformState, { logicalName, output, intermediate, validationResult }: QuickformAnswerQuestionAction) => {
-        const propertiesToUpdate = {
+        const propertiesToUpdate: Partial<QuestionModel> = {
             answered: output !== undefined && output !== '' && !intermediate,
             intermediate: intermediate,
             visited: true,
             output: output,
-            errorMsg: validationResult?.message,
+            validationResult: undefined
         };
-
-        // DISCUSS, should answer clear error message ?
-        // This is currently undergoing changes since we have decided to move errorMsg to both questionModel and globally.
-        // state.errorMsg = '';
+ 
 
         return this.updateQuestionProperties(state, logicalName, propertiesToUpdate);
     };
@@ -76,6 +73,15 @@ export class QuestionActionHandler {
         });
     };
 
+    /**
+     * Update the validation result of a question
+     * The actually update is only done if the timestamp of the current validation result matches the timestamp of the action
+     * @param state - the current state
+     * @param logicalName - the logical name of the question
+     * @param validationResult - the new validation result
+     * @param timestamp - the timestamp of the action
+     * @returns the updated state
+     */
     static updateQuestionValidation = (state: QuickformState, logicalName: string, validationResult: ValidationResult, timestamp: number) => {
         const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides))?.validationResult;
         if (currentValidationResult?.timestamp !== timestamp) {
@@ -98,4 +104,5 @@ export class QuestionActionHandler {
         }
         return await QuestionActionHandler.inputValidator(questionRef, state);
     }
+    
 }

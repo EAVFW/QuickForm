@@ -66,7 +66,7 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
                 questionModel={model}
                 {...model.inputProperties ?? {}}
             />
-            {typeof (model.validationResult?.message) !== "undefined" && model.validationResult?.message !== "" && <ErrorMessage message={model.validationResult?.message} />}
+            {typeof (model.validationResult?.message) !== "undefined" && model.validationResult?.message !== "" && !model.validationResult.isValid && <ErrorMessage message={model.validationResult?.message} />}
         </div>
     );
 }
