@@ -17,7 +17,6 @@ const useSubmitStyles = makeStyles({
     submit: {
         display: 'flex',
         flexDirection: 'column',
-        maxWidth: '72rem',
         transition: 'transform 0.3s ease-out',
         width: '100%',
     }
@@ -51,7 +50,7 @@ export const Submit: React.FC<SubmitProps> = ({ model, className }) => {
 
 
     return (
-        <div className={mergeClasses(className, styles.submit, state.classes.submit)}>
+        <div className={mergeClasses(styles.submit,className,  state.classes.submit)}>
             <Heading >
                 {text}
             </Heading>

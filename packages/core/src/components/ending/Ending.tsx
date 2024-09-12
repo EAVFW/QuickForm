@@ -27,7 +27,7 @@ export const Ending: React.FC<EndingProps> = ({ model, className }) => {
     const submitStatus = state.submitStatus;
     const styles = useEndingStyles();
     return (
-        <div className={mergeClasses(className, styles.ending, state.classes.ending)}>
+        <div className={mergeClasses(styles.ending, className, state.classes.ending)}>
             {submitStatus.isSubmitError &&
                 <>
                     <ErrorIcon color={quickformtokens.onSurface} />
