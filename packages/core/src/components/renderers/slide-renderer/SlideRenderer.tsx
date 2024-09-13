@@ -17,10 +17,8 @@ export type SlideRendererProps = {
 export const SlideRenderer: React.FC<SlideRendererProps> = ({ className }) => {
 
     const { state, goToNextSlide } = useQuickForm();
-    const [slideEffectClassName, setSlideEffectClassName] = useState<string>();
     const styles = useSlideRenderStyles();
-    const classes = useMemo(() => mergeClasses(className, slideEffectClassName), [className, slideEffectClassName]);
-
+   
     const currentSlide: SlideModel = state.slides[state.currIdx];
 
     // Determine whether to show the "Press Enter" message:
@@ -33,27 +31,14 @@ export const SlideRenderer: React.FC<SlideRendererProps> = ({ className }) => {
     /* Listens to enter key pressed */
     useHandleEnterKeypress(false, goToNextSlide);
 
-    let nextAllowedEffectTime = useRef(new Date().getTime());
-    useEffect(() => {
-        const timeout = setTimeout(() => {
 
-            setSlideEffectClassName(mergeClasses(state.classes.slideIsIn));
-
-        }, Math.max(150, nextAllowedEffectTime.current - new Date().getTime() + 150));
-
-        return () => {
-            clearTimeout(timeout);
-            setSlideEffectClassName(mergeClasses(state.classes.slideIsOut));
-            nextAllowedEffectTime.current = new Date().getTime() + 10;
-        }
-    }, [state.currIdx]);
 
     
 
     return (
         <div
             id="SlideRenderer"
-            className={classes}
+            className={className}
         >
             <Slide model={currentSlide} />
             <Button
