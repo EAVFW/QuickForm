@@ -28,7 +28,7 @@ export const QuickForm: React.FC<QuickFormProps> = ({ className}) => {
             setSlideEffectClassName(mergeClasses(state.classes.slideIsOut));
             nextAllowedEffectTime.current = new Date().getTime() + 10;
         }
-    }, [state.currIdx]);
+    }, [state.currIdx, state.data.submit, state.data.ending, state.data.ending]);
 
     const renderComponent = () => {
         if (state.isIntroSlide && typeof state.data.intro !== "undefined") {
@@ -38,7 +38,7 @@ export const QuickForm: React.FC<QuickFormProps> = ({ className}) => {
         } else if (state.isEndingSlide) {
             return <Ending className={classes} model={state.data.ending} />;
         } else {
-            return <SlideRenderer className={className} key={state.currIdx} />;
+            return <SlideRenderer className={classes} key={state.currIdx} />;
         }
     };
 
