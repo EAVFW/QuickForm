@@ -218,6 +218,8 @@ const transformJSONInput: QuickFormModelTransformer = (definition, payload): Qui
     }
 
     return {
+
+        validation: definition.validation,
         intro: definition.intro,
         ending: definition.ending,
         submit: handleSubmit(definition.submit, payload?.submitFields),

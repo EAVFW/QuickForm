@@ -50,18 +50,30 @@ const quickformSettingsSchema = {
             }
         }
     }
-} as { label: string, uiSchema: any, schema: JSONSchema7 };
+} as { label: string, uiSchema: any, schema: JSONSchema7 & { properties: { tokens: JSONSchema7 } } };
 
-export function registerToken(key: keyof typeof defaultQuickFormTokens, title: string, description: string, widget: string) {
+export function registerToken<TokenRegistry = typeof defaultQuickFormTokens>(key: keyof TokenRegistry, title: string, description: string, widget: string, defaultValue?: any, defaultTokenKey?: keyof TokenRegistry) {
 
     const tokensSchema = quickformSettingsSchema.schema.properties?.tokens! as JSONSchema7;
     const uiSchema = quickformSettingsSchema.uiSchema.tokens;
     if (tokensSchema && tokensSchema.properties) {
-        tokensSchema.properties[key] = {
+        let defaultTokenValue = defaultTokenKey && defaultTokenKey in defaultQuickFormTokens ?
+            defaultQuickFormTokens[defaultTokenKey as keyof typeof defaultQuickFormTokens] ?? defaultValue
+            : defaultValue
+
+        tokensSchema.properties[key as string] = {
             title,
             description,
             type: "string",
-            default: defaultQuickFormTokens[key]
+
+            default:
+                key in defaultQuickFormTokens ?
+                    defaultQuickFormTokens[key as keyof typeof defaultQuickFormTokens] ?? defaultTokenValue
+                    : defaultTokenValue
+        }
+        if (defaultTokenKey) {
+            //@ts-ignore
+            tokensSchema.properties[key]["x-default-token"] = defaultTokenKey;
         }
     }
     if (widget) {
@@ -106,15 +118,30 @@ export const QuickFormSettingsView = () => {
     const styles = useViewStyles();
     const quickformSettingsStyles = useQuickformSettingsStyles();
     const PreviewComponent = Controls["QuickFormSettingsViewPreviewComponent"];
-    console.log("quickformpayloadV1", JSON.stringify(quickformpayload.layout));
-    console.log("ENUM", Object.values(IconEnum));
+
+    const formData = {
+        ...quickformpayload.layout,
+        tokens: {
+            ...(Object.fromEntries(Object.entries(quickformSettingsSchema.schema.properties.tokens.properties ?? {})
+                .filter(([key, value]) => typeof value === "object" && "x-default-token" in value) //@ts-ignore
+                .map(([key, value]) => [key, quickformpayload.layout?.tokens[value["x-default-token"]]])
+            )),
+            ...quickformpayload.layout?.tokens ?? {}
+        }
+
+
+
+    }
+
+    console.log("Settings Data", [quickformSettingsSchema.schema.properties.tokens.properties, JSON.stringify(formData, null, 4)]);
+
     return (
         <div className={mergeClasses(styles.section, quickformSettingsStyles.container)}>
             <div className={mergeClasses(styles.sectionSlim, styles.section)}>
                 <Form templates={{ FieldTemplate, BaseInputTemplate }}
                     validator={validator}
                     {...quickformSettingsSchema}
-                    formData={quickformpayload.layout}
+                    formData={formData}
                     onChange={(a, b) => {
                         console.log("change", [a, b]);
                         dispatch(old => {
