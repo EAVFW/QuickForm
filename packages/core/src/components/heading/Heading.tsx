@@ -6,9 +6,10 @@ type HeadingProps = {
     readonly style?: React.CSSProperties;
     readonly className?: string;
     readonly label?: string;
+    readonly isHtml?: boolean;
 };
 
-export const Heading: React.FC<HeadingProps> = ({ children, label, style = {} }: HeadingProps) => {
+export const Heading: React.FC<HeadingProps> = ({ children, label, style = {}, isHtml }: HeadingProps) => {
 
     const headingStyles: React.CSSProperties = {
         fontSize: quickformtokens.headlineFontSize,
@@ -27,7 +28,7 @@ export const Heading: React.FC<HeadingProps> = ({ children, label, style = {} }:
         return (
             <h1
                 style={{ ...style, ...headingStyles }}
-                dangerouslySetInnerHTML={{ __html: children.replace(/(?:\r\n|\r|\n)/g, '<br/>') }}
+                dangerouslySetInnerHTML={{ __html: isHtml?children: children.replace(/(?:\r\n|\r|\n)/g, '<br/>') }}
             />
         );
     }

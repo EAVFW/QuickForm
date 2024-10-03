@@ -24,8 +24,8 @@ const useEndingStyles = makeStyles({
 export const Ending: React.FC<EndingProps> = ({ model, className }) => {
     const { state } = useQuickForm(); 
 
- 
-    const { text, paragraph } = model;
+
+    const { text, paragraph, paragraphIsHtml,textIsHtml } = model;
     const submitStatus = state.submitStatus;
     const styles = useEndingStyles();
     return (
@@ -45,8 +45,8 @@ export const Ending: React.FC<EndingProps> = ({ model, className }) => {
                         </Heading>
                     }
 
-                    {paragraph &&
-                        <Paragraph style={{ marginTop: '10px' }}>
+                {paragraph &&
+                    <Paragraph isHtml={paragraphIsHtml} style={{ marginTop: '10px' }}>
                             {paragraph}
                         </Paragraph>
                     }
