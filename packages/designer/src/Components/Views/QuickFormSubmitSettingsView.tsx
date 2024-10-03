@@ -17,10 +17,14 @@ const submitSlideSchema = {
     label: "Ending Settings",
     uiSchema: {
         text: {
-            "ui:field": "RichTextField"
+            ... "QF_SubmitSideTextField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_SubmitSideTextField"
+            }) : ({}),
         },
         paragraph: {
-            "ui:field": "RichTextField"
+            ... "QF_SubmitSideParagraphField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_SubmitSideParagraphField"
+            }) : ({}),
         },
         submitFields: {         
             "ui:field":"QFSubmitField"
@@ -63,7 +67,7 @@ export const QuickFormSubmitSettingsView = () => {
     return (
         <div className={mergeClasses(styles.section)}>
             <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
-                fields={{ ...{ "QFSubmitField": JsonField, "RichTextField": RichTextField }, ...QuickformDesignerFields }}
+                fields={{ ...{ "QFSubmitField": JsonField}, ...QuickformDesignerFields }}
                 widgets={{ jsonWidget: JsonWidget }}
                 validator={validator}
                 {...submitSlideSchema}

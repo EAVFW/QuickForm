@@ -15,11 +15,16 @@ const introSlideSchema = {
     label: "Intro Settings",
     uiSchema: {
         text: {
-            "ui:field": "RichTextField",
+             
+            ... "QF_IntroSideTextField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_IntroSideTextField"
+            }) : ({}),
             "ui:help": "The headline displayed to the end user when first loading the form"
         },
         paragraph: {
-            "ui:field": "RichTextField",
+            ... "QF_IntroSideParagraphField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_IntroSideParagraphField"
+            }) : ({}),
             "ui:help": "The text displayed to the end user when first loading the form"
         },
         buttonText: {
@@ -85,7 +90,7 @@ export const QuickFormIntroSettingsView = () => {
                 <Form
                     templates={{ FieldTemplate, BaseInputTemplate }}
                     validator={validator}
-                    fields={{ ...{ "RichTextField": RichTextField }, ...QuickformDesignerFields }}
+                    fields={{  ...QuickformDesignerFields }}
                     {...introSlideSchema}
                     formData={intro}
                     onChange={(a) => {

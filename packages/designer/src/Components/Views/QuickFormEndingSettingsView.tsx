@@ -16,12 +16,12 @@ import { QuickformDesignerFields } from "./QuickFormQuestionsView";
 const endingSlideSchema = {
     label: "Ending Settings",
     uiSchema: {
-        text: {
-            "ui:field": "RichTextField"
-        },
-        paragraph: {
-            "ui:field": "RichTextField"
-        }
+        text: "QF_EndingSideTextField" in QuickformDesignerFields ? ({
+            "ui:field": "QF_EndingSideTextField"
+        }) : ({}),
+        paragraph: "QF_EndingSideParagraphField" in QuickformDesignerFields ? ({
+            "ui:field": "QF_EndingSideParagraphField"
+        }) : ({}),
     },
     schema: {
         type: "object",
@@ -53,7 +53,7 @@ export const QuickFormEndingSettingsView = () => {
             <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
                 validator={validator}
                 {...endingSlideSchema}
-                fields={{ ...{ "RichTextField": RichTextField }, ...QuickformDesignerFields }}
+                fields={{ ...QuickformDesignerFields }}
                 formData={ending}
                 onChange={(a, b) => {
                     console.log("change", [a, b]);
