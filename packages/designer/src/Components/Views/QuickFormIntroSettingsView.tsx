@@ -16,14 +16,14 @@ const introSlideSchema = {
     uiSchema: {
         text: {
              
-            ... "QF_IntroSideTextField" in QuickformDesignerFields ? ({
-                "ui:field": "QF_IntroSideTextField"
+            ... "QF_IntroSlideTextField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_IntroSlideTextField"
             }) : ({}),
             "ui:help": "The headline displayed to the end user when first loading the form"
         },
         paragraph: {
-            ... "QF_IntroSideParagraphField" in QuickformDesignerFields ? ({
-                "ui:field": "QF_IntroSideParagraphField"
+            ... "QF_IntroSlideParagraphField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_IntroSlideParagraphField"
             }) : ({}),
             "ui:help": "The text displayed to the end user when first loading the form"
         },

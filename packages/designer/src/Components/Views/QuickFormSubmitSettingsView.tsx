@@ -17,13 +17,13 @@ const submitSlideSchema = {
     label: "Ending Settings",
     uiSchema: {
         text: {
-            ... "QF_SubmitSideTextField" in QuickformDesignerFields ? ({
-                "ui:field": "QF_SubmitSideTextField"
+            ... "QF_SubmitSlideTextField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_SubmitSlideTextField"
             }) : ({}),
         },
         paragraph: {
-            ... "QF_SubmitSideParagraphField" in QuickformDesignerFields ? ({
-                "ui:field": "QF_SubmitSideParagraphField"
+            ... "QF_SubmitSlideParagraphField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_SubmitSlideParagraphField"
             }) : ({}),
         },
         submitFields: {         

@@ -16,11 +16,11 @@ import { QuickformDesignerFields } from "./QuickFormQuestionsView";
 const endingSlideSchema = {
     label: "Ending Settings",
     uiSchema: {
-        text: "QF_EndingSideTextField" in QuickformDesignerFields ? ({
-            "ui:field": "QF_EndingSideTextField"
+        text: "QF_EndingSlideTextField" in QuickformDesignerFields ? ({
+            "ui:field": "QF_EndingSlideTextField"
         }) : ({}),
-        paragraph: "QF_EndingSideParagraphField" in QuickformDesignerFields ? ({
-            "ui:field": "QF_EndingSideParagraphField"
+        paragraph: "QF_EndingSlideParagraphField" in QuickformDesignerFields ? ({
+            "ui:field": "QF_EndingSlideParagraphField"
         }) : ({}),
     },
     schema: {
