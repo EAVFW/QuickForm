@@ -5,7 +5,7 @@ import validator from '@rjsf/validator-ajv8';
 import { Dropdown, DropdownProps, Option, mergeClasses, Field, Input, MessageBar, MessageBarBody, MessageBarTitle, makeStyles, tokens, shorthands } from '@fluentui/react-components';
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
-import { FieldProps, ariaDescribedByIds } from "@rjsf/utils";
+import { FieldProps, WidgetProps, ariaDescribedByIds } from "@rjsf/utils";
 import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 
@@ -13,9 +13,14 @@ import { InputComponentMetadata, resolveInputComponentSchemas } from "@eavfw/qui
 
 
 export const QuickformDesignerFields = {} as { [key: string]: React.FC<FieldProps> };
+export const QuickformDesignerWidgets = {} as { [key: string]: React.FC<WidgetProps> };
 
 export function registerInputControlDesignerField<T = any>(field: string, component: React.FC<FieldProps<T>>) {
     QuickformDesignerFields[field] = component as React.FC<FieldProps>;
+}
+
+export function registerInputControlDesignerWidget<T = any>(widget: string, component: React.FC<WidgetProps<T>>) {
+    QuickformDesignerWidgets[widget] = component as React.FC<WidgetProps>;
 }
 
 const useQuickFormQuestionsViewStyles = makeStyles({

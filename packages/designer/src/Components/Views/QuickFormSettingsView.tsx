@@ -10,6 +10,7 @@ import { JSONSchema7 } from "json-schema";
 import { defaultQuickFormTokens } from "@eavfw/quickform-core";
 import { Controls } from "@eavfw/apps";
 import { IconEnum } from "@eavfw/quickform-core/src/components/icons/IconResolver";
+import { QuickformDesignerFields, QuickformDesignerWidgets } from "./QuickFormQuestionsView";
 
 const quickformSettingsSchema = {
     label: "QuickForm Feature Flags",
@@ -134,13 +135,15 @@ export const QuickFormSettingsView = () => {
     }
 
     console.log("Settings Data", [quickformSettingsSchema.schema.properties.tokens.properties, JSON.stringify(formData, null, 4)]);
-
+    console.log("QuickformDesignerWidgets", QuickformDesignerWidgets);
     return (
         <div className={mergeClasses(styles.section, quickformSettingsStyles.container)}>
             <div className={mergeClasses(styles.sectionSlim, styles.section)}>
                 <Form templates={{ FieldTemplate, BaseInputTemplate }}
                     validator={validator}
                     {...quickformSettingsSchema}
+                    fields={QuickformDesignerFields}
+                    widgets={QuickformDesignerWidgets}
                     formData={formData}
                     onChange={(a, b) => {
                         console.log("change", [a, b]);

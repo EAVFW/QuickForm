@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { JSONSchema7TypeName, JSONSchema7 } from "json-schema";
 import React from "react";
 import { RichTextField } from "./rjsf/Widgets/RichTextWidget";
-import { QuickformDesignerFields } from "./QuickFormQuestionsView";
+import { QuickformDesignerFields, QuickformDesignerWidgets } from "./QuickFormQuestionsView";
 
 const introSlideSchema = {
     label: "Intro Settings",
@@ -80,7 +80,7 @@ export const QuickFormIntroSettingsView = () => {
             return { ...old };
         });
     }, [enableIntro, dispatch]);
-
+    console.log("QuickformDesignerWidgets", QuickformDesignerWidgets);
     return (
         <div className={mergeClasses(styles.section, styles.sectionSlim)}>
             <div style={{ display: "flex", justifyContent: "center", alignItems: enableIntro ? "" : "end", marginTop: "10px" }}>
@@ -90,7 +90,8 @@ export const QuickFormIntroSettingsView = () => {
                 <Form
                     templates={{ FieldTemplate, BaseInputTemplate }}
                     validator={validator}
-                    fields={{  ...QuickformDesignerFields }}
+                    fields={QuickformDesignerFields }
+                    widgets={QuickformDesignerWidgets }
                     {...introSlideSchema}
                     formData={intro}
                     onChange={(a) => {
