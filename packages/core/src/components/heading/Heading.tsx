@@ -16,14 +16,22 @@ export const Heading: React.FC<HeadingProps> = ({ children, label, style = {}, i
         fontWeight: 'bold',
         color: quickformtokens.onSurface,
         position: "relative",
-        display: 'flex',
-        alignItems: 'center',
+      //  display: 'flex',
+       // alignItems: 'center',
         // CSS-reset from default margin on h1
         margin: 0
     };
 
 
     if (typeof (children) === "string") {
+
+        if(isHtml)
+            return (
+                <div
+                style={{ ...style, ...headingStyles }}
+                dangerouslySetInnerHTML={{ __html:  children }}
+            />
+        );
 
         return (
             <h1

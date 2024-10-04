@@ -39,8 +39,8 @@ export const Ending: React.FC<EndingProps> = ({ model, className }) => {
             {submitStatus.isSubmitSuccess &&
                 <>
                     {state.defaultEndingSlideIcon !== "none" && <Checkmark color={quickformtokens.onSurface} />}
-                    {text &&
-                        <Heading style={{ marginTop: '10px' }}>
+                {text &&
+                    <Heading isHtml={textIsHtml} style={{ marginTop: '10px' }}>
                             {text}
                         </Heading>
                     }
