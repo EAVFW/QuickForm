@@ -10,6 +10,7 @@ import { QuestionHeading } from "./components/QuestionHeading";
 type QuestionProps = {
     model: QuestionModel;
     style?: React.CSSProperties;
+    className?: string;
 }
 
 const questionStyling: React.CSSProperties = {
@@ -21,7 +22,7 @@ const questionStyling: React.CSSProperties = {
     padding: `${quickformtokens.questionPadding}, ${quickformtokens.questionPadding}, ${quickformtokens.questionPaddingBottom}, ${quickformtokens.questionPadding}`,
 }
 
-export const Question: React.FC<QuestionProps> = ({ model, style }) => {
+export const Question: React.FC<QuestionProps> = ({ model, style, className }) => {
 
     const InputType = resolveInputComponent(model.inputType);
     const logger = resolveQuickFormService("logger");
@@ -40,7 +41,7 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
     }
 
     return (
-        <div
+        <div className={className}
             style={{ ...questionStyling, ...style }}
         >
             {model.text &&
