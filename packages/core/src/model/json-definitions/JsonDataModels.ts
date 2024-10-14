@@ -69,6 +69,10 @@ type QuickFormQuestionDefinition = {
      */
     order?: number
 
+    /**
+     * Is the question required to be answered.
+     */
+    isRequired?: boolean
 }
 
 /**

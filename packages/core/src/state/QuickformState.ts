@@ -34,7 +34,8 @@ export type QuickformState = {
     submitStatus: SubmitStatus;
     totalSteps: number;
     classes: Partial<QuickformClassNames>,
-    payloadAugments: Array<(payload: any) => any>
+    payloadAugments: Array<(payload: any) => any>,
+    onValidationCompleteCallback?: (state: QuickformState) => void;
 }
 
 export const defaultState = (data: QuickFormModel = defaultData, layout?: LayoutDefinition): QuickformState => {

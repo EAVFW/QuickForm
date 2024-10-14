@@ -8,6 +8,7 @@ import { QuestionActionHandler } from "./action-handlers/QuestionActionHandler";
 import { VisibilityHandler } from "./action-handlers/VisibilityHandler";
 
 import { trace } from "@opentelemetry/api";
+import { ValidationResult } from "../model/ValidationResult";
 
 export const quickformReducer = (state: QuickformState, action: QuickformAction): QuickformState => {
     const logger = resolveQuickFormService("logger");
@@ -97,9 +98,25 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
         }
 
         case 'SET_VALIDATION_RESULT': {
-            return QuestionActionHandler.updateQuestionValidation(state, action.logicalName, action.validationResult, action.timestamp)
-        }
 
+            let updatedState= QuestionActionHandler.updateQuestionValidation(state, action.logicalName, action.validationResult, action.timestamp)
+
+            let isValidating = getAllQuestions(updatedState).some(q => q.validationResult?.isValidating ?? false);
+
+            if (!isValidating && updatedState.onValidationCompleteCallback) {
+                updatedState.onValidationCompleteCallback(updatedState);
+            }
+
+            return updatedState;
+        }
+        case 'ON_VALIDATION_COMPLETED': {
+            let isValidating = getAllQuestions(state).some(q => q.validationResult?.isValidating ?? false);
+            if (isValidating) {
+                return { ...state, onValidationCompleteCallback: action.callback }
+            }
+            action.callback(state);
+            return state;
+        }
         case 'PROCESS_INTERMEDIATE_QUESTIONS': {
             /*  Processes all questions that are in an Intermediate-state by ensuring they are successfully transitioned to a fully answered state. 
             *   1. Iterating through all questions in the state.slides array, it checks each question to determine if it's not yet marked as answered and if it has a valid output. 
@@ -108,7 +125,8 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
             *   The overall effect is to ensure no intermediate questions are left behind unanswered or unvalidated.
             */
 
-            let allIntermediateQuestions = getAllIntermediateQuestions(state.slides);
+            let tasks: Array<PromiseLike<ValidationResult>> = [];
+            let allIntermediateQuestions = getAllIntermediateQuestions(state);
 
             // Dont include the question currently being answered
             if (action.logicalName) {
@@ -126,11 +144,15 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
                         }
                     );
 
-                    QuestionActionHandler.validateInput(state, intermediateQuestion.logicalName).then(result => {
-                        action.dispatch({ type: 'SET_VALIDATION_RESULT', logicalName: intermediateQuestion.logicalName, validationResult: result, timestamp: timestamp })
-                    });
+                    tasks.push(QuestionActionHandler.validateInput(state, intermediateQuestion.logicalName).then(result => {
+                        action.dispatch({ type: 'SET_VALIDATION_RESULT', logicalName: intermediateQuestion.logicalName, validationResult: result, timestamp: timestamp });
+                        return result;
+                    }));
                 }
             }
+
+             
+
             return state;
             //DISCUSS WITH KBA - should we not run this in answer insteaad?
             return VisibilityHandler.updateVisibleState(state);;

@@ -10,9 +10,10 @@ type QuestionHeadingProps = {
     readonly style?: React.CSSProperties;
     readonly className?: string;
     readonly label?: string;
+    readonly required?: boolean;
 };
 
-export const QuestionHeading: React.FC<QuestionHeadingProps> = ({ children, label, style = {} }: QuestionHeadingProps) => {
+export const QuestionHeading: React.FC<QuestionHeadingProps> = ({ children, label, style = {}, required=false }: QuestionHeadingProps) => {
 
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
 
@@ -43,6 +44,7 @@ export const QuestionHeading: React.FC<QuestionHeadingProps> = ({ children, labe
                 <ImArrowRightIcon size="12px" />
             </div>}
             {children}
+            {required && <span style={{ color: quickformtokens.onSurface, marginLeft: quickformtokens.gap1 }}>*</span>}
         </h1>
     );
 }

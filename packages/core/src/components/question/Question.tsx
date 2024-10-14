@@ -27,7 +27,7 @@ export const Question: React.FC<QuestionProps> = ({ model, style, className }) =
     const InputType = resolveInputComponent(model.inputType);
     const logger = resolveQuickFormService("logger");
     const { state } = useQuickForm();
-    logger.log("QuestionRender for question {@model} InputProps", model);
+    logger.log("QuestionRender for question {logicalName} {@model} InputProps", model.logicalName, model);
 
     const ql = state.slides[state.currIdx].questions.length === 1 ? '' : `.${String.fromCharCode('A'.charCodeAt(0) + state.slides[state.currIdx].questions.indexOf(model))}`;
     const label = state.isSubmitSlide ? '' : `${state.currIdx + 1}${ql}`;
@@ -45,7 +45,7 @@ export const Question: React.FC<QuestionProps> = ({ model, style, className }) =
             style={{ ...questionStyling, ...style }}
         >
             {model.text &&
-                <QuestionHeading label={label} >
+                <QuestionHeading required={model.isRequired} label={label} >
                     {model.text}
                 </QuestionHeading>
             }

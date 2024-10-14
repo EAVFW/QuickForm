@@ -20,6 +20,7 @@ function mapJsonQuestionToModelQuestion(questionKey: string, question: QuestionJ
 
     return {
         answered: hasDefaultValueOrPayload,
+        isRequired: question.isRequired ?? true,
         dataType: question.dataType ?? "string",
         inputProperties: parseInputProperties(question),
         inputType: question.inputType ?? "text",

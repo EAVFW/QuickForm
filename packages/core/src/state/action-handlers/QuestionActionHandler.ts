@@ -31,8 +31,12 @@ export class QuestionActionHandler {
             newState.data.submit.submitFields[questionIndex] :
             newState.slides[slideIndex].questions[questionIndex];
 
-        if (!targetQuestion)
+        if (!targetQuestion) {
+            const logger = resolveQuickFormService("logger");
+            logger.log("QuickForm Reducer - Question not found: {logicalName} {questionIndex} {isSubmitSlide}",
+                logicalName, questionIndex, state.isSubmitSlide);
             return state;
+        }
 
         Object.entries(propertiesToUpdate).forEach(([key, value]) => {
             if (targetQuestion.hasOwnProperty(key) && typeof value === 'object' && !Array.isArray(value) && value !== null) {
@@ -66,7 +70,7 @@ export class QuestionActionHandler {
     };
 
     static startQuestionValidation = (state: QuickformState, logicalName: string, timestamp: number) => {
-        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides))?.validationResult;
+        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state))?.validationResult;
 
         return this.updateQuestionProperties(state, logicalName, {
             validationResult: { ...currentValidationResult, timestamp: timestamp, isValidating: true, isValid: false }
@@ -83,7 +87,7 @@ export class QuestionActionHandler {
      * @returns the updated state
      */
     static updateQuestionValidation = (state: QuickformState, logicalName: string, validationResult: ValidationResult, timestamp: number) => {
-        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides))?.validationResult;
+        const currentValidationResult = findQuestionByLogicalName(logicalName, getAllQuestions(state))?.validationResult;
         if (currentValidationResult?.timestamp !== timestamp) {
             return state;
         }
@@ -93,9 +97,9 @@ export class QuestionActionHandler {
     }
 
     static async validateInput(state: QuickformState, logicalName: string): Promise<ValidationResult> {
-        const questionRef = findQuestionByLogicalName(logicalName, getAllQuestions(state.slides));
+        const questionRef = findQuestionByLogicalName(logicalName, getAllQuestions(state));
         if (!questionRef) {
-            console.log("Question not valid", [logicalName, getAllQuestions(state.slides)])
+            console.log("Question not valid", [logicalName, getAllQuestions(state)])
             return {
                 isValid: false,
                 message: 'Question not valid',

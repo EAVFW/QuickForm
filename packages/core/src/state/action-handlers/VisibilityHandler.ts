@@ -35,7 +35,7 @@ export class VisibilityHandler {
         while (hasChanges) {
             hasChanges = false;
 
-            for (let question of getAllQuestionsWithVisibilityRule(state.slides)) {
+            for (let question of getAllQuestionsWithVisibilityRule(state)) {
 
                 let result = false;
                 logger.log("[visibility handler] [{@engines}] for {question}: {@visibility}", Object.keys(engines), question.questionKey, question.visible, context);

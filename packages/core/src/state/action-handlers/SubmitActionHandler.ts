@@ -4,43 +4,49 @@ import { QuickformAction, QuickformState } from "../index";
 
 export type ServerActionSubmitHandler = (data: any) => Promise<Partial<QuickFormDefinition>>;
 export class SubmitActionHandler {
-    static submit = async (state: QuickformState, dispatch: React.Dispatch<QuickformAction>, onSubmitAsync?: ServerActionSubmitHandler) => {
+    static submit =  (state: QuickformState, dispatch: React.Dispatch<QuickformAction>, onSubmitAsync?: ServerActionSubmitHandler) => {
 
-        try {
-            const body = this.generatePayload(state);
 
-            if (onSubmitAsync) {
-                const rsp = await onSubmitAsync(body);
+        dispatch({ type: "PROCESS_INTERMEDIATE_QUESTIONS", dispatch, logicalName: undefined });
+        dispatch({
+            type: "ON_VALIDATION_COMPLETED",  callback: async (state) => {
+                try {
 
-                dispatch({ type: "UPDATE_QUICKFORM_DEFINITION", definition: rsp });
 
-            } else {
+                    const body = this.generatePayload(state);
 
-                let rsp = await fetch(state.data.submit.submitUrl, {
-                    method: state.data.submit.submitMethod,
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(body),
-                    credentials: "include"
-                });
-                if (!rsp.ok) {
-                    throw new Error("Failed to submit:" + await rsp.text());
+                    if (onSubmitAsync) {
+                        const rsp = await onSubmitAsync(body);
+
+                        dispatch({ type: "UPDATE_QUICKFORM_DEFINITION", definition: rsp });
+
+                    } else {
+
+                        let rsp = await fetch(state.data.submit.submitUrl, {
+                            method: state.data.submit.submitMethod,
+                            headers: {
+                                "content-type": "application/json",
+                            },
+                            body: JSON.stringify(body),
+                            credentials: "include"
+                        });
+                        if (!rsp.ok) {
+                            throw new Error("Failed to submit:" + await rsp.text());
+                        }
+                    }
+
+                    dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitSuccess: true, isSubmitting: false, isSubmitError: false } });
+                    dispatch({ type: 'GO_TO_ENDING' });
+
+                } catch (error: any) {
+                    console.error(error.message);
+                    dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true, isSubmitSuccess: false } });
+                    return;
+
                 }
             }
+        });
 
-            dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitSuccess: true, isSubmitting: false, isSubmitError: false } });
-            dispatch({ type: 'GO_TO_ENDING' });
-
-        } catch (error: any) {
-            console.error(error.message);
-            dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true, isSubmitSuccess: false } });
-            return;
-
-        }
-        // finally {
-        //     dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitOK: true } });
-        // }
 
     }
 

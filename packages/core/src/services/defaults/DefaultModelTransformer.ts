@@ -164,6 +164,7 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload: any): SubmitMo
                 placeholder: uiSchema?.[k]?.["ui:placeholder"],
                 text: (uiSchema?.[k]?.["ui:label"] ?? true) ? v.title : undefined,
                 paragraph: v.description,
+                isRequired: schema?.required?.includes(k) ?? false,
                 dataType: v.type,
                 ...uiSchema?.[k]?.["ui:inputProps"] ?? {}
 

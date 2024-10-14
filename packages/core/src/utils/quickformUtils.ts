@@ -14,11 +14,11 @@ export const isSlideVisited = (slide: SlideModel): boolean => (slide.questions.l
 
 export const getCurrentSlide = (state: QuickformState) => (state.slides[state.currIdx]);
 
-export const getAllQuestions = (slides: SlideModel[]): QuestionModel[] => (slides.map(slide => slide.questions).flat());
+export const getAllQuestions = (state: QuickformState): QuestionModel[] => (state.slides.map(slide => slide.questions).flat().concat(state.data.submit.submitFields));
 
 export const updateAllQuestions = (slides: SlideModel[], update: (q: QuestionModel) => QuestionModel) => slides.forEach(slide => { slide.questions = slide.questions.map(update); });
 
-export const getAllIntermediateQuestions = (slides: SlideModel[]): QuestionModel[] => getAllQuestions(slides).filter(q => q.intermediate);
+export const getAllIntermediateQuestions = (state: QuickformState): QuestionModel[] => getAllQuestions(state).filter(q => q.intermediate);
 
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
 
@@ -26,7 +26,7 @@ function hasVisibilityRule(question: QuestionModel): question is WithRequired<Qu
     return question.visible && question.visible?.engine && question.visible?.rule;
 }
 
-export const getAllQuestionsWithVisibilityRule = (slides: SlideModel[]) => getAllQuestions(slides).filter(hasVisibilityRule);
+export const getAllQuestionsWithVisibilityRule = (state: QuickformState) => getAllQuestions(state).filter(hasVisibilityRule);
 
 export const allQuestionsMap = (slides: SlideModel[]): { [key: string]: QuestionModel } => slides
     .map(s => s.questions)

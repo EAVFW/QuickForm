@@ -83,6 +83,17 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
      */
     validationResult?: ValidationResult;
 
+    /**
+     * https://json-schema.org/draft/2019-09/json-schema-validation
+     */
+    validation?: {
+       
+    }
+    /**
+     * is true if the question is required. Input controls should mark the question as required
+     */
+    isRequired?: boolean
+
 
     /** is true if the question is active. Input controls should set focus if set to active*/
     isActive?: boolean
