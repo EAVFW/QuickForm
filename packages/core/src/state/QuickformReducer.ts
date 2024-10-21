@@ -105,12 +105,15 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
 
             if (!isValidating && updatedState.onValidationCompleteCallback) {
                 updatedState.onValidationCompleteCallback(updatedState);
+                updatedState.onValidationCompleteCallback = undefined;
             }
 
             return updatedState;
         }
         case 'ON_VALIDATION_COMPLETED': {
             let isValidating = getAllQuestions(state).some(q => q.validationResult?.isValidating ?? false);
+            logger.log("QuickForm Reducer {action} - {isValidating}: {logicalNames}", action.type, isValidating,
+                getAllQuestions(state).filter(q => q.validationResult?.isValidating ?? false).map(c => c.logicalName).join(','));
             if (isValidating) {
                 return { ...state, onValidationCompleteCallback: action.callback }
             }
@@ -135,7 +138,7 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
 
             if (typeof allIntermediateQuestions !== "undefined" && allIntermediateQuestions.length > 0) {
                 const timestamp = new Date().getTime();
-                for (var intermediateQuestion of allIntermediateQuestions) {
+                for (let intermediateQuestion of allIntermediateQuestions) {
                     state = QuestionActionHandler.updateQuestionProperties(state, intermediateQuestion.logicalName,
                         {
                             answered: true,
@@ -145,7 +148,14 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
                     );
 
                     tasks.push(QuestionActionHandler.validateInput(state, intermediateQuestion.logicalName).then(result => {
-                        action.dispatch({ type: 'SET_VALIDATION_RESULT', logicalName: intermediateQuestion.logicalName, validationResult: result, timestamp: timestamp });
+                        logger.log("QuickForm Reducer {action} - {logicalName}: {result}",
+                            action.type, intermediateQuestion.logicalName, result);
+
+                        action.dispatch({
+                            type: 'SET_VALIDATION_RESULT',
+                            logicalName: intermediateQuestion.logicalName,
+                            validationResult: result, timestamp: timestamp
+                        });
                         return result;
                     }));
                 }

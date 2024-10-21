@@ -4,7 +4,7 @@ import { quickformtokens } from "../../style/quickFormTokensDefinition";
 
 export const ImArrowRightIcon: React.FC<IconProps> = ({ size = '20px', style }) => {
     return (
-        <svg style={{ fill: quickformtokens.onSurface, ... style }} width={size} stroke="currentColor" fill="currentColor" stroke-width="0" version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <svg style={{ fill: quickformtokens.onSurface, ... style }} width={size} stroke="currentColor" fill="currentColor" strokeWidth="0" version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
             <path d="M15.5 8l-7.5-7.5v4.5h-8v6h8v4.5z"></path>
         </svg>
         //<> 

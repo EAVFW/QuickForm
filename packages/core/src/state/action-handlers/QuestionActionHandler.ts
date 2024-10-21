@@ -8,33 +8,38 @@ import { ValidationResult } from "../../model/ValidationResult";
 export class QuestionActionHandler {
     private static inputValidator = resolveQuickFormService("inputValidator");
 
-    static findSlideIdxAndQuestionIdx = (state: QuickformState, logicalName: string): { slideIndex: number; questionIndex: number } => {
-        if (state.isSubmitSlide)
-            return { slideIndex: -1, questionIndex: state.data.submit.submitFields.findIndex(x => x.logicalName === logicalName) };
+    //static findSlideIdxAndQuestionIdx = (state: QuickformState, logicalName: string): { slideIndex: number; questionIndex: number } => {
+    //    if (state.isSubmitSlide)
+    //        return { slideIndex: -1, questionIndex: state.data.submit.submitFields.findIndex(x => x.logicalName === logicalName) };
 
-        for (let slideIndex = 0; slideIndex < state.slides.length; slideIndex++) {
-            const questionIndex: number = state.slides[slideIndex].questions.findIndex((q: QuestionModel) => q.logicalName === logicalName);
-            if (questionIndex !== -1) {
-                return { slideIndex, questionIndex };
-            }
-        }
-        return { slideIndex: -1, questionIndex: -1 };
-    };
+    //    for (let slideIndex = 0; slideIndex < state.slides.length; slideIndex++) {
+    //        const questionIndex: number = state.slides[slideIndex].questions.findIndex((q: QuestionModel) => q.logicalName === logicalName);
+    //        if (questionIndex !== -1) {
+    //            return { slideIndex, questionIndex };
+    //        }
+    //    }
+    //    return { slideIndex: -1, questionIndex: -1 };
+    //};
 
     static updateQuestionProperties = (state: QuickformState, logicalName: string, propertiesToUpdate: any): QuickformState => {
-        const { slideIndex, questionIndex } = this.findSlideIdxAndQuestionIdx(state, logicalName);
+
+        //TODO - figure out if object need to be a new object / rerender ect - as the old implementation does
+        //not work when updateQuestionProperties is called after the state has been updated changing to submit page.
+        
+        // const { slideIndex, questionIndex } = this.findSlideIdxAndQuestionIdx(state, logicalName);
 
         
 
-        const newState = { ...state };
-        const targetQuestion = state.isSubmitSlide ?
-            newState.data.submit.submitFields[questionIndex] :
-            newState.slides[slideIndex].questions[questionIndex];
+       // const newState = { ...state };
+       // const targetQuestion = state.isSubmitSlide ?
+       //     newState.data.submit.submitFields[questionIndex] :
+       //     newState.slides[slideIndex].questions[questionIndex];
+        const targetQuestion = getAllQuestions(state).find(x => x.logicalName === logicalName);
 
         if (!targetQuestion) {
             const logger = resolveQuickFormService("logger");
-            logger.log("QuickForm Reducer - Question not found: {logicalName} {questionIndex} {isSubmitSlide}",
-                logicalName, questionIndex, state.isSubmitSlide);
+            logger.log("QuickForm Reducer - Question not found: {logicalName} {isSubmitSlide}",
+                logicalName, state.isSubmitSlide);
             return state;
         }
 
@@ -47,13 +52,13 @@ export class QuestionActionHandler {
             }
         });
 
-        if (state.isSubmitSlide) {
-            newState.data.submit.submitFields[questionIndex] = targetQuestion;
-        } else {
-            newState.slides[slideIndex].questions[questionIndex] = targetQuestion;
-        }
+        //if (state.isSubmitSlide) {
+        //    newState.data.submit.submitFields[questionIndex] = targetQuestion;
+        //} else {
+        //    newState.slides[slideIndex].questions[questionIndex] = targetQuestion;
+        //}
 
-        return newState;
+        return { ...state };
     };
 
     static answerQuestion = (state: QuickformState, { logicalName, output, intermediate, validationResult }: QuickformAnswerQuestionAction) => {
