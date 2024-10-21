@@ -92,13 +92,16 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
 
         if (!oldvalue || oldvalue === '')
             input.value = input.placeholder;
-
-        const isOverflowed = input.scrollWidth > input.clientWidth;
+       
+        const isOverflowed =  (input.scrollWidth - input.clientWidth) > 1;
         input.value = oldvalue;
         if (isOverflowed) {
             var style = window.getComputedStyle(input, null).getPropertyValue('font-size');
             input.style.fontSize = (parseFloat(style) - 1) + "px";
-            resize();
+            console.log("Resize: ", [input.scrollWidth, input.clientWidth, parseFloat(style)]);
+            if (parseFloat(style) - 1 > 0) {
+                resize();
+            }
         }
     }
 
