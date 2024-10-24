@@ -1,57 +1,63 @@
 "use client";
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useQuickForm } from '../../../state/QuickFormContext';
-import { Button } from '../../button/Button';
+import { Button, Slide } from '../../index';
 import { useHandleEnterKeypress } from '../../../hooks';
-import { Slide } from '../../slide/Slide';
-import { Checkmark } from '../../icons';
-import { quickformtokens } from '../../../style/quickFormTokensDefinition';
-import { mergeClasses } from '@griffel/react';
+import { quickformtokens } from "../../../style";
+import { makeStyles, mergeClasses } from '@griffel/react';
+import { IconResolver } from '../../icons/IconResolver';
+import { SlideModel } from '../../../model';
 
+const useSlideRenderStyles = makeStyles({
+    button: { display: 'flex', alignItems: 'center', justifyContent: 'center' }
+});
+export type SlideRendererProps = {
+    className?: string;
+}
+export const SlideRenderer: React.FC<SlideRendererProps> = ({ className }) => {
 
-
-export const SlideRenderer: React.FC = () => {
     const { state, goToNextSlide } = useQuickForm();
-    const currentSlide = state.slides[state.currIdx];
+    const styles = useSlideRenderStyles();
+   
+    const currentSlide: SlideModel = state.slides[state.currIdx];
+
+    // Determine whether to show the "Press Enter" message:
+    // 1. Only show if `state.showPressEnter` is not explicitly set to `false`.
+    // 2. The current slide must have questions, and all questions must either:
+    //    a) Not be of type "multilinetext", or
+    //    b) Be inactive.
+    const showPressEnter: boolean = (state.showPressEnter === false) ? false : (currentSlide?.questions !== undefined && currentSlide.questions.every(q => q.inputType !== "multilinetext" || !q.isActive));
 
     /* Listens to enter key pressed */
-    const enterKeyDisabled = currentSlide.questions.some(q => q.inputType === "multilinetext");
-    useHandleEnterKeypress("slide", enterKeyDisabled, goToNextSlide);
+    useHandleEnterKeypress(false, goToNextSlide);
 
-    const [className, setClassName] = useState(state.classes.slide);
-    let nextAllowedEffectTime = useRef(new Date().getTime());
-    useEffect(() => {
-        const timeout = setTimeout(() => {
 
-            setClassName(mergeClasses(state.classes.slide, state.classes.slideIsIn));
 
-        }, Math.max(150, nextAllowedEffectTime.current - new Date().getTime() + 150));
+    
 
-        return () => {
-            clearTimeout(timeout);
-            setClassName(mergeClasses(state.classes.slide, state.classes.slideIsOut));
-            nextAllowedEffectTime.current = new Date().getTime() + 10;
-        }
-    }, [state.currIdx])
     return (
-        <div className={className} id="SlideRenderer" style={slideStyling}        >
+        <div
+            id="SlideRenderer"
+            className={className}
+        >
             <Slide model={currentSlide} />
             <Button
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}
+                className={state.classes.slideButtonContainer}
+                buttonClassName={mergeClasses(styles.button, state.classes.slideButton)}
                 onClick={goToNextSlide}
-                showPressEnter={!enterKeyDisabled}
-                children={<>OK<Checkmark style={{ height: '100%', marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={24} /></>} />
+                showPressEnter={showPressEnter}
+                children={
+                    <>
+                        {currentSlide?.buttonText}<IconResolver type={currentSlide?.icon ?? state.defaultSlideButtonIcon} style={{ display:"flex", height: quickformtokens.slideButtonIconSize, width: quickformtokens.slideButtonIconSize, marginLeft: quickformtokens.gap1 }} color={quickformtokens.onPrimary} size={"100%"} />
+                    </>
+                }
+            />
         </div>
     );
 };
 
-const slideStyling: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%'
-}
 
-
+ 
 // enum ViewStatus {
 //     InView,
 //     TransitioningOut,

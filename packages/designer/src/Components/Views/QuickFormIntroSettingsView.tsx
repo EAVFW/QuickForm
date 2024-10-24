@@ -8,16 +8,23 @@ import { Button, mergeClasses } from "@fluentui/react-components";
 import { useEffect, useState } from "react";
 import { JSONSchema7TypeName, JSONSchema7 } from "json-schema";
 import React from "react";
+import { RichTextField } from "./rjsf/Widgets/RichTextWidget";
+import { QuickformDesignerFields, QuickformDesignerWidgets } from "./QuickFormQuestionsView";
 
 const introSlideSchema = {
     label: "Intro Settings",
     uiSchema: {
         text: {
-            "ui:widget": "textarea",
+             
+            ... "QF_IntroSlideTextField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_IntroSlideTextField"
+            }) : ({}),
             "ui:help": "The headline displayed to the end user when first loading the form"
         },
         paragraph: {
-            "ui:widget": "textarea",
+            ... "QF_IntroSlideParagraphField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_IntroSlideParagraphField"
+            }) : ({}),
             "ui:help": "The text displayed to the end user when first loading the form"
         },
         buttonText: {
@@ -73,7 +80,7 @@ export const QuickFormIntroSettingsView = () => {
             return { ...old };
         });
     }, [enableIntro, dispatch]);
-
+    console.log("QuickformDesignerWidgets", QuickformDesignerWidgets);
     return (
         <div className={mergeClasses(styles.section, styles.sectionSlim)}>
             <div style={{ display: "flex", justifyContent: "center", alignItems: enableIntro ? "" : "end", marginTop: "10px" }}>
@@ -83,6 +90,8 @@ export const QuickFormIntroSettingsView = () => {
                 <Form
                     templates={{ FieldTemplate, BaseInputTemplate }}
                     validator={validator}
+                    fields={QuickformDesignerFields }
+                    widgets={QuickformDesignerWidgets }
                     {...introSlideSchema}
                     formData={intro}
                     onChange={(a) => {

@@ -9,13 +9,24 @@ type SlideProps = {
 }
 
 export const Slide: React.FC<SlideProps> = ({ model, className }: SlideProps) => {
-
     return (
-        <div className={className} id="Slide" style={{ display: 'flex', flexDirection: 'column', width: "100%" }}>
+        <div
+            id="Slide"
+            className={className}
+        // style={{ display: 'flex', flexDirection: 'column', width: "100%" }}
+        >
             {
-                model.rows.map((row, rowIndex) => (
-                    <div key={rowIndex} style={rowContainerStyling}>
-                        <RowRenderer key={"row" + rowIndex} row={row} questions={model.questions} />
+                model?.rows?.map((row, rowIndex) => (
+                    <div
+                        id={"row" + rowIndex}
+                        key={rowIndex}
+                        style={rowContainerStyling}
+                    >
+                        <RowRenderer
+                            key={"row" + rowIndex}
+                            row={row}
+                            questions={model.questions}
+                        />
                     </div>
                 ))
             }

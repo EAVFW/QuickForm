@@ -4,7 +4,7 @@ import { PropsWithChildren, useCallback, useState } from 'react';
 
 import { useQuickFormDefinition } from "@eavfw/quickform-designer";
 import { QueryBuilderFluent } from '@react-querybuilder/fluent';
-import { QueryBuilder, defaultValidator, defaultOperators, formatQuery, RuleGroupType, RuleType } from 'react-querybuilder';
+import { QueryBuilder, defaultValidator, defaultOperators, formatQuery, RuleGroupType, RuleType, Field as QueryField } from 'react-querybuilder';
 
 import { EditRegular } from "@fluentui/react-icons";
 import { FieldTypes, InputComponentFieldMetadata, InputComponentMetadata, InputComponentSelectFieldMetadata, QuickformState, resolveInputComponent } from '@eavfw/quickform-core';
@@ -52,7 +52,7 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode, resetRu
 
     componentDidCatch(error: any, errorInfo: any) {
         // You can also log the error to an error reporting service
-        console.log("ERROR", error, errorInfo);
+        console.error("ERROR", error, errorInfo);
     }
 
     render() {
@@ -64,6 +64,11 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode, resetRu
         return this.props.children;
     }
 }
+
+const operators = [...defaultOperators,
+{ name: "is-visible", value: "is-visible", label: "is visible", arity: "unary" },
+    { name: "has-product-option", value: "has-product-option", label: "has product option", arity: "unary" },
+];
 
 
 export const VisibilityQueryField = () => {
@@ -83,9 +88,10 @@ export const VisibilityQueryField = () => {
             .filter(hasFieldMetadata)
             .map(([qkey, q, metadata]) => {
                 const type = "type" in metadata.field ? metadata.field.type : metadata.field.typeProvider(q);
-                return ({
-                    name: q.logicalName!,
-                    label: q.schemaName!,
+                const result = {
+                    qkey:qkey,
+                    name: qkey,
+                    label: q.schemaName ? qkey: q.text,
                     valueEditorType: type,
                     ...(isSelectField(metadata, type) ? { values: metadata.field.listValuesProvider(q) } : {})
                     // label2: `Question ${q.schemaName}`,
@@ -94,7 +100,9 @@ export const VisibilityQueryField = () => {
                     //     ... (metadata.field.type === "select" ? { listValues: metadata.field.listValuesProvider(q) } : {})
                     // },
                     // ...metadata.field,
-                })
+                };
+                console.log("VisibilityQueryField FieldGenerator", [qkey,type, q,result]);
+                return result;
             })
 
         //  tree: QbUtils.checkTree(QbUtils.loadTree(queryValue), initial_config),
@@ -124,9 +132,19 @@ export const VisibilityQueryField = () => {
 
     }));
 
+    const getOperators = (fieldName: string, { fieldData }: { fieldData: QueryField }) => {
+        console.log("getOperators", [fieldName, fieldData]);
+        if (typeof fieldData.qkey === "string") {
+            const schema = resolveInputComponent(questions?.[fieldData.qkey]?.inputType??'')?.inputSchema;
+            if (schema?.label === "Product Collection") {
+                return operators.filter(x => x.name === "has-product-option")
+            }
+        }
+        return operators;
+    };
 
     const setOpen = (open: boolean) => setState(old => { old.isOpen = open; return { ...old }; });
-
+    console.log("VisibilityQueryField", [isOpen, value, query, fields]);
     return (<>
         <ErrorBoundary resetRule={() => setState(old => { old.query = { combinator: 'and', rules: [] }; return { ...old } })}>
             <Dialog open={isOpen} onOpenChange={(event, data) => setOpen(data.open)}>
@@ -137,26 +155,28 @@ export const VisibilityQueryField = () => {
                         <DialogContent>
                             <QueryBuilderFluentFix>
                                 <QueryBuilder
-                                    addRuleToNewGroups
+                                   // addRuleToNewGroups
                                     listsAsArrays
                                     parseNumbers
                                     showNotToggle
+                                    getOperators={getOperators}
                                     validator={defaultValidator}
-                                    operators={[...defaultOperators, { name: "is-visible", value: "is-visible", label: "is visible", arity: "unary" }]}
+                                    operators={operators}
                                     controlClassnames={{ queryBuilder: 'queryBuilder-branches' }}
                                     fields={fields}
-                                    query={query} onQueryChange={(q) => {
+                                    query={query}
+                                    onQueryChange={(q) => {
                                         setState(old => { old.query = q; old.value = formatQuery(q, { format: 'cel', parseNumbers: true }); return { ...old }; });
-                                        const json = formatQuery(q, { format: 'json', parseNumbers: true });
+                                        //const json = formatQuery(q, { format: 'json', parseNumbers: true });
 
-                                        updateQuickFormPayload((old) => {
-                                            old.questions[activeQuestion!].visible = {
-                                                engine: "react-querybuilder",
-                                                rule: JSON.parse(json)
-                                            };
+                                        //updateQuickFormPayload((old) => {
+                                        //    old.questions[activeQuestion!].visible = {
+                                        //        engine: "react-querybuilder",
+                                        //        rule: JSON.parse(json)
+                                        //    };
 
-                                            return { ...old };
-                                        });
+                                        //    return { ...old };
+                                        //});
                                     }
                                     } />
 
@@ -165,9 +185,22 @@ export const VisibilityQueryField = () => {
                         </DialogContent>
                         <DialogActions>
                             <DialogTrigger disableButtonEnhancement>
-                                <Button appearance="secondary">Close</Button>
+                                <Button appearance="secondary" onClick={() => { setOpen(false); } }>Discard</Button>
                             </DialogTrigger>
-                            <Button appearance="primary">Do Something</Button>
+                            <Button appearance="primary" onClick={() => {
+
+                                const json = formatQuery(query, { format: 'json', parseNumbers: true });
+
+                                updateQuickFormPayload((old) => {
+                                    old.questions[activeQuestion!].visible = {
+                                        engine: "react-querybuilder",
+                                        rule: JSON.parse(json)
+                                    };
+
+                                    return { ...old };
+                                });
+                                setOpen(false);
+                            }}>Update</Button>
                         </DialogActions>
                     </DialogBody>
                 </DialogSurface>

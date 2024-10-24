@@ -4,7 +4,7 @@ import type { IconProps } from "./iconProps";
 export const ArrowDownIcon: React.FC<IconProps> = ({ className, color }) => {
     return (
         <div className={className}>
-            <svg
+            <svg 
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"

@@ -1,16 +1,31 @@
+import { IconType } from "../components/icons/IconResolver";
 import { resolveQuickFormService } from "../services/QuickFormServices";
 import { QuestionModel } from "./QuestionModel";
 import { QuestionJsonModel } from "./json-definitions/JsonDataModels";
-import { QuestionRef } from "./json-definitions/Layout";
+import { LayoutDefinition, QuestionRef, SlideLayout } from "./json-definitions/Layout";
 
 export class SlideModel {
     displayName?: string;
+    buttonText?: string;
+    icon?: IconType;
     questions: QuestionModel[] = [];
     rows: Row[];
 
     constructor(rows: Row[] = []) {
         this.rows = rows;
     }
+
+    static factory(layout?: LayoutDefinition,slide?: SlideLayout ) {
+        const slideModel= new SlideModel();
+
+        slideModel.displayName = slide?.title;
+        slideModel.buttonText = slide?.buttonText ?? layout?.defaultNextButtonText;
+        slideModel.icon = slide?.icon ?? layout?.defaultSlideButtonIcon;
+
+        return slideModel;
+
+    }
+
 
     addQuestion(layout: QuestionRef, question: QuestionJsonModel, payload: any) {
         const mapJsonQuestionToModelQuestion = resolveQuickFormService("questionTransformer");
@@ -24,6 +39,11 @@ export class SlideModel {
             ref: layout.ref
         } as QuestionLayout;
     }
+
+    /**
+     * When all questions are answered, the slide is considered answered.
+     */
+    public get isAnswered() { return this.questions.every(q => q.answered); }
 }
 
 export type QuestionLayout = {

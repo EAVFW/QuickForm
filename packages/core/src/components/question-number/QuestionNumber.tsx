@@ -10,6 +10,11 @@ const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => 
 
 registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);
 
+/**
+ * Deprecated: Use QuestionHeading instead
+ * @param param0
+ * @returns
+ */
 export const QuestionNumber: React.FC<{ questionNum?: number }> = ({ questionNum }) => {
     const shouldDisplayNumber = resolveQuickFormService("headingNumberDisplayProvider")();
     if (!shouldDisplayNumber) {

@@ -46,6 +46,7 @@ export const kbaQuickFormTokens: QuickFormTokens = {
     fontFamily: 'Monaco, "Lucida Console", monospace',
 
     headlineFontSize: '2rem',
+    subtitleFontSize: '1.5rem',
     paragraphFontSize: '1rem',
     paragraphMobileFontSize: '1rem',
     btnFontSize: '1.1rem',
@@ -64,6 +65,7 @@ export const kbaQuickFormTokens: QuickFormTokens = {
     questionBottomMargin: '15px',
     questionBorderRadius: '15px',
     questionPadding: '0px',
+    questionPaddingBottom: '15px',
     gap1: '0.5rem',
     gap2: '1rem',
     gap4: '2rem',
@@ -72,4 +74,5 @@ export const kbaQuickFormTokens: QuickFormTokens = {
     lowEmphasisOpacity: 0.38,
     mediumEmphasisOpacity: 0.60,
     highEmphasisOpacity: 0.87,
+    slideButtonIconSize: '1.5rem',
 };

@@ -1,13 +1,40 @@
 import { QuickFormTokens } from "../../style/quickFormTokensDefinition";
 import { QuickformClassNames } from "../../state/QuickformState";
+import { IconType } from "../../components/icons/IconResolver";
 
 export type LayoutDefinition = {
+    /**
+     * The default text of next button on slides
+     */
+    defaultNextButtonText?: string;
+
+    defaultEndingSlideIcon?: string;
     classes?: Partial<QuickformClassNames>,
     style?: React.CSSProperties;
     tokens?: Partial<QuickFormTokens>;
+    /**
+   * If enabled, when all questions for the slide is filled it auto advances to next slide
+   */
     autoAdvanceSlides?: boolean;
+    /**
+     * If enabled, question numbers are shown in the title
+     */
     enableQuestionNumbers?: boolean;
+    /**
+     * If enabled, the user is shown a message to press enter next to the button on the slide
+     */
+    showPressEnter?: boolean;
+    /**
+     * The icon used for the slide button
+     */
+    defaultSlideButtonIcon?: IconType;
     slides?: { [key: string]: SlideLayout };
+
+    /**
+     * If enabled, only one question is shown per slide when auto generating slides
+     * Defaults to true
+     */
+    defaultLayoutOneQuestionPerSlide?: boolean;
 }
 
 /**
@@ -19,7 +46,9 @@ export type SlideLayout = {
     style?: React.CSSProperties;
     rows?: SlideElements;
     schemaName?: string;
-    logicalName?: string
+    logicalName?: string;
+    buttonText?: string;
+    icon?: IconType;
 }
 
 /**
@@ -45,6 +74,7 @@ export type RowColumnsLayout = {
      * If type is unspecified we know its a set of columns.
      */
     type?: "row";
+    order?: number;
     columns: ColumnsLayoutDefinition;
 }
 
@@ -64,5 +94,6 @@ export type ColumnLayout = {
 export type QuestionRef = {
     style?: React.CSSProperties;
     type: "question";
+    order?: number;
     ref: string;
 }

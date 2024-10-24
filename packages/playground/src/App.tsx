@@ -3,33 +3,46 @@ import { QuickFormDefinition } from '../../core/src/model';
 import testdata from "./data/allInputControlsTest.json";
 import { QuickFormProvider } from '../../core/src/state';
 import { NavigationButton, QuickForm } from '../../core/src/components';
-import "./components/buttons-input/ButtonsInput";
-import "./components/checkbox-input/CheckboxInput";
-import "./components/radio-input/RadioInput";
-import "./components/slider-input/SliderInput";
+import { QuickFormContainer } from './components';
+import "./components/index";
+import { modernQuickFormTokens } from '@eavfw/quickform-core';
+import { makeStyles, shorthands } from "@griffel/react";
+
+const useAppStyles = makeStyles({
+    container: {
+        ...shorthands.padding("40px"),
+        ...shorthands.margin(0),
+    }
+});
 
 export const App = () => {
+
+    const classes = useAppStyles();
     return (
-        <div style={containerStyling}>
+        <div className={classes.container}>
             <QuickFormProvider
                 definition={testdata as QuickFormDefinition}
                 payload={{}}
-                asContainer={true}
+                asContainer={false}
+                tokens={modernQuickFormTokens}
             >
-                <QuickForm />
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <QuickFormContainer
+                    title="Test title"
+                    subtitle='Test subtitle'
+                >
+                    <QuickForm />
+                    {/* <div
+                    style={
+                        {
+                            display: 'flex',
+                            justifyContent: 'flex-end'
+                        }
+                    }
+                >
                     <NavigationButton />
-                </div>
+                </div> */}
+                </QuickFormContainer>
             </QuickFormProvider>
         </div>
     );
 };
-
-const containerStyling: React.CSSProperties = {
-    width: '100%',
-    minHeight: '1200px',
-    padding: '10px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-}

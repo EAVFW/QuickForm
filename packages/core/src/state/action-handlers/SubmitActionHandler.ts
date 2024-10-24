@@ -1,48 +1,65 @@
+import { QuickFormDefinition } from "../../model/json-definitions/QuickFormDefinition";
 import { resolveQuickFormService } from "../../services/QuickFormServices";
 import { QuickformAction, QuickformState } from "../index";
 
+export type ServerActionSubmitHandler = (data: any) => Promise<Partial<QuickFormDefinition>>;
 export class SubmitActionHandler {
-    static submit = async (state: QuickformState, dispatch: React.Dispatch<QuickformAction>, onSubmitAsync?: (data:any)=>Promise<string>) => {
+    static submit =  (state: QuickformState, dispatch: React.Dispatch<QuickformAction>, onSubmitAsync?: ServerActionSubmitHandler) => {
 
-        try {
-            const body = this.generatePayload(state);
+        let alreadySubmitted = false;
+        dispatch({ type: "SET_SUBMIT_STATUS", status: { ...state.submitStatus, isSubmitting: true } });
+        dispatch({ type: "PROCESS_INTERMEDIATE_QUESTIONS", dispatch, logicalName: undefined });
+        dispatch({
+            type: "ON_VALIDATION_COMPLETED", dispatch, callback: async (state) => {
+                try {
+                    /** React Strict Mode support, for react calling reducers twice to ensure pure function*/
+                    if (alreadySubmitted)
+                        return;
 
-            if (onSubmitAsync) {
-                const rsp = await onSubmitAsync(body);
-            } else {
+                    alreadySubmitted = true;
+                     
 
-                let rsp = await fetch(state.data.submit.submitUrl, {
-                    method: state.data.submit.submitMethod,
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(body),
-                    credentials: "include"
-                });
-                if (!rsp.ok) {
-                    throw new Error("Failed to submit:" + await rsp.text());
+                    const body = this.generatePayload(state);
+
+                    if (onSubmitAsync) {
+                        const rsp = await onSubmitAsync(body);
+
+                        dispatch({ type: "UPDATE_QUICKFORM_DEFINITION", definition: rsp });
+
+                    } else {
+
+                        let rsp = await fetch(state.data.submit.submitUrl, {
+                            method: state.data.submit.submitMethod,
+                            headers: {
+                                "content-type": "application/json",
+                            },
+                            body: JSON.stringify(body),
+                            credentials: "include"
+                        });
+                        if (!rsp.ok) {
+                            throw new Error("Failed to submit:" + await rsp.text());
+                        }
+                    }
+
+                    dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitSuccess: true, isSubmitting: false, isSubmitError: false } });
+                    dispatch({ type: 'GO_TO_ENDING' });
+
+                } catch (error: any) {
+                    console.error(error.message);
+                    dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true, isSubmitSuccess: false } });
+                    return;
+
                 }
             }
+        });
 
-            dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitSuccess: true, isSubmitting: false, isSubmitError: false } });
-            dispatch({ type: 'GO_TO_ENDING' });
-
-        } catch (error: any) {
-            console.error(error.message);
-            dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitError: true, isSubmitSuccess: false } });
-            return;
-
-        }
-        // finally {
-        //     dispatch({ type: "SET_SUBMIT_STATUS", status: { isSubmitting: false, isSubmitOK: true } });
-        // }
 
     }
 
     static generatePayload = (state: QuickformState): Record<string, any> => {
 
         const logger = resolveQuickFormService("logger");
-        const payload: Record<string, any> = {};
+        let payload: Record<string, any> = {};
         for (var slide of state.slides) {
             slide.questions.forEach(q => {
                 payload[q.logicalName!] = q.output;
@@ -62,6 +79,9 @@ export class SubmitActionHandler {
             }
 
             payload["submitFields"][q.logicalName] = value;
+        }
+        for (let augmenter of state.payloadAugments) {
+            payload = augmenter(payload);
         }
 
         return payload;

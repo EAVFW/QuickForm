@@ -5,17 +5,20 @@ import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
-import { mergeClasses } from "@fluentui/react-components";
-import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+import { makeStyles, mergeClasses } from "@fluentui/react-components";
+import { JSONSchema7 } from "json-schema";
 import { defaultQuickFormTokens } from "@eavfw/quickform-core";
+import { Controls } from "@eavfw/apps";
+import { IconEnum } from "@eavfw/quickform-core/src/components/icons/IconResolver";
+import { QuickformDesignerFields, QuickformDesignerWidgets } from "./QuickFormQuestionsView";
 
-
-
-const inputSlideSchema = {
+const quickformSettingsSchema = {
     label: "QuickForm Feature Flags",
     uiSchema: {
-        quickFormTokens: {
-
+        tokens: {
+        },
+        defaultSlideButtonIcon: {
+            "ui:widget": "select"
         }
     },
     schema: {
@@ -28,7 +31,18 @@ const inputSlideSchema = {
                 type: "boolean"
 
             },
-            quickFormTokens: {
+            showPressEnter: {
+                title: "Show Press Enter",
+                description: "Enable to show a message to press enter next to the button on the slide",
+                type: "boolean"
+            },
+            defaultSlideButtonIcon: {
+                title: "Default Slide Button Icon",
+                description: "The icon used for the slide button",
+                type: "string",
+                enum: Object.values(IconEnum),
+            },
+            tokens: {
                 title: "Tokens (Variables)",
                 type: "object",
                 properties: {
@@ -37,18 +51,30 @@ const inputSlideSchema = {
             }
         }
     }
-} as { label: string, uiSchema: any, schema: JSONSchema7 };
+} as { label: string, uiSchema: any, schema: JSONSchema7 & { properties: { tokens: JSONSchema7 } } };
 
-function registerToken(key: keyof typeof defaultQuickFormTokens, title: string, description: string, widget: string) {
+export function registerToken<TokenRegistry = typeof defaultQuickFormTokens>(key: keyof TokenRegistry, title: string, description: string, widget: string, defaultValue?: any, defaultTokenKey?: keyof TokenRegistry) {
 
-    const tokensSchema = inputSlideSchema.schema.properties?.quickFormTokens! as JSONSchema7;
-    const uiSchema = inputSlideSchema.uiSchema.quickFormTokens;
+    const tokensSchema = quickformSettingsSchema.schema.properties?.tokens! as JSONSchema7;
+    const uiSchema = quickformSettingsSchema.uiSchema.tokens;
     if (tokensSchema && tokensSchema.properties) {
-        tokensSchema.properties[key] = {
+        let defaultTokenValue = defaultTokenKey && defaultTokenKey in defaultQuickFormTokens ?
+            defaultQuickFormTokens[defaultTokenKey as keyof typeof defaultQuickFormTokens] ?? defaultValue
+            : defaultValue
+
+        tokensSchema.properties[key as string] = {
             title,
             description,
             type: "string",
-            default: defaultQuickFormTokens[key]
+
+            default:
+                key in defaultQuickFormTokens ?
+                    defaultQuickFormTokens[key as keyof typeof defaultQuickFormTokens] ?? defaultTokenValue
+                    : defaultTokenValue
+        }
+        if (defaultTokenKey) {
+            //@ts-ignore
+            tokensSchema.properties[key]["x-default-token"] = defaultTokenKey;
         }
     }
     if (widget) {
@@ -56,54 +82,90 @@ function registerToken(key: keyof typeof defaultQuickFormTokens, title: string, 
     }
 }
 
+// Typography
 registerToken("fontFamily", "Font Used", "The font used", "text");
-
-registerToken("surface", "Surface Color", "The surface color....", "color");
-registerToken("onSurface", "On Surface Color", "The color used on the surface....", "color");
-
-registerToken("background", "Background Color", "The background color used on the webplace where the quickform is used...", "color");
-registerToken("onBackground", "On Background Color", "The color used for text ontop of background color....", "color");
-
-registerToken("secondary", "Secondary Color", "The secondary color used. This is default color for buttons, sliders and components used in input controls", "color");
-registerToken("onSecondary", "On Secondary Color", "The color used for text ontop of secondary color....", "color");
-
-
-registerToken("primary", "Primary Color", "The priamry color used. This is the color used for next buttons and other important elements. Also considered the brand colour", "color");
-registerToken("onPrimary", "On Primary Color", "The color used for text ontop of primary color....", "color");
-
-registerToken("error", "Error Color", "The colour used for containers with errors, aka background colour.", "color");
-registerToken("onError", "On Error Color", "The color used for text ontop of error color....", "color");
-
+registerToken("headlineFontSize", "Headline Font Size", "The size of the headline...", "text");
+registerToken("subtitleFontSize", "Subtitle Font Size", "The size of the subtitle...", "text");
 registerToken("questionHeadlineFontSize", "Question Headline Font Size", "The size of the question headline...", "text");
 registerToken("questionParagraphFontSize", "Question Paragraph Font Size", "The size of question paragraph...", "text");
+registerToken("questionInputFontSize", "Question Input Font Size", "The size of the question input fields...", "text");
+registerToken("slideButtonIconSize", "Slide Button Icon Size", "The size of icon on slidebuttons...", "text");
+
+
+// Colors
+registerToken("primary", "Primary Color", "The primary color used. This is the color used for primary buttons and other important elements. Also considered the brand colour", "color");
+registerToken("onPrimary", "On Primary Color", "The color used for text on top of primary color....", "color");
+registerToken("secondary", "Secondary Color", "The secondary color used. This is default color for buttons, sliders and components used in input controls", "color");
+registerToken("onSecondary", "On Secondary Color", "The color used for text on top of secondary color....", "color");
+registerToken("error", "Error Color", "The colour used for containers with errors, aka background colour.", "color");
+registerToken("onError", "On Error Color", "The color used for text on top of error color....", "color");
+registerToken("surface", "Surface Color", "The surface color....", "color");
+registerToken("onSurface", "On Surface Color", "The color used on the surface....", "color");
+registerToken("background", "Background Color", "The background color used on the webplace where the quickform is used...", "color");
+registerToken("onBackground", "On Background Color", "The color used for text on top of background color....", "color");
+
+const useQuickformSettingsStyles = makeStyles({
+    container: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    previewContainer: {
+        overflow: 'scroll'
+    }
+});
 
 export const QuickFormSettingsView = () => {
-
-    const { quickformpayload: { intro }, updateQuickFormPayload: dispatch } = useQuickFormDefinition();
+    const { quickformpayload, updateQuickFormPayload: dispatch } = useQuickFormDefinition();
     const styles = useViewStyles();
+    const quickformSettingsStyles = useQuickformSettingsStyles();
+    const PreviewComponent = Controls["QuickFormSettingsViewPreviewComponent"];
 
+    const formData = {
+        ...quickformpayload.layout,
+        tokens: {
+            ...(Object.fromEntries(Object.entries(quickformSettingsSchema.schema.properties.tokens.properties ?? {})
+                .filter(([key, value]) => typeof value === "object" && "x-default-token" in value) //@ts-ignore
+                .map(([key, value]) => [key, quickformpayload.layout?.tokens[value["x-default-token"]]])
+            )),
+            ...quickformpayload.layout?.tokens ?? {}
+        }
+
+
+
+    }
+
+    console.log("Settings Data", [quickformSettingsSchema.schema.properties.tokens.properties, JSON.stringify(formData, null, 4)]);
+    console.log("QuickformDesignerWidgets", QuickformDesignerWidgets);
     return (
-        <div className={mergeClasses(styles.section, styles.sectionSlim)}>
-            <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
-                validator={validator}
-                {...inputSlideSchema}
-                formData={intro}
-                onChange={(a, b) => {
-                    console.log("change", [a, b]);
-
-                    dispatch(old => {
-                        if (!old.layout)
-                            old.layout = {};
-
-                        old.layout.autoAdvanceSlides = a.formData.autoAdvanceSlides;
-                        return { ...old };
-                    });
-                }}
-            >
-                <>
-                </>
-            </Form>
+        <div className={mergeClasses(styles.section, quickformSettingsStyles.container)}>
+            <div className={mergeClasses(styles.sectionSlim, styles.section)}>
+                <Form templates={{ FieldTemplate, BaseInputTemplate }}
+                    validator={validator}
+                    {...quickformSettingsSchema}
+                    fields={QuickformDesignerFields}
+                    widgets={QuickformDesignerWidgets}
+                    formData={formData}
+                    onChange={(a, b) => {
+                        console.log("change", [a, b]);
+                        dispatch(old => {
+                            if (!old.layout) old.layout = {};
+                            old.layout.autoAdvanceSlides = a.formData.autoAdvanceSlides;
+                            old.layout.showPressEnter = a.formData.showPressEnter;
+                            old.layout.tokens = { ...a.formData.tokens };
+                            old.layout.defaultSlideButtonIcon = a.formData.defaultSlideButtonIcon;
+                            console.log("quickformpayload_old", { ...old, layout: { ...old.layout } });
+                            return { ...old, layout: { ...old.layout } };
+                        });
+                    }}
+                >
+                    <></>
+                </Form>
+            </div>
+            {PreviewComponent &&
+                <div className={mergeClasses(styles.section, quickformSettingsStyles.previewContainer)}>
+                    <PreviewComponent />
+                </div>
+            }
         </div>
-    )
-
-}
+    );
+};

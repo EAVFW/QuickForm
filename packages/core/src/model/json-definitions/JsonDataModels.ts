@@ -68,6 +68,11 @@ type QuickFormQuestionDefinition = {
      * The ordering of the question
      */
     order?: number
+
+    /**
+     * Is the question required to be answered.
+     */
+    isRequired?: boolean
 }
 
 /**

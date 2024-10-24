@@ -20,8 +20,8 @@ function mapJsonQuestionToModelQuestion(questionKey: string, question: QuestionJ
 
     return {
         answered: hasDefaultValueOrPayload,
+        isRequired: question.isRequired ?? false,
         dataType: question.dataType ?? "string",
-        errorMsg: "",
         inputProperties: parseInputProperties(question),
         inputType: question.inputType ?? "text",
         intermediate: false,
@@ -31,7 +31,7 @@ function mapJsonQuestionToModelQuestion(questionKey: string, question: QuestionJ
         placeholder: question.placeholder ?? '',
         questionKey: questionKey,
         text: question.text,
-        visited: hasDefaultValueOrPayload,
+        visited: false,
         visible: question.visible ? {
             isVisible: question.visible.isVisible ?? false,
             ...question.visible

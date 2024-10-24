@@ -5,24 +5,31 @@ import { ErrorIcon, Checkmark } from "../icons/index";
 import { useQuickForm } from "../../state/QuickFormContext";
 import { EndingModel } from "../../model";
 import { quickformtokens } from "../../style/quickFormTokensDefinition";
+import { makeStyles, mergeClasses } from "@griffel/react";
 
 type EndingProps = {
     model: EndingModel;
+    className?: string;
 }
+ 
+const useEndingStyles = makeStyles({
+    ending: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        width:"100%",
+    }
+});
 
-const endingStyles: React.CSSProperties = {
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'column'
-}
+export const Ending: React.FC<EndingProps> = ({ model, className }) => {
+    const { state } = useQuickForm(); 
 
-export const Ending: React.FC<EndingProps> = ({ model }) => {
-    const { state } = useQuickForm();
-    const { text, paragraph } = model;
+
+    const { text, paragraph, paragraphIsHtml,textIsHtml } = model;
     const submitStatus = state.submitStatus;
-
+    const styles = useEndingStyles();
     return (
-        <div style={endingStyles}>
+        <div className={mergeClasses(styles.ending, className, state.classes.ending)}>
             {submitStatus.isSubmitError &&
                 <>
                     <ErrorIcon color={quickformtokens.onSurface} />
@@ -31,15 +38,15 @@ export const Ending: React.FC<EndingProps> = ({ model }) => {
             }
             {submitStatus.isSubmitSuccess &&
                 <>
-                    <Checkmark color={quickformtokens.onSurface} />
-                    {text &&
-                        <Heading style={{ marginTop: '10px' }}>
+                    {state.defaultEndingSlideIcon !== "none" && <Checkmark color={quickformtokens.onSurface} />}
+                {text &&
+                    <Heading isHtml={textIsHtml} style={{ marginTop: '10px' }}>
                             {text}
                         </Heading>
                     }
 
-                    {paragraph &&
-                        <Paragraph style={{ marginTop: '10px' }}>
+                {paragraph &&
+                    <Paragraph isHtml={paragraphIsHtml} style={{ marginTop: '10px' }}>
                             {paragraph}
                         </Paragraph>
                     }

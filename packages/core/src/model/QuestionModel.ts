@@ -14,12 +14,6 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
     dataType: "string" | "number" | "boolean";
 
     /**
-     * Displays an error message adjacent to the question or input component, 
-     * informing the user of validation issues with their input.
-     */
-    errorMsg: string;
-
-    /**
      * Optional properties related to the input, defined by the generic type TProps.
      */
     inputProperties?: TProps;
@@ -88,4 +82,19 @@ export type QuestionModel<TProps = InputPropertiesTypes> = {
      * the state of validation and providing feedback to the user.
      */
     validationResult?: ValidationResult;
+
+    /**
+     * https://json-schema.org/draft/2019-09/json-schema-validation
+     */
+    validation?: {
+       
+    }
+    /**
+     * is true if the question is required. Input controls should mark the question as required
+     */
+    isRequired?: boolean
+
+
+    /** is true if the question is active. Input controls should set focus if set to active*/
+    isActive?: boolean
 }

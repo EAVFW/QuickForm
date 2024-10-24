@@ -22,8 +22,11 @@ function processRows(rowLayouts: SlideElements, slide: SlideModel, questions: Qu
             case "question":
 
                 const question = questions[rowLayout.ref];
-                if (!question)
+                if (!question) {
+
+                    logger.warn("Question missing for row ref {@ref}", rowLayout.ref);
                     return;
+                }
 
                 rows.push(slide.addQuestion(rowLayout, question, payload));
                 break;
@@ -86,8 +89,10 @@ function handleLayout(layout: LayoutDefinition, questions: QuickFormQuestionsDef
 
     if (layout.slides) {
         Object.values(layout.slides).forEach(slide => {
-            const slideModel = new SlideModel();
-            slideModel.displayName = slide.title;
+
+
+            const slideModel = SlideModel.factory(layout, slide);
+          
             if (slide.rows) {
                 slideModel.rows = processRows(slide.rows, slideModel, questions, payload);
             }
@@ -100,29 +105,35 @@ function handleLayout(layout: LayoutDefinition, questions: QuickFormQuestionsDef
     return slides;
 }
 
-function defaultLayout(questions: QuickFormQuestionsDefinition, payload: any): SlideModel[] {
+function defaultLayout(questions: QuickFormQuestionsDefinition, payload: any, layout?: LayoutDefinition): SlideModel[] {
 
     const logger = resolveQuickFormService("logger");
 
     const slides: SlideModel[] = [];
+    if (layout?.defaultLayoutOneQuestionPerSlide ?? true) {
+        Object.keys(questions).map((key, index) => [key, index] as [string, number])
+            .sort(([q1, i1], [q2, i2]) => (questions[q1].order ?? i1) - (questions[q2].order ?? i2))
+            .map(([questionKey]) => {
+                let slide: SlideModel = createSlide({ [questionKey]: questions[questionKey] }, payload, layout);
 
-    Object.keys(questions).map((key, index) => [key, index] as [string, number])
-        .sort(([q1, i1], [q2, i2]) => (questions[q1].order ?? i1) - (questions[q2].order ?? i2))
-        .map(([questionKey]) => {
-        let slide: SlideModel = createSlide({ [questionKey]: questions[questionKey] }, payload);
-        slides.push(slide);
-    });
-
+                slides.push(slide);
+            });
+        //   console.log(slides);
+    } else {
+        slides.push(createSlide(questions, payload, layout))
+    }
     logger.log("Generated {@slides} from layout", slides);
 
     return slides;
 }
 
-function createSlide(questions: QuickFormQuestionsDefinition, payload: any): SlideModel {
+function createSlide(questions: QuickFormQuestionsDefinition, payload: any, layout?: LayoutDefinition): SlideModel {
     const logger = resolveQuickFormService("logger");
 
     logger.log("Creating Slides for {@questions}", questions);
-    const slide = new SlideModel();
+  //  const slide = new SlideModel();
+    const slide = SlideModel.factory(layout);
+
     // Create rows from questions, assuming each question corresponds to a separate row
     const rows: Row[] = Object.entries(questions).map(([questionKey, question]) => {
         const questionRef = {
@@ -145,13 +156,18 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload: any): SubmitMo
 
     const submitFields = Object.fromEntries(
         Object.entries((schema?.properties ?? {}) as { [key: string]: any })
+            .filter(([k, v]) => uiSchema?.[k]?.["ui:widget"] !== "hidden")
             .map(([k, v]) => [k, {
+
                 inputType: v.type === "string" ? "text" : "dropdown",
                 options: v.type === "string" ? undefined : { "Y": "Yes", "N": "No" },
                 placeholder: uiSchema?.[k]?.["ui:placeholder"],
                 text: (uiSchema?.[k]?.["ui:label"] ?? true) ? v.title : undefined,
                 paragraph: v.description,
-                dataType: v.type
+                isRequired: schema?.required?.includes(k) ?? false,
+                dataType: v.type,
+                ...uiSchema?.[k]?.["ui:inputProps"] ?? {}
+
             } as QuestionJsonModel])
     );
 
@@ -163,8 +179,8 @@ function handleSubmit(submit: QuickFormSubmitDefinition, payload: any): SubmitMo
     });
 
     return {
-        text: schema?.title ?? submit?.text ?? "Submit QuickForm",
-        paragraph: schema?.description,
+        text: uiSchema?.["ui:label"] === false ? '' : schema?.title ?? submit?.text ?? "Submit QuickForm",
+        paragraph: uiSchema?.["ui:label"] === false ? '' : schema?.description ?? submit?.paragraph,
         buttonText: submit?.buttonText ?? "Submit",
         submitFields: submitFieldsArray,
         submitUrl: submit.submitUrl,
@@ -183,14 +199,19 @@ const transformJSONInput: QuickFormModelTransformer = (definition, payload): Qui
     const logger = resolveQuickFormService("logger");
     logger.log("Transforming Quickform Def to Model with\n\nlayout:\n{@layout}\nquestions:\n{@questions}\nsubmit:\n{@submit}\npayload:\n{@payload}", definition.layout, definition.questions, definition.submit, payload);
 
+
+    
+
     // Transform questions into slides with rows and columns
     if (isDefined(definition.questions)) {
-        if (definition.layout && definition.layout.slides && Object.keys(definition.layout.slides).length>0) {
+
+
+        if (definition.layout && definition.layout.slides && Object.keys(definition.layout.slides).length > 0) {
             // If layout is defined, assign slides as per layout
             slides = handleLayout(definition.layout!, definition.questions, payload);
         } else {
             // If layout is not defined, assign one question to each slide with only 1 column pr. slide
-            slides = defaultLayout(definition.questions, payload);
+            slides = defaultLayout(definition.questions, payload, definition.layout);
         }
     }
     else {
@@ -198,6 +219,8 @@ const transformJSONInput: QuickFormModelTransformer = (definition, payload): Qui
     }
 
     return {
+
+        validation: definition.validation,
         intro: definition.intro,
         ending: definition.ending,
         submit: handleSubmit(definition.submit, payload?.submitFields),

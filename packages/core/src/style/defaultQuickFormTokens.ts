@@ -42,8 +42,9 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     onPrimary: '#ffffff',
     onSecondary: '#000000',
 
-    fontFamily: 'var(--chivo), Monaco, Consolas',
+    fontFamily: 'Monaco, Consolas',
     headlineFontSize: '2rem',
+    subtitleFontSize: '1.5rem',
     paragraphFontSize: '1.3rem',
     paragraphMobileFontSize: '1.9rem',
     btnFontSize: '2rem',
@@ -57,11 +58,12 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     questionInputFontSize: "3rem",
     questionInputGap: "3.6rem",
     questionPlaceholderColor: 'color-mix(in srgb, var(--on-surface) 80%, black)',
-    questionHeadlineFontWeight:400,
+    questionHeadlineFontWeight: 400,
     questionBottomMargin: '15px',
     questionTopMargin: '15px',
     questionBorderRadius: '15px',
     questionPadding: '0px',
+    questionPaddingBottom: '15px',
     gap1: '0.5rem',
     gap2: '1rem',
     gap4: '2rem',
@@ -70,4 +72,6 @@ export const defaultQuickFormTokens: QuickFormTokens = {
     lowEmphasisOpacity: 0.38,
     mediumEmphasisOpacity: 0.60,
     highEmphasisOpacity: 0.87,
+
+    slideButtonIconSize: '1.5rem',
 };

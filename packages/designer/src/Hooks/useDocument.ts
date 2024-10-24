@@ -1,5 +1,5 @@
 import { useEAVForm } from "@eavfw/forms";
-import { AttributeDefinition, isLookup } from "@eavfw/manifest";
+import { AttributeDefinition, isLookup, queryEntitySWR, getRecordSWR } from "@eavfw/manifest";
 import { gzip, ungzip } from "pako";
 import { useMemo, useEffect, useState } from "react";
 import { QuickFormDesignerDefinition } from "../Types/QuickFormDefinition";
@@ -14,6 +14,22 @@ export const useDocument = (entityName: string, attributeName: string, designerL
     const column = entity.attributes[attributeName];
 
     const [formData, { onChange: onFormDataChange }] = useEAVForm((state) => state.formValues);
+
+
+    const serverside = getRecordSWR(entity.collectionSchemaName, formData?.id, "?$select=rowversion", formData?.id, undefined, 30);
+    const isChanged = serverside?.record?.rowversion && formData.rowversion !== serverside?.record?.rowversion;
+    const { record, mutate } = getRecordSWR(app.getEntityFromKey("Document").collectionSchemaName, formData[column.logicalName], undefined, isChanged);
+    console.log("useDocument", [entityName, attributeName, column, formData, record, formData.rowversion, serverside?.record?.rowversion]);
+    useEffect(() => {
+        console.log("useDocument Refresh", record);
+    }, [record]);
+    useEffect(() => {
+        console.log("useDocument mutate", [formData.rowversion, serverside?.record?.rowversion]);
+        if (isChanged) {
+            window.location.reload();
+            //mutate();
+        }
+    }, [formData.rowversion,serverside?.record?.rowversion])
 
     const quickformLocale = designerLocale ?? {
         Title: "QuickForm",
@@ -73,7 +89,7 @@ export const useDocument = (entityName: string, attributeName: string, designerL
         }
     }, [quickformpayload, old, formData, column.logicalName]);
 
-    const view = quickformpayload.__designer?.activeView ?? "settings";
+    const view = quickformpayload.__designer?.activeView ?? "intro";
     const activeQuestion = quickformpayload.__designer?.activeQuestion;
     const activeSlide = quickformpayload.__designer?.activeSlide;
     const setActiveSlide = (slide?: string) => updateQuickFormPayload(old => { if (!old.__designer) { old.__designer = {} }; old.__designer.activeSlide = slide; return { ...old }; });

@@ -15,6 +15,7 @@ export { QuickForm } from "./QuickForm";
 export { Spinner } from "./spinner/Spinner";
 export { Intro } from "./intro/Intro";
 export { QuickFormContainer } from "./container/QuickFormContainer";
+export { ModernQuickFormContainer } from "./modern-container/ModernQuickformContainer";
 export { SlideRenderer } from "./renderers/slide-renderer/SlideRenderer";
 export { QuestionHeading } from "./question/components/QuestionHeading";
 // import "./question/input-types";

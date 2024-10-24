@@ -10,7 +10,7 @@ const useParagraphStyles = makeStyles({
         color: quickformtokens.onSurface,
         fontSize: quickformtokens.questionParagraphFontSize,
         fontWeight: 'unset',
-        lineHeight: '1.4em',
+        //lineHeight: quickformtokens.questionParagraphFontSize, // '1.4em',
         ...shorthands.margin(0, 0, quickformtokens.gap1, 0),
         '@media screen and (max-width: 599px)': { fontSize: quickformtokens.paragraphMobileFontSize },
     },
@@ -21,9 +21,10 @@ const useParagraphStyles = makeStyles({
 type ParagraphProps = {
     readonly children: ReactNode;
     style?: React.CSSProperties;
+    isHtml?: boolean;
 };
 
-export const Paragraph: React.FC<ParagraphProps> = ({ style, children }: ParagraphProps) => {
+export const Paragraph: React.FC<ParagraphProps> = ({ style, children,isHtml }: ParagraphProps) => {
     const styles = useParagraphStyles();
 
     if (typeof (children) === "string") {
@@ -32,7 +33,7 @@ export const Paragraph: React.FC<ParagraphProps> = ({ style, children }: Paragra
             <p
                 className={styles.para}
                 style={style}
-                dangerouslySetInnerHTML={{ __html: children.replace(/(?:\r\n|\r|\n)/g, '<br/>') }}
+                dangerouslySetInnerHTML={{ __html: isHtml ? children: children.replace(/(?:\r\n|\r|\n)/g, '<br/>') }}
             />
         );
     }

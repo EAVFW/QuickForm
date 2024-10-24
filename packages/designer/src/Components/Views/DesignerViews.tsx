@@ -5,6 +5,7 @@ import { QuickFormIntroSettingsView } from "./QuickFormIntroSettingsView"
 import { QuickFormLayoutView } from "./QuickFormLayoutView"
 import { QuickFormQuestionsView } from "./QuickFormQuestionsView"
 import { QuickFormSettingsView } from "./QuickFormSettingsView"
+import { QuickFormSourceView } from "./QuickFormSourceView"
 import { QuickFormSubmitSettingsView } from "./QuickFormSubmitSettingsView"
 
 
@@ -19,6 +20,6 @@ export const DesignerViews = () => {
         {view === "ending" && <QuickFormEndingSettingsView />}
         {view === "layout" && <QuickFormLayoutView slideId={activeSlide} layout={quickformpayload.layout} dispatch={updateQuickFormPayload} />}
         {view === "questions" && <QuickFormQuestionsView dispatch={updateQuickFormPayload} questions={quickformpayload.questions} currentQuestion={activeQuestion} />}
-
+        {view === "sourceView" && <QuickFormSourceView/>}
     </>
 }
