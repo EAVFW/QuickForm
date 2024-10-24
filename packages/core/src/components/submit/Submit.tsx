@@ -70,13 +70,13 @@ export const Submit: React.FC<SubmitProps> = ({ model, className }) => {
             {/*}*/}
 
             <div style={{ marginTop: '10px' }}>
-                <ul>
+                
                     {submitFields.map((sf, idx) => {
                         return (
                             <Question key={sf.logicalName + idx} model={sf} />
                         )
                     })}
-                </ul>
+                 
             </div>
 
             <Button
