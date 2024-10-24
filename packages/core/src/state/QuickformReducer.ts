@@ -102,22 +102,57 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
             let updatedState= QuestionActionHandler.updateQuestionValidation(state, action.logicalName, action.validationResult, action.timestamp)
 
             let isValidating = getAllQuestions(updatedState).some(q => q.validationResult?.isValidating ?? false);
+            let isAllValid = getAllQuestions(updatedState).every(q => q.validationResult?.isValid ?? false);
 
-            if (!isValidating && updatedState.onValidationCompleteCallback) {
+            if (!isValidating && updatedState.onValidationCompleteCallback && isAllValid) {
                 updatedState.onValidationCompleteCallback(updatedState);
                 updatedState.onValidationCompleteCallback = undefined;
             }
-
+            updatedState.submitStatus = { ...updatedState.submitStatus, isSubmitting: false };
             return updatedState;
         }
         case 'ON_VALIDATION_COMPLETED': {
-            let isValidating = getAllQuestions(state).some(q => q.validationResult?.isValidating ?? false);
+            let allQuestions = getAllQuestions(state);
+            let isValidating = allQuestions.some(q => q.validationResult?.isValidating ?? false);
             logger.log("QuickForm Reducer {action} - {isValidating}: {logicalNames}", action.type, isValidating,
                 getAllQuestions(state).filter(q => q.validationResult?.isValidating ?? false).map(c => c.logicalName).join(','));
             if (isValidating) {
                 return { ...state, onValidationCompleteCallback: action.callback }
             }
-            action.callback(state);
+
+            let tasks: Array<PromiseLike<ValidationResult>> = [];
+            const timestamp = new Date().getTime();
+            for (let q of allQuestions) {
+                logger.log("QuickForm Reducer {action} - {logicalName}: {validationResult} {output} {validatedOutput}",
+                    action.type, q.logicalName, q.validationResult, q.output, q.validationResult?.validatedOutput);
+
+
+                if (!q.validationResult || q.validationResult.timestamp === 0 || !q.validationResult.isValid) {
+
+                    state = QuestionActionHandler.updateQuestionProperties(state, q.logicalName,
+                        {   
+                            validationResult: { ...q.validationResult, timestamp: timestamp, isValidating: true, isValid: false }
+                        }
+                    );
+
+                    tasks.push(QuestionActionHandler.validateInput(state, q.logicalName).then(result => {
+                        logger.log("QuickForm Reducer {action} - {logicalName}: {result}",
+                            action.type, q.logicalName, result);
+
+                        action.dispatch({
+                            type: 'SET_VALIDATION_RESULT',
+                            logicalName: q.logicalName,
+                            validationResult: result, timestamp: timestamp
+                        });
+                        return result;
+                    }));
+                } 
+
+            }
+
+            if (tasks.length === 0) 
+                action.callback(state);
+
             return state;
         }
         case 'PROCESS_INTERMEDIATE_QUESTIONS': {

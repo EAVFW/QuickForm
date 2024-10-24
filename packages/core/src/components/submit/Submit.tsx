@@ -7,6 +7,7 @@ import { Heading, Paragraph, Button, Spinner, Question } from "../index";
 import { SubmitActionHandler } from "../../state/action-handlers/SubmitActionHandler";
 import { useHandleEnterKeypress } from "../../hooks";
 import { makeStyles, mergeClasses } from "@griffel/react";
+import { getAllQuestions } from "../../utils/quickformUtils";
 
 type SubmitProps = {
     model: SubmitModel;
@@ -32,7 +33,7 @@ export const Submit: React.FC<SubmitProps> = ({ model, className }) => {
   
 
     const handleSubmit = async () => {
-        dispatch({ type: "SET_SUBMIT_STATUS", status: { ...state.submitStatus, isSubmitting: true } });
+       // dispatch({ type: "SET_SUBMIT_STATUS", status: { ...state.submitStatus, isSubmitting: true } });
 
         try {
             await SubmitActionHandler.submit(state, dispatch, onSubmitAsync);
@@ -79,6 +80,7 @@ export const Submit: React.FC<SubmitProps> = ({ model, className }) => {
             </div>
 
             <Button
+                disabled={getAllQuestions(state).some(q => (q.validationResult?.isValidating ?? false) || (!(q.validationResult?.isValid ?? false) && (q.validationResult?.timestamp??0) !== 0))}
                 className={state.classes.slideButtonContainer}
                 buttonClassName={ state.classes.slideButton}
                 showPressEnter={typeof state.showPressEnter !== "undefined" && state.showPressEnter !== false}
