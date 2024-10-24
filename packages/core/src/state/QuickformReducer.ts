@@ -130,7 +130,6 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
 
             let tasks: Array<PromiseLike<ValidationResult>> = [];
             let allIntermediateQuestions = getAllIntermediateQuestions(state);
-
             // Dont include the question currently being answered
             if (action.logicalName) {
                 allIntermediateQuestions = allIntermediateQuestions.filter(q => q.logicalName !== action.logicalName);
@@ -142,6 +141,7 @@ export const quickformReducer = (state: QuickformState, action: QuickformAction)
                     state = QuestionActionHandler.updateQuestionProperties(state, intermediateQuestion.logicalName,
                         {
                             answered: true,
+                            visited:true,
                             intermediate: false,
                             validationResult: { ...intermediateQuestion.validationResult, timestamp: timestamp, isValidating: true, isValid: false }
                         }

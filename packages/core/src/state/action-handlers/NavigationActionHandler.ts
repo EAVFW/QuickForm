@@ -1,4 +1,4 @@
-import { getCurrentSlide, isSlideAnswered } from "../../utils/quickformUtils";
+import { getCurrentSlide, isSlideAnswered, isSlideVisited } from "../../utils/quickformUtils";
 import { QuickformState } from "../../state/QuickformState";
 import { resolveQuickFormService } from "../../services";
 import { QuestionModel } from "../../model";
@@ -8,7 +8,12 @@ export class NavigationActionHandler {
         const logger = resolveQuickFormService("logger");
         const currIdx = state.currIdx;
         const slides = state.slides;
-        logger.log("handle slide change: {currentIdx}", currIdx);
+        logger.log("QuickForm Reducer - handle slide change: {currentIdx}", currIdx, state.slides);
+
+        // Mark all questions as visited on the current slide when moving next;
+        for (let q of state.slides[currIdx].questions) {
+            q.visited = true;
+        }
 
         let newIdx = currIdx;
         while (newIdx < slides.length && newIdx >= 0 && (newIdx === currIdx || !state.slides[newIdx].questions.some(x => x.visible?.isVisible ?? true))) {
@@ -24,6 +29,8 @@ export class NavigationActionHandler {
             }
         }
 
+        logger.log("QuickForm Reducer - handle slide change: {newIdx}", newIdx, state.slides);
+
         return {
             ...state,
             currIdx: newIdx,
@@ -34,7 +41,8 @@ export class NavigationActionHandler {
     }
 
     static computeProgress = (state: QuickformState) => {
-        const slidesAnsweredCount = state.slides.reduce((sum, slide) => sum + (isSlideAnswered(slide) ? 1 : 0), 0);
+        console.log("computeProgress", state.slides);
+        const slidesAnsweredCount = state.slides.reduce((sum, slide) => sum + (isSlideAnswered(slide) && isSlideVisited(slide) ? 1 : 0), 0);
         const progress = (slidesAnsweredCount / state.totalSteps) * 100;
         return {
             ...state,
@@ -54,7 +62,7 @@ export class NavigationActionHandler {
 
         // Check all visible questions for answered and validity
         const validationResult = this.validateQuestions(visibleQuestions, state);
-        console.log("reducer validationResult", validationResult)
+        console.log("reducer validationResult", validationResult);
         if (validationResult.isValid) {
             return this.computeProgress(NavigationActionHandler.handleSlideChange({ ...state, errorMsg: "" }, 'next'));
         } else {
