@@ -107,9 +107,14 @@ export const defineQuickFormTokens = (...tokens: Array<Partial<QuickFormTokens>>
  * Provides QuickForm with css tokens to be passed around in the components so they refer to the same css variables that are loaded into the QuickFormProvider upon application instantiation.
  * @returns A flat object with CSS variables in camelCase that have corresponding values provided as kebab-case tokens variable names that map to globally defined colors.
  * See example: quickformtokens = { onPrimary: "var(--on-primary)"; onSecondary: "var(--on-secondary)" } and so on. You get the idea.
- * export const quickformtokens = camelToKebabCase(defaultQuickFormTokens); 
+ * 
  */
-export const quickformtokens = {
+
+//export const quickformtokens1 = camelToKebabCase(defaultQuickFormTokens);
+export type QuickFormTokenVars = {
+    [key in keyof QuickFormTokens]: string
+}
+export const quickformtokens: QuickFormTokenVars  = {
     "white": "var(--white)",
     "black": "var(--black)",
     "warning": "var(--warning)",
@@ -175,9 +180,5 @@ export const quickformtokens = {
     "lowEmphasisOpacity": "var(--low-emphasis-opacity)",
     "mediumEmphasisOpacity": "var(--medium-emphasis-opacity)",
     "highEmphasisOpacity": "var(--high-emphasis-opacity)",
-    "slideButtonIconSize": "var(--slide-button-icon-size)",
-    "headlineColor": "var(--headline-color,var(--primary))",
-    "subtitleColor": "var(--subtitle-color,inherit)",
-    "strongWeight": "var(--strong-weight,900)",
-    "slideButtonBorderRadius": "var(--slide-button-border-radius,100px)"
+    "slideButtonIconSize": "var(--slide-button-icon-size)" 
 }
