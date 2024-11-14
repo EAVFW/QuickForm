@@ -15,7 +15,7 @@ export type QuickformAction =
         dispatch: React.Dispatch<QuickformAction>;
         logicalName?: string        
     }
-    | { type: 'ON_VALIDATION_COMPLETED', callback: (state: QuickformState) => void }
+    | { type: 'ON_VALIDATION_COMPLETED', dispatch: React.Dispatch<QuickformAction>, callback: (state: QuickformState) => void }
     | QuickformAnswerQuestionAction
     | { type: 'SET_VALIDATION_RESULT'; logicalName: string; validationResult: ValidationResult; timestamp: number }
     | { type: 'COMPUTE_PROGRESS' }

@@ -31,7 +31,7 @@ function mapJsonQuestionToModelQuestion(questionKey: string, question: QuestionJ
         placeholder: question.placeholder ?? '',
         questionKey: questionKey,
         text: question.text,
-        visited: hasDefaultValueOrPayload,
+        visited: false,
         visible: question.visible ? {
             isVisible: question.visible.isVisible ?? false,
             ...question.visible

@@ -6,12 +6,18 @@ export type ServerActionSubmitHandler = (data: any) => Promise<Partial<QuickForm
 export class SubmitActionHandler {
     static submit =  (state: QuickformState, dispatch: React.Dispatch<QuickformAction>, onSubmitAsync?: ServerActionSubmitHandler) => {
 
-
+        let alreadySubmitted = false;
+        dispatch({ type: "SET_SUBMIT_STATUS", status: { ...state.submitStatus, isSubmitting: true } });
         dispatch({ type: "PROCESS_INTERMEDIATE_QUESTIONS", dispatch, logicalName: undefined });
         dispatch({
-            type: "ON_VALIDATION_COMPLETED",  callback: async (state) => {
+            type: "ON_VALIDATION_COMPLETED", dispatch, callback: async (state) => {
                 try {
+                    /** React Strict Mode support, for react calling reducers twice to ensure pure function*/
+                    if (alreadySubmitted)
+                        return;
 
+                    alreadySubmitted = true;
+                     
 
                     const body = this.generatePayload(state);
 
