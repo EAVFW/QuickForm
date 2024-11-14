@@ -83,4 +83,6 @@ export const registerInputTypeValidator = <TAnswer, TInputProps, TQuestionModel 
     validatorMap[key] = validator as ValidatorFunction<any, any, QuestionModel<any>, QuickformState>;
 };
 
-registerQuickFormService("inputValidator", validateQuestionOutput);
+export const withDefaultInputValidator = () =>
+    registerQuickFormService("inputValidator", validateQuestionOutput);
+

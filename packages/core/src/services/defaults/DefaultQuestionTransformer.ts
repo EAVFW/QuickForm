@@ -46,4 +46,5 @@ function mapJsonQuestionToModelQuestion(questionKey: string, question: QuestionJ
     };
 }
 
-registerQuickFormService("questionTransformer", mapJsonQuestionToModelQuestion);
+
+export const widthDefaultQuestionTransformer = () => registerQuickFormService("questionTransformer", mapJsonQuestionToModelQuestion);

@@ -57,4 +57,5 @@ const defaultHeadingNumberDisplayProvider: HeadingNumberDisplayProvider = () => 
     return false;
 }
 
-registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);
+export const withDefaultHeadingNumberDisplayProvider = () =>
+    registerQuickFormService("headingNumberDisplayProvider", defaultHeadingNumberDisplayProvider);

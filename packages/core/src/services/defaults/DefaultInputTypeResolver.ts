@@ -22,7 +22,9 @@ const parseInputProperties = (questionJsonModel: QuestionJsonModel): InputProper
     return {};
 };
 
-registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);
+
+export const widthDefaultInputTypePropertiesTransformer = () =>
+    registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);
 
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";

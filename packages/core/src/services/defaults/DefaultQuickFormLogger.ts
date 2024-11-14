@@ -1,6 +1,6 @@
 import { IQuickFormLogger, registerQuickFormService } from "../QuickFormServices";
 
-class DefaultLogger implements IQuickFormLogger {
+export class DefaultLogger implements IQuickFormLogger {
     
     private replaceLiteral(body: string, ...args: any[]) {
         var iterLiteral = "{(.*?)}";
@@ -25,4 +25,5 @@ class DefaultLogger implements IQuickFormLogger {
 
 }
 
-registerQuickFormService("logger", new DefaultLogger());
+
+export const widthDefaultLogger = () => registerQuickFormService("logger", new DefaultLogger());

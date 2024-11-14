@@ -228,4 +228,5 @@ const transformJSONInput: QuickFormModelTransformer = (definition, payload): Qui
     };
 };
 
-registerQuickFormService("modeltransformer", transformJSONInput);
+export const widthDefaultModeltransformer = () =>
+    registerQuickFormService("modeltransformer", transformJSONInput);
