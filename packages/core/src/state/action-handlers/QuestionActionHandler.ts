@@ -6,7 +6,7 @@ import { QuickformState } from "../QuickformState";
 import { ValidationResult } from "../../model/ValidationResult";
 
 export class QuestionActionHandler {
-    private static inputValidator = resolveQuickFormService("inputValidator");
+   // private static inputValidator = resolveQuickFormService("inputValidator");
 
     //static findSlideIdxAndQuestionIdx = (state: QuickformState, logicalName: string): { slideIndex: number; questionIndex: number } => {
     //    if (state.isSubmitSlide)
@@ -111,7 +111,7 @@ export class QuestionActionHandler {
                 validatedOutput: ''
             }
         }
-        return await QuestionActionHandler.inputValidator(questionRef, state);
+        return await resolveQuickFormService("inputValidator")(questionRef, state);
     }
     
 }
