@@ -7,9 +7,8 @@ import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { makeStyles, mergeClasses } from "@fluentui/react-components";
 import { JSONSchema7 } from "json-schema";
-import { defaultQuickFormTokens } from "@eavfw/quickform-core";
+import { defaultQuickFormTokens, IconEnum } from "@eavfw/quickform-core";
 import { Controls } from "@eavfw/apps";
-import { IconEnum } from "@eavfw/quickform-core/src/components/icons/IconResolver";
 import { QuickformDesignerFields, QuickformDesignerWidgets } from "./QuickFormQuestionsView";
 
 const quickformSettingsSchema = {
