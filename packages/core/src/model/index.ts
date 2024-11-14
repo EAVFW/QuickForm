@@ -6,6 +6,7 @@ export * from "./json-definitions/Layout";
 export * from "./QuestionModel";
 export * from "./SlideModel";
 export * from "./SubmitModel";
+export * from "./ValidationResult";
 
 
 export type { QuickFormDefinition } from "./json-definitions/QuickFormDefinition";
