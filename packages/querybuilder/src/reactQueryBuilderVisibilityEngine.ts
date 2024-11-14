@@ -1,7 +1,6 @@
 "use client";
-import { resolveInputComponent, type QuickformState } from "@eavfw/quickform-core";
-import type { QuestionModel } from "@eavfw/quickform-core/src/model";
-import { VisibilityRuleEngineContext, registerVisibilityEngine } from "@eavfw/quickform-core/src/state/action-handlers/VisibilityHandler";
+import { resolveInputComponent, VisibilityRuleEngineContext, registerVisibilityEngine, type QuickformState, type QuestionModel } from "@eavfw/quickform-core";
+
 import type { RuleGroupType, RuleType, defaultOperators } from "react-querybuilder";
 
 type ArrayElement<ArrayType extends readonly unknown[]> =

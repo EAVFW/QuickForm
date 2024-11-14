@@ -1,9 +1,18 @@
 {
   "version": "1.0.0-vnext.36",
   "name": "@eavfw/quickform-core",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "files": [
     "dist",
     "src"
@@ -20,7 +29,6 @@
   },
   "license": "MIT",
   "author": "Poul Kjeldager <poul@kjeldager.com>",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EAVFW/QuickForm.git"
