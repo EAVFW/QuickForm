@@ -4,7 +4,7 @@ import { UserIcon } from "./UserIcon";
 import { IconProps } from "./iconProps";
 import { Checkmark } from '../icons/Checkmark';
 import { ChevronRight } from "./ChevronRight";
-
+import React from "react";
 export enum IconEnum {
     None = "None",
     Email = "Email",
