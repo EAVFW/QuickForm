@@ -3,7 +3,7 @@ import { ValidationResult } from "../model/ValidationResult";
 import { InputPropertiesTypes, QuestionModel, QuickFormModel } from "../model";
 import { QuickFormDefinition } from "../model";
 import { QuestionJsonModel } from "../model/json-definitions/JsonDataModels";
-import { InputComponentType } from "./defaults/DefaultInputTypeResolver";
+import { InputComponentType, widthDefaultInputTypePropertiesTransformer } from "./defaults/DefaultInputTypeResolver";
 import { QuickformState } from "../state";
 
 export type HeadingNumberDisplayProvider = () => boolean;
@@ -40,3 +40,4 @@ export function resolveQuickFormService<Key extends keyof QuickFormFeatures>(nam
         throw new Error(`'${name}' was not registered, registred keys: ${Object.keys(_quickFormFeatures)}`);
     return f as Required<QuickFormFeatures>[Key];
 }
+
