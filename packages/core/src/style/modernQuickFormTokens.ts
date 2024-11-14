@@ -1,4 +1,4 @@
-import { QuickFormTokens } from "@eavfw/quickform-core";
+import { QuickFormTokens } from "./quickFormTokensDefinition";
 
 export const modernQuickFormTokens: QuickFormTokens = {
     white: '#FFFFFF',
