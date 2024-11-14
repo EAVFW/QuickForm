@@ -110,4 +110,4 @@ export const defineQuickFormTokens = (...tokens: Array<Partial<QuickFormTokens>>
  * 
  */
 
-//export const quickformtokens1 = camelToKebabCase(defaultQuickFormTokens);
+export const quickformtokens = camelToKebabCase(defaultQuickFormTokens);
