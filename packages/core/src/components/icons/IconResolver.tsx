@@ -2,9 +2,9 @@ import { EmailIcon } from "./EmailIcon";
 import { TelephoneIcon } from "./TelephoneIcon";
 import { UserIcon } from "./UserIcon";
 import { IconProps } from "./iconProps";
-import { Checkmark } from '../icons/Checkmark';
+import { Checkmark } from './Checkmark';
 import { ChevronRight } from "./ChevronRight";
-import React from "react";
+
 export enum IconEnum {
     None = "None",
     Email = "Email",

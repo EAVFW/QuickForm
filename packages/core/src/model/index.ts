@@ -10,4 +10,5 @@ export * from "./ValidationResult";
 
 
 export type { QuickFormDefinition } from "./json-definitions/QuickFormDefinition";
+export type { QuestionJsonModel } from "./json-definitions/JsonDataModels";
 
