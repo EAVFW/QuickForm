@@ -4,7 +4,7 @@ import styles from "./DropdownSelectOption.module.css";
 import { makeStyles, mergeClasses } from "@griffel/react";
 import { Checkmark } from "@eavfw/quickform-core/src/components/icons";
 import { shorthands } from "@fluentui/react-components";
-import { quickformtokens } from "@eavfw/quickform-core";
+import { quickformtokens, IconResolver } from "@eavfw/quickform-core";
 
 type DropdownSelectOptionProps = {
     readonly isSelected?: boolean;
@@ -62,8 +62,8 @@ export function DropdownSelectOption({
             onClick={onClick}
         >
             {children}
-            {isSelected && (
-                <Checkmark style={{display:"flex"}} color={quickformtokens.onSurface} size={"2rem"} />)}
+            {isSelected && <IconResolver icon="Checkmark" color={quickformtokens.onSurface} size={"2rem"} />}
+                
         </span>
     );
 }

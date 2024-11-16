@@ -18,5 +18,5 @@ export { QuickFormContainer } from "./container/QuickFormContainer";
 export { ModernQuickFormContainer } from "./modern-container/ModernQuickformContainer";
 export { SlideRenderer } from "./renderers/slide-renderer/SlideRenderer";
 export { QuestionHeading } from "./question/components/QuestionHeading";
-export { IconResolver, type IconEnum } from "./icons";
+export { IconResolver, IconEnum } from "./icons";
 // import "./question/input-types";
