@@ -62,7 +62,7 @@ export function DropdownSelectOption({
             onClick={onClick}
         >
             {children}
-            {isSelected && <IconResolver icon="Checkmark" color={quickformtokens.onSurface} size={"2rem"} />}
+            {isSelected && <IconResolver type="Checkmark" color={quickformtokens.onSurface} size={"2rem"} />}
                 
         </span>
     );
