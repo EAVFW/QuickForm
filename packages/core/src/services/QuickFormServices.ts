@@ -17,7 +17,7 @@ export interface IQuickFormLogger {
     warn(body: string, ...args: any[]): void;
 }
 
-export type QuickFormFeatures = {
+export interface QuickFormFeatures  {
     modeltransformer?: QuickFormModelTransformer,
     headingNumberDisplayProvider?: HeadingNumberDisplayProvider,
     questionTransformer?: QuestionTransformer,
@@ -26,9 +26,7 @@ export type QuickFormFeatures = {
     inputValidator?: InputValidator;
     logger?: IQuickFormLogger
 }
-declare global {
-    var __quickFormFeatures: QuickFormFeatures | undefined;
-}
+
 //let _quickFormFeatures: QuickFormFeatures = {
 //};
 

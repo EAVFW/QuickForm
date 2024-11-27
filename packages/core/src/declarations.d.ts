@@ -9,3 +9,6 @@ declare global {
   }
 }
 
+declare global {
+    var __quickFormFeatures: QuickFormFeatures | undefined;
+}
