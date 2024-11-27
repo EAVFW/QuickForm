@@ -80,7 +80,7 @@ export const NavDrawer = ({ setIsOpen, isOpen, newSlideNodes }: NavDrawerProps) 
                     <ViewTreeItem title="Ending" icon={<EndingViewIcon />} setView={setView} selectedView={view} viewName="ending" />
                     <ViewTreeItem title="Settings" icon={<SettingsViewIcon />} setView={setView} selectedView={view} viewName="settings" />
                     <ViewTreeItem title="Source view" icon={<CodeIcon />} setView={setView} selectedView={view} viewName="sourceView" />
-                    {Object.entries(views).map(([key, _view]) => <ViewTreeItem childName={quickformpayload['__designer'][`active${_view.navKey}`]} key={key} title={_view.title} icon={_view.icon} setView={setView} selectedView={view} viewName={key} children={_view.nav && <_view.nav />} />)}
+                    {Object.entries(views).map(([key, _view]) => <ViewTreeItem childName={quickformpayload?.__designer?.[`active${_view.navKey}`]} key={key} title={_view.title} icon={_view.icon} setView={setView} selectedView={view} viewName={key} children={_view.nav && <_view.nav />} />)}
                 </Tree>
             </DrawerBody>
         </Drawer>
