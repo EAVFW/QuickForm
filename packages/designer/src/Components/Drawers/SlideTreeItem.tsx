@@ -1,5 +1,5 @@
 import { ViewNames } from "../../Types/ViewNames";
-import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
+
 import {
     Button,
     tokens,
@@ -11,11 +11,12 @@ import { AddIcon, LayoutViewIcon, TrashCanIcon } from "../Icons/IntroViewIcon";
 import { makeid } from "../../Utils/makeid";
 import { SerializedNodes } from "@craftjs/core";
 import { SetStateAction } from "react";
+import { QuickFormDefinition } from "@eavfw/quickform-core";
 
 type SlideTreeItemProps = {
     setView: (view: ViewNames) => void;
-    updateQuickFormPayload: (value: SetStateAction<QuickFormDesignerDefinition>) => void;
-    quickformpayload: QuickFormDesignerDefinition;
+    updateQuickFormPayload: (value: SetStateAction<QuickFormDefinition>) => void;
+    quickformpayload: QuickFormDefinition;
     setActiveSlide: (slide?: string | undefined) => void;
     deserialize: (input: string | SerializedNodes) => void;
     activeSlide: string | undefined;

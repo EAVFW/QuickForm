@@ -4,12 +4,11 @@ import Form from "@rjsf/fluentui-rc";
 import validator from '@rjsf/validator-ajv8';
 import { Dropdown, DropdownProps, Option, mergeClasses, Field, Input, MessageBar, MessageBarBody, MessageBarTitle, makeStyles, tokens, shorthands } from '@fluentui/react-components';
 import { useViewStyles } from "../Styles/useViewStyles.styles";
-import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
 import { FieldProps, WidgetProps, ariaDescribedByIds } from "@rjsf/utils";
 import { FieldTemplate } from "./rjsf/FieldTemplate";
 import { BaseInputTemplate } from "./rjsf/BaseInputTemplate";
 
-import { InputComponentMetadata, resolveInputComponentSchemas } from "@eavfw/quickform-core";
+import { InputComponentMetadata, QuickFormDefinition, resolveInputComponentSchemas } from "@eavfw/quickform-core";
 
 
 export const QuickformDesignerFields = {} as { [key: string]: React.FC<FieldProps> };
@@ -29,9 +28,9 @@ const useQuickFormQuestionsViewStyles = makeStyles({
     }
 });
 export const QuickFormQuestionsView: React.FC<{
-    dispatch: React.Dispatch<React.SetStateAction<QuickFormDesignerDefinition>>,
+    dispatch: React.Dispatch<React.SetStateAction<QuickFormDefinition>>,
     currentQuestion?: string,
-    questions: QuickFormDesignerDefinition["questions"]
+    questions: QuickFormDefinition["questions"]
 }> = ({ currentQuestion, questions, dispatch }) => {
 
     const styles = useViewStyles();

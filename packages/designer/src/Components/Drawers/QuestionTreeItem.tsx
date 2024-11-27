@@ -1,5 +1,4 @@
-import { ViewNames } from "../../Types/ViewNames";
-import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
+import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
 import {
     Button,
     makeStyles,
@@ -8,12 +7,11 @@ import {
     TreeItem,
     TreeItemLayout,
 } from "@fluentui/react-components";
-import { AddIcon, TrashCanIcon, QuestionIcon } from "../Icons/IntroViewIcon";
+import { CaretDownFilled, CaretUpFilled } from "@fluentui/react-icons";
+import { SetStateAction, useMemo } from "react";
+import { ViewNames } from "../../Types/ViewNames";
 import { makeid } from "../../Utils/makeid";
-import { SetStateAction } from "react";
-import { useMemo } from "react";
-import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
-import { CaretUpFilled, CaretDownFilled } from "@fluentui/react-icons"
+import { AddIcon, QuestionIcon, TrashCanIcon } from "../Icons/IntroViewIcon";
 
 export const useNavDrawerStyles = makeStyles({
     actions: {
@@ -23,10 +21,14 @@ export const useNavDrawerStyles = makeStyles({
     }
 })
 
+import { QuickFormDefinition, QuickFormQuestionDefinition } from "@eavfw/quickform-core";
+
+
+
 type QuestionTreeItemProps = {
     setView: (view: ViewNames) => void;
-    updateQuickFormPayload: (value: SetStateAction<QuickFormDesignerDefinition>) => void;
-    quickformpayload: QuickFormDesignerDefinition;
+    updateQuickFormPayload: (value: SetStateAction<QuickFormDefinition>) => void;
+    quickformpayload: QuickFormDefinition;
     setActiveQuestion: (question?: string | undefined) => void;
     activeQuestion: string | undefined;
 }
@@ -36,7 +38,7 @@ const QuestionTreeItem: React.FC<QuestionTreeItemProps> = ({ setView, setActiveQ
     const styles = useNavDrawerStyles();
     const sortedQuestions = useMemo(() => {
 
-        return Object.entries(quickformpayload.questions ?? {}).map(([key, question], index) => [key, question, index] as [string, typeof question, number])
+        return Object.entries(quickformpayload.questions ?? {}).map(([key, question], index) => [key, question, index] as [string, QuickFormQuestionDefinition, number])
             .sort(([_, qa, ai], [__, qb, bi]) => (qa.order ?? ai) - (qb.order ?? bi));
 
     }, [quickformpayload])
@@ -52,7 +54,7 @@ const QuestionTreeItem: React.FC<QuestionTreeItemProps> = ({ setView, setActiveQ
             const q = old.questions[key];
             q.order = index - 1;
 
-            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j));
+            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuickFormQuestionDefinition, number]).sort(([k, a, i], [k1, b, j]) => i - j));
 
             return { ...old };
         });

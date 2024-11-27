@@ -17,6 +17,10 @@ export interface IQuickFormLogger {
     warn(body: string, ...args: any[]): void;
 }
 
+declare global {
+    var __quickFormFeatures: QuickFormFeatures | undefined;
+
+}
 export interface QuickFormFeatures  {
     modeltransformer?: QuickFormModelTransformer,
     headingNumberDisplayProvider?: HeadingNumberDisplayProvider,

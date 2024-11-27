@@ -1,6 +1,6 @@
 import { EmailProperties, MultilineProperties, TextProperties } from "../InputType";
 
-type QuickFormQuestionDefinition = {
+export interface QuickFormQuestionDefinition {
 
     /** 
      * A logical name used when generating the payload.
