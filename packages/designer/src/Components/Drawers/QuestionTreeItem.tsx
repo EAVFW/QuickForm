@@ -15,7 +15,7 @@ import { useMemo } from "react";
 import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
 import { CaretUpFilled, CaretDownFilled } from "@fluentui/react-icons"
 
-const useNavDrawerStyles = makeStyles({
+export const useNavDrawerStyles = makeStyles({
     actions: {
         backgroundColor: tokens.colorNeutralBackground1Hover,
         position: "absolute",
