@@ -4,7 +4,7 @@ import { QuickFormQuestionsDefinition } from "./QuickFormQuestionsDefinition";
 import { QuickFormSubmitDefinition } from "./QuickFormSubmitDefinition";
 import { LayoutDefinition } from "./Layout";
 
-export type QuickFormDefinition = {
+export interface QuickFormDefinition {
     validation?: {
         messages?: {
             "NOT_ALL_QUESTIONS_ANSWERED"?: string,

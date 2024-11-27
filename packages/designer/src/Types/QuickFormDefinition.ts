@@ -1,13 +1,17 @@
+import exp from "constants";
 import { Locale } from "./Locale";
 import { ViewNames } from "./ViewNames";
 import { QuickFormDefinition } from "@eavfw/quickform-core";
 
-export type QuickFormDesignerDefinition = {
-    __designer: {
-        activeView?: ViewNames;
-        activeSlide?: string;
-        activeQuestion?: string;
-    },
+export interface QuickFormDesignerState {
+    activeView?: ViewNames;
+    activeSlide?: string;
+    activeQuestion?: string;
+    [key: string]: string | undefined;
+}
+
+export type QuickFormDesignerDefinition =  {
+    __designer: QuickFormDesignerState,
     designerLocale?: Locale,
     questions: {
         [key: string]: {

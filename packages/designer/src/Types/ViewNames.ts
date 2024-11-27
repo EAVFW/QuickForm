@@ -1,1 +1,1 @@
-export type ViewNames = "settings" | "intro" | "submit" | "ending" | "layout" | "questions" | "sourceView";
+export type ViewNames = "settings" | "intro" | "submit" | "ending" | "layout" | "questions" | "sourceView" | string;
