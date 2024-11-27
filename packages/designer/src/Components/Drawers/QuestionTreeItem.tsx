@@ -1,4 +1,4 @@
-import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
+
 import {
     Button,
     makeStyles,
@@ -67,7 +67,7 @@ const QuestionTreeItem: React.FC<QuestionTreeItemProps> = ({ setView, setActiveQ
             const q = old.questions[key];
             q.order = index + 1;
 
-            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j));
+            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuickFormQuestionDefinition, number]).sort(([k, a, i], [k1, b, j]) => i - j));
 
             return { ...old };
         });

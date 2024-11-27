@@ -22,8 +22,8 @@ import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { EditSettingsRegular } from "@fluentui/react-icons"
 import { removeNonAlphanumeric } from "@eavfw/utils";
-import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
 import { VisibilityQueryField } from "@eavfw/quickform-querybuilder";
+import { QuickFormQuestionDefinition } from "@eavfw/quickform-core";
 
 const useStyles = makeStyles({
     content: {
@@ -101,7 +101,7 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                                         onChange={(e, d) => updateQuickFormPayload(old => {
                                             old.questions[activeQuestion].order = parseInt(d.value);
 
-                                            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j))
+                                            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuickFormQuestionDefinition, number]).sort(([k, a, i], [k1, b, j]) => i - j))
 
                                             return { ...old }
                                         })} />

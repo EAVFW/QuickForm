@@ -8,12 +8,12 @@ import { QueryBuilder, defaultValidator, defaultOperators, formatQuery, RuleGrou
 
 import { EditRegular } from "@fluentui/react-icons";
 import { FieldTypes, InputComponentFieldMetadata, InputComponentMetadata, InputComponentSelectFieldMetadata, QuickformState, resolveInputComponent } from '@eavfw/quickform-core';
-import { QuickFormQuestionsDefinition } from '@eavfw/quickform-core/src/model/json-definitions/QuickFormQuestionsDefinition';
-import { QuestionJsonModel } from '@eavfw/quickform-core/src/model/json-definitions/JsonDataModels';
+import { QuickFormQuestionsDefinition } from '@eavfw/quickform-core';
+import { QuestionJsonModel } from '@eavfw/quickform-core';
 
 import 'react-querybuilder/dist/query-builder.scss';
-import { registerVisibilityEngine } from "@eavfw/quickform-core/src/state/action-handlers/VisibilityHandler";
-import { QuestionModel } from "@eavfw/quickform-core/src/model";
+import { registerVisibilityEngine } from "@eavfw/quickform-core";
+import { QuestionModel } from "@eavfw/quickform-core";
 import React from "react";
 
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }

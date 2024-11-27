@@ -1,8 +1,8 @@
 import { quickformtokens, useHandleEnterKeypress, useQuickForm } from "@eavfw/quickform-core";
-import { useFocusableQuestion } from "@eavfw/quickform-core/src/hooks/useFocusableQuestion";
+import { useFocusableQuestion } from "@eavfw/quickform-core";
 import { CSSProperties, ChangeEvent, InputHTMLAttributes, useEffect, useState } from "react";
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
-import { QuestionModel } from "@eavfw/quickform-core/src/model";
+import { QuestionModel } from "@eavfw/quickform-core";
 import { IconResolver, IconType } from "../../../../core/src/components/icons/IconResolver";
 
 import { trace } from "@opentelemetry/api";
@@ -106,11 +106,7 @@ export const BaseInputComponent: React.FC<BaseInputComponentProps> = ({ question
         if (span) {
             span.addEvent("BaseInputComponent:handleChange", { 'value': event.target.value });
         }
-        //EXPLAIN: WHY IS THIS HERE? If no reason, lets remove.
-        if (event.target.value === "")
-            questionModel.errorMsg = "";
-
-
+         
         setText(() => event.target.value);
         answerQuestion(questionModel.logicalName, event.target.value, true);
         resize();

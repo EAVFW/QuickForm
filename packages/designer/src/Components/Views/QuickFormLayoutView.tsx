@@ -6,7 +6,7 @@ import { useEffect, useMemo } from "react";
 import { removeNonAlphanumeric } from "@eavfw/utils";
 import { SerializedNodes } from "@craftjs/core"
 
-import { RowColumnsLayout } from "@eavfw/quickform-core/src/model/json-definitions/Layout";
+import { RowColumnsLayout } from "@eavfw/quickform-core";
 import { QuickFormDefinition } from "@eavfw/quickform-core";
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuickForm } from '../../../../core/src/state/QuickFormContext';
-import { isSlideAnswered } from '@eavfw/quickform-core/src/utils/quickformUtils';
+import { isSlideAnswered } from '@eavfw/quickform-core';
 
 export const OverviewList = () => {
     const { state, goToSlide } = useQuickForm();

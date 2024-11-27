@@ -1,9 +1,9 @@
 "use client";
 import { quickformtokens, useHandleEnterKeypress, useQuickForm } from "@eavfw/quickform-core";
-import { useFocusableQuestion } from "@eavfw/quickform-core/src/hooks/useFocusableQuestion";
+import { useFocusableQuestion } from "@eavfw/quickform-core";
 import { CSSProperties, ChangeEvent, InputHTMLAttributes, useEffect, useState } from "react";
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
-import { QuestionModel } from "@eavfw/quickform-core/src/model";
+import { QuestionModel } from "@eavfw/quickform-core";
 import { IconResolver, IconType } from "../../../icons/IconResolver";
 
 import { trace } from "@opentelemetry/api";

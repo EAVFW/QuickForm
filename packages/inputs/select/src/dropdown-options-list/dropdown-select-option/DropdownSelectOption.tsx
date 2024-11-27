@@ -2,7 +2,6 @@ import { MouseEventHandler, ReactNode } from "react";
 import classNames from "classnames";
 import styles from "./DropdownSelectOption.module.css";
 import { makeStyles, mergeClasses } from "@griffel/react";
-import { Checkmark } from "@eavfw/quickform-core/src/components/icons";
 import { shorthands } from "@fluentui/react-components";
 import { quickformtokens, IconResolver } from "@eavfw/quickform-core";
 

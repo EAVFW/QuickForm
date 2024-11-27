@@ -1,5 +1,5 @@
 import { InputComponentMetadata } from "@eavfw/quickform-core";
-import { InputPropertiesTypes } from "@eavfw/quickform-core/src/model";
+import { InputPropertiesTypes } from "@eavfw/quickform-core";
 
 export const emailInputSchema: InputComponentMetadata<InputPropertiesTypes> = {
     label: "Email",

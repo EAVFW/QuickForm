@@ -1,6 +1,6 @@
 
 import { InputComponentMetadata } from "../../../../core/src/services/";
-import { InputPropertiesTypes, } from "@eavfw/quickform-core/src/model";
+import { InputPropertiesTypes, } from "@eavfw/quickform-core";
 
 export const multilineInputSchema: InputComponentMetadata<InputPropertiesTypes> = {
     label: "Multiline Text",
