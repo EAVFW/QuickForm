@@ -89,10 +89,9 @@ export const QuickFormQuestionsView: React.FC<{
                                     old.questions[logicalName] = { ...old.questions[currentQuestion], text, schemaName, logicalName };
                                     delete old.questions[currentQuestion];
 
-                                    if (!old.__designer)
-                                        old.__designer = {};
-
-                                    old.__designer.activeQuestion = logicalName;
+                                     
+                                    old.__designer = { ...old.__designer ?? {}, activeQuestion: logicalName };                                     
+                                   
                                 } else {
                                     old.questions[currentQuestion] = { ...question, text: data.value };
                                 }

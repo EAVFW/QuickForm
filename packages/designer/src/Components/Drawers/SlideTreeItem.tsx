@@ -55,7 +55,7 @@ const SlideTreeItem: React.FC<SlideTreeItemProps> = ({ setView, setActiveSlide, 
             }
 
             old.layout.slides[id] = { title: "New Slide", schemaName: "NewSlide", logicalName: "newslide" };
-            old.__designer.activeSlide = id;
+            old.__designer = { ...old.__designer ?? {}, activeSlide: id };
             return { ...old };
         });
     };

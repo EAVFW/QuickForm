@@ -177,7 +177,7 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
 
             if (oldName !== name) {
                 dispatch(old => {
-                    const oldslideid = old.__designer.activeSlide!;
+                    const oldslideid = old.__designer?.activeSlide!;
                     let title = name;
                     let schemaName = removeNonAlphanumeric(title);
                     let logicalName = schemaName.toLowerCase();
@@ -190,10 +190,9 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
 
                     old.layout.slides[oldslideid] = { ...old.layout.slides[oldslideid], title, schemaName, logicalName };
                      
-                    if (!old.__designer)
-                        old.__designer = {};
 
-                    old.__designer.activeSlide = oldslideid;
+                    old.__designer = { ...old.__designer ?? {}, activeSlide: oldslideid };
+
                     return { ...old };
                 });
             }
@@ -213,7 +212,7 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
                 if (!quickform.layout.slides)
                     quickform.layout.slides = {};
 
-                let slide = quickform.layout.slides[quickform.__designer.activeSlide!];
+                let slide = quickform.layout.slides[quickform.__designer?.activeSlide!];
                 if (!slide)
                     return quickform;
 

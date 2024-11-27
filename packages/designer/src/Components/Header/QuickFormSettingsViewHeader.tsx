@@ -60,13 +60,9 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                 let logicalName = schemaName.toLowerCase();
 
                 old.questions[activeQuestion] = { ...old.questions[activeQuestion], schemaName, logicalName, displayName  };
-               // if (text !== activeQuestion)
-               //     delete old.questions[activeQuestion];
-
-                if (!old.__designer)
-                    old.__designer = {};
-
-                old.__designer.activeQuestion = text;
+                
+                
+                old.__designer = { ...old.__designer ?? {}, activeQuestion: text }; 
 
                 return { ...old };
             });

@@ -19,7 +19,7 @@ declare module "@eavfw/quickform-core" {
         displayName?: string;
     }
     interface QuickFormDefinition {
-        __designer: QuickFormDesignerState,
+        __designer?: QuickFormDesignerState,
         designerLocale?: Locale,
     }
 }
