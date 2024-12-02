@@ -3,51 +3,57 @@ import { InputPropertiesTypes, QuestionModel } from "../../model";
 import { registerQuickFormService } from "../QuickFormServices";
 import { QuickformState } from "../../state";
 
-const validateText = (output: any): ValidationResult => {
+
+const formatString = (template: string, ...args: any[]): string => {
+    if (!template) return undefined;
+
+    return template.replace(/{}/g, () => args.shift());
+};
+const validateText = (output: any, props: any, model: any, state: QuickformState): Promise<ValidationResult> => {
     const text = typeof output === 'string' ? output.trim() : '';
     const minLength = 1;
     const valid = text.length >= minLength;
-    return {
+    return Promise.resolve({
         isValid: valid,
-        message: valid ? "" : `Text must be at least ${minLength} characters long.`,
+        message: valid ? "" : formatString(state.data.validation?.messages?.TEXT_MUST_BE_AT_LEAST_CHARACTERS_LONG, minLength) ?? `Text must be at least ${minLength} characters long.`,
         validatedOutput: output,
-    };
+    });
 };
 
-const validateMultilineText = (output: any): ValidationResult => {
+const validateMultilineText = (output: any, props: any, model: any, state: QuickformState): Promise<ValidationResult> => {
     const text = typeof output === 'string' ? output.trim() : '';
     const minLength = 1;
     const maxLength = 500;
     const valid = text.length >= minLength && text.length <= maxLength;
-    return {
+    return Promise.resolve( {
         isValid: valid,
-        message: valid ? "" : `Text must be between ${minLength} and ${maxLength} characters long.`,
+        message: valid ? "" : formatString(state.data.validation?.messages?.TEXT_MUST_BE_BETWEEN_AND_CHARACTERS_LONG, minLength, maxLength) ?? `Text must be between ${minLength} and ${maxLength} characters long.`,
         validatedOutput: output,
-    };
+    });
 };
 
-const validateEmail = (output: any): ValidationResult => {
+const validateEmail = (output: any, props: any, model: any, state: QuickformState): Promise<ValidationResult> => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const valid = typeof output === 'string' && emailRegex.test(output);
-    return {
+    return Promise.resolve( {
         isValid: valid,
-        message: valid ? "" : "Invalid email format.",
+        message: valid ? "" : state.data.validation?.messages?.INVALID_EMAIL_FORMAT ?? "Invalid email format.",
         validatedOutput: output,
-    };
+    });
 };
 
-const validatePhone = async (output: any): Promise<ValidationResult> => {
+const validatePhone = async (output: any, props: any, model: any, state: QuickformState): Promise<ValidationResult> => {
     // Wait for 2 seconds to demo
     // await new Promise(resolve => setTimeout(resolve, 2000));
 
     const phoneRegex = /^[0-9]{8,}$/;
     const valid = typeof output === 'string' && phoneRegex.test(output);
 
-    return {
+    return Promise.resolve({
         isValid: valid,
-        message: valid ? "" : "Invalid phone format. Expected a string of digits (at least 8).",
+        message: valid ? "" : state.data.validation?.messages?.INVALID_PHONE_FORMAT?? "Invalid phone format. Expected a string of digits (at least 8).",
         validatedOutput: output,
-    };
+    });
 };
 
 type ValidatorMap = {
@@ -55,10 +61,10 @@ type ValidatorMap = {
 };
 
 const validatorMap: ValidatorMap = {
-    email: (output: any) => Promise.resolve(validateEmail(output)),
-    phone: (output: any) => Promise.resolve(validatePhone(output)),
-    text: (output: any) => Promise.resolve(validateText(output)),
-    multilinetext: (output: any) => Promise.resolve(validateMultilineText(output))
+    email: validateEmail,
+    phone: validatePhone,
+    text: validateText,
+    multilinetext: validateMultilineText
 };
 
 const validateQuestionOutput = async <TProps extends InputPropertiesTypes>(questionModel: QuestionModel<TProps>, state: QuickformState): Promise<ValidationResult> => {
