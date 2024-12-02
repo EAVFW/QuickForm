@@ -21,6 +21,9 @@ const useNavigationStyles = makeStyles({
         ...shorthands.borderWidth('1px'),
         ...shorthands.borderColor(quickformtokens.primary),
         stroke: quickformtokens.onPrimary,
+        display: "flex",
+        padding: "0.25rem", 
+        alignItems: "center",
         backgroundColor: quickformtokens.primary,
         ':hover': {
             stroke: quickformtokens.primary,
@@ -44,12 +47,14 @@ const useNavigationStyles = makeStyles({
     left: {
         borderTopLeftRadius: '10px',
         borderBottomLeftRadius: '10px',
-        ...shorthands.borderRight('none')
+        ...shorthands.borderRight('none'),
+        justifyContent: "start",
     },
     right: {
         borderTopRightRadius: '10px',
         borderBottomRightRadius: '10px',
-        ...shorthands.borderLeft('none')
+        ...shorthands.borderLeft('none'),
+        justifyContent: "end",
     },
 });
 
