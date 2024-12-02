@@ -28,12 +28,9 @@ export const Intro: React.FC<IntroProps> = ({ model, onBtnClick, className }) =>
             </Paragraph>
             <Button
                 onClick={() => onBtnClick()}
-                showPressEnter={typeof state.showPressEnter !== "undefined" && state.showPressEnter !== false}
-                style={{
-                    fontSize: '1.8rem',
-                    fontWeight: '500',
-                    padding: '10px 14px'
-                }}
+                className={state.classes.slideButtonContainer}
+                buttonClassName={state.classes.slideButton}
+                showPressEnter={typeof state.showPressEnter !== "undefined" && state.showPressEnter !== false}                 
             >
                 {buttonText}
             </Button>
