@@ -1,7 +1,6 @@
 import { SubmitStatus } from "../model/SubmitStatus";
 import { SlideModel } from "../model/SlideModel";
-import { LayoutDefinition, QuickFormModel } from "../model";
-import { IconType } from "../components/icons/IconResolver";
+import { IconType, LayoutDefinition, QuickFormModel } from "../model"; 
 
 export type QuickformClassNames = {
     slide: string,

@@ -1,5 +1,6 @@
-import { IconType } from "../components/icons/IconResolver";
+
 import { resolveQuickFormService } from "../services/QuickFormServices";
+import { IconType } from "./InputType";
 import { QuestionModel } from "./QuestionModel";
 import { QuestionJsonModel } from "./json-definitions/JsonDataModels";
 import { LayoutDefinition, QuestionRef, SlideLayout } from "./json-definitions/Layout";

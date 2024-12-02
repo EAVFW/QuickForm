@@ -4,17 +4,9 @@ import { UserIcon } from "./UserIcon";
 import { IconProps } from "./iconProps";
 import { Checkmark } from './Checkmark';
 import { ChevronRight } from "./ChevronRight";
+import { IconType } from "../../model/InputType";
 
-export enum IconEnum {
-    None = "None",
-    Email = "Email",
-    Phone = "Phone",
-    User = "User",
-    Checkmark = "Checkmark",
-    ChevronRight = "ChevronRight"
-}
 
-export type IconType = keyof typeof IconEnum;
 
 export type IconResolverProps = {
     type?: IconType,

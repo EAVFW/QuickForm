@@ -13,7 +13,8 @@
     "semantic-release": "19.0.5",
     "semantic-release-monorepo": "7.0.5",
     "typescript": "5.4.2",
-    "tsup": "8.3.5"
+    "tsup": "8.3.5",
+    "npm": "10.9.1"
   },
   "scripts": {
     "link": "concurrently  \"npm:link-*\"",
@@ -22,9 +23,9 @@
     "link-inputs": "npm run link --workspace packages/inputs",
     "link-querybuilder": "npm --workspace packages/querybuilder link",
 
-    "build": "concurrently  \"npm:build-*\"",
+    "build": "concurrently --success all  \"npm:build-*\"",
     "build-core": "npm --workspace packages/core run build",
-    
+
 
     "publish": "npm-run-all --continue-on-error publish-*",
     "publish-core": "npm --workspace packages/core publish --access public",

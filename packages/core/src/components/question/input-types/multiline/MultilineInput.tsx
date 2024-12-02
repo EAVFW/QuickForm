@@ -3,9 +3,12 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { makeStyles, shorthands } from "@griffel/react";
 import { quickformtokens } from "../../../../style/quickFormTokensDefinition";
 import { multilineInputSchema } from "./MultilineInputSchema";
-import { MultilineProperties } from "../../../../model/index";
+
 import { useQuickForm } from "../../../../state/QuickFormContext";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import { MultilineProperties } from "../../../../model/InputType";
+
+
 
 const useInputTextStyles = makeStyles({
     inputText: {

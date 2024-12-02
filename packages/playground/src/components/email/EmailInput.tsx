@@ -1,7 +1,6 @@
-import { InputComponentType, registerInputComponent } from "@eavfw/quickform-core";
+import { InputComponentType, registerInputComponent,IconType } from "@eavfw/quickform-core";
 import { BaseInputComponent } from "../baseinput/BaseInputComponent";
-import { emailInputSchema } from "./EmailInputSchema";
-import { IconType } from "../../../../core/src/components/icons/IconResolver";
+import { emailInputSchema } from "./EmailInputSchema"; 
 
 export type EmailProperties = {
     inputType: "email";

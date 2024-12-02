@@ -1,6 +1,6 @@
 import { QuickFormTokens } from "../../style/quickFormTokensDefinition";
 import { QuickformClassNames } from "../../state/QuickformState";
-import { IconType } from "../../components/icons/IconResolver";
+import { IconType } from "../InputType";
 
 export type LayoutDefinition = {
     /**

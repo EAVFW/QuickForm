@@ -18,6 +18,6 @@ export { QuickFormContainer } from "./container/QuickFormContainer";
 export { ModernQuickFormContainer } from "./modern-container/ModernQuickformContainer";
 export { SlideRenderer } from "./renderers/slide-renderer/SlideRenderer";
 export { QuestionHeading } from "./question/components/QuestionHeading";
-export { IconResolver, IconEnum } from "./icons";
+export { IconResolver } from "./icons";
 export * from "./question/input-types";
 // import "./question/input-types";

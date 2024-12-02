@@ -8,4 +8,4 @@ export { ImArrowRightIcon } from "./ImArrowRightIcon";
 export { RightArrow } from "./RightArrow";
 export { UserIcon } from "./UserIcon";
 export type { IconProps } from "./iconProps";
-export { IconEnum, IconResolver } from "./IconResolver";
+export { IconResolver } from "./IconResolver";

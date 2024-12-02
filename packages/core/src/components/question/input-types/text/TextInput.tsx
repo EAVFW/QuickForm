@@ -1,16 +1,11 @@
 "use client";
 import React from "react";
 import { textInputSchema } from "./TextInputSchema";
-import { BaseInputComponent } from "../baseinput/BaseInputComponent";
-import { InputComponentType, registerInputComponent } from "@eavfw/quickform-core";
-import { IconType } from "../../../icons/IconResolver";
+import { BaseInputComponent } from "../baseinput/BaseInputComponent"; 
+import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import { TextProperties } from "../../../../model/InputType";
 
-export type TextProperties = {
-    inputType: "text";
-    defaultValue?: string;
-    beforeIcon?: IconType;
-    afterIcon?: IconType
-}
+
 
 export const TextInput: InputComponentType<TextProperties> = (props) => {
     return <BaseInputComponent type="text" {...props} />

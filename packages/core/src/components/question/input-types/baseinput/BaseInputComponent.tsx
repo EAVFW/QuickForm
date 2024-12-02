@@ -1,12 +1,17 @@
 "use client";
-import { quickformtokens, useHandleEnterKeypress, useQuickForm } from "@eavfw/quickform-core";
-import { useFocusableQuestion } from "@eavfw/quickform-core";
+
+
 import { CSSProperties, ChangeEvent, InputHTMLAttributes, useEffect, useState } from "react";
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
-import { QuestionModel } from "@eavfw/quickform-core";
-import { IconResolver, IconType } from "../../../icons/IconResolver";
+
+import { IconResolver } from "../../../icons/IconResolver";
 
 import { trace } from "@opentelemetry/api";
+import { quickformtokens } from "../../../../style/tokens";
+import { QuestionModel } from "../../../../model/QuestionModel";
+import { useFocusableQuestion } from "../../../../hooks/useFocusableQuestion";
+import { useQuickForm } from "../../../../state/QuickFormContext";
+import { IconType } from "../../../../model/InputType";
 
 const tracer = trace.getTracer("quickform", "1.0.0");
 
