@@ -45,6 +45,7 @@ type QuickFormTokensBase = {
     multilineTextMobileFontSize: FontSize,
 
     questionHeadlineFontSize: FontSize,
+    questionHeadlineLineHeight: FontSize,
     questionHeadlineFontWeight: number,
     questionParagraphFontSize: FontSize,
     questionNumberFontSize: FontSize,

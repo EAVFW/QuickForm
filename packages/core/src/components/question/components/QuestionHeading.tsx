@@ -21,6 +21,7 @@ export const QuestionHeading: React.FC<QuestionHeadingProps> = ({ children, labe
         fontSize: quickformtokens.questionHeadlineFontSize,
         fontWeight: quickformtokens.questionHeadlineFontWeight,
         color: quickformtokens.onSurface,
+        lineHeight: quickformtokens.questionHeadlineLineHeight,
         position: "relative",
         display: 'flex',
         alignItems: 'center',

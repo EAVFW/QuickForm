@@ -50,6 +50,7 @@ export const quickformtokens: QuickFormTokenVars = {
     "multilineTextFontSize": "var(--multiline-text-font-size)",
     "multilineTextMobileFontSize": "var(--multiline-text-mobile-font-size)",
     "questionHeadlineFontSize": "var(--question-headline-font-size)",
+    "questionHeadlineLineHeight": "var(--question-headline-line-height)",
     "questionParagraphFontSize": "var(--question-paragraph-font-size)",
     "questionNumberFontSize": "var(--question-number-font-size)",
     "questionInputFontSize": "var(--question-input-font-size)",
