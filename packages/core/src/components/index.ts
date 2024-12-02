@@ -19,4 +19,5 @@ export { ModernQuickFormContainer } from "./modern-container/ModernQuickformCont
 export { SlideRenderer } from "./renderers/slide-renderer/SlideRenderer";
 export { QuestionHeading } from "./question/components/QuestionHeading";
 export { IconResolver, IconEnum } from "./icons";
+export * from "./question/input-types";
 // import "./question/input-types";

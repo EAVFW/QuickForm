@@ -18,4 +18,4 @@ export const TextInput: InputComponentType<TextProperties> = (props) => {
 
 /* This property assignment grants QuickformDesigner metadata information about which properties the inputcomponent needs */
 TextInput.inputSchema = textInputSchema;
-registerInputComponent("text", TextInput);
+export const registerTextInput = ()=>registerInputComponent("text", TextInput);

@@ -17,4 +17,4 @@ export const EmailInput: InputComponentType<EmailProperties> = (props) => {
 
 /* This property assignment grants QuickformDesigner metadata information about which properties the inputcomponent needs */
 EmailInput.inputSchema = emailInputSchema;
-registerInputComponent("email", EmailInput);
+export const registerEmailInput = ()=> registerInputComponent("email", EmailInput);

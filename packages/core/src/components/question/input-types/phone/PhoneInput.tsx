@@ -17,4 +17,4 @@ export const PhoneInput: InputComponentType<PhoneProperties> = (props) => {
 
 /* This property assignment grants QuickformDesigner metadata information about which properties the inputcomponent needs */
 PhoneInput.inputSchema = phoneInputSchema;
-registerInputComponent("phone", PhoneInput);
+export const registerPhoneInput = ()=> registerInputComponent("phone", PhoneInput);

@@ -77,4 +77,4 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
 };
 
 MultilineInput.inputSchema = multilineInputSchema;
-registerInputComponent("multilinetext", MultilineInput);
+export const registerMultilineInput = () => registerInputComponent("multilinetext", MultilineInput);
