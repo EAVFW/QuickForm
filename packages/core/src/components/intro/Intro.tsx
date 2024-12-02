@@ -12,7 +12,7 @@ type IntroProps = {
 }
 
 export const Intro: React.FC<IntroProps> = ({ model, onBtnClick, className }) => {
-    const { text, paragraph, buttonText } = model;
+    const { text, paragraph, buttonText, paragraphIsHtml,textIsHtml } = model;
     const { state } = useQuickForm();
 
     /* Listens to enter key pressed */
@@ -20,10 +20,10 @@ export const Intro: React.FC<IntroProps> = ({ model, onBtnClick, className }) =>
 
     return (
         <div className={className} style={introStyling}>
-            <Heading >
+            <Heading className={state.classes.slideHeadline} isHtml={textIsHtml} >
                 {text}
             </Heading>
-            <Paragraph style={{ marginTop: '12px' }}>
+            <Paragraph className={state.classes.slideParagraph} isHtml={paragraphIsHtml} style={{ marginTop: '12px' }}>
                 {paragraph}
             </Paragraph>
             <Button

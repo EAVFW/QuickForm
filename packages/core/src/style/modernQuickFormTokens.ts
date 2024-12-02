@@ -46,6 +46,7 @@ export const modernQuickFormTokens: QuickFormTokens = {
     fontFamily: 'Outfit, Monaco, monospace',
 
     headlineFontSize: '2rem',
+   
     subtitleFontSize: '1.5rem',
     paragraphFontSize: '1rem',
     paragraphMobileFontSize: '1rem',
@@ -55,6 +56,7 @@ export const modernQuickFormTokens: QuickFormTokens = {
     multilineTextFontSize: '1rem',
     multilineTextMobileFontSize: '1rem',
     questionHeadlineFontSize: '1.2em',
+    questionHeadlineLineHeight: '1.2em',
     questionHeadlineFontWeight: 300,
     questionParagraphFontSize: '1.2rem',
     questionNumberFontSize: '1.2rem',

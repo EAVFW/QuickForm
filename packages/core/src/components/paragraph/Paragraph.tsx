@@ -2,7 +2,7 @@
 import { ReactNode } from "react";
 import React from "react";
 import { quickformtokens } from "../../style/quickFormTokensDefinition";
-import { makeStyles, shorthands } from "@griffel/react";
+import { makeStyles, mergeClasses, shorthands } from "@griffel/react";
 
 
 const useParagraphStyles = makeStyles({
@@ -22,21 +22,22 @@ type ParagraphProps = {
     readonly children: ReactNode;
     style?: React.CSSProperties;
     isHtml?: boolean;
+    className?: string;
 };
 
-export const Paragraph: React.FC<ParagraphProps> = ({ style, children,isHtml }: ParagraphProps) => {
+export const Paragraph: React.FC<ParagraphProps> = ({ style, children, isHtml, className }: ParagraphProps) => {
     const styles = useParagraphStyles();
 
     if (typeof (children) === "string") {
 
         return (
             <p
-                className={styles.para}
+                className={mergeClasses(styles.para, className)}
                 style={style}
                 dangerouslySetInnerHTML={{ __html: isHtml ? children: children.replace(/(?:\r\n|\r|\n)/g, '<br/>') }}
             />
         );
     }
 
-    return <p className={styles.para} style={style}>{children}</p>;
+    return <p className={mergeClasses(styles.para, className)} style={style}>{children}</p>;
 }

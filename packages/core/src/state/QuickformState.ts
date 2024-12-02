@@ -9,7 +9,9 @@ export type QuickformClassNames = {
     slideIsIn: string,
     slideIsOut: string,
     submit: string,
-    ending: string
+    ending: string,
+    slideHeadline: string,
+    slideParagraph:string,
 };
 export type QuickformState = {
     defaultEndingSlideIcon?: string;

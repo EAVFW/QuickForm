@@ -11,21 +11,21 @@ type EndingProps = {
     model: EndingModel;
     className?: string;
 }
- 
+
 const useEndingStyles = makeStyles({
     ending: {
         display: 'flex',
         justifyContent: 'center',
         flexDirection: 'column',
-        width:"100%",
+        width: "100%",
     }
 });
 
 export const Ending: React.FC<EndingProps> = ({ model, className }) => {
-    const { state } = useQuickForm(); 
+    const { state } = useQuickForm();
 
 
-    const { text, paragraph, paragraphIsHtml,textIsHtml } = model;
+    const { text, paragraph, paragraphIsHtml, textIsHtml } = model;
     const submitStatus = state.submitStatus;
     const styles = useEndingStyles();
     return (
@@ -39,14 +39,14 @@ export const Ending: React.FC<EndingProps> = ({ model, className }) => {
             {submitStatus.isSubmitSuccess &&
                 <>
                     {state.defaultEndingSlideIcon !== "none" && <Checkmark color={quickformtokens.onSurface} />}
-                {text &&
-                    <Heading isHtml={textIsHtml} style={{ marginTop: '10px' }}>
+                    {text &&
+                        <Heading className={state.classes.slideHeadline} isHtml={textIsHtml} style={{ marginTop: '10px' }}>
                             {text}
                         </Heading>
                     }
 
-                {paragraph &&
-                    <Paragraph isHtml={paragraphIsHtml} style={{ marginTop: '10px' }}>
+                    {paragraph &&
+                        <Paragraph className={state.classes.slideParagraph} isHtml={paragraphIsHtml} style={{ marginTop: '10px' }}>
                             {paragraph}
                         </Paragraph>
                     }
