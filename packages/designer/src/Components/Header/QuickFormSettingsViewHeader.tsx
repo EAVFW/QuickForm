@@ -38,16 +38,19 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
     const dialogstyles = useStyles();
     const [open, setOpen] = React.useState(false);
 
-
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
     const { view, activeQuestion, activeSlide, quickformpayload: { layout, questions }, updateQuickFormPayload, designerLocale } = useQuickFormDefinition();
 
-    const [questionKey, setQuestionKey] = useState(activeQuestion ?? '');
-    const [displayName, setDisplayName] = useState(questions[activeQuestion!]?.displayName ?? questions[activeQuestion!]?.text);
-   
+    const [questionKey, setQuestionKey] = useState('');
+    const [displayName, setDisplayName] = useState('');
 
-
-    useEffect(() => { setQuestionKey(activeQuestion ?? ''); }, [activeQuestion])
+    // sync dialog fields with latest question data when dialog opens or activeQuestion changes
+    useEffect(() => {
+        if (open && activeQuestion) {
+            setQuestionKey(activeQuestion);
+            setDisplayName(questions[activeQuestion]?.displayName ?? questions[activeQuestion]?.text ?? '');
+        }
+    }, [open, activeQuestion, questions]);
 
     const segments = [designerLocale.Title, view, questions[activeQuestion!]?.displayName?? activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
     const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (ev) => {
@@ -61,14 +64,12 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
 
                 old.questions[activeQuestion] = { ...old.questions[activeQuestion], schemaName, logicalName, displayName  };
                 
-                
                 old.__designer = { ...old.__designer ?? {}, activeQuestion: text }; 
 
                 return { ...old };
             });
             setOpen(false);
         }
-
     };
     return (
         <div className={styles.section}>
@@ -137,9 +138,6 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
 
                     </React.Fragment>
                 ))}
-
-
-
             </Breadcrumb>
         </div>
     )
