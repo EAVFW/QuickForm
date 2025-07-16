@@ -53,7 +53,7 @@ const quickformSettingsSchema = {
 } as { label: string, uiSchema: any, schema: JSONSchema7 & { properties: { tokens: JSONSchema7 } } };
 
 export function registerToken<TokenRegistry = typeof defaultQuickFormTokens>(key: keyof TokenRegistry, title: string, description: string, widget: string, defaultValue?: any, defaultTokenKey?: keyof TokenRegistry) {
-
+   
     const tokensSchema = quickformSettingsSchema.schema.properties?.tokens! as JSONSchema7;
     const uiSchema = quickformSettingsSchema.uiSchema.tokens;
     if (tokensSchema && tokensSchema.properties) {

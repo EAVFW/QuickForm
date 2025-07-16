@@ -5,7 +5,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "18.11.9",
-    "@types/react": "18.2.0",
+    "@types/react": "18.2.8",
     "@types/react-dom": "18.2.0",
     "concurrently": "7.0.0",
     "multi-semantic-release": "3.0.2",
@@ -35,7 +35,7 @@
     "release-designer": "npm run release --workspace packages/designer",
     "release-inputs": "npm run release --workspace packages/inputs",
     "release-querybuilder": "npm run release --workspace packages/querybuilder",
-    "eavfw-link": "npm link @eavfw/apps @eavfw/next @eavfw/expressions @eavfw/manifest @eavfw/hooks @eavfw/forms @eavfw/utils @eavfw/designer @eavfw/designer-core @eavfw/designer-nodes @eavfw/rich-text-editor",
+    "eavfw-link": "npm link @eavfw/apps @eavfw/next @eavfw/expressions @eavfw/manifest @eavfw/hooks @eavfw/forms @eavfw/utils @eavfw/designer @eavfw/designer-core @eavfw/designer-nodes @eavfw/rich-text-editor @eavfw/codeeditor",
     "playground": "npm --workspace packages/playground run dev"
   },
   "config": {
