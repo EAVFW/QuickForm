@@ -11,7 +11,7 @@ module.exports = {
         [
             "@semantic-release/exec",
             {
-                publishCmd: "npm publish --access public --tag <%= nextRelease.channel || 'latest' %>",
+                publishCmd: "npm publish --access public --loglevel verbose --tag <%= nextRelease.channel || 'latest' %>",
             },
         ],
         "@semantic-release/github",

@@ -46,6 +46,11 @@ jobs:
         GIT_AUTHOR_EMAIL: poul@kjeldager.com
       run: npm run build
 
+    - name: Verify trusted publishing runtime
+      run: |
+        npm --version
+        node -e "console.log('github_actions=' + Boolean(process.env.GITHUB_ACTIONS)); console.log('oidc_request_url=' + Boolean(process.env.ACTIONS_ID_TOKEN_REQUEST_URL)); console.log('oidc_request_token=' + Boolean(process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN))"
+
     - name: Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
