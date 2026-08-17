@@ -88,12 +88,12 @@ function handleLayout(layout: LayoutDefinition, questions: QuickFormQuestionsDef
     const slides: SlideModel[] = [];
 
     if (layout.slides) {
-        Object.values(layout.slides).forEach(slide => {
+        Object.entries(layout.slides).forEach(([key, slide]) => {
 
 
-            const slideModel = SlideModel.factory(layout, slide);
+            const slideModel = SlideModel.factory(layout, slide, key);
           
-            if (slide.rows) {
+            if (!slide.view && slide.rows) {
                 slideModel.rows = processRows(slide.rows, slideModel, questions, payload);
             }
             slides.push(slideModel);

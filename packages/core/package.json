@@ -37,6 +37,7 @@
   },
   "scripts": {
     "release": "semantic-release -e semantic-release-monorepo",
-    "build": "tsup"
+    "build": "tsup",
+    "test": "npm run build && node --test test/*.test.mjs"
   }
 }

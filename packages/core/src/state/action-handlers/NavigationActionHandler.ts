@@ -4,6 +4,9 @@ import { resolveQuickFormService } from "../../services";
 import { QuestionModel } from "../../model";
 
 export class NavigationActionHandler {
+    private static hasVisibleContent = (slide: QuickformState['slides'][number]) =>
+        Boolean(slide.view) || slide.questions.some(x => x.visible?.isVisible ?? true);
+
     private static handleSlideChange = (state: QuickformState, direction: 'next' | 'prev') => {
         const logger = resolveQuickFormService("logger");
         const currIdx = state.currIdx;
@@ -14,11 +17,14 @@ export class NavigationActionHandler {
         for (let q of state.slides[currIdx].questions) {
             q.visited = true;
         }
+        if (direction === 'next' && state.slides[currIdx].view) {
+            state.slides[currIdx].visited = true;
+        }
 
         let newIdx = currIdx;
-        while (newIdx < slides.length && newIdx >= 0 && (newIdx === currIdx || !state.slides[newIdx].questions.some(x => x.visible?.isVisible ?? true))) {
+        while (newIdx < slides.length && newIdx >= 0 && (newIdx === currIdx || !this.hasVisibleContent(state.slides[newIdx]))) {
             logger.log("handle slide change: {currentIdx} -> {newIdx}: Visible Questions:{hasVisibleQuestions}", currIdx, newIdx,
-                state.slides[newIdx].questions.some(x => x.visible?.isVisible ?? true), slides.length);
+                this.hasVisibleContent(state.slides[newIdx]), slides.length);
 
             if (direction === 'next' && newIdx < slides.length - 1) {
                 newIdx = newIdx + 1;
@@ -53,6 +59,10 @@ export class NavigationActionHandler {
     }
 
     static handleNextSlideAction = (state: QuickformState) => {
+        if (state.slides[state.currIdx]?.view) {
+            return this.computeProgress(NavigationActionHandler.handleSlideChange({ ...state, errorMsg: "" }, 'next'));
+        }
+
         // Filter out questions that are explicitly not visible
         const visibleQuestions = state.slides[state.currIdx]?.questions?.filter(question => question.visible?.isVisible !== false);
 

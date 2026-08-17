@@ -34,7 +34,7 @@ export const QuickFormContext = React.createContext<IQuickFormContext>(
         setErrorMsg: () => { },
         isFirstQuestionInCurrentSlide: () => true,
         getCurrentSlide: () => (
-            { questions: [], rows: [], isAnswered: false, addQuestion: () => ({ type: "question", ref: "" }) }
+            { questions: [], rows: [], visited: false, isAnswered: false, addQuestion: () => ({ type: "question", ref: "" }) }
         ),
         onSubmitAsync: async (formdata) => {
             return {} as Partial<QuickFormDefinition>

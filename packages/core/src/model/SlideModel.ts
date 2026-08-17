@@ -3,12 +3,15 @@ import { resolveQuickFormService } from "../services/QuickFormServices";
 import { IconType } from "./InputType";
 import { QuestionModel } from "./QuestionModel";
 import { QuestionJsonModel } from "./json-definitions/JsonDataModels";
-import { LayoutDefinition, QuestionRef, SlideLayout } from "./json-definitions/Layout";
+import { LayoutDefinition, QuestionRef, SlideLayout, SlideViewDefinition } from "./json-definitions/Layout";
 
 export class SlideModel {
+    key?: string;
     displayName?: string;
     buttonText?: string;
     icon?: IconType;
+    view?: SlideViewDefinition;
+    visited: boolean = false;
     questions: QuestionModel[] = [];
     rows: Row[];
 
@@ -16,12 +19,14 @@ export class SlideModel {
         this.rows = rows;
     }
 
-    static factory(layout?: LayoutDefinition,slide?: SlideLayout ) {
+    static factory(layout?: LayoutDefinition,slide?: SlideLayout, key?: string) {
         const slideModel= new SlideModel();
 
+        slideModel.key = key;
         slideModel.displayName = slide?.title;
         slideModel.buttonText = slide?.buttonText ?? layout?.defaultNextButtonText;
         slideModel.icon = slide?.icon ?? layout?.defaultSlideButtonIcon;
+        slideModel.view = slide?.view;
 
         return slideModel;
 

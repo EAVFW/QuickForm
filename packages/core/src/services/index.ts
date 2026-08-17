@@ -3,6 +3,7 @@ import { widthDefaultInputTypePropertiesTransformer, widthDefaultLogger, widthDe
 
 export * from "./defaults";
 export * from "./QuickFormServices";
+export * from "./ViewComponents";
 
 
 

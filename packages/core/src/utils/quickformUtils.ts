@@ -7,10 +7,13 @@ export const findQuestionByLogicalName = (logicalName: string, questions: Questi
 export const findQuestionByKey = (questionKey: string, questions: QuestionModel[]): QuestionModel | undefined => { return questions.find(q => q.questionKey === questionKey); };
 
 export const isSlideAnswered = (slide: SlideModel, acceptIntermediateAnswers = false): boolean => {
+    if (slide.view && slide.questions.length === 0) return true;
     return slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.answered || (acceptIntermediateAnswers && q.output !== undefined && q.output !== '' && q.validationResult?.isValid))
 };
 
-export const isSlideVisited = (slide: SlideModel): boolean => (slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.visited));
+export const isSlideVisited = (slide: SlideModel): boolean => slide.view && slide.questions.length === 0
+    ? slide.visited
+    : (slide.questions.length > 0 && slide.questions.filter(q => !q.visible || q.visible?.isVisible).every(q => q.visited));
 
 export const getCurrentSlide = (state: QuickformState) => (state.slides[state.currIdx]);
 

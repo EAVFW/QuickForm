@@ -45,10 +45,21 @@ export type SlideLayout = {
     title?: string;
     style?: React.CSSProperties;
     rows?: SlideElements;
+    /**
+     * A view owns the slide's body without pretending to be a question.
+     * `rows` and `view` are mutually exclusive; renderers prefer the view when
+     * both are present so a malformed definition never submits fake answers.
+     */
+    view?: SlideViewDefinition;
     schemaName?: string;
     logicalName?: string;
     buttonText?: string;
     icon?: IconType;
+}
+
+export type SlideViewDefinition = {
+    type: string;
+    [key: string]: unknown;
 }
 
 /**
