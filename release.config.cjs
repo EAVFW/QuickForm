@@ -1,0 +1,7 @@
+module.exports = {
+    branches: [
+        "main",
+        { name: "dev", prerelease: true },
+        { name: "vnext", prerelease: true },
+    ],
+};

@@ -26,6 +26,6 @@
   },
   "scripts": {
     "link": "npm link",
-    "release": "semantic-release -e semantic-release-monorepo"
+    "release": "semantic-release -e ../../../release.config.cjs -e semantic-release-monorepo"
   }
 }

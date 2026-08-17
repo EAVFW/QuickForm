@@ -36,7 +36,7 @@
     "url": "git+https://github.com/EAVFW/QuickForm.git"
   },
   "scripts": {
-    "release": "semantic-release -e semantic-release-monorepo",
+    "release": "semantic-release -e ../../release.config.cjs -e semantic-release-monorepo",
     "build": "tsup",
     "test": "npm run build && node --test test/*.test.mjs"
   }
