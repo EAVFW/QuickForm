@@ -11,7 +11,10 @@ module.exports = {
         [
             "@semantic-release/exec",
             {
-                publishCmd: "npm publish --access public --loglevel verbose --tag <%= nextRelease.channel || 'latest' %>",
+                // semantic-release adds node_modules/.bin to PATH, where this
+                // repository has an older npm that cannot use OIDC trusted
+                // publishing. Invoke the npm upgraded by the workflow directly.
+                publishCmd: "\"$(dirname \"$(command -v node)\")/npm\" publish --access public --loglevel verbose --tag <%= nextRelease.channel || 'latest' %>",
             },
         ],
         "@semantic-release/github",
