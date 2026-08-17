@@ -2,9 +2,10 @@
 import React, { PropsWithChildren } from "react";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { quickformtokens } from "../../style/quickFormTokensDefinition";
-import { makeStyles, shorthands } from "@griffel/react";
+import { makeStyles, mergeClasses, shorthands } from "@griffel/react";
 
 type BtnContainerProps = {
+    readonly buttonClassName?: string;
     readonly className?: string;
     readonly style?: React.CSSProperties;
     readonly disabled?: boolean;
@@ -17,6 +18,7 @@ const useButtonStyles = makeStyles({
     container: {
         display: 'flex',
         alignItems: 'center',
+        justifyContent:'center',
         ...shorthands.gap(quickformtokens.gap1),
         marginTop: '30px',
     },
@@ -36,7 +38,7 @@ const useButtonStyles = makeStyles({
     }
 })
 
-export const Button: React.FC<PropsWithChildren<BtnContainerProps>> = ({ children, showPressEnter, onClick, disabled, visible, style }) => {
+export const Button: React.FC<PropsWithChildren<BtnContainerProps>> = ({ children, showPressEnter, onClick, disabled, visible, style, className, buttonClassName }) => {
 
     if (typeof visible !== "undefined" && visible === false) {
         return (<></>);
@@ -59,9 +61,9 @@ export const Button: React.FC<PropsWithChildren<BtnContainerProps>> = ({ childre
     }, []);
 
     return (
-        <div className={styles.container}>
+        <div className={mergeClasses(styles.container, className)}>
             <button
-                className={styles.button}
+                className={mergeClasses(styles.button, buttonClassName)}
                 style={style}
                 disabled={disabled}
                 type="button"
@@ -72,7 +74,7 @@ export const Button: React.FC<PropsWithChildren<BtnContainerProps>> = ({ childre
 
             </button>
             {!disabled && !isOnMobile && showPressEnter && (
-                <span style={{ color: quickformtokens.onPrimary, fontSize: quickformtokens.btnEnterKeyTextFontSize }}>
+                <span style={{ color: quickformtokens.onSurface, fontSize: quickformtokens.btnEnterKeyTextFontSize }}>
                     <>Tryk <strong style={{ fontWeight: 'bolder', letterSpacing: '0.04em', }}>Enter ↵</strong></>
                 </span>
             )}

@@ -1,7 +1,8 @@
 "use client";
-import { makeStyles, shorthands } from "@griffel/react"
+import { makeStyles, mergeClasses, shorthands } from "@griffel/react"
 import { CSSProperties, PropsWithChildren } from "react";
 import { quickformtokens } from "../../style/quickFormTokensDefinition";
+import React from "react";
 
 const useQuickFormContainerStyles = makeStyles({
     root: {
@@ -12,12 +13,12 @@ const useQuickFormContainerStyles = makeStyles({
     }
 });
 
-export const QuickFormContainer: React.FC<PropsWithChildren<{ style?: CSSProperties }>> = ({ children, style }) => {
+export const QuickFormContainer: React.FC<PropsWithChildren<{ style?: CSSProperties, className?: string }>> = ({ children, style, className }) => {
 
     const styles = useQuickFormContainerStyles();
 
     return (
-        <div className={styles.root} style={style} >
+        <div className={mergeClasses(styles.root, className)} style={style} >
             {children}
         </div>
     )

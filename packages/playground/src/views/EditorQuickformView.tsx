@@ -33,7 +33,7 @@ export default function EditorQuickformView() {
                     options={{
                     }}
                     onMount={async (editor) => {
-                        setTimeout(() => editor.getAction('editor.action.formatDocument').run(), 100);
+                        setTimeout(() => editor.getAction('editor.action.formatDocument')?.run(), 100);
                     }}
                     theme="vs-dark"
                 />

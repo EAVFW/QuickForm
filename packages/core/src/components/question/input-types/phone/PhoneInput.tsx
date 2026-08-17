@@ -1,15 +1,11 @@
 "use client";
-import { InputComponentType, registerInputComponent } from "@eavfw/quickform-core";
+ 
 import { BaseInputComponent } from "../baseinput/BaseInputComponent";
-import { phoneInputSchema } from "./PhoneInputSchema";
-import { IconType } from "../../../icons/IconResolver";
+import { phoneInputSchema } from "./PhoneInputSchema"; 
+import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import { PhoneProperties } from "../../../../model/InputType";
 
-export type PhoneProperties = {
-    inputType: "phone";
-    defaultValue?: string;
-    beforeIcon?: IconType;
-    afterIcon?: IconType
-}
+
 
 export const PhoneInput: InputComponentType<PhoneProperties> = (props) => {
     return <BaseInputComponent type="tel" {...props} />
@@ -17,4 +13,4 @@ export const PhoneInput: InputComponentType<PhoneProperties> = (props) => {
 
 /* This property assignment grants QuickformDesigner metadata information about which properties the inputcomponent needs */
 PhoneInput.inputSchema = phoneInputSchema;
-registerInputComponent("phone", PhoneInput);
+export const registerPhoneInput = ()=> registerInputComponent("phone", PhoneInput);

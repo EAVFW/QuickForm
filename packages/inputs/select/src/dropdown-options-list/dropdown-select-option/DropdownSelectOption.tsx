@@ -2,9 +2,8 @@ import { MouseEventHandler, ReactNode } from "react";
 import classNames from "classnames";
 import styles from "./DropdownSelectOption.module.css";
 import { makeStyles, mergeClasses } from "@griffel/react";
-import { Checkmark } from "@eavfw/quickform-core/src/components/icons";
 import { shorthands } from "@fluentui/react-components";
-import { quickformtokens } from "@eavfw/quickform-core";
+import { quickformtokens, IconResolver } from "@eavfw/quickform-core";
 
 type DropdownSelectOptionProps = {
     readonly isSelected?: boolean;
@@ -26,11 +25,12 @@ const useDropDownSelectOptionStyles = makeStyles({
         marginLeft: '8px',
         marginBottom: '5px',
         fontSize: '2rem',
+        lineHeight: '2rem',
         minHeight: '40px',
 
         cursor: 'pointer',
         ...shorthands.transition('background-color', '0.3s'),
-        overflowX: 'auto',
+       // overflowX: 'auto',
 
         color: quickformtokens.onSurface,
         backgroundColor: 'transparent',
@@ -54,15 +54,15 @@ export function DropdownSelectOption({
     const selectOptionStyles = useDropDownSelectOptionStyles();
     return (
         <span
-            className={classNames(styles["dropdown-select__option"], className, mergeClasses(selectOptionStyles.option, isSelected && selectOptionStyles.selected), {
+            className={classNames(styles["dropdown-select__option"], mergeClasses(className,selectOptionStyles.option, isSelected && selectOptionStyles.selected), {
                 [styles["animate"]]: isSelected,
                 [styles["selected"]]: isSelected,
             })}
             onClick={onClick}
         >
             {children}
-            {isSelected && (
-                <Checkmark color={quickformtokens.onSurface} size={24} />)}
+            {isSelected && <IconResolver type="Checkmark" color={quickformtokens.onSurface} size={"2rem"} />}
+                
         </span>
     );
 }

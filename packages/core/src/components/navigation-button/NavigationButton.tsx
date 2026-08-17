@@ -4,10 +4,13 @@ import { useQuickForm } from '../../state/QuickFormContext';
 import { ArrowUpIcon, ArrowDownIcon } from '../icons';
 import { quickformtokens } from '../../style/quickFormTokensDefinition';
 import { makeStyles, mergeClasses, shorthands } from "@griffel/react";
+import { ArrowLeftIcon } from '../icons/ArrowLeftIcon';
+import { ArrowRightIcon } from '../icons/ArrowRightIcon';
 
 type NavigationButtonProps = {
     className?: string;
     style?: React.CSSProperties;
+    horizontal?: boolean;
 }
 
 const useNavigationStyles = makeStyles({
@@ -17,9 +20,14 @@ const useNavigationStyles = makeStyles({
         cursor: 'pointer',
         ...shorthands.borderWidth('1px'),
         ...shorthands.borderColor(quickformtokens.primary),
+        stroke: quickformtokens.onPrimary,
+        display: "flex",
+        padding: "0.25rem", 
+        alignItems: "center",
+        backgroundColor: quickformtokens.primary,
         ':hover': {
-            stroke: quickformtokens.onPrimary,
-            backgroundColor: quickformtokens.primary
+            stroke: quickformtokens.primary,
+            backgroundColor: quickformtokens.onPrimary
         },
     },
     icon: {
@@ -30,24 +38,27 @@ const useNavigationStyles = makeStyles({
         },
     },
     disabled: {
+        backgroundColor: quickformtokens.primaryDarker400,
         ':hover': {
-            stroke: quickformtokens.primary,
-            backgroundColor: 'transparent'
+            stroke: quickformtokens.onPrimary,
+            backgroundColor: quickformtokens.primary,
         },
     },
     left: {
         borderTopLeftRadius: '10px',
         borderBottomLeftRadius: '10px',
-        ...shorthands.borderRight('none')
+        ...shorthands.borderRight('none'),
+        justifyContent: "start",
     },
     right: {
         borderTopRightRadius: '10px',
         borderBottomRightRadius: '10px',
-        ...shorthands.borderLeft('none')
+        ...shorthands.borderLeft('none'),
+        justifyContent: "end",
     },
 });
 
-export const NavigationButton: React.FC<NavigationButtonProps> = ({ className, style }) => {
+export const NavigationButton: React.FC<NavigationButtonProps> = ({ className, style, horizontal }) => {
     const styles = useNavigationStyles();
 
     const { goToNextSlide, goToPrevSlide, state } = useQuickForm();
@@ -70,7 +81,11 @@ export const NavigationButton: React.FC<NavigationButtonProps> = ({ className, s
                     disabled={disablePrevBtn}
                     onClick={goToPrevSlide}
                 >
-                    <ArrowDownIcon className={mergeClasses(styles.icon, disablePrevBtn && styles.disabled)} />
+                    {horizontal ?
+                        <ArrowLeftIcon  />
+                        :
+                        <ArrowDownIcon  />
+                    }
                 </button>
             </label>
 
@@ -81,7 +96,11 @@ export const NavigationButton: React.FC<NavigationButtonProps> = ({ className, s
                     disabled={disableNextBtn}
                     onClick={goToNextSlide}
                 >
-                    <ArrowUpIcon className={mergeClasses(styles.icon, disableNextBtn && styles.disabled)} />
+                    {horizontal ?
+                        <ArrowRightIcon  />
+                        :
+                        <ArrowUpIcon   />
+                    }
                 </button>
             </label>
         </div >

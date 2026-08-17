@@ -28,6 +28,10 @@ export const RowRenderer: React.FC<RowRendererProps> = ({ row, questions }) => {
     }
 
     const question = useMemo(() => findQuestionByKey(row.ref!, questions), [row.ref]);
-    if (!question || question.visible && question.visible.isVisible === false) return null;
-    return <Question key={question.logicalName} style={fullRowStyle} model={question} />
+    if (!question || question.visible && question.visible.isVisible === false) {
+        if (!question)
+            logger.warn("question was not found for {@ref}", row.ref);
+        return null;
+    }
+    return <Question key={question.questionKey} style={fullRowStyle} model={question} />
 }

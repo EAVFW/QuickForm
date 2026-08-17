@@ -10,25 +10,24 @@ import { QuestionHeading } from "./components/QuestionHeading";
 type QuestionProps = {
     model: QuestionModel;
     style?: React.CSSProperties;
+    className?: string;
 }
 
 const questionStyling: React.CSSProperties = {
-    marginTop: quickformtokens.questionTopMargin,
-    marginBottom: quickformtokens.questionBottomMargin,
-    maxWidth: '72rem',
+    margin: `${quickformtokens.questionTopMargin} 0 ${quickformtokens.questionBottomMargin} 0`,
     transition: "transform 0.3s ease-out",
     minHeight: '100px',
     color: quickformtokens.onSurface,
     borderRadius: quickformtokens.questionBorderRadius,
-    padding: quickformtokens.questionPadding
+    padding: `${quickformtokens.questionPadding}, ${quickformtokens.questionPadding}, ${quickformtokens.questionPaddingBottom}, ${quickformtokens.questionPadding}`,
 }
 
-export const Question: React.FC<QuestionProps> = ({ model, style }) => {
+export const Question: React.FC<QuestionProps> = ({ model, style, className }) => {
 
     const InputType = resolveInputComponent(model.inputType);
     const logger = resolveQuickFormService("logger");
     const { state } = useQuickForm();
-    logger.log("QuestionRender for question {@model} InputProps", model);
+    logger.log("QuestionRender for question {logicalName} {@model} InputProps", model.logicalName, model);
 
     const ql = state.slides[state.currIdx].questions.length === 1 ? '' : `.${String.fromCharCode('A'.charCodeAt(0) + state.slides[state.currIdx].questions.indexOf(model))}`;
     const label = state.isSubmitSlide ? '' : `${state.currIdx + 1}${ql}`;
@@ -42,11 +41,11 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
     }
 
     return (
-        <div
+        <div className={className}
             style={{ ...questionStyling, ...style }}
         >
             {model.text &&
-                <QuestionHeading label={label} >
+                <QuestionHeading required={model.isRequired} label={label} >
                     {model.text}
                 </QuestionHeading>
             }
@@ -68,7 +67,7 @@ export const Question: React.FC<QuestionProps> = ({ model, style }) => {
                 questionModel={model}
                 {...model.inputProperties ?? {}}
             />
-            {typeof (model.validationResult?.message) !== "undefined" && model.validationResult?.message !== "" && <ErrorMessage message={model.validationResult?.message} />}
+            {typeof (model.validationResult?.message) !== "undefined" && model.validationResult?.message !== "" && !model.validationResult.isValid && <ErrorMessage message={model.validationResult?.message} />}
         </div>
     );
 }

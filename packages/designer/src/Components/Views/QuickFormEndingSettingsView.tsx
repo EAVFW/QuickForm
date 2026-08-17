@@ -9,47 +9,53 @@ import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { mergeClasses } from "@fluentui/react-components";
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-
-const endingSlideSchema = {
-    label: "Ending Settings",
-    uiSchema: {
-        text: {
-            "ui:widget": "textarea"
-        },
-        paragraph: {
-            "ui:widget": "textarea"
-        }
-    },
-    schema: {
-        type: "object",
-        required: ["text"],
-        properties: {
-            text: {
-                title: "Text",
-                description: "The headline displayed to the end user when completed the form",
-                type: "string"
-
-            },
-            paragraph: {
-                title: "Paragraph",
-                description: "The text displayed to the end user when when completed the form",
-                type: "string"
-            }
-        }
-    }
-} as { label: string, uiSchema: any, schema: JSONSchema7 };
+import { JsonField } from "./rjsf/Widgets/JsonWidget";
+import { RichTextField } from "./rjsf/Widgets/RichTextWidget";
+import { QuickformDesignerFields } from "./QuickFormQuestionsView";
 
 
 export const QuickFormEndingSettingsView = () => {
+
+
+    const endingSlideSchema = {
+        label: "Ending Settings",
+        uiSchema: {
+            text: "QF_EndingSlideTextField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_EndingSlideTextField"
+            }) : ({}),
+            paragraph: "QF_EndingSlideParagraphField" in QuickformDesignerFields ? ({
+                "ui:field": "QF_EndingSlideParagraphField"
+            }) : ({}),
+        },
+        schema: {
+            type: "object",
+            required: ["text"],
+            properties: {
+                text: {
+                    title: "Text",
+                    description: "The headline displayed to the end user when completed the form",
+                    type: "string"
+
+                },
+                paragraph: {
+                    title: "Paragraph",
+                    description: "The text displayed to the end user when when completed the form",
+                    type: "string"
+                }
+            }
+        }
+    } as { label: string, uiSchema: any, schema: JSONSchema7 };
+
 
     const { quickformpayload: { ending }, updateQuickFormPayload: dispatch } = useQuickFormDefinition();
     const styles = useViewStyles();
 
     return (
-        <div className={mergeClasses(styles.section, styles.sectionSlim)}>
+        <div className={mergeClasses(styles.section)}>
             <Form templates={{ FieldTemplate: FieldTemplate, BaseInputTemplate: BaseInputTemplate }}
                 validator={validator}
                 {...endingSlideSchema}
+                fields={{ ...QuickformDesignerFields }}
                 formData={ending}
                 onChange={(a, b) => {
                     console.log("change", [a, b]);

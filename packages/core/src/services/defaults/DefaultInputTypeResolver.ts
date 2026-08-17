@@ -19,12 +19,12 @@ const parseInputProperties = (questionJsonModel: QuestionJsonModel): InputProper
             .map(([key, schema]) => [key, questionJsonModel[key as keyof QuestionJsonModel] ?? getDefaultValue(schema)])) as InputPropertiesTypes;
     }
 
-    const inputTypePropertiesMap: { [key: string]: () => InputPropertiesTypes } = {};
-
-    return inputType in inputTypePropertiesMap ? inputTypePropertiesMap[inputType]() : {};
+    return {};
 };
 
-registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);
+
+export const widthDefaultInputTypePropertiesTransformer = () =>
+    registerQuickFormService("inputTypePropertiesTransformer", parseInputProperties);
 
 
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";

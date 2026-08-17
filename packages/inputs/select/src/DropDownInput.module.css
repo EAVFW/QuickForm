@@ -7,9 +7,10 @@
 }
 
 .dropdown-container {
-    display: inline-flex;
-    flex-direction:column;
+    display: grid;
+    flex-direction: column;
     margin-top: calc(30px + 1.6rem);
+    grid-auto-rows: 1fr;
 }
 
     .dropdown-container > div {
@@ -34,7 +35,7 @@
     display: flex;
     font-size: 1.8rem;
     font-weight: 700;
-    height: calc(100% - 8px);
+    height:4rem; /* calc(100% - 8px);*/
     justify-content: center;
     margin-right: 10px;
     transition: background-color 0.5s, color 0.5s;
@@ -88,7 +89,7 @@
 
     .dropdown-text {
         display: block;
-        /*line-height: 1.25em;*/
+        line-height: 2rem;
         padding: 6px 0;
         width: 27rem;
     }

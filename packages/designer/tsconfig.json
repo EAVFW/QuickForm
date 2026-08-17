@@ -15,10 +15,14 @@
     "jsx": "preserve",
     "baseUrl": "./src",
     "paths": {
+      "react": [
+        "./../../../node_modules/@types/react"
+      ],
     },
     "rootDirs": [ "src" ],
     "experimentalDecorators": true
   },
   "exclude": [ "node_modules" ],
-  "include": [ "**/*.ts", "**/*.tsx" ]
+  "include": [ "**/*.ts", "**/*.tsx" ],
+  
 }

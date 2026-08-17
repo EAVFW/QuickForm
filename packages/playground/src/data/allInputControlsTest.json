@@ -1,9 +1,11 @@
 {
     "layout": {
         "autoAdvanceSlides": false,
+        "defaultSlideButtonIcon": "ChevronRight",
         "slides": {
             "slide1": {
-                "title": "Test-titel for slide",
+                "title": "Beregn prisen for rengøring af fliser",
+                "buttonText": "Næste",
                 "rows": {
                     "row1": {
                         "columns": {
@@ -15,15 +17,15 @@
                                     },
                                     "row1_2": {
                                         "type": "question",
-                                        "ref": "emailTest"
+                                        "ref": "multilineTest"
                                     },
                                     "row1_3": {
                                         "type": "question",
-                                        "ref": "phoneTest"
+                                        "ref": "emailTest"
                                     },
                                     "row1_4": {
                                         "type": "question",
-                                        "ref": "multilineTest"
+                                        "ref": "phoneTest"
                                     },
                                     "row1_5": {
                                         "type": "question",
@@ -40,6 +42,18 @@
                                     "row1_8": {
                                         "type": "question",
                                         "ref": "checkboxTest"
+                                    },
+                                    "row1_9": {
+                                        "type": "question",
+                                        "ref": "addressTest"
+                                    },
+                                    "row1_10": {
+                                        "type": "question",
+                                        "ref": "distanceTest"
+                                    },
+                                    "row1_11": {
+                                        "type": "question",
+                                        "ref": "nameTest"
                                     }
                                 }
                             }
@@ -48,11 +62,6 @@
                 }
             }
         }
-    },
-    "intro": {
-        "text": "Playground Request Form",
-        "paragraph": "Tryk på start for at fortsætte...",
-        "buttonText": "Start"
     },
     "submit": {
         "text": "",
@@ -108,33 +117,9 @@
     "ending": {
         "inputType": "ending",
         "text": "Tak for at du brugte vores service",
-        "paragraph": "Vi vil kontakte dig snarest."
+        "paragraph": "Vi vil kontakte dig snarest med dit tilbud."
     },
     "questions": {
-        "textTest": {
-            "inputType": "text",
-            "text": "Text test",
-            "paragraph": "Test af text",
-            "placeholder": "Skriv noget..",
-            "lang": "DA",
-            "afterIcon": "User"
-        },
-        "emailTest": {
-            "inputType": "email",
-            "text": "Email test",
-            "paragraph": "Test af email",
-            "placeholder": "Indtast din e-mail",
-            "lang": "DA",
-            "beforeIcon": "Email"
-        },
-        "phoneTest": {
-            "inputType": "phone",
-            "text": "Phone test",
-            "paragraph": "Test af phone",
-            "placeholder": "Skriv nogle tal..",
-            "lang": "DA",
-            "beforeIcon": "Phone"
-        },
         "sliderTest": {
             "defaultValue": 100,
             "inputType": "slider",
@@ -170,8 +155,34 @@
             "text": "Buttons test",
             "paragraph": "Test af buttons",
             "options": {
-                "yes": "Ja",
-                "no": "Nej"
+                "yes": {
+                    "key": "yes",
+                    "label": "Ja"
+                },
+                "no": {
+                    "key": "no",
+                    "label": "Nej"
+                },
+                "maybe": {
+                    "key": "maybe",
+                    "label": "Måske"
+                },
+                "dontKnow": {
+                    "key": "dontKnow",
+                    "label": "Ved ikke"
+                },
+                "dontCare": {
+                    "key": "dontCare",
+                    "label": "Ligeglad"
+                },
+                "other": {
+                    "key": "other",
+                    "label": "Andet"
+                },
+                "other2": {
+                    "key": "other2",
+                    "label": "Andet 2"
+                }
             },
             "lang": "DA"
         },
@@ -180,6 +191,71 @@
             "text": "Multilinetext test",
             "paragraph": "Test af multilinetext",
             "lang": "DA"
+        },
+        "nameTest": {
+            "inputType": "text",
+            "text": "Text test",
+            "paragraph": "Test af text",
+            "placeholder": "Skriv noget..",
+            "lang": "DA",
+            "afterIcon": "User"
+        },
+        "phoneTest": {
+            "inputType": "phone",
+            "text": "Phone test",
+            "paragraph": "Test af phone",
+            "placeholder": "Skriv nogle tal..",
+            "lang": "DA",
+            "beforeIcon": "Phone"
+        },
+        "emailTest": {
+            "inputType": "email",
+            "text": "Email test",
+            "paragraph": "Test af email",
+            "placeholder": "Indtast din e-mail",
+            "lang": "DA",
+            "beforeIcon": "Email"
+        },
+        "addressTest": {
+            "inputType": "address",
+            "text": "Address test",
+            "paragraph": "Test af address",
+            "placeholder": "Indtast adresse",
+            "lang": "DA"
+        },
+        "distanceTest": {
+            "inputType": "distance",
+            "apiKey": "",
+            "text": "Distance test",
+            "paragraph": "Test af distance",
+            "placeholder": "Indtast adresse",
+            "lang": "DA",
+            "options": {
+                "0": {
+                    "key": 0,
+                    "title": "Fra",
+                    "location": "",
+                    "isUserInput": true
+                },
+                "1": {
+                    "key": 1,
+                    "title": "Via",
+                    "location": "",
+                    "isUserInput": false
+                },
+                "2": {
+                    "key": 2,
+                    "title": "Via",
+                    "location": "",
+                    "isUserInput": true
+                },
+                "3": {
+                    "key": 3,
+                    "title": "Til",
+                    "location": "",
+                    "isUserInput": true
+                }
+            }
         }
     }
 }

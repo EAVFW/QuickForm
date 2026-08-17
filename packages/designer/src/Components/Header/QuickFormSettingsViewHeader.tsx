@@ -22,8 +22,8 @@ import { useViewStyles } from "../Styles/useViewStyles.styles";
 import { useQuickFormDefinition } from "../../Contexts/QuickFormDefContext";
 import { EditSettingsRegular } from "@fluentui/react-icons"
 import { removeNonAlphanumeric } from "@eavfw/utils";
-import { QuestionJsonModel } from "@eavfw/quickform-core/src/model/json-definitions/JsonDataModels";
 import { VisibilityQueryField } from "@eavfw/quickform-querybuilder";
+import { QuickFormQuestionDefinition } from "@eavfw/quickform-core";
 
 const useStyles = makeStyles({
     content: {
@@ -38,37 +38,38 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
     const dialogstyles = useStyles();
     const [open, setOpen] = React.useState(false);
 
-
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
     const { view, activeQuestion, activeSlide, quickformpayload: { layout, questions }, updateQuickFormPayload, designerLocale } = useQuickFormDefinition();
 
-    const [questionKey, setQuestionKey] = useState(activeQuestion ?? '');
-    useEffect(() => { setQuestionKey(activeQuestion ?? ''); }, [activeQuestion])
+    const [questionKey, setQuestionKey] = useState('');
+    const [displayName, setDisplayName] = useState('');
 
-    const segments = [designerLocale.Title, view, activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
+    // sync dialog fields with latest question data when dialog opens or activeQuestion changes
+    useEffect(() => {
+        if (open && activeQuestion) {
+            setQuestionKey(activeQuestion);
+            setDisplayName(questions[activeQuestion]?.displayName ?? questions[activeQuestion]?.text ?? '');
+        }
+    }, [open, activeQuestion, questions]);
+
+    const segments = [designerLocale.Title, view, questions[activeQuestion!]?.displayName?? activeQuestion, activeSlide && layout?.slides?.[activeSlide]?.schemaName].filter(x => !!x) as string[];
     const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (ev) => {
 
         if (activeQuestion) {
             updateQuickFormPayload(old => {
 
-                let text = questionKey;
+                let text = displayName;
                 let schemaName = removeNonAlphanumeric(text);
                 let logicalName = schemaName.toLowerCase();
 
-                old.questions[text] = { ...old.questions[activeQuestion], schemaName, logicalName };
-                if (text !== activeQuestion)
-                    delete old.questions[activeQuestion];
-
-                if (!old.__designer)
-                    old.__designer = {};
-
-                old.__designer.activeQuestion = text;
+                old.questions[activeQuestion] = { ...old.questions[activeQuestion], schemaName, logicalName, displayName  };
+                
+                old.__designer = { ...old.__designer ?? {}, activeQuestion: text }; 
 
                 return { ...old };
             });
             setOpen(false);
         }
-
     };
     return (
         <div className={styles.section}>
@@ -83,8 +84,11 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                     <DialogBody>
                         <DialogTitle>Question Settings</DialogTitle>
                         <DialogContent className={dialogstyles.content}>
-                            <Field label="Question Key">
-                                <Input value={questionKey} required type="text" id={"question-schema-name"} onChange={(e, d) => setQuestionKey(d.value)} />
+                            <Field label="Question Key" aria-readonly>
+                                <Input readOnly value={questionKey} required type="text" id={"question-key"} onChange={(e, d) => setQuestionKey(d.value)} />
+                            </Field>
+                            <Field label="Display Name" aria-readonly>
+                                <Input readOnly value={displayName ?? questions[activeQuestion!]?.text} required type="text" id={"question-display-name"} onChange={(e, d) => setDisplayName(d.value)} />
                             </Field>
                             {activeQuestion &&
                                 <Field label="Question Order">
@@ -94,23 +98,23 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
                                         onChange={(e, d) => updateQuickFormPayload(old => {
                                             old.questions[activeQuestion].order = parseInt(d.value);
 
-                                            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuestionJsonModel, number]).sort(([k, a, i], [k1, b, j]) => i - j))
+                                            old.questions = Object.fromEntries(Object.entries(old.questions).map(([k, q], i) => [k, q, q.order ?? i] as [string, QuickFormQuestionDefinition, number]).sort(([k, a, i], [k1, b, j]) => i - j))
 
                                             return { ...old }
                                         })} />
                                 </Field>
                             }
                             <VisibilityQueryField />
-                            <Field label="Visible Rule">
-                                <Input value={questions[activeQuestion!]?.visible?.rule ?? ''} required type="text" id={"question-schema-name"} onChange={(e, d) => updateQuickFormPayload(old => { old.questions[activeQuestion!].visible = { engine: "JsEval", rule: d.value }; return { ...old }; })} />
-                            </Field>
+                            {/*<Field label="Visible Rule">*/}
+                            {/*    <Input value={JSON.stringify( questions[activeQuestion!]?.visible?.rule ?? '')} required type="text" id={"question-schema-name"} onChange={(e, d) => updateQuickFormPayload(old => { old.questions[activeQuestion!].visible = { engine: "JsEval", rule: d.value }; return { ...old }; })} />*/}
+                            {/*</Field>*/}
                         </DialogContent>
                         <DialogActions>
                             <DialogTrigger disableButtonEnhancement>
-                                <Button appearance="secondary">Close</Button>
+                                <Button appearance="secondary">Discard</Button>
                             </DialogTrigger>
                             <Button type="submit" appearance="primary" onClick={handleSubmit}>
-                                Submit
+                                Update
                             </Button>
                         </DialogActions>
                     </DialogBody>
@@ -134,9 +138,6 @@ export const QuickFormSettingsViewHeader: React.FC = () => {
 
                     </React.Fragment>
                 ))}
-
-
-
             </Breadcrumb>
         </div>
     )

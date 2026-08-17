@@ -1,11 +1,25 @@
 import { SubmitStatus } from "../model/SubmitStatus";
 import { SlideModel } from "../model/SlideModel";
-import { LayoutDefinition, QuickFormModel } from "../model";
+import { IconType, LayoutDefinition, QuickFormModel } from "../model"; 
 
-export type QuickformClassNames = { slide: string, slideIsIn: string, slideIsOut: string };
+export type QuickformClassNames = {
+    slide: string,
+    slideButton: string,
+    slideButtonContainer: string;
+    slideIsIn: string,
+    slideIsOut: string,
+    submit: string,
+    ending: string,
+    slideHeadline: string,
+    slideParagraph:string,
+};
 export type QuickformState = {
+    defaultEndingSlideIcon?: string;
     autoAdvanceSlides?: boolean;
     enableQuestionNumbers?: boolean;
+    showPressEnter?: boolean;
+    defaultNextButtonText?: string;
+    defaultSlideButtonIcon?: IconType;
     currIdx: number;
     currStep: number;
     data: QuickFormModel;
@@ -20,13 +34,19 @@ export type QuickformState = {
     slides: SlideModel[];
     submitStatus: SubmitStatus;
     totalSteps: number;
-    classes: Partial<QuickformClassNames>
+    classes: Partial<QuickformClassNames>,
+    payloadAugments: Array<(payload: any) => any>,
+    onValidationCompleteCallback?: (state: QuickformState) => void;
 }
 
 export const defaultState = (data: QuickFormModel = defaultData, layout?: LayoutDefinition): QuickformState => {
     const defState = {
+        defaultEndingSlideIcon: layout?.defaultEndingSlideIcon ?? "checkmark",
         autoAdvanceSlides: layout?.autoAdvanceSlides ?? false,
         enableQuestionNumbers: layout?.enableQuestionNumbers ?? false,
+        showPressEnter: layout?.showPressEnter ?? undefined, 
+        defaultNextButtonText: layout?.defaultNextButtonText ?? "Næste",
+        defaultSlideButtonIcon: layout?.defaultSlideButtonIcon ?? undefined,
         classes: layout?.classes ?? {},
         currIdx: 0,
         currStep: data.slides.length > 0 ? 1 : 0,
@@ -42,6 +62,7 @@ export const defaultState = (data: QuickFormModel = defaultData, layout?: Layout
         slides: data.slides,
         submitStatus: { isSubmitting: false, isSubmitError: false, isSubmitSuccess: false },
         totalSteps: data.slides.length,
+        payloadAugments: []
     };
 
     return defState;
@@ -62,7 +83,6 @@ export const defaultData: QuickFormModel = {
         buttonText: "Submit",
         submitFields: [
             {
-                errorMsg: "",
                 intermediate: false,
                 visited: false,
                 questionKey: "question1",
@@ -76,7 +96,6 @@ export const defaultData: QuickFormModel = {
                 output: {}
             },
             {
-                errorMsg: "",
                 intermediate: false,
                 visited: false,
                 questionKey: "question1",

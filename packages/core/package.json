@@ -1,31 +1,43 @@
 {
   "version": "1.0.0-vnext.36",
   "name": "@eavfw/quickform-core",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "sideEffects": [
+    "src/services/index.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
-    "classnames": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "peerDependencies": {
-    "@griffel/react": "1.5.20"
+    "@griffel/react": "1.5.23",
+    "@opentelemetry/api": "^1.8.0"
   },
   "devDependencies": {
-    "react-icons": "^4.11.0",
-    "@types/classnames": "^2.3.1",
-    "html-webpack-plugin": "^5.6.0"
   },
   "license": "MIT",
-  "files": [
-    "src"
-  ],
   "author": "Poul Kjeldager <poul@kjeldager.com>",
-  "type": "module",
-  "main": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EAVFW/QuickForm.git"
   },
   "scripts": {
-    "release": "semantic-release -e semantic-release-monorepo"
+    "release": "semantic-release -e ../../release.config.cjs -e semantic-release-monorepo",
+    "build": "tsup",
+    "test": "npm run build && node --test test/*.test.mjs"
   }
 }

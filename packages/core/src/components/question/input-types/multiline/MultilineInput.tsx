@@ -3,9 +3,12 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { makeStyles, shorthands } from "@griffel/react";
 import { quickformtokens } from "../../../../style/quickFormTokensDefinition";
 import { multilineInputSchema } from "./MultilineInputSchema";
-import { MultilineProperties } from "../../../../model/index";
+
 import { useQuickForm } from "../../../../state/QuickFormContext";
 import { InputComponentType, registerInputComponent } from "../../../../services/defaults/DefaultInputTypeResolver";
+import { MultilineProperties } from "../../../../model/InputType";
+
+
 
 const useInputTextStyles = makeStyles({
     inputText: {
@@ -43,9 +46,10 @@ const useInputTextStyles = makeStyles({
 
 export const MultilineInput: InputComponentType<MultilineProperties> = ({ questionModel }) => {
     const styles = useInputTextStyles();
-    const { isFirstQuestionInCurrentSlide, answerQuestion } = useQuickForm();
+    const { isFirstQuestionInCurrentSlide, answerQuestion, state } = useQuickForm();
     const { placeholder, output } = questionModel;
     const [text, setText] = useState<string>(output || '');
+    const ref = useRef<HTMLTextAreaElement>(null);
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value.replace(/\r?\n/g, '\n'); // Normalize newline characters
@@ -53,15 +57,18 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
         answerQuestion(questionModel.logicalName, newValue, true);
     };
 
-    const ref = useRef<HTMLTextAreaElement>(null);
+    /**
+     * The input control is responsible of setting itself focused when becoming active.
+     * - We should also listen to inputcontrols being focused and if not active, trigger a reducer that sets it to active. Ultimately removing active from other questions. 
+     * This happens right now when an answer is given (intermediate or not), so not critical.
+     */
     useEffect(() => {
-        if (ref.current && isFirstQuestionInCurrentSlide(questionModel.logicalName)) {
-            ref.current.focus();
-        }
-    }, [ref, isFirstQuestionInCurrentSlide, questionModel.logicalName]);
+        if (questionModel.isActive || ref.current && isFirstQuestionInCurrentSlide(questionModel.logicalName))
+            ref.current?.focus();
+    }, [ref, isFirstQuestionInCurrentSlide, questionModel.logicalName, questionModel.isActive]);
 
     return (
-        <textarea
+        <textarea onBlur={() => answerQuestion(questionModel.logicalName, text, false)}
             ref={ref}
             className={styles.inputText}
             placeholder={placeholder}
@@ -73,4 +80,4 @@ export const MultilineInput: InputComponentType<MultilineProperties> = ({ questi
 };
 
 MultilineInput.inputSchema = multilineInputSchema;
-registerInputComponent("multilinetext", MultilineInput);
+export const registerMultilineInput = () => registerInputComponent("multilinetext", MultilineInput);

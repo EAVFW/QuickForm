@@ -1,9 +1,9 @@
-
+﻿
 import { ValidationResult } from "../model/ValidationResult";
 import { InputPropertiesTypes, QuestionModel, QuickFormModel } from "../model";
 import { QuickFormDefinition } from "../model";
 import { QuestionJsonModel } from "../model/json-definitions/JsonDataModels";
-import { InputComponentType } from "./defaults/DefaultInputTypeResolver";
+import { InputComponentType, widthDefaultInputTypePropertiesTransformer } from "./defaults/DefaultInputTypeResolver";
 import { QuickformState } from "../state";
 
 export type HeadingNumberDisplayProvider = () => boolean;
@@ -17,7 +17,11 @@ export interface IQuickFormLogger {
     warn(body: string, ...args: any[]): void;
 }
 
-export type QuickFormFeatures = {
+declare global {
+    var __quickFormFeatures: QuickFormFeatures | undefined;
+
+}
+export interface QuickFormFeatures  {
     modeltransformer?: QuickFormModelTransformer,
     headingNumberDisplayProvider?: HeadingNumberDisplayProvider,
     questionTransformer?: QuestionTransformer,
@@ -27,16 +31,29 @@ export type QuickFormFeatures = {
     logger?: IQuickFormLogger
 }
 
-let _quickFormFeatures: QuickFormFeatures = {
-};
+//let _quickFormFeatures: QuickFormFeatures = {
+//};
+
+export function getOrCreateServiceContainer(keys?: Map<string, string>): QuickFormFeatures {
+    if (!globalThis.__quickFormFeatures) {
+        console.info(`✨ Created a service container ✨`);
+        globalThis.__quickFormFeatures = {};
+;
+    }
+    return globalThis.__quickFormFeatures;
+}
 
 export function registerQuickFormService<Key extends keyof QuickFormFeatures>(name: Key, instance: (QuickFormFeatures)[Key]) {
-    _quickFormFeatures[name] = instance;
+    let services = getOrCreateServiceContainer();
+    services[name] = instance;
 }
 
 export function resolveQuickFormService<Key extends keyof QuickFormFeatures>(name: Key) {
-    let f = _quickFormFeatures[name];
+
+    let services = getOrCreateServiceContainer();
+    let f = services[name];
     if (!f)
-        throw new Error(`'${name}' was not registered, registred keys: ${Object.keys(_quickFormFeatures)}`);
+        throw new Error(`'${name}' was not registered, registred keys: ${Object.keys(services)}`);
     return f as Required<QuickFormFeatures>[Key];
 }
+

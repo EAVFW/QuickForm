@@ -1,5 +1,7 @@
 /* Color-scheme is inspired by Material Design (https://m2.material.io/design/color/the-color-system.html#color-theme-creation) */
 
+import { log } from "console";
+import { resolveQuickFormService } from "../services/QuickFormServices";
 import { camelToKebabCase, defineVariables } from "../utils/quickformUtils";
 import { defaultQuickFormTokens } from "./defaultQuickFormTokens";
 
@@ -33,6 +35,7 @@ type QuickFormTokensBase = {
     /* Typography */
     fontFamily: string,
     headlineFontSize: FontSize;
+    subtitleFontSize: FontSize;
     paragraphFontSize: FontSize;
     paragraphMobileFontSize: FontSize;
     btnFontSize: FontSize,
@@ -42,6 +45,7 @@ type QuickFormTokensBase = {
     multilineTextMobileFontSize: FontSize,
 
     questionHeadlineFontSize: FontSize,
+    questionHeadlineLineHeight: FontSize,
     questionHeadlineFontWeight: number,
     questionParagraphFontSize: FontSize,
     questionNumberFontSize: FontSize,
@@ -60,9 +64,12 @@ type QuickFormTokensBase = {
     // Question
     questionBorderRadius: string;
     questionTopMargin: string;
-    questionBottomMargin:string;
+    questionBottomMargin: string;
     questionPadding: string;
     questionInputGap: Gap,
+    questionPaddingBottom: string;
+
+    slideButtonIconSize: string;
 };
 
 export type QuickFormTokens = QuickFormTokensBase & {
@@ -79,11 +86,16 @@ export type QuickFormTokens = QuickFormTokensBase & {
  * @returns A flat object with CSS camel-case variable names as keys and their corresponding values.
  */
 export const defineQuickFormTokens = (...tokens: Array<Partial<QuickFormTokens>>) => {
+    const logger = resolveQuickFormService("logger");
+    logger.log("Merging Quick Form tokens.", tokens);
     // Merges and overrides default tokens with provided ones in reverse order for precedence.
-    const mergedTokens = tokens.reduceRight((newTokens, currentToken) => ({
-        ...newTokens,
-        ...currentToken,
-    }), defaultQuickFormTokens);
+    const mergedTokens = tokens.reduce((prevTokens, currentTokens) => {
+        logger.log("Merging currentTokens into prevTokens", prevTokens, currentTokens);
+        return ({
+            ...prevTokens,
+            ...currentTokens,
+        })
+    }, defaultQuickFormTokens);
 
     // Ensures merged tokens are camelCase CSS variables that React.CSSProperties can use and return.
     return defineVariables(mergedTokens);
@@ -96,5 +108,7 @@ export const defineQuickFormTokens = (...tokens: Array<Partial<QuickFormTokens>>
  * Provides QuickForm with css tokens to be passed around in the components so they refer to the same css variables that are loaded into the QuickFormProvider upon application instantiation.
  * @returns A flat object with CSS variables in camelCase that have corresponding values provided as kebab-case tokens variable names that map to globally defined colors.
  * See example: quickformtokens = { onPrimary: "var(--on-primary)"; onSecondary: "var(--on-secondary)" } and so on. You get the idea.
+ * 
  */
+
 export const quickformtokens = camelToKebabCase(defaultQuickFormTokens);

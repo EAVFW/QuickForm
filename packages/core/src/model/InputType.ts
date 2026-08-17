@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 import { QuestionModel } from "./QuestionModel";
 
+
 export type InputProps<TProps = InputPropertiesTypes> = {
     className?: string;
     style?: CSSProperties,
@@ -26,22 +27,59 @@ export type InputPropertiesTypes =
     PhoneProperties |
     {};
 
-export type PhoneProperties = {
-    inputType: typeof Phone;
-    defaultValue?: number;
-}
+//export type PhoneProperties = {
+//    inputType: typeof Phone;
+//    defaultValue?: number;
+//}
+
+//export type EmailProperties = {
+//    inputType: typeof Email;
+//    defaultValue?: string;
+//}
+
+//export type MultilineProperties = {
+//    inputType: typeof Multilinetext;
+//    defaultValue?: string;
+//}
+
+//export type TextProperties = {
+//    inputType: typeof Text;
+//    defaultValue?: string;
+//}
 
 export type EmailProperties = {
-    inputType: typeof Email;
+    inputType: "email";
     defaultValue?: string;
+    beforeIcon?: IconType;
+    afterIcon?: IconType
+}
+
+export type PhoneProperties = {
+    inputType: "phone";
+    defaultValue?: string;
+    beforeIcon?: IconType;
+    afterIcon?: IconType
 }
 
 export type MultilineProperties = {
-    inputType: typeof Multilinetext;
+    inputType: "multiline";
     defaultValue?: string;
 }
 
 export type TextProperties = {
-    inputType: typeof Text;
+    inputType: "text";
     defaultValue?: string;
+    beforeIcon?: IconType;
+    afterIcon?: IconType
 }
+
+export enum IconEnum {
+    None = "None",
+    Email = "Email",
+    Phone = "Phone",
+    User = "User",
+    Checkmark = "Checkmark",
+    ChevronRight = "ChevronRight"
+}
+
+export type IconType = keyof typeof IconEnum;

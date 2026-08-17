@@ -1,8 +1,14 @@
+import { QuestionModel } from "../../model/QuestionModel";
 import { resolveQuickFormService } from "../../services";
 import { allQuestionsMap, getAllQuestionsWithVisibilityRule } from "../../utils/quickformUtils";
 import { QuickformState } from "../QuickformState";
 
-const engines = {} as any;
+export type VisibilityRuleEngineContext = {
+    questions: { [key: string]: QuestionModel };
+} & QuickformState;
+
+export type VisibilityRuleEngineHandler = (rule: any, context: VisibilityRuleEngineContext, question: QuestionModel) => boolean;
+const engines: { [key: string]: VisibilityRuleEngineHandler } = {} ;
 
 export const registerVisibilityEngine = (type: string, engine: any) => {
     engines[type] = engine;
@@ -29,16 +35,16 @@ export class VisibilityHandler {
         while (hasChanges) {
             hasChanges = false;
 
-            for (let question of getAllQuestionsWithVisibilityRule(state.slides)) {
+            for (let question of getAllQuestionsWithVisibilityRule(state)) {
 
                 let result = false;
                 logger.log("[visibility handler] [{@engines}] for {question}: {@visibility}", Object.keys(engines), question.questionKey, question.visible, context);
                 try {
 
                     if (question.visible.engine in engines) {
-                        result = engines[question.visible.engine](question.visible.rule, context)
+                        result = engines[question.visible.engine](question.visible.rule, context,question)
                     } else {
-                        result = functionInScope(question.visible?.rule, context);
+                        result = functionInScope(question.visible?.rule, context, question);
                     }
                     logger.log("[visibility handler] Result for {question} is {result}", question.logicalName, result);
 
@@ -47,6 +53,10 @@ export class VisibilityHandler {
                 }
                 hasChanges = hasChanges || question.visible.isVisible !== result;
                 question.visible.isVisible = result;
+                if (question.visible.isVisible === false) {
+                    question.answered = false;
+                    question.output = '';
+                }
             }
         }
         return state;
@@ -79,7 +89,7 @@ interface Context {
  * @param context
  * @returns
  */
-function functionInScope(js: string, context: Context): boolean {
+function functionInScope(js: string, context: any, question: QuestionModel): boolean {
     const keys = Object.keys(context);
     const values = keys.map(key => context[key]);
     const func: Function = new Function(...keys, `return ${js};`);

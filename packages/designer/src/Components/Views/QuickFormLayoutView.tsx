@@ -5,7 +5,9 @@ import { PageDesignEditor, CraftEditor, CraftViewPort, useEditorChanges } from "
 import { useEffect, useMemo } from "react";
 import { removeNonAlphanumeric } from "@eavfw/utils";
 import { SerializedNodes } from "@craftjs/core"
-import { QuickFormDesignerDefinition } from "../../Types/QuickFormDefinition";
+
+import { RowColumnsLayout } from "@eavfw/quickform-core";
+import { QuickFormDefinition } from "@eavfw/quickform-core";
 
 
 
@@ -52,9 +54,9 @@ const initial = JSON.stringify(
 
 
 export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
-    dispatch: React.Dispatch<React.SetStateAction<QuickFormDesignerDefinition>>,
+    dispatch: React.Dispatch<React.SetStateAction<QuickFormDefinition>>,
     slideId?: string,
-    layout: QuickFormDesignerDefinition["layout"]
+    layout: QuickFormDefinition["layout"]
 }) => {
     const styles = useViewStyles();
 
@@ -78,7 +80,7 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
                 Object.fromEntries(
                     Object.entries(
                         layout.slides[slideId]?.rows ?? {
-                        }).map(([rowid, row]) => {
+                        }).sort(([a, aa], [b, bb]) => (aa.order??-1) - (bb.order??-1)).map(([rowid, row]) => {
 
                             if (row.type !== "row")
                                 throw new Error("Only Row is supported currently");
@@ -175,7 +177,7 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
 
             if (oldName !== name) {
                 dispatch(old => {
-                    const oldslideid = old.__designer.activeSlide!;
+                    const oldslideid = old.__designer?.activeSlide!;
                     let title = name;
                     let schemaName = removeNonAlphanumeric(title);
                     let logicalName = schemaName.toLowerCase();
@@ -188,10 +190,9 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
 
                     old.layout.slides[oldslideid] = { ...old.layout.slides[oldslideid], title, schemaName, logicalName };
                      
-                    if (!old.__designer)
-                        old.__designer = {};
 
-                    old.__designer.activeSlide = oldslideid;
+                    old.__designer = { ...old.__designer ?? {}, activeSlide: oldslideid };
+
                     return { ...old };
                 });
             }
@@ -211,28 +212,31 @@ export const QuickFormLayoutView = ({ dispatch, slideId, layout }: {
                 if (!quickform.layout.slides)
                     quickform.layout.slides = {};
 
-                let slide = quickform.layout.slides[quickform.__designer.activeSlide!];
+                let slide = quickform.layout.slides[quickform.__designer?.activeSlide!];
                 if (!slide)
                     return quickform;
 
-                for (let rowid of nodes?.ROOT.nodes) {
+                slide.rows = Object.fromEntries(nodes?.ROOT.nodes.map((rowid) => {
+
                     let row = nodes[rowid];
                     if (!row.props.questionid)
-                        continue;
+                        return [];
 
                     const type = typeof row.type === "string" ? row.type : row.type.resolvedName;
                     if (type !== "Question")
-                        continue;
+                        return [];
 
-                    if (!slide.rows)
-                        slide.rows = {};
 
-                    slide.rows[rowid] = {
+
+                    return [[rowid, {
                         ...slide.rows?.[rowid] ?? {},
                         type: "row",
+                        order: nodes?.ROOT.nodes.indexOf(rowid),
                         columns: { "column1": { type: "question", ref: row.props.questionid } }
-                    };
-                }
+                    } as RowColumnsLayout]];
+
+                }).flat());
+                
 
                 return { ...quickform };
             });

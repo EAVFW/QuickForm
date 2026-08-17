@@ -1,6 +1,6 @@
 import { EmailProperties, MultilineProperties, TextProperties } from "../InputType";
 
-type QuickFormQuestionDefinition = {
+export interface QuickFormQuestionDefinition {
 
     /** 
      * A logical name used when generating the payload.
@@ -68,6 +68,11 @@ type QuickFormQuestionDefinition = {
      * The ordering of the question
      */
     order?: number
+
+    /**
+     * Is the question required to be answered.
+     */
+    isRequired?: boolean
 }
 
 /**

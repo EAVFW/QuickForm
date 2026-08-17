@@ -14,15 +14,23 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     needs:
       - "eavfw_test"  
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '24'
+
+    - name: Upgrade npm for trusted publishing
+      run: npm install --global npm@11.5.1
 
     - name: Add plugin for conventional commits
       run: npm install conventional-changelog-conventionalcommits --force
@@ -31,10 +39,21 @@ jobs:
     - name: NPM Install
       run: npm ci --force
 
+    - name: Build
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GIT_AUTHOR_NAME: pksorensen
+        GIT_AUTHOR_EMAIL: poul@kjeldager.com
+      run: npm run build
+
+    - name: Verify trusted publishing runtime
+      run: |
+        npm --version
+        node -e "console.log('github_actions=' + Boolean(process.env.GITHUB_ACTIONS)); console.log('oidc_request_url=' + Boolean(process.env.ACTIONS_ID_TOKEN_REQUEST_URL)); console.log('oidc_request_token=' + Boolean(process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN))"
+
     - name: Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         GIT_AUTHOR_NAME: pksorensen
         GIT_AUTHOR_EMAIL: poul@kjeldager.com
       run: npm run release
